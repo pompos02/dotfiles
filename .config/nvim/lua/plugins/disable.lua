@@ -6,7 +6,7 @@ return {
     { "folke/flash.nvim", enabled = false },
 
     -- Disable grug-far.nvim (search and replace)
-    { "MagicDuck/grug-far.nvim", enabled = false },
+    -- { "MagicDuck/grug-far.nvim", enabled = false },
 
     -- Disable noice.nvim (UI improvements)
     { "folke/noice.nvim", enabled = false },
