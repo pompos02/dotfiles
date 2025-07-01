@@ -3,13 +3,16 @@
 
 # Font settings (keep your existing preferences)
 font-family = "JetBrainsMono Nerd Font Mono"
-font-size = 18
+font-size = 20
 
+
+# macOS Specific Settings
+macos-option-as-alt = true
 # Window settings (keep your existing preferences)
 background-blur-radius = 20
 background-opacity = 1
 mouse-hide-while-typing = true
-window-decoration = false
+window-decoration = true
 
 # Rose Pine Moon Color Scheme
 # Using the same vibrant palette from your Neovim config
