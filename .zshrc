@@ -79,6 +79,10 @@ alias c='clear'
 alias codenohup='nohup code  >/dev/null 2>&1 &'
 alias cursornohup='nohup cursor  >/dev/null 2>&1 &'
 alias tm='tmux'
+alias tma='tmux attach'
+alias gs='git status'
+alias gc='git commit'
+
 
 # Shell integrations
 eval "$(fzf --zsh)"
