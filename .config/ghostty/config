@@ -5,9 +5,6 @@
 font-family = "JetBrainsMono Nerd Font Mono"
 font-size = 20
 
-
-# macOS Specific Settings
-macos-option-as-alt = true
 # Window settings (keep your existing preferences)
 background-blur-radius = 20
 background-opacity = 1
