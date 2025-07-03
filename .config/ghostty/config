@@ -9,7 +9,7 @@ font-size = 20
 background-blur-radius = 20
 background-opacity = 1
 mouse-hide-while-typing = true
-window-decoration = false
+window-decoration = true
 
 # Rose Pine Moon Color Scheme
 # Using the same vibrant palette from your Neovim config
