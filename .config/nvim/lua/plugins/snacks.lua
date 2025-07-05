@@ -5,7 +5,7 @@ return {
     priority = 1000, -- Ensure early loading for snacks.nvim
     lazy = false, -- Load immediately to avoid lazy-loading issues
     opts = {
-
+        scroll = { enabled = false },
         explorer = {
             enabled = true, -- Enable the explorer module
             width = 40, -- Set explorer window width
@@ -161,6 +161,12 @@ return {
             end,
             desc = "Pick Color Schemes",
         },
-        -- { "<leader>vh", function() require("snacks").picker.help() end, desc = "Help Pages" },
+        {
+            "<leader>vh",
+            function()
+                require("snacks").picker.help()
+            end,
+            desc = "Help Pages",
+        },
     },
 }

@@ -1,12 +1,3 @@
-
-
-# Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
-# Initialization code that may require console input (password prompts, [y/n]
-# confirmations, etc.) must go above this block; everything else may go below.
-if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
-  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
-fi
-
 # Set the directory we want to store zinit and plugins
 ZINIT_HOME="${XDG_DATA_HOME:-${HOME}/.local/share}/zinit/zinit.git"
 
@@ -19,7 +10,7 @@ fi
 # Source/Load zinit
 source "${ZINIT_HOME}/zinit.zsh"
 
-# Add in Powerlevel10k
+# Add in Starshp
 eval "$(starship init zsh)"
 
 # Add in zsh plugins
@@ -82,12 +73,14 @@ alias tm='tmux'
 alias tma='tmux attach'
 alias gs='git status'
 alias gc='git commit'
+alias my_ip="ip address | grep -o \"inet 192.*/\" | awk '{ print \$2 }' | tr / ' ' | xargs"
+alias ..="cd .."
 
 
 # Shell integrations
 eval "$(fzf --zsh)"
 #eval "$(zoxide init --cmd cd zsh)"
-
+eval "$(zoxide init zsh)"
 # conda initialization
 # export PATH="/opt/miniconda3/bin:$PATH"  # commented out by conda initialize
 export CRYPTOGRAPHY_OPENSSL_NO_LEGACY=1

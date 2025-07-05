@@ -3,7 +3,7 @@
 
 # Font settings (keep your existing preferences)
 font-family = "JetBrainsMono Nerd Font Mono"
-font-size = 20
+font-size = 18
 
 # Window settings (keep your existing preferences)
 background-blur-radius = 20
