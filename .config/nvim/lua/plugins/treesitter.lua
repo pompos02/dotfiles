@@ -26,6 +26,7 @@ return {
         indent = { enable = true },
         ensure_installed = {
             "bash",
+            "sql",
             "c",
             "diff",
             "elixir",
