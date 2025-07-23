@@ -68,7 +68,7 @@ alias gs='git status'
 alias gc='git commit'
 alias my_ip="ip address | grep -o \"inet 192.*/\" | awk '{ print \$2 }' | tr / ' ' | xargs"
 alias ..="cd .."
-
+alias python="python"
 
 # Shell integrations
 eval "$(fzf --zsh)"
@@ -89,3 +89,7 @@ conda() {
 bindkey -v
 
 export PATH="/opt/homebrew/opt/postgresql@17/bin:$PATH"
+export EDITOR=nvim
+google(){
+  gemini -p "search google for <query>$1</query> and summarize results"
+}

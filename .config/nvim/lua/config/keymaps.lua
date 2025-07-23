@@ -16,3 +16,19 @@ end, {
     noremap = true,
     silent = true,
 })
+
+vim.keymap.set({ "i", "s" }, "<c-l>", function()
+    if vim.snippet.active({ direction = 1 }) then
+        vim.snippet.jump(1)
+        return
+    end
+    return "<Tab>"
+end, { silent = true, expr = true })
+
+vim.keymap.set({ "i", "s" }, "<c-h>", function()
+    if vim.snippet.active({ direction = -1 }) then
+        vim.snippet.jump(-1)
+        return
+    end
+    return "<S-Tab>"
+end, { silent = true, expr = true })

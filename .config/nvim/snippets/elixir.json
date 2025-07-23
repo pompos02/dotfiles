@@ -1,0 +1,11 @@
+{
+  "HEEx heredoc": {
+    "prefix": "H",
+    "body": [
+      "~H\"\"\"",
+      "$1",
+      "\"\"\""
+    ],
+    "description": "Elixir HEEx heredoc template"
+  }
+}

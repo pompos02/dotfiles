@@ -30,7 +30,8 @@ return {
                 preset = "enter",
                 ["<C-j>"] = { "select_next", "fallback" },
                 ["<C-k>"] = { "select_prev", "fallback" },
-                ["<C-l>"] = { "select_and_accept", "fallback" },
+                ["<C-l>"] = { "snippet_forward", "fallback" }, -- Add this for snippet navigation
+                ["<C-h>"] = { "snippet_backward", "fallback" },
                 ["<C-e>"] = { "hide", "fallback" },
                 ["<C-q>"] = { "show", "show_documentation", "hide_documentation" },
                 ["<C-u>"] = { "scroll_documentation_up", "fallback" },
@@ -72,6 +73,13 @@ return {
                 ghost_text = {
                     enabled = true, -- Set to true if you want ghost text
                 },
+
+                list = {
+                    selection = {
+                        preselect = false,
+                        auto_insert = true,
+                    },
+                },
             },
 
             -- Sources configuration
@@ -98,6 +106,10 @@ return {
                         name = "Snippets",
                         module = "blink.cmp.sources.snippets",
                         score_offset = 80,
+                        opts = {
+                            friendly_snippets = true,
+                            search_paths = { vim.fn.stdpath("config") .. "/snippets" },
+                        },
                     },
 
                     buffer = {
@@ -122,17 +134,17 @@ return {
             },
         },
 
-        config = function(_, opts)
-            -- Setup Tab key behavior
-            if not opts.keymap["<Tab>"] then
-                opts.keymap["<Tab>"] = { "select_and_accept", "fallback" }
-            end
-
-            if not opts.keymap["<S-Tab>"] then
-                opts.keymap["<S-Tab>"] = { "select_prev", "fallback" }
-            end
-
-            require("blink.cmp").setup(opts)
-        end,
+        -- config = function(_, opts)
+        --     -- Setup Tab key behavior
+        --     if not opts.keymap["<Tab>"] then
+        --         opts.keymap["<Tab>"] = { "select_and_accept", "fallback" }
+        --     end
+        --
+        --     if not opts.keymap["<S-Tab>"] then
+        --         opts.keymap["<S-Tab>"] = { "select_prev", "fallback" }
+        --     end
+        --
+        --     require("blink.cmp").setup(opts)
+        -- end,
     },
 }
