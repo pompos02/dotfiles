@@ -32,7 +32,7 @@ return {
                 ["<C-k>"] = { "select_prev", "fallback" },
                 ["<C-l>"] = { "snippet_forward", "fallback" }, -- Add this for snippet navigation
                 ["<C-h>"] = { "snippet_backward", "fallback" },
-                ["<C-e>"] = { "hide", "fallback" },
+                ["<C-e>"] = { "cancel", "fallback" },
                 ["<C-q>"] = { "show", "show_documentation", "hide_documentation" },
                 ["<C-u>"] = { "scroll_documentation_up", "fallback" },
                 ["<C-d>"] = { "scroll_documentation_down", "fallback" },
