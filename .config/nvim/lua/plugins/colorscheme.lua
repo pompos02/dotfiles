@@ -252,6 +252,14 @@ return {
                     },
                 }
 
+                -- opts.sections = {
+                --     lualine_a = { "branch" },
+                --     lualine_b = {},
+                --     lualine_c = { "location" },
+                --     lualine_x = { "diff, diagnostics" },
+                --     lualine_y = {},
+                --     lualine_z = { "progress, location" },
+                -- }
                 opts.options = opts.options or {}
                 opts.options.theme = vibrant_rose_pine
             end
