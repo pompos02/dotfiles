@@ -175,8 +175,6 @@ return {
                 ["@method"] = { fg = "rose", bold = true },
                 ["@variable"] = { fg = "text" },
                 ["@variable.builtin"] = { fg = "love", italic = true },
-                ["@parameter"] = { fg = "iris", italic = true },
-                ["@property"] = { fg = "foam" },
                 ["@string"] = { fg = "gold" },
                 ["@number"] = { fg = "iris", bold = true },
                 ["@boolean"] = { fg = "love", bold = true },
@@ -186,6 +184,34 @@ return {
                 ["@tag"] = { fg = "foam", bold = true },
                 ["@tag.attribute"] = { fg = "iris" },
                 ["@tag.delimiter"] = { fg = "subtle" },
+
+                -- Enhanced Treesitter highlights for better parameter/symbol differentiation
+                ["@symbol"] = { fg = "iris", italic = true }, -- For symbols like :customer_name
+                ["@string.special.symbol"] = { fg = "iris", italic = true }, -- Alternative for symbols
+                ["@parameter"] = { fg = "foam", italic = true }, -- Function parameters
+                ["@variable.parameter"] = { fg = "foam", italic = true }, -- Variable parameters
+                ["@field"] = { fg = "foam" }, -- Struct/object fields
+                ["@property"] = { fg = "foam" }, -- Properties
+                ["@attribute"] = { fg = "rose" }, -- Attributes
+                ["@constant"] = { fg = "love", bold = true }, -- Constants
+                ["@constant.builtin"] = { fg = "love", bold = true }, -- Built-in constants
+                ["@namespace"] = { fg = "pine", bold = true }, -- Namespaces/modules
+
+                -- Elixir-specific highlights (if you're using Elixir)
+                ["@keyword.elixir"] = { fg = "pine", bold = true },
+                ["@atom.elixir"] = { fg = "iris", italic = true }, -- Atoms like :customer_name
+                ["@variable.elixir"] = { fg = "text" },
+                ["@function.call.elixir"] = { fg = "rose", bold = true },
+
+                -- Additional language-specific improvements
+                ["@punctuation.bracket"] = { fg = "subtle" }, -- Brackets and parentheses
+                ["@punctuation.delimiter"] = { fg = "subtle" }, -- Commas, semicolons
+                ["@operator"] = { fg = "text", bold = true }, -- Operators like |>
+                ["@keyword.operator"] = { fg = "rose", bold = true }, -- Keyword operators
+
+                -- Make sure these are properly differentiated
+                ["@type.qualifier"] = { fg = "pine", italic = true }, -- Type qualifiers
+                ["@storageclass"] = { fg = "pine", bold = true }, -- Storage classes
             },
 
             before_highlight = function(group, highlight, palette)

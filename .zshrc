@@ -69,6 +69,27 @@ alias gc='git commit'
 alias my_ip="ip address | grep -o \"inet 192.*/\" | awk '{ print \$2 }' | tr / ' ' | xargs"
 alias ..="cd .."
 alias python="python"
+alias ls='eza -lh --group-directories-first --icons=auto'
+alias lsa='ls -a'
+alias lt='eza --tree --level=2 --long --icons --git'
+alias lta='lt -a'
+alias ff="fzf --preview 'bat --style=numbers --color=always {}'"
+
+alias cd="zd"
+zd() {
+  if [ $# -eq 0 ]; then
+    builtin cd ~ && return
+  elif [ -d "$1" ]; then
+    builtin cd "$1"
+  else
+    z "$@" && printf " \U000F17A9 " && pwd || echo "Error: Directory not found"
+  fi
+}
+open() {
+  xdg-open "$@" >/dev/null 2>&1 &
+}
+
+
 
 # Shell integrations
 eval "$(fzf --zsh)"
@@ -87,6 +108,7 @@ conda() {
   conda "$@"
 }
 bindkey -v
+bindkey '^K' autosuggest-accept
 
 export PATH="/opt/homebrew/opt/postgresql@17/bin:$PATH"
 export EDITOR=nvim
