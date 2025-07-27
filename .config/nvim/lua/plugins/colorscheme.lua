@@ -265,34 +265,34 @@ return {
                 -- Create vibrant lualine theme
                 local vibrant_rose_pine = {
                     normal = {
-                        a = { fg = rose_pine.highlight_low, bg = rose_pine.rose, gui = "bold" },
-                        b = { fg = rose_pine.rose, bg = rose_pine.highlight_low },
-                        c = { fg = rose_pine.text, bg = rose_pine.highlight_low },
+                        a = { fg = rose_pine.base, bg = rose_pine.rose, gui = "bold" },
+                        b = { fg = rose_pine.rose, bg = rose_pine.base },
+                        c = { fg = rose_pine.text, bg = rose_pine.base },
                     },
                     insert = {
-                        a = { fg = rose_pine.highlight_low, bg = rose_pine.foam, gui = "bold" },
-                        b = { fg = rose_pine.foam, bg = rose_pine.highlight_low },
-                        c = { fg = rose_pine.text, bg = rose_pine.highlight_low },
+                        a = { fg = rose_pine.base, bg = rose_pine.foam, gui = "bold" },
+                        b = { fg = rose_pine.foam, bg = rose_pine.base },
+                        c = { fg = rose_pine.text, bg = rose_pine.base },
                     },
                     visual = {
-                        a = { fg = rose_pine.highlight_low, bg = rose_pine.iris, gui = "bold" },
-                        b = { fg = rose_pine.iris, bg = rose_pine.highlight_low },
-                        c = { fg = rose_pine.text, bg = rose_pine.highlight_low },
+                        a = { fg = rose_pine.base, bg = rose_pine.iris, gui = "bold" },
+                        b = { fg = rose_pine.iris, bg = rose_pine.base },
+                        c = { fg = rose_pine.text, bg = rose_pine.base },
                     },
                     replace = {
-                        a = { fg = rose_pine.highlight_low, bg = rose_pine.love, gui = "bold" },
-                        b = { fg = rose_pine.love, bg = rose_pine.highlight_low },
-                        c = { fg = rose_pine.text, bg = rose_pine.highlight_low },
+                        a = { fg = rose_pine.base, bg = rose_pine.love, gui = "bold" },
+                        b = { fg = rose_pine.love, bg = rose_pine.base },
+                        c = { fg = rose_pine.text, bg = rose_pine.base },
                     },
                     command = {
-                        a = { fg = rose_pine.highlight_low, bg = rose_pine.pine, gui = "bold" },
-                        b = { fg = rose_pine.pine, bg = rose_pine.highlight_low },
-                        c = { fg = rose_pine.text, bg = rose_pine.highlight_low },
+                        a = { fg = rose_pine.base, bg = rose_pine.pine, gui = "bold" },
+                        b = { fg = rose_pine.pine, bg = rose_pine.base },
+                        c = { fg = rose_pine.text, bg = rose_pine.base },
                     },
                     inactive = {
-                        a = { fg = rose_pine.muted, bg = rose_pine.highlight_low },
-                        b = { fg = rose_pine.muted, bg = rose_pine.highlight_low },
-                        c = { fg = rose_pine.muted, bg = rose_pine.highlight_low },
+                        a = { fg = rose_pine.muted, bg = rose_pine.base },
+                        b = { fg = rose_pine.muted, bg = rose_pine.base },
+                        c = { fg = rose_pine.muted, bg = rose_pine.base },
                     },
                 }
 
