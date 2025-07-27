@@ -1,6 +1,7 @@
 {
   "extras": [
-
+    "lazyvim.plugins.extras.lang.go",
+    "lazyvim.plugins.extras.lsp.none-ls"
   ],
   "install_version": 8,
   "news": {

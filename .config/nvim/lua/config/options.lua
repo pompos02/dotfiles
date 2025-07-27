@@ -3,3 +3,8 @@
 -- Add any additional options here
 
 vim.g.snacks_animate = false
+
+-- Disable visible tab characters that show as >
+-- vim.opt.list = false
+-- Or if you want to keep list mode but change the tab character:
+-- vim.opt.listchars = { tab = "  ", trail = "-", nbsp = "+" }
