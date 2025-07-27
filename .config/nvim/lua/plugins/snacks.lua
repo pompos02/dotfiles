@@ -8,7 +8,7 @@ return {
         bufferline = { enabled = false },
         dashboard = { enabled = true },
         explorer = { enabled = false },
-        indent = { enabled = true },
+        indent = { enabled = false },
         input = { enabled = false },
         notifier = {
             enabled = true,

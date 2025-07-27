@@ -32,3 +32,11 @@ vim.keymap.set({ "i", "s" }, "<c-h>", function()
     end
     return "<S-Tab>"
 end, { silent = true, expr = true })
+
+-- moving lines up and down
+vim.keymap.set("v", "J", ":m '>+1<CR>gv=gv")
+vim.keymap.set("v", "K", ":m '>-2<CR>gv=gv")
+
+-- delete but not yank
+vim.keymap.set({ "n", "v"}, "<leader>d", [["_d]])
+

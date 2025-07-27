@@ -19,6 +19,7 @@ return {
             styles = {
                 bold = true,
                 italic = true,
+                transparency = true, -- Enable transparency support
             },
 
             groups = {
@@ -105,8 +106,8 @@ return {
                 Variable = { fg = "text" },
                 Constant = { fg = "love", bold = true },
 
-                -- Enhanced UI elements
-                Normal = { fg = "text", bg = "base" },
+                -- Enhanced UI elements - REMOVED bg settings for transparency
+                Normal = { fg = "text" }, -- Removed bg = "base" for transparency
                 NormalFloat = { fg = "text", bg = "surface" },
                 FloatBorder = { fg = "highlight_high", bg = "surface" },
                 CursorLine = { bg = "highlight_med" }, -- More vibrant cursor line
@@ -114,6 +115,12 @@ return {
                 VisualNOS = { bg = "iris" }, -- Visual selection (not owning selection)
                 Search = { fg = "base", bg = "gold" },
                 IncSearch = { fg = "base", bg = "love" },
+
+                -- Additional transparency-friendly highlights
+                SignColumn = { fg = "text" }, -- Remove background from sign column
+                EndOfBuffer = { fg = "muted" }, -- Remove background from end of buffer
+                VertSplit = { fg = "highlight_high" }, -- Transparent window splits
+                WinSeparator = { fg = "highlight_high" }, -- Transparent window separators
 
                 -- More vibrant LSP and diagnostic highlights
                 DiagnosticError = { fg = "love", bold = true },
@@ -215,7 +222,20 @@ return {
             },
 
             before_highlight = function(group, highlight, palette)
-                -- Enhance contrast for certain groups
+                -- Enable transparency for key background groups
+                if group == "Normal" or group == "NormalNC" then
+                    highlight.bg = "NONE" -- Make background transparent
+                end
+                
+                if group == "SignColumn" then
+                    highlight.bg = "NONE" -- Transparent sign column
+                end
+                
+                if group == "EndOfBuffer" then
+                    highlight.bg = "NONE" -- Transparent end of buffer
+                end
+
+                -- Enhance contrast for certain groups while maintaining transparency
                 if group == "StatusLine" then
                     highlight.bg = palette.overlay
                     highlight.fg = palette.text
