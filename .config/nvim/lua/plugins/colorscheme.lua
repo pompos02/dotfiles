@@ -226,11 +226,9 @@ return {
                 if group == "Normal" or group == "NormalNC" then
                     highlight.bg = "NONE" -- Make background transparent
                 end
-                
                 if group == "SignColumn" then
                     highlight.bg = "NONE" -- Transparent sign column
                 end
-                
                 if group == "EndOfBuffer" then
                     highlight.bg = "NONE" -- Transparent end of buffer
                 end
@@ -267,47 +265,81 @@ return {
                 -- Create vibrant lualine theme
                 local vibrant_rose_pine = {
                     normal = {
-                        a = { fg = rose_pine.base, bg = rose_pine.rose, gui = "bold" },
-                        b = { fg = rose_pine.rose, bg = rose_pine.base },
-                        c = { fg = rose_pine.text, bg = rose_pine.base },
+                        a = { fg = rose_pine.highlight_low, bg = rose_pine.rose, gui = "bold" },
+                        b = { fg = rose_pine.rose, bg = rose_pine.highlight_low },
+                        c = { fg = rose_pine.text, bg = rose_pine.highlight_low },
                     },
                     insert = {
-                        a = { fg = rose_pine.base, bg = rose_pine.foam, gui = "bold" },
-                        b = { fg = rose_pine.foam, bg = rose_pine.base },
-                        c = { fg = rose_pine.text, bg = rose_pine.base },
+                        a = { fg = rose_pine.highlight_low, bg = rose_pine.foam, gui = "bold" },
+                        b = { fg = rose_pine.foam, bg = rose_pine.highlight_low },
+                        c = { fg = rose_pine.text, bg = rose_pine.highlight_low },
                     },
                     visual = {
-                        a = { fg = rose_pine.base, bg = rose_pine.iris, gui = "bold" },
-                        b = { fg = rose_pine.iris, bg = rose_pine.base },
-                        c = { fg = rose_pine.text, bg = rose_pine.base },
+                        a = { fg = rose_pine.highlight_low, bg = rose_pine.iris, gui = "bold" },
+                        b = { fg = rose_pine.iris, bg = rose_pine.highlight_low },
+                        c = { fg = rose_pine.text, bg = rose_pine.highlight_low },
                     },
                     replace = {
-                        a = { fg = rose_pine.base, bg = rose_pine.love, gui = "bold" },
-                        b = { fg = rose_pine.love, bg = rose_pine.base },
-                        c = { fg = rose_pine.text, bg = rose_pine.base },
+                        a = { fg = rose_pine.highlight_low, bg = rose_pine.love, gui = "bold" },
+                        b = { fg = rose_pine.love, bg = rose_pine.highlight_low },
+                        c = { fg = rose_pine.text, bg = rose_pine.highlight_low },
                     },
                     command = {
-                        a = { fg = rose_pine.base, bg = rose_pine.pine, gui = "bold" },
-                        b = { fg = rose_pine.pine, bg = rose_pine.base },
-                        c = { fg = rose_pine.text, bg = rose_pine.base },
+                        a = { fg = rose_pine.highlight_low, bg = rose_pine.pine, gui = "bold" },
+                        b = { fg = rose_pine.pine, bg = rose_pine.highlight_low },
+                        c = { fg = rose_pine.text, bg = rose_pine.highlight_low },
                     },
                     inactive = {
-                        a = { fg = rose_pine.muted, bg = rose_pine.base },
-                        b = { fg = rose_pine.muted, bg = rose_pine.base },
-                        c = { fg = rose_pine.muted, bg = rose_pine.base },
+                        a = { fg = rose_pine.muted, bg = rose_pine.highlight_low },
+                        b = { fg = rose_pine.muted, bg = rose_pine.highlight_low },
+                        c = { fg = rose_pine.muted, bg = rose_pine.highlight_low },
                     },
                 }
 
-                -- opts.sections = {
-                --     lualine_a = { "branch" },
-                --     lualine_b = {},
-                --     lualine_c = { "location" },
-                --     lualine_x = { "diff, diagnostics" },
-                --     lualine_y = {},
-                --     lualine_z = { "progress, location" },
-                -- }
                 opts.options = opts.options or {}
                 opts.options.theme = vibrant_rose_pine
+                opts.options.component_separators = { left = "", right = "" }
+                opts.options.section_separators = { left = "", right = "" }
+                opts.options.globalstatus = true -- Single statusline at bottom
+                -- Minimal sections configuration
+                opts.sections = {
+                    lualine_a = {
+                        {
+                            "mode",
+                            fmt = function(str)
+                                return str:sub(1, 1)
+                            end, -- Only first letter
+                        },
+                    },
+                    lualine_b = { { "branch", icon = "" }, "diff" }, -- Empty
+                    lualine_c = { { "filename", path = 1 } }, -- Just filename
+                    lualine_x = { "diagnostics" }, -- Only diagnostics
+                    lualine_y = { "lsp_status", "location" }, -- Empty
+                    lualine_z = {
+                        function()
+                            return " " .. os.date("%R")
+                        end,
+                    },
+                }
+
+                -- ULTRA MINIMAL ALTERNATIVE (uncomment to use):
+                -- opts.sections = {
+                --     lualine_a = {},
+                --     lualine_b = {},
+                --     lualine_c = { "filename" },               -- Only filename in center
+                --     lualine_x = {},
+                --     lualine_y = {},
+                --     lualine_z = { "location" },               -- Only location on right
+                -- }
+                -- Minimal inactive sections
+                opts.inactive_sections = {
+                    lualine_a = {},
+                    lualine_b = {},
+                    lualine_c = { "filename" },
+                    lualine_x = {},
+                    lualine_y = {},
+                    lualine_z = {},
+                }
             end
             return opts
         end,
