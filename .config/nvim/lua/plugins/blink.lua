@@ -71,7 +71,7 @@ return {
                 },
 
                 ghost_text = {
-                    enabled = true, -- Set to true if you want ghost text
+                    enabled = false, -- Set to true if you want ghost text
                 },
 
                 list = {
