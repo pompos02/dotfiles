@@ -1,0 +1,11 @@
+{
+  "Error handling": {
+    "prefix": "iferr",
+    "body": [
+      "if err != nil {",
+      "\t$0",
+      "}"
+    ],
+    "description": "Go error handling pattern"
+  }
+}

@@ -40,6 +40,14 @@ return {
                         },
                     },
                 },
+                rust_analyzer = {
+                    enabled = true,
+                    settings = {
+                        ["rust-analyzer"] = {
+                            inlayHints = { enable = false },
+                        },
+                    },
+                },
             },
             setup = {
                 gopls = function(_, opts)

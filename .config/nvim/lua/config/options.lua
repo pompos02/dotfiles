@@ -4,6 +4,8 @@
 
 vim.g.snacks_animate = false
 
+-- provided by rust-analyzer.
+vim.g.lazyvim_rust_diagnostics = "rust-analyzer"
 -- Disable visible tab characters that show as >
 -- vim.opt.list = false
 -- Or if you want to keep list mode but change the tab character:

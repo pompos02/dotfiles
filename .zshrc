@@ -115,3 +115,4 @@ export EDITOR=nvim
 google(){
   gemini -p "search google for <query>$1</query> and summarize results"
 }
+export PATH=$PATH:/Users/yianniscaravellas/go/bin
