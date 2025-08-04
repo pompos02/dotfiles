@@ -48,15 +48,18 @@
 #workspaces button {
   color: #babbf1;
   border-radius: 0px;
-  padding: 0.3rem 0.6rem;
+  padding: 0.1rem 0.3rem;
   background: transparent;
   transition: all 0.2s ease-in-out;
   border: none;
+  border-bottom: 2px solid transparent;
   outline: none;
 }
 
 #workspaces button.active {
   color: #99d1db;
+  font-weight: bold;
+  border-bottom-color: #99d1db;
 }
 
 
