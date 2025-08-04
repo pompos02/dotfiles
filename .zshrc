@@ -117,3 +117,9 @@ google(){
 }
 export PATH=$PATH:/Users/yianniscaravellas/go/bin
 export PATH="~/.local/bin:$PATH"
+
+## [Completion]
+## Completion scripts setup. Remove the following line to uninstall
+[[ -f /home/karavellas/.dart-cli-completion/zsh-config.zsh ]] && . /home/karavellas/.dart-cli-completion/zsh-config.zsh || true
+## [/Completion]
+
