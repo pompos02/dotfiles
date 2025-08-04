@@ -106,9 +106,8 @@ return {
         Variable = { fg = "text" },
         Constant = { fg = "love", bold = true },
 
-        -- Enhanced UI elements - REMOVED bg settings for transparency
-        Normal = { fg = "text" },              -- Removed bg = "base" for transparency
-        NormalFloat = { fg = "text" },         -- Transparent float windows
+        -- Enhanced UI elements
+        NormalFloat = { fg = "text", bg = "#0f0e1a" }, -- Float windows match active background
         FloatBorder = { fg = "highlight_high" },
         CursorLine = { bg = "highlight_med" }, -- More vibrant cursor line
         Visual = { bg = "rose" },              -- More vibrant visual selection, keeps original text color
@@ -116,11 +115,13 @@ return {
         Search = { fg = "base", bg = "gold" },
         IncSearch = { fg = "base", bg = "love" },
 
-        -- Additional transparency-friendly highlights
-        SignColumn = { fg = "text" },             -- Remove background from sign column
-        EndOfBuffer = { fg = "muted" },           -- Remove background from end of buffer
-        VertSplit = { fg = "highlight_high" },    -- Transparent window splits
-        WinSeparator = { fg = "highlight_high" }, -- Transparent window separators
+        -- Active/inactive window distinction with different backgrounds
+        Normal = { fg = "text", bg = "#0f0e1a" },        -- Active window - darker base
+        NormalNC = { fg = "muted", bg = "#1e1c2a" },     -- Inactive window - overlay color
+        SignColumn = { fg = "text", bg = "#0f0e1a" },    -- Match active window background
+        EndOfBuffer = { fg = "muted", bg = "#0f0e1a" },  -- Match active window background
+        VertSplit = { fg = "highlight_high" },           -- Window splits
+        WinSeparator = { fg = "highlight_high" },        -- Window separators
 
         -- More vibrant LSP and diagnostic highlights
         DiagnosticError = { fg = "love", bold = true },
@@ -222,21 +223,14 @@ return {
       },
 
       before_highlight = function(group, highlight, palette)
-        -- Enable transparency for key background groups
-        if group == "Normal" or group == "NormalNC" then
-          highlight.bg = "NONE" -- Make background transparent
-        end
-        if group == "SignColumn" then
-          highlight.bg = "NONE" -- Transparent sign column
-        end
-        if group == "EndOfBuffer" then
-          highlight.bg = "NONE" -- Transparent end of buffer
-        end
-
-        -- Enhance contrast for certain groups while maintaining transparency
+        -- Enhance contrast for certain groups
         if group == "StatusLine" then
           highlight.bg = palette.overlay
           highlight.fg = palette.text
+        end
+        if group == "StatusLineNC" then
+          highlight.bg = palette.base
+          highlight.fg = palette.muted -- Dimmed statusline for inactive windows
         end
         if group == "TabLine" then
           highlight.bg = palette.base
