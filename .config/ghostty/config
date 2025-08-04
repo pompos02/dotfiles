@@ -7,7 +7,7 @@ font-size = 18
 
 # Window settings (keep your existing preferences)
 background-blur-radius = 80
-background-opacity = 0.95
+background-opacity =1 
 mouse-hide-while-typing = true
 window-decoration = false
 
@@ -16,6 +16,7 @@ window-decoration = false
 
 # Base colors (matching your enhanced Rose Pine Moon palette)
 background = 0f0e1a
+
 foreground = f0eef6
 
 # Cursor colors

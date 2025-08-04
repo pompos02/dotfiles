@@ -11,7 +11,7 @@
   "modules-center": ["clock"],
 
   "modules-right": [
-
+    "hyprland/language",
     "cpu",
     "memory",
     // "custom/pomodoro",
@@ -131,5 +131,11 @@
   "on-click": "sh -c '(sleep 0s; hyprlock)' & disown",
   "format" : ""
   },
+
+  "hyprland/language": {
+    "format": "{}",
+    "format-en": "US",
+    "format-gr": "GR"
+  }
 }
 

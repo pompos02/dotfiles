@@ -5,27 +5,27 @@ return {
     "rose-pine/neovim",
     name = "rose-pine",
     opts = {
-      variant = "auto",                  -- auto, main, moon, or dawn
-      dark_variant = "moon",             -- using moon for darker base and more contrast
-      dim_inactive_windows = true,       -- adds contrast between active/inactive windows
+      variant = "auto",            -- auto, main, moon, or dawn
+      dark_variant = "moon",       -- using moon for darker base and more contrast
+      dim_inactive_windows = true, -- adds contrast between active/inactive windows
       extend_background_behind_borders = true,
 
       enable = {
         terminal = true,
-        legacy_highlights = true,         -- Improve compatibility for previous versions of Neovim
-        migrations = true,                -- Handle deprecated options automatically
+        legacy_highlights = true, -- Improve compatibility for previous versions of Neovim
+        migrations = true,        -- Handle deprecated options automatically
       },
 
       styles = {
         bold = true,
         italic = true,
-        transparency = true,         -- Enable transparency support
+        transparency = true, -- Enable transparency support
       },
 
       groups = {
-        border = "highlight_high",         -- more vibrant borders
+        border = "highlight_high", -- more vibrant borders
         link = "iris",
-        panel = "base",                    -- darker panels for more contrast
+        panel = "base",            -- darker panels for more contrast
 
         error = "love",
         hint = "iris",
@@ -46,7 +46,7 @@ return {
         git_untracked = "subtle",
 
         headings = {
-          h1 = "love",           -- more vibrant headings
+          h1 = "love", -- more vibrant headings
           h2 = "rose",
           h3 = "iris",
           h4 = "gold",
@@ -58,38 +58,38 @@ return {
       palette = {
         -- Enhanced palette for more vibrant colors and contrast
         main = {
-          base = "#191724",              -- darker base
-          surface = "#1f1d2e",           -- darker surface
-          overlay = "#26233a",           -- more contrast
-          muted = "#6e6a86",             -- enhanced muted
-          subtle = "#908caa",            -- brighter subtle
-          text = "#e0def4",              -- brighter text
-          love = "#eb6f92",              -- more vibrant love
-          gold = "#fac75a",              -- more vibrant gold
-          rose = "#ebbcba",              -- enhanced rose
-          pine = "#31748f",              -- more vibrant pine
-          foam = "#9ccfd8",              -- brighter foam
-          iris = "#c4a7e7",              -- more vibrant iris
+          base = "#191724",    -- darker base
+          surface = "#1f1d2e", -- darker surface
+          overlay = "#26233a", -- more contrast
+          muted = "#6e6a86",   -- enhanced muted
+          subtle = "#908caa",  -- brighter subtle
+          text = "#e0def4",    -- brighter text
+          love = "#eb6f92",    -- more vibrant love
+          gold = "#fac75a",    -- more vibrant gold
+          rose = "#ebbcba",    -- enhanced rose
+          pine = "#31748f",    -- more vibrant pine
+          foam = "#9ccfd8",    -- brighter foam
+          iris = "#c4a7e7",    -- more vibrant iris
           highlight_low = "#21202e",
           highlight_med = "#403d52",
-          highlight_high = "#524f67",           -- for more contrast
+          highlight_high = "#524f67", -- for more contrast
         },
         moon = {
-          base = "#0f0e1a",              -- much darker base for maximum contrast
-          surface = "#16141f",           -- darker surface
-          overlay = "#1e1c2a",           -- enhanced overlay
-          muted = "#6e6a86",             -- same muted
-          subtle = "#a8a5c0",            -- brighter subtle
-          text = "#e0def4",              -- much brighter text
-          love = "#ff5d7a",              -- more saturated love
-          gold = "#ffb347",              -- more vibrant gold
-          rose = "#f5a6b6",              -- enhanced rose
-          pine = "#40a4c4",              -- more vibrant pine
-          foam = "#66deb2",              -- brighter foam
-          iris = "#d4a7ff",              -- more vibrant iris
+          base = "#0f0e1a",    -- much darker base for maximum contrast
+          surface = "#16141f", -- darker surface
+          overlay = "#1e1c2a", -- enhanced overlay
+          muted = "#6e6a86",   -- same muted
+          subtle = "#a8a5c0",  -- brighter subtle
+          text = "#e0def4",    -- much brighter text
+          love = "#ff5d7a",    -- more saturated love
+          gold = "#ffb347",    -- more vibrant gold
+          rose = "#f5a6b6",    -- enhanced rose
+          pine = "#40a4c4",    -- more vibrant pine
+          foam = "#66deb2",    -- brighter foam
+          iris = "#d4a7ff",    -- more vibrant iris
           highlight_low = "#1a1825",
           highlight_med = "#2a2837",
-          highlight_high = "#3a3649",           -- enhanced highlights
+          highlight_high = "#3a3649", -- enhanced highlights
         },
       },
 
@@ -107,20 +107,20 @@ return {
         Constant = { fg = "love", bold = true },
 
         -- Enhanced UI elements - REMOVED bg settings for transparency
-        Normal = { fg = "text" },         -- Removed bg = "base" for transparency
-        NormalFloat = { fg = "text" },    -- Transparent float windows
+        Normal = { fg = "text" },              -- Removed bg = "base" for transparency
+        NormalFloat = { fg = "text" },         -- Transparent float windows
         FloatBorder = { fg = "highlight_high" },
-        CursorLine = { bg = "highlight_med" },         -- More vibrant cursor line
-        Visual = { bg = "rose" },                      -- More vibrant visual selection, keeps original text color
-        VisualNOS = { bg = "iris" },                   -- Visual selection (not owning selection)
+        CursorLine = { bg = "highlight_med" }, -- More vibrant cursor line
+        Visual = { bg = "rose" },              -- More vibrant visual selection, keeps original text color
+        VisualNOS = { bg = "iris" },           -- Visual selection (not owning selection)
         Search = { fg = "base", bg = "gold" },
         IncSearch = { fg = "base", bg = "love" },
 
         -- Additional transparency-friendly highlights
-        SignColumn = { fg = "text" },                     -- Remove background from sign column
-        EndOfBuffer = { fg = "muted" },                   -- Remove background from end of buffer
-        VertSplit = { fg = "highlight_high" },            -- Transparent window splits
-        WinSeparator = { fg = "highlight_high" },         -- Transparent window separators
+        SignColumn = { fg = "text" },             -- Remove background from sign column
+        EndOfBuffer = { fg = "muted" },           -- Remove background from end of buffer
+        VertSplit = { fg = "highlight_high" },    -- Transparent window splits
+        WinSeparator = { fg = "highlight_high" }, -- Transparent window separators
 
         -- More vibrant LSP and diagnostic highlights
         DiagnosticError = { fg = "love", bold = true },
@@ -193,44 +193,44 @@ return {
         ["@tag.delimiter"] = { fg = "subtle" },
 
         -- Enhanced Treesitter highlights for better parameter/symbol differentiation
-        ["@symbol"] = { fg = "iris", italic = true },                        -- For symbols like :customer_name
-        ["@string.special.symbol"] = { fg = "iris", italic = true },         -- Alternative for symbols
-        ["@parameter"] = { fg = "foam", italic = true },                     -- Function parameters
-        ["@variable.parameter"] = { fg = "foam", italic = true },            -- Variable parameters
-        ["@field"] = { fg = "foam" },                                        -- Struct/object fields
-        ["@property"] = { fg = "foam" },                                     -- Properties
-        ["@attribute"] = { fg = "rose" },                                    -- Attributes
-        ["@constant"] = { fg = "love", bold = true },                        -- Constants
-        ["@constant.builtin"] = { fg = "love", bold = true },                -- Built-in constants
-        ["@namespace"] = { fg = "pine", bold = true },                       -- Namespaces/modules
+        ["@symbol"] = { fg = "iris", italic = true },                -- For symbols like :customer_name
+        ["@string.special.symbol"] = { fg = "iris", italic = true }, -- Alternative for symbols
+        ["@parameter"] = { fg = "foam", italic = true },             -- Function parameters
+        ["@variable.parameter"] = { fg = "foam", italic = true },    -- Variable parameters
+        ["@field"] = { fg = "foam" },                                -- Struct/object fields
+        ["@property"] = { fg = "foam" },                             -- Properties
+        ["@attribute"] = { fg = "rose" },                            -- Attributes
+        ["@constant"] = { fg = "love", bold = true },                -- Constants
+        ["@constant.builtin"] = { fg = "love", bold = true },        -- Built-in constants
+        ["@namespace"] = { fg = "pine", bold = true },               -- Namespaces/modules
 
         -- Elixir-specific highlights (if you're using Elixir)
         ["@keyword.elixir"] = { fg = "pine", bold = true },
-        ["@atom.elixir"] = { fg = "iris", italic = true },         -- Atoms like :customer_name
+        ["@atom.elixir"] = { fg = "iris", italic = true }, -- Atoms like :customer_name
         ["@variable.elixir"] = { fg = "text" },
         ["@function.call.elixir"] = { fg = "rose", bold = true },
 
         -- Additional language-specific improvements
-        ["@punctuation.bracket"] = { fg = "subtle" },                 -- Brackets and parentheses
-        ["@punctuation.delimiter"] = { fg = "subtle" },               -- Commas, semicolons
-        ["@operator"] = { fg = "text", bold = true },                 -- Operators like |>
-        ["@keyword.operator"] = { fg = "rose", bold = true },         -- Keyword operators
+        ["@punctuation.bracket"] = { fg = "subtle" },         -- Brackets and parentheses
+        ["@punctuation.delimiter"] = { fg = "subtle" },       -- Commas, semicolons
+        ["@operator"] = { fg = "text", bold = true },         -- Operators like |>
+        ["@keyword.operator"] = { fg = "rose", bold = true }, -- Keyword operators
 
         -- Make sure these are properly differentiated
-        ["@type.qualifier"] = { fg = "pine", italic = true },         -- Type qualifiers
-        ["@storageclass"] = { fg = "pine", bold = true },             -- Storage classes
+        ["@type.qualifier"] = { fg = "pine", italic = true }, -- Type qualifiers
+        ["@storageclass"] = { fg = "pine", bold = true },     -- Storage classes
       },
 
       before_highlight = function(group, highlight, palette)
         -- Enable transparency for key background groups
         if group == "Normal" or group == "NormalNC" then
-          highlight.bg = "NONE"           -- Make background transparent
+          highlight.bg = "NONE" -- Make background transparent
         end
         if group == "SignColumn" then
-          highlight.bg = "NONE"           -- Transparent sign column
+          highlight.bg = "NONE" -- Transparent sign column
         end
         if group == "EndOfBuffer" then
-          highlight.bg = "NONE"           -- Transparent end of buffer
+          highlight.bg = "NONE" -- Transparent end of buffer
         end
 
         -- Enhance contrast for certain groups while maintaining transparency
@@ -300,7 +300,7 @@ return {
         opts.options.theme = vibrant_rose_pine
         opts.options.component_separators = { left = "", right = "" }
         opts.options.section_separators = { left = "", right = "" }
-        opts.options.globalstatus = true         -- Single statusline at bottom
+        opts.options.globalstatus = true -- Single statusline at bottom
         -- Minimal sections configuration
         opts.sections = {
           lualine_a = {
@@ -308,13 +308,13 @@ return {
               "mode",
               fmt = function(str)
                 return str:sub(1, 1)
-              end,               -- Only first letter
+              end, -- Only first letter
             },
           },
-          lualine_b = { { "branch", icon = "" }, "diff" },           -- Empty
-          lualine_c = { { "filename", path = 1 } },                  -- Just filename
-          lualine_x = { "diagnostics" },                             -- Only diagnostics
-          lualine_y = { "lsp_status", "location" },                  -- Empty
+          lualine_b = { { "branch", icon = "" }, "diff" }, -- Empty
+          lualine_c = { { "filename", path = 1 } },        -- Just filename
+          lualine_x = { "diagnostics" },                   -- Only diagnostics
+          lualine_y = { "lsp_status", "location" },        -- Empty
           lualine_z = {
             function()
               return " " .. os.date("%R")

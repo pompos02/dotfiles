@@ -1,7 +1,7 @@
 /* --- Global Styles --- */
 * {
   font-family: 'SF Pro Text', 'Inter', 'Segoe UI, NotoSans Nerd Font', sans-serif;
-  font-size: 13px;
+  font-size: 11px;
   min-height: 0;
   padding-right: 0px;
   padding-left: 0px;
@@ -10,7 +10,7 @@
 
 /* --- Waybar Container --- */
 #waybar {
-  background: transparent;
+  background: #0f0e1a;
   color: #c6d0f5;
   margin: 0px;
   font-weight: 500;
@@ -20,36 +20,34 @@
 #workspaces,
 #custom-uptime,
 #cpu {
-  background-color: #1a1b26;
-  padding: 0.3rem 0.7rem;
-  margin: 5px 0px; /* 5px top/bottom margin, 0px left/right (base for individual control) */
-  border-radius: 6px; /* These modules are always rounded */
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  background: transparent;
+  padding: 0.2rem 0.5rem;
+  margin: 0px;
+  border-radius: 0px;
+  box-shadow: none;
   min-width: 0;
   border: none;
-  /* Transition for background-color and color only */
   transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
 }
 
 #workspaces {
-  padding: 2px;
-  margin-left: 7px; /* Margin from the far left edge */
-  margin-right: 5px; /* Spacing after the workspaces module */
+  padding: 1px;
+  margin: 0px;
 }
 
 #custom-uptime {
-  margin-right: 5px; /* Spacing after the uptime module */
+  margin: 0px;
 }
 
 /* Simple Hover effects for individual left modules - BRIGHTER COLOR */
 #custom-uptime:hover,
 #cpu:hover {
-  background-color: rgb(41, 42, 53); /* Brighter highlight */
+  background-color: rgba(255, 255, 255, 0.1);
 }
 
 #workspaces button {
   color: #babbf1;
-  border-radius: 5px; /* Workspaces buttons are always rounded */
+  border-radius: 0px;
   padding: 0.3rem 0.6rem;
   background: transparent;
   transition: all 0.2s ease-in-out;
@@ -64,11 +62,11 @@
 
 /* --- Center Module (Individual, Fully Rounded Block - With Simple Hover) --- */
 #clock {
-  background-color: #1a1b26;
-  padding: 0.3rem 0.7rem;
-  margin: 5px 0px;
-  border-radius: 6px; /* This module is always rounded */
-  box-shadow: 0 1px 3px rgba(153, 209, 219, 0.2);
+  background: transparent;
+  padding: 0.2rem 0.5rem;
+  margin: 0px;
+  border-radius: 0px;
+  box-shadow: none;
   min-width: 0;
   border: none;
   transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
@@ -76,10 +74,11 @@
 
 /* Simple Hover effect for clock module - BRIGHTER COLOR */
 #clock:hover {
-  background-color: rgba(153, 209, 219, 0.1); /* Brighter highlight */
+  background-color: rgba(255, 255, 255, 0.1);
 }
 
 /* --- Right Modules (Individual, Fully Rounded Blocks - With Horizontal Spacing & Simple Hover) --- */
+#language,
 #cpu,
 #memory,
 #bluetooth,
@@ -89,16 +88,17 @@
 #battery,
 #custom-music,
 #custom-lock {
-  background-color: #1a1b26;
-  padding: 0.3rem 0.7rem;
-  margin: 5px 5px; /* 5px spacing between modules */
-  border-radius: 6px; /* All modules are fully rounded */
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  background: transparent;
+  padding: 0.2rem 0.5rem;
+  margin: 0px;
+  border-radius: 0px;
+  box-shadow: none;
   min-width: 0;
   border: none;
   transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
 }
 
+#language:hover,
 #cpu:hover,
 #memory:hover,
 #bluetooth:hover,
@@ -108,11 +108,11 @@
 #battery:hover,
 #custom-music:hover,
 #custom-lock:hover {
-  background-color: rgb(41, 42, 53);
+  background-color: rgba(255, 255, 255, 0.1);
 }
 
 #custom-lock {
-  margin-right: 7px; /* Margin from the far right edge */
+  margin: 0px;
 }
 
 #custom-uptime {
@@ -145,6 +145,9 @@
 #custom-lock {
   color: #babbf1;
 }
+#language {
+  color: #c6d0f5;
+}
 #bluetooth {
   color: #888888;
   font-size: 16px;
@@ -167,12 +170,12 @@
 
 /* --- Tooltip Styles --- */
 tooltip {
-  background-color: #1a1b26;
+  background-color: #0f0e1a;
   color: #dddddd;
   padding: 5px 12px;
   margin: 5px 0px;
-  border-radius: 6px;
+  border-radius: 0px;
   border: 1px solid rgba(255, 255, 255, 0.1);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  box-shadow: none;
   font-size: 12px;
 }
