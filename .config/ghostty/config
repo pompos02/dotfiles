@@ -6,8 +6,8 @@ font-family = "JetBrainsMono Nerd Font Mono"
 font-size = 18
 
 # Window settings (keep your existing preferences)
-background-blur-radius = 30
-background-opacity = 0.8
+background-blur-radius = 80
+background-opacity = 0.95
 mouse-hide-while-typing = true
 window-decoration = false
 
