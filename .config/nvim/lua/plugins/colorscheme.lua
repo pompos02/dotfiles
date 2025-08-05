@@ -106,8 +106,9 @@ return {
         Variable = { fg = "text" },
         Constant = { fg = "love", bold = true },
 
-        -- Enhanced UI elements
-        NormalFloat = { fg = "text", bg = "#0f0e1a" }, -- Float windows match active background
+        -- Enhanced UI elements - REMOVED bg settings for transparency
+        Normal = { fg = "text" },              -- Removed bg = "base" for transparency
+        NormalFloat = { fg = "text" },         -- Transparent float windows
         FloatBorder = { fg = "highlight_high" },
         CursorLine = { bg = "highlight_med" }, -- More vibrant cursor line
         Visual = { bg = "rose" },              -- More vibrant visual selection, keeps original text color
@@ -115,13 +116,18 @@ return {
         Search = { fg = "base", bg = "gold" },
         IncSearch = { fg = "base", bg = "love" },
 
-        -- Active/inactive window distinction with different backgrounds
-        Normal = { fg = "text", bg = "#0f0e1a" },        -- Active window - darker base
-        NormalNC = { fg = "muted", bg = "#1e1c2a" },     -- Inactive window - overlay color
-        SignColumn = { fg = "text", bg = "#0f0e1a" },    -- Match active window background
-        EndOfBuffer = { fg = "muted", bg = "#0f0e1a" },  -- Match active window background
-        VertSplit = { fg = "highlight_high" },           -- Window splits
-        WinSeparator = { fg = "highlight_high" },        -- Window separators
+        -- Additional transparency-friendly highlights
+        SignColumn = { fg = "text" },             -- Remove background from sign column
+        EndOfBuffer = { fg = "muted" },           -- Remove background from end of buffer
+        VertSplit = { fg = "highlight_high" },    -- Transparent window splits
+        WinSeparator = { fg = "highlight_high" }, -- Transparent window separators
+
+        -- Enhanced active/inactive window distinction
+        NormalNC = { fg = "muted" },                 -- Inactive windows have dimmed text
+        CursorLineNr = { fg = "rose", bold = true }, -- Active window line number
+        LineNr = { fg = "subtle" },                  -- Regular line numbers
+        LineNrAbove = { fg = "muted" },              -- Line numbers above cursor (inactive feel)
+        LineNrBelow = { fg = "muted" },              -- Line numbers below cursor (inactive feel)
 
         -- More vibrant LSP and diagnostic highlights
         DiagnosticError = { fg = "love", bold = true },
@@ -223,7 +229,22 @@ return {
       },
 
       before_highlight = function(group, highlight, palette)
-        -- Enhance contrast for certain groups
+        -- Enable transparency for key background groups
+        if group == "Normal" then
+          highlight.bg = "NONE" -- Make active window background transparent
+        end
+        if group == "NormalNC" then
+          highlight.bg = "NONE"        -- Make inactive window background transparent but keep dimmed text
+          highlight.fg = palette.muted -- Ensure inactive windows are dimmed
+        end
+        if group == "SignColumn" then
+          highlight.bg = "NONE" -- Transparent sign column
+        end
+        if group == "EndOfBuffer" then
+          highlight.bg = "NONE" -- Transparent end of buffer
+        end
+
+        -- Enhance contrast for certain groups while maintaining transparency
         if group == "StatusLine" then
           highlight.bg = palette.overlay
           highlight.fg = palette.text
