@@ -89,7 +89,7 @@ open() {
   xdg-open "$@" >/dev/null 2>&1 &
 }
 
-
+alias pkillf='ps -ef | fzf --height 40% --layout=reverse | awk "{print \$2}" | xargs kill'
 
 # Shell integrations
 eval "$(fzf --zsh)"
@@ -116,7 +116,7 @@ google(){
   gemini -p "search google for <query>$1</query> and summarize results"
 }
 export PATH=$PATH:/Users/yianniscaravellas/go/bin
-export PATH="~/.local/bin:$PATH"
+export PATH="$HOME/.local/bin:$PATH"
 
 ## [Completion]
 ## Completion scripts setup. Remove the following line to uninstall
