@@ -124,3 +124,6 @@ export HYPRSHOT_DIR="$HOME/screenshots" # hypr screenshot directory
 [[ -f /home/karavellas/.dart-cli-completion/zsh-config.zsh ]] && . /home/karavellas/.dart-cli-completion/zsh-config.zsh || true
 ## [/Completion]
 
+
+# opencode
+export PATH=/home/karavellas/.opencode/bin:$PATH
