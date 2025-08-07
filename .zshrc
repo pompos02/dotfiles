@@ -117,7 +117,6 @@ google(){
 }
 export PATH=$PATH:/Users/yianniscaravellas/go/bin
 export PATH="$HOME/.local/bin:$PATH"
-export HYPRSHOT_DIR="$HOME/screenshots" # hypr screenshot directory
 
 ## [Completion]
 ## Completion scripts setup. Remove the following line to uninstall
