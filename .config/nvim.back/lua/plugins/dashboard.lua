@@ -1,3 +1,4 @@
+-- Minimal LazyVim Dashboard with Custom ASCII Art
 return {
     {
         "snacks.nvim",

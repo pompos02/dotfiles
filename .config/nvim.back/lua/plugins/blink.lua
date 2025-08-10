@@ -1,3 +1,7 @@
+-- local dadbod = require("plugins.dadbod")
+-- lua/plugins/blink.lua
+-- Clean blink.cmp configuration
+
 return {
     -- Disable nvim-cmp if present
     {

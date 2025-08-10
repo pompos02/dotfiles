@@ -1,22 +1,14 @@
--- Keymaps are automatically loaded on the VeryLazy event
--- Default keymaps that are always set: https://github.com/LazyVim/LazyVim/blob/main/lua/lazyvim/config/keymaps.lua
--- Add any additional keymaps here
+-- clear search highlight
 vim.keymap.set("n", "<C-c>", ":nohl<CR>", { desc = "Clear search hl", silent = true })
--- vim.keymap.set("n", "<leader>e", "<CMD>Oil<CR>", { desc = "Open parent directory" })
-vim.keymap.set("n", "<leader>e", "<cmd>Oil --float<CR>", {
-  desc = "Explorer (Oil)",
-  noremap = true,   -- Prevents recursive mapping
-  silent = true,    -- Suppresses messages
-})
+vim.keymap.set("n", "<Esc>", function()
+  if vim.opt.hlsearch:get() then
+    vim.cmd.nohlsearch()
+  else
+    return "<Esc>"
+  end
+end, { desc = "Clear search hl", silent = true, expr = true })
 
-vim.keymap.set("n", "<leader>E", function()
-  require("oil").open_float(vim.fn.getcwd())
-end, {
-  desc = "Explorer (Oil) - Project Root",
-  noremap = true,
-  silent = true,
-})
-
+-- jump to next/prev snippet
 vim.keymap.set({ "i", "s" }, "<c-l>", function()
   if vim.snippet.active({ direction = 1 }) then
     vim.snippet.jump(1)
@@ -34,40 +26,42 @@ vim.keymap.set({ "i", "s" }, "<c-h>", function()
 end, { silent = true, expr = true })
 
 -- moving lines up and down
-vim.keymap.set("v", "J", ":m '>+1<CR>gv=gv")
 vim.keymap.set("v", "K", ":m '>-2<CR>gv=gv")
+vim.keymap.set("v", "J", ":m '>+1<CR>gv=gv")
 -- delete but not yank
 vim.keymap.set({ "n", "v" }, "<leader>d", [["_d]])
 
--- Go-specific keymaps
-vim.api.nvim_create_autocmd("FileType", {
-  pattern = "go",
-  callback = function()
-    -- Insert error handling snippet with <C-e>
-    vim.keymap.set("i", "<C-e>", function()
-      local row, col = unpack(vim.api.nvim_win_get_cursor(0))
+local map = vim.keymap.set
 
-      -- Get current line to determine indentation
-      local current_line = vim.api.nvim_buf_get_lines(0, row - 1, row, false)[1] or ""
-      local indent = current_line:match("^%s*") or ""
+-- better up/down
+map({ "n", "x" }, "j", "v:count == 0 ? 'gj' : 'j'", { desc = "Down", expr = true, silent = true })
+map({ "n", "x" }, "<Down>", "v:count == 0 ? 'gj' : 'j'", { desc = "Down", expr = true, silent = true })
+map({ "n", "x" }, "k", "v:count == 0 ? 'gk' : 'k'", { desc = "Up", expr = true, silent = true })
+map({ "n", "x" }, "<Up>", "v:count == 0 ? 'gk' : 'k'", { desc = "Up", expr = true, silent = true })
 
-      -- Get tab/space settings
-      local use_tabs = vim.bo.expandtab == false
-      local tab_size = vim.bo.tabstop
-      local inner_indent = use_tabs and (indent .. "\t") or (indent .. string.rep(" ", tab_size))
+-- Move to window using the <ctrl> hjkl keys
+map("n", "<C-h>", "<C-w>h", { desc = "Go to Left Window", remap = true })
+map("n", "<C-j>", "<C-w>j", { desc = "Go to Lower Window", remap = true })
+map("n", "<C-k>", "<C-w>k", { desc = "Go to Upper Window", remap = true })
+map("n", "<C-l>", "<C-w>l", { desc = "Go to Right Window", remap = true })
 
-      local lines = {
-        indent .. "if err != nil {",
-        inner_indent,
-        indent .. "}",
-      }
-      vim.api.nvim_buf_set_lines(0, row, row, false, lines)
-      vim.api.nvim_win_set_cursor(0, { row + 2, #inner_indent + 1 })
-      vim.cmd("startinsert!")
-    end, {
-      desc = "Insert Go error handling",
-      buffer = true,
-      silent = true,
-    })
-  end,
-})
+-- Window splits
+map("n", "<leader>wv", "<C-w>v", { desc = "Split Window Vertically" })
+map("n", "<leader>wh", "<C-w>s", { desc = "Split Window Horizontally" })
+
+-- Buffer management
+map("n", "<leader>bd", "<cmd>bdelete<cr>", { desc = "Delete Buffer" })
+
+-- Resize window using <ctrl> arrow keys
+map("n", "<C-Up>", "<cmd>resize +2<cr>", { desc = "Increase Window Height" })
+map("n", "<C-Down>", "<cmd>resize -2<cr>", { desc = "Decrease Window Height" })
+map("n", "<C-Left>", "<cmd>vertical resize -2<cr>", { desc = "Decrease Window Width" })
+map("n", "<C-Right>", "<cmd>vertical resize +2<cr>", { desc = "Increase Window Width" })
+
+-- Add undo break-points
+map("i", ",", ",<c-g>u")
+map("i", ".", ".<c-g>u")
+map("i", ";", ";<c-g>u")
+-- better indenting
+map("v", "<", "<gv")
+map("v", ">", ">gv")
