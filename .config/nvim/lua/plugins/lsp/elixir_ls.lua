@@ -4,6 +4,7 @@ return {
         servers = {
             elixirls = {
                 cmd = { "elixir-ls" },
+                filetypes = { "elixir", "eelixir", "heex", "surface" },
                 on_attach = function(client, bufnr)
                     vim.api.nvim_create_autocmd("BufWritePre", {
                         buffer = bufnr,

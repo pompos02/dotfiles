@@ -1,4 +1,3 @@
-
 return {
     -- The rose-pine colorscheme plugin
     {
@@ -163,33 +162,33 @@ return {
                     BlinkCmpSignatureHelp = { fg = "text", bg = "overlay" },
                     BlinkCmpSignatureHelpBorder = { fg = "highlight_high", bg = "overlay" },
                     BlinkCmpSignatureHelpActiveParameter = { fg = "love", bold = true, bg = "highlight_low" },
-                    ["@keyword"] = { fg = "pine", bold = true },
-                    ["@keyword.function"] = { fg = "pine", bold = true },
-                    ["@keyword.return"] = { fg = "pine", bold = true },
-                    ["@function"] = { fg = "rose", bold = true },
-                    ["@function.builtin"] = { fg = "love", bold = true },
-                    ["@method"] = { fg = "rose", bold = true },
-                    ["@variable"] = { fg = "text" },
-                    ["@variable.builtin"] = { fg = "love", italic = true },
-                    ["@string"] = { fg = "gold" },
-                    ["@number"] = { fg = "iris", bold = true },
-                    ["@boolean"] = { fg = "love", bold = true },
-                    ["@type"] = { fg = "foam", bold = true },
-                    ["@type.builtin"] = { fg = "love", bold = true },
-                    ["@constructor"] = { fg = "gold", bold = true },
-                    ["@tag"] = { fg = "foam", bold = true },
-                    ["@tag.attribute"] = { fg = "iris" },
-                    ["@tag.delimiter"] = { fg = "subtle" },
-                    ["@symbol"] = { fg = "iris", italic = true },
-                    ["@string.special.symbol"] = { fg = "iris", italic = true },
-                    ["@parameter"] = { fg = "foam", italic = true },
-                    ["@variable.parameter"] = { fg = "foam", italic = true },
-                    ["@field"] = { fg = "foam" },
-                    ["@property"] = { fg = "foam" },
-                    ["@attribute"] = { fg = "rose" },
-                    ["@constant"] = { fg = "love", bold = true },
-                    ["@constant.builtin"] = { fg = "love", bold = true },
-                    ["@namespace"] = { fg = "pine", bold = true },
+                    -- ["@keyword"] = { fg = "pine", bold = true },
+                    -- ["@keyword.function"] = { fg = "pine", bold = true },
+                    -- ["@keyword.return"] = { fg = "pine", bold = true },
+                    -- ["@function"] = { fg = "rose", bold = true },
+                    -- ["@function.builtin"] = { fg = "love", bold = true },
+                    -- ["@method"] = { fg = "rose", bold = true },
+                    -- ["@variable"] = { fg = "text" },
+                    -- ["@variable.builtin"] = { fg = "love", italic = true },
+                    -- ["@string"] = { fg = "gold" },
+                    -- ["@number"] = { fg = "iris", bold = true },
+                    -- ["@boolean"] = { fg = "love", bold = true },
+                    -- ["@type"] = { fg = "foam", bold = true },
+                    -- ["@type.builtin"] = { fg = "love", bold = true },
+                    -- ["@constructor"] = { fg = "gold", bold = true },
+                    -- ["@tag"] = { fg = "foam", bold = true },
+                    -- ["@tag.attribute"] = { fg = "iris" },
+                    -- ["@tag.delimiter"] = { fg = "subtle" },
+                    -- ["@symbol"] = { fg = "iris", italic = true },
+                    -- ["@string.special.symbol"] = { fg = "iris", italic = true },
+                    -- ["@parameter"] = { fg = "foam", italic = true },
+                    -- ["@variable.parameter"] = { fg = "foam", italic = true },
+                    -- ["@field"] = { fg = "foam" },
+                    -- ["@property"] = { fg = "foam" },
+                    -- ["@attribute"] = { fg = "rose" },
+                    -- ["@constant"] = { fg = "love", bold = true },
+                    -- ["@constant.builtin"] = { fg = "love", bold = true },
+                    -- ["@namespace"] = { fg = "pine", bold = true },
                     ["@keyword.elixir"] = { fg = "pine", bold = true },
                     ["@atom.elixir"] = { fg = "iris", italic = true },
                     ["@variable.elixir"] = { fg = "text" },
@@ -202,13 +201,19 @@ return {
                     ["@storageclass"] = { fg = "pine", bold = true },
                 },
                 before_highlight = function(group, highlight, palette)
-                    if group == "Normal" then highlight.bg = "NONE" end
+                    if group == "Normal" then
+                        highlight.bg = "NONE"
+                    end
                     if group == "NormalNC" then
                         highlight.bg = "NONE"
                         highlight.fg = palette.muted
                     end
-                    if group == "SignColumn" then highlight.bg = "NONE" end
-                    if group == "EndOfBuffer" then highlight.bg = "NONE" end
+                    if group == "SignColumn" then
+                        highlight.bg = "NONE"
+                    end
+                    if group == "EndOfBuffer" then
+                        highlight.bg = "NONE"
+                    end
                     if group == "StatusLine" then
                         highlight.bg = palette.overlay
                         highlight.fg = palette.text
@@ -231,79 +236,83 @@ return {
         end,
     },
 
-      -- The lualine plugin
-  {
-    "nvim-lualine/lualine.nvim",
-    dependencies = { "rose-pine/neovim" }, -- Add this to ensure rose-pine loads first
-    config = function()
-      local rose_pine = require("rose-pine.palette")
-      
-      -- Create the vibrant lualine theme based on your rose-pine palette
-      local vibrant_rose_pine = {
-        normal = {
-          a = { fg = rose_pine.base, bg = rose_pine.rose, gui = "bold" },
-          b = { fg = rose_pine.rose, bg = rose_pine.base },
-          c = { fg = rose_pine.text, bg = rose_pine.base },
-        },
-        insert = {
-          a = { fg = rose_pine.base, bg = rose_pine.foam, gui = "bold" },
-          b = { fg = rose_pine.foam, bg = rose_pine.base },
-          c = { fg = rose_pine.text, bg = rose_pine.base },
-        },
-        visual = {
-          a = { fg = rose_pine.base, bg = rose_pine.iris, gui = "bold" },
-          b = { fg = rose_pine.iris, bg = rose_pine.base },
-          c = { fg = rose_pine.text, bg = rose_pine.base },
-        },
-        replace = {
-          a = { fg = rose_pine.base, bg = rose_pine.love, gui = "bold" },
-          b = { fg = rose_pine.love, bg = rose_pine.base },
-          c = { fg = rose_pine.text, bg = rose_pine.base },
-        },
-        command = {
-          a = { fg = rose_pine.base, bg = rose_pine.pine, gui = "bold" },
-          b = { fg = rose_pine.pine, bg = rose_pine.base },
-          c = { fg = rose_pine.text, bg = rose_pine.base },
-        },
-        inactive = {
-          a = { fg = rose_pine.muted, bg = rose_pine.base },
-          b = { fg = rose_pine.muted, bg = rose_pine.base },
-          c = { fg = rose_pine.muted, bg = rose_pine.base },
-        },
-      }
+    -- The lualine plugin
+    {
+        "nvim-lualine/lualine.nvim",
+        dependencies = { "rose-pine/neovim" }, -- Add this to ensure rose-pine loads first
+        config = function()
+            local rose_pine = require("rose-pine.palette")
 
-      -- Set up lualine
-      require("lualine").setup({
-        options = {
-          theme = vibrant_rose_pine,
-          component_separators = { left = "", right = "" },
-          section_separators = { left = "", right = "" },
-          globalstatus = true,
-        },
-        sections = {
-          lualine_a = {
-            {
-              "mode",
-              fmt = function(str) return str:sub(1, 1) end,
-            },
-          },
-          lualine_b = { { "branch", icon = "" }, "diff" },
-          lualine_c = { { "filename", path = 1 } },
-          lualine_x = { "diagnostics" },
-          lualine_y = { "lsp_status", "location" },
-          lualine_z = {
-            function() return " " .. os.date("%R") end,
-          },
-        },
-        inactive_sections = {
-          lualine_a = {},
-          lualine_b = {},
-          lualine_c = { "filename" },
-          lualine_x = {},
-          lualine_y = {},
-          lualine_z = {},
-        },
-      })
-    end,
-  },
+            -- Create the vibrant lualine theme based on your rose-pine palette
+            local vibrant_rose_pine = {
+                normal = {
+                    a = { fg = rose_pine.base, bg = rose_pine.rose, gui = "bold" },
+                    b = { fg = rose_pine.rose, bg = rose_pine.base },
+                    c = { fg = rose_pine.text, bg = rose_pine.base },
+                },
+                insert = {
+                    a = { fg = rose_pine.base, bg = rose_pine.foam, gui = "bold" },
+                    b = { fg = rose_pine.foam, bg = rose_pine.base },
+                    c = { fg = rose_pine.text, bg = rose_pine.base },
+                },
+                visual = {
+                    a = { fg = rose_pine.base, bg = rose_pine.iris, gui = "bold" },
+                    b = { fg = rose_pine.iris, bg = rose_pine.base },
+                    c = { fg = rose_pine.text, bg = rose_pine.base },
+                },
+                replace = {
+                    a = { fg = rose_pine.base, bg = rose_pine.love, gui = "bold" },
+                    b = { fg = rose_pine.love, bg = rose_pine.base },
+                    c = { fg = rose_pine.text, bg = rose_pine.base },
+                },
+                command = {
+                    a = { fg = rose_pine.base, bg = rose_pine.pine, gui = "bold" },
+                    b = { fg = rose_pine.pine, bg = rose_pine.base },
+                    c = { fg = rose_pine.text, bg = rose_pine.base },
+                },
+                inactive = {
+                    a = { fg = rose_pine.muted, bg = rose_pine.base },
+                    b = { fg = rose_pine.muted, bg = rose_pine.base },
+                    c = { fg = rose_pine.muted, bg = rose_pine.base },
+                },
+            }
+
+            -- Set up lualine
+            require("lualine").setup({
+                options = {
+                    theme = vibrant_rose_pine,
+                    component_separators = { left = "", right = "" },
+                    section_separators = { left = "", right = "" },
+                    globalstatus = true,
+                },
+                sections = {
+                    lualine_a = {
+                        {
+                            "mode",
+                            fmt = function(str)
+                                return str:sub(1, 1)
+                            end,
+                        },
+                    },
+                    lualine_b = { { "branch", icon = "" }, "diff" },
+                    lualine_c = { { "filename", path = 1 } },
+                    lualine_x = { "diagnostics" },
+                    lualine_y = { "lsp_status", "location" },
+                    lualine_z = {
+                        function()
+                            return " " .. os.date("%R")
+                        end,
+                    },
+                },
+                inactive_sections = {
+                    lualine_a = {},
+                    lualine_b = {},
+                    lualine_c = { "filename" },
+                    lualine_x = {},
+                    lualine_y = {},
+                    lualine_z = {},
+                },
+            })
+        end,
+    },
 }
