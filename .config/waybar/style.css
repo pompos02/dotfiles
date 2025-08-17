@@ -57,9 +57,9 @@
 }
 
 #workspaces button.active {
-  color: #66deb2;
+  color: #9ccfd8;
   font-weight: bold;
-  border-bottom-color: #66deb2;
+  border-bottom-color: #9ccfd8;
 }
 
 
@@ -142,7 +142,7 @@
 }
 
 #network.disconnected {
-  color: #e78284;
+  color: #eb6f92;
 }
 
 #custom-lock {
@@ -156,7 +156,7 @@
   font-size: 16px;
 }
 #bluetooth.on {
-  color: #2196f3;
+  color: #3e8fb0;
 }
 #bluetooth.connected {
   color: #e0def4;
@@ -165,10 +165,10 @@
   color: #e0def4;;
 }
 #battery.charging {
-  color: #a6d189;
+  color: #95b1ac;
 }
 #battery.warning:not(.charging) {
-  color: #e78284;
+  color: #eb6f92;
 }
 
 /* --- Tooltip Styles --- */

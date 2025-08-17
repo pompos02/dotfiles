@@ -13,11 +13,11 @@ error_symbol = ' [➜](bold love)'
 [directory]
 read_only = " 󰌾"
 format = " [$path]($style)"
-style = "bold foam"
+style = "bold love"
 
 [git_branch]
 format = " git:\\([$branch]($style)\\)"
-style = "love"
+style = "iris"
 
 
 [aws]
@@ -42,7 +42,7 @@ symbol = " "
 symbol = " "
 
 [conda]
-symbol = " "
+symbol = "⬢ "
 
 [crystal]
 symbol = " "
@@ -225,19 +225,19 @@ symbol = " "
 
 
 [palettes.rose_pine]
-# Rose Pine color palette
-  base = "#0f0e1a"
-  surface = "#16141f"
-  overlay = "#1e1c2a"
+# Rose Pine Moon color palette
+  base = "#232136"
+  surface = "#2a273f"
+  overlay = "#393552"
   muted = "#6e6a86"
-  subtle = "#a8a5c"
+  subtle = "#908caa"
   text = "#e0def4"
-  love = "#ff5d7a"
-  gold = "#ffb347"
-  rose = "#f5a6b6"
-  pine = "#40a4c4"
-  foam = "#66deb2"
-  iris = "#d4a7ff"
-  highlight_low = "#1a1825"
-  highlight_med = "#2a2837"
-  highlight_high = "#3a3649"
+  love = "#eb6f92"
+  gold = "#f6c177"
+  rose = "#ea9a97"
+  pine = "#3e8fb0"
+  foam = "#9ccfd8"
+  iris = "#c4a7e7"
+  highlight_low = "#2a283e"
+  highlight_med = "#44415a"
+  highlight_high = "#56526e"
