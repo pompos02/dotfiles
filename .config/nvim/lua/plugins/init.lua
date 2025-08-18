@@ -51,13 +51,13 @@ return {
             -- Create the vibrant lualine theme based on your rose-pine palette
             local vibrant_rose_pine = {
                 normal = {
-                    a = { fg = rose_pine.base, bg = rose_pine.rose, gui = "bold" },
-                    b = { fg = rose_pine.rose, bg = rose_pine.base },
+                    a = { fg = rose_pine.base, bg = rose_pine.foam, gui = "bold" },
+                    b = { fg = rose_pine.foam, bg = rose_pine.base },
                     c = { fg = rose_pine.text, bg = rose_pine.base },
                 },
                 insert = {
-                    a = { fg = rose_pine.base, bg = rose_pine.foam, gui = "bold" },
-                    b = { fg = rose_pine.foam, bg = rose_pine.base },
+                    a = { fg = rose_pine.base, bg = rose_pine.gold, gui = "bold" },
+                    b = { fg = rose_pine.gold, bg = rose_pine.base },
                     c = { fg = rose_pine.text, bg = rose_pine.base },
                 },
                 visual = {
@@ -102,7 +102,23 @@ return {
                     lualine_b = { { "branch", icon = "" }, "diff" },
                     lualine_c = { { "filename", path = 1 } },
                     lualine_x = { "diagnostics" },
-                    lualine_y = { "lsp_status", "location" },
+                    lualine_y = {
+                        {
+                            function()
+                                local clients = vim.lsp.get_clients({ bufnr = 0 })
+                                if #clients == 0 then
+                                    return ""
+                                end
+                                local names = {}
+                                for _, client in ipairs(clients) do
+                                    table.insert(names, "✓ " .. client.name)
+                                end
+                                return table.concat(names, " ")
+                            end,
+                            color = { fg = rose_pine.iris },
+                        },
+                        "location",
+                    },
                     lualine_z = {
                         function()
                             return " " .. os.date("%R")
