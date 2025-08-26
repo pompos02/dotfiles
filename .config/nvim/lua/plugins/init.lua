@@ -7,12 +7,14 @@ return {
             require("rose-pine").setup({
                 variant = "auto",
                 dark_variant = "moon",
-                -- dim_inactive_windows = false,
+                dim_inactive_windows = true,
+                disable_float_background = true,
                 styles = {
                     transparency = true,
                 },
                 palette = {
                     moon = {
+                        bg = "#0f0e1a",
                         _nc = "#1f1d30",
                         base = "#232136",
                         surface = "#2a273f",
@@ -34,8 +36,16 @@ return {
                     },
                 },
                 highlight_groups = {
-                    -- Change yank highlight color
                     IncSearch = { fg = "base", bg = "love" },
+                    -- Set floating windows to use terminal background
+                    NormalFloat = { fg = "text", bg = "bg" },
+                    FloatBorder = { fg = "muted", bg = "bg" },
+                    -- Snacks picker specific
+                    SnacksPicker = { fg = "text", bg = "bg" },
+                    SnacksPickerBorder = { fg = "muted", bg = "bg" },
+                    SnacksPickerList = { fg = "text", bg = "bg" },
+                    SnacksPickerPreview = { fg = "text", bg = "bg" },
+                    SnacksPickerInput = { fg = "text", bg = "bg" },
                 },
             })
         end,
@@ -51,13 +61,13 @@ return {
             -- Create the vibrant lualine theme based on your rose-pine palette
             local vibrant_rose_pine = {
                 normal = {
-                    a = { fg = rose_pine.base, bg = rose_pine.foam, gui = "bold" },
-                    b = { fg = rose_pine.foam, bg = rose_pine.base },
+                    a = { fg = rose_pine.base, bg = rose_pine.rose, gui = "bold" },
+                    b = { fg = rose_pine.rose, bg = rose_pine.base },
                     c = { fg = rose_pine.text, bg = rose_pine.base },
                 },
                 insert = {
-                    a = { fg = rose_pine.base, bg = rose_pine.gold, gui = "bold" },
-                    b = { fg = rose_pine.gold, bg = rose_pine.base },
+                    a = { fg = rose_pine.base, bg = rose_pine.foam, gui = "bold" },
+                    b = { fg = rose_pine.foam, bg = rose_pine.base },
                     c = { fg = rose_pine.text, bg = rose_pine.base },
                 },
                 visual = {
@@ -111,11 +121,11 @@ return {
                                 end
                                 local names = {}
                                 for _, client in ipairs(clients) do
-                                    table.insert(names, "✓ " .. client.name)
+                                    table.insert(names, "✓" .. client.name)
                                 end
                                 return table.concat(names, " ")
                             end,
-                            color = { fg = rose_pine.iris },
+                            color = { fg = rose_pine.foam },
                         },
                         "location",
                     },
