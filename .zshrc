@@ -120,6 +120,7 @@ google(){
 export PATH="$PATH:$HOME/go/bin"
 
 export PATH="$HOME/.local/bin:$PATH"
+export PATH="/usr/lib/jvm/java-24-openjdk/bin:$PATH"
 
 ## [Completion]
 ## Completion scripts setup. Remove the following line to uninstall

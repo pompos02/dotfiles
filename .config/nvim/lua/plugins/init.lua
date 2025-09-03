@@ -10,7 +10,7 @@ return {
                 dim_inactive_windows = true,
                 disable_float_background = true,
                 styles = {
-                    transparency = true,
+                    transparency = false,
                 },
                 palette = {
                     moon = {
@@ -36,6 +36,7 @@ return {
                     },
                 },
                 highlight_groups = {
+                    Normal = { fg = "text", bg = "bg" },
                     IncSearch = { fg = "base", bg = "love" },
                     -- Set floating windows to use terminal background
                     NormalFloat = { fg = "text", bg = "bg" },
@@ -46,6 +47,10 @@ return {
                     SnacksPickerList = { fg = "text", bg = "bg" },
                     SnacksPickerPreview = { fg = "text", bg = "bg" },
                     SnacksPickerInput = { fg = "text", bg = "bg" },
+                    -- Active line highlighting
+                    CursorLine = { bg = "highlight_low" },
+                    -- Visual selection highlighting
+                    Visual = { bg = "iris" },
                 },
             })
         end,
