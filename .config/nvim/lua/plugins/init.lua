@@ -51,11 +51,43 @@ return {
                     CursorLine = { bg = "highlight_low" },
                     -- Visual selection highlighting
                     Visual = { bg = "iris" },
+                    -- Keywords (package, import, type, func, etc.)
+                    Keyword = { fg = "love" },
+                    ["@keyword"] = { fg = "love" },
+                    ["@keyword.function"] = { fg = "love" },
+                    ["@keyword.import"] = { fg = "love" },
+                    ["@keyword.type"] = { fg = "love" },
+                    ["@keyword.return"] = { fg = "love" },
+
+                    -- Strings and struct tags
+                    String = { fg = "gold" },
+                    ["@tag"] = { fg = "rose" },
+
+                    -- Variables and parameters
+                    Identifier = { fg = "text" },
+                    ["@variable"] = { fg = "text" },
+                    ["@parameter"] = { fg = "text" },
+
+                    -- Struct names and custom types
+                    Type = { fg = "foam" },
+                    ["@type"] = { fg = "foam" },
+                    ["@type.definition"] = { fg = "foam" },
+                    Structure = { fg = "foam" },
+
+                    -- Function names and struct fields
+                    Function = { fg = "iris", bold = true },
+                    ["@function"] = { fg = "iris", bold = true },
+                    ["@function.call"] = { fg = "iris", bold = true },
+                    ["@field"] = { fg = "iris", bold = true },
+                    ["@property"] = { fg = "iris", bold = true },
+
+                    -- Built-in types (string, error, etc.)
+                    ["@type.builtin"] = { fg = "pine" },
+                    ["@keyword.type.builtin"] = { fg = "pine" },
                 },
             })
         end,
     },
-
     -- The lualine plugin
     {
         "nvim-lualine/lualine.nvim",
