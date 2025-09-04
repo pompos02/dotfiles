@@ -56,8 +56,8 @@ return {
                     ["@keyword"] = { fg = "love" },
                     ["@keyword.function"] = { fg = "love" },
                     ["@keyword.import"] = { fg = "love" },
-                    ["@keyword.type"] = { fg = "love" },
                     ["@keyword.return"] = { fg = "love" },
+                    ["@keyword.type"] = { fg = "love" },
 
                     -- Strings and struct tags
                     String = { fg = "gold" },
