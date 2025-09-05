@@ -103,7 +103,9 @@
     "format-icons": {
       "default": ["", "", " "]
     },
-    "on-click": "pavucontrol --tab=3"
+    "on-click": "pavucontrol --tab=3",
+    "on-scroll-up": "$HOME/.config/waybar/volup.sh",
+    "on-scroll-down": "pactl set-sink-volume @DEFAULT_SINK@ -5%"
   },
 
   "battery": {
