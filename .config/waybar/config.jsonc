@@ -56,7 +56,8 @@
     "timezone": "Egypt",
     "tooltip": false,
     "format": "{:%H:%M:%S  -  %A, %d}",
-    "interval": 1
+    "interval": 1,
+    "on-click": "zen-browser --new-window https://calendar.google.com"
   },
 
   "network": {
@@ -102,7 +103,7 @@
     "format-icons": {
       "default": ["", "", " "]
     },
-    "on-click": "pavucontrol"
+    "on-click": "pavucontrol --tab=3"
   },
 
   "battery": {
@@ -122,11 +123,6 @@
         "format-icons": ["", "", "", "", ""]
   },
   
-  "custom/lock": {
-  "tooltip": false,
-  "on-click": "sh -c '(sleep 0s; hyprlock)' & disown",
-  "format" : ""
-  },
 
   "hyprland/language": {
     "format": "{}",
