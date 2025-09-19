@@ -5,6 +5,7 @@ return {
     dependencies = {
         "nvim-tree/nvim-web-devicons",
     },
+
     init = function()
         vim.g.lualine_laststatus = vim.o.laststatus
         if vim.fn.argc(-1) > 0 then
@@ -36,20 +37,16 @@ return {
         vim.api.nvim_set_hl(0, "LualineBGitText", { fg = "#e0def4" })       -- text color
         vim.api.nvim_set_hl(0, "LualineBBranchName", { fg = "#c4a7e7" })    -- iris color
 
+        -- Set universal background color for statusline while preserving mode colors
+        vim.api.nvim_set_hl(0, "StatusLine", { bg = "#1f1d30" })
+        vim.api.nvim_set_hl(0, "StatusLineNC", { bg = "#1f1d30" })
+
         -- Helper function to safely get highlight color
         local function get_hl_color(group)
             local ok, hl = pcall(vim.api.nvim_get_hl, 0, { name = group, link = false })
             if ok and hl.fg then
                 return string.format("#%06x", hl.fg)
             end
-            -- Fallback colors
-            local fallbacks = {
-                Statement = "#c678dd",
-                Constant = "#d19a66",
-                Debug = "#e06c75",
-                Special = "#98c379",
-            }
-            return fallbacks[group] or "#ffffff"
         end
 
         -- Custom branch component showing "directory git:(branch_name)"
@@ -101,9 +98,84 @@ return {
 
         vim.o.laststatus = vim.g.lualine_laststatus
 
+        local palette = {
+            bg = "#0f0e1a",
+            _nc = "#1f1d30",
+            base = "#232136",
+            surface = "#2a273f",
+            overlay = "#393552",
+            muted = "#6e6a86",
+            subtle = "#908caa",
+            text = "#e0def4",
+            love = "#eb6f92",
+            gold = "#f6c177",
+            rose = "#ea9a97",
+            pine = "#3e8fb0",
+            foam = "#9ccfd8",
+            iris = "#c4a7e7",
+            leaf = "#95b1ac",
+            highlight_low = "#2a283e",
+            highlight_med = "#44415a",
+            highlight_high = "#56526e",
+            none = "NONE",
+        }
+
         local opts = {
             options = {
-                theme = "auto",
+                theme = {
+                    normal = {
+                        a = { fg = palette.base, bg = palette.rose, gui = "bold" },
+
+                        b = { fg = palette.text, bg = palette._nc },
+
+                        c = { fg = palette.text, bg = palette._nc },
+                    },
+
+                    insert = {
+
+                        a = { fg = palette.base, bg = palette.foam, gui = "bold" },
+
+                        b = { fg = palette.text, bg = palette._nc },
+
+                        c = { fg = palette.text, bg = palette._nc },
+                    },
+
+                    visual = {
+
+                        a = { fg = palette.base, bg = palette.iris, gui = "bold" },
+
+                        b = { fg = palette.text, bg = palette._nc },
+
+                        c = { fg = palette.text, bg = palette._nc },
+                    },
+
+                    replace = {
+
+                        a = { fg = palette.base, bg = palette.love, gui = "bold" },
+
+                        b = { fg = palette.text, bg = palette._nc },
+
+                        c = { fg = palette.text, bg = palette._nc },
+                    },
+
+                    command = {
+
+                        a = { fg = palette.base, bg = palette.pine, gui = "bold" },
+
+                        b = { fg = palette.text, bg = palette._nc },
+
+                        c = { fg = palette.text, bg = palette._nc },
+                    },
+
+                    inactive = {
+
+                        a = { fg = palette.muted, bg = palette._nc },
+
+                        b = { fg = palette.muted, bg = palette._nc },
+
+                        c = { fg = palette.muted, bg = palette._nc },
+                    },
+                },
                 globalstatus = vim.o.laststatus == 3,
                 component_separators = { left = "", right = "" },
                 section_separators = { left = "│", right = "" },
