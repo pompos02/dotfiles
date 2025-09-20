@@ -4,7 +4,6 @@ return {
         event = { "BufReadPre", "BufNewFile" },
         dependencies = {
             "mason.nvim",
-            "mason-lspconfig.nvim",
         },
         opts = {
             -- Global diagnostics configuration
@@ -52,7 +51,7 @@ return {
             -- Setup diagnostics
             vim.diagnostic.config(opts.diagnostics)
 
-            -- Setup servers
+            -- Setup servers  
             local lspconfig = require("lspconfig")
             for server, config in pairs(opts.servers) do
                 -- Skip servers that are explicitly disabled

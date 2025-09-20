@@ -119,7 +119,9 @@ return {
             -- Fuzzy matching
             fuzzy = {
                 implementation = "prefer_rust_with_warning",
-                use_frecency = true,
+                frequency = {
+                    enabled = true,
+                },
                 use_proximity = true,
                 sorts = { "score", "sort_text", "label" },
             },
