@@ -1,7 +1,7 @@
 require("config.lazy")
 require("config.options")
 require("config.keymaps")
-vim.cmd.colorscheme("rose-pine-moon")
+vim.cmd.colorscheme("rose-pine")
 vim.keymap.set("n", "<space>x", ":.lua<cr>")
 vim.keymap.set("v", "<space>x", ":.lua<cr>")
 
@@ -12,6 +12,6 @@ vim.api.nvim_create_autocmd("TextYankPost", {
     desc = "Highlight when yanking text",
     group = vim.api.nvim_create_augroup("highlight yank", { clear = true }),
     callback = function()
-        vim.highlight.on_yank()
+        vim.hl.on_yank()
     end,
 })
