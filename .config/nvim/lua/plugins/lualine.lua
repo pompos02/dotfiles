@@ -33,13 +33,13 @@ return {
         }
 
         -- Define custom highlight groups for the branch component
-        vim.api.nvim_set_hl(0, "LualineBDirectoryName", { fg = "#908caa" }) -- subtle color
-        vim.api.nvim_set_hl(0, "LualineBGitText", { fg = "#e0def4" })       -- text color
+        vim.api.nvim_set_hl(0, "LualineBDirectoryName", { fg = "#6e6a86" }) -- subtle color
+        vim.api.nvim_set_hl(0, "LualineBGitText", { fg = "#cccae0" })       -- text color
         vim.api.nvim_set_hl(0, "LualineBBranchName", { fg = "#c4a7e7" })    -- iris color
 
         -- Set universal background color for statusline while preserving mode colors
-        vim.api.nvim_set_hl(0, "StatusLine", { bg = "#1f1d30" })
-        vim.api.nvim_set_hl(0, "StatusLineNC", { bg = "#1f1d30" })
+        vim.api.nvim_set_hl(0, "StatusLine", { bg = "#000000" })
+        vim.api.nvim_set_hl(0, "StatusLineNC", { bg = "#000000" })
 
         -- Helper function to safely get highlight color
         local function get_hl_color(group)
@@ -99,24 +99,24 @@ return {
         vim.o.laststatus = vim.g.lualine_laststatus
 
         local palette = {
-            bg = "#0f0e1a",
-            _nc = "#1f1d30",
-            base = "#232136",
-            surface = "#2a273f",
-            overlay = "#393552",
-            muted = "#6e6a86",
-            subtle = "#908caa",
-            text = "#e0def4",
-            love = "#eb6f92",
-            gold = "#f6c177",
-            rose = "#ea9a97",
-            pine = "#3e8fb0",
-            foam = "#9ccfd8",
+            bg = "#000000",
+            _nc = "#000000",
+            base = "#141415",
+            surface = "#1c1c24",
+            overlay = "#252530",
+            muted = "#56526e",
+            subtle = "#6e6a86",
+            text = "#cccae0",
+            love = "#d8647e",
+            gold = "#e8b589",
+            rose = "#c48282",
+            pine = "#6e94b2",
+            foam = "#9bb4bc",
             iris = "#c4a7e7",
             leaf = "#95b1ac",
-            highlight_low = "#2a283e",
-            highlight_med = "#44415a",
-            highlight_high = "#56526e",
+            highlight_low = "#1a1826",
+            highlight_med = "#2a283e",
+            highlight_high = "#44415a",
             none = "NONE",
         }
 
@@ -194,9 +194,9 @@ return {
                             removed = icons.git.removed,
                         },
                         diff_color = {
-                            added = { fg = "#95b1ac" },    -- leaf color from rose-pine
-                            modified = { fg = "#f6c177" }, -- gold color from rose-pine
-                            removed = { fg = "#eb6f92" },  -- love color from rose-pine
+                            added = { fg = palette.leaf },
+                            modified = { fg = palette.gold },
+                            removed = { fg = palette.love },
                         },
                         source = function()
                             local gitsigns = vim.b.gitsigns_status_dict
@@ -285,7 +285,7 @@ return {
 
                             return "󰒋 " .. table.concat(names, " │ ")
                         end,
-                        color = { fg = "#9ccfd8" }, -- foam color from rose-pine
+                        color = { fg = palette.foam },
                     },
 
                     -- Git diff

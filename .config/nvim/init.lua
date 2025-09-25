@@ -2,7 +2,8 @@ require("config.lazy")
 require("config.options")
 require("config.keymaps")
 vim.cmd.colorscheme("rose-pine")
-
+-- vim.cmd.colorscheme("vague")
+-- vim.cmd.colorscheme("kanagawa")
 vim.opt.shiftwidth = 4
 
 -- highlight when yanking
