@@ -5,6 +5,7 @@ vim.cmd.colorscheme("rose-pine")
 -- vim.cmd.colorscheme("vague")
 -- vim.cmd.colorscheme("kanagawa")
 vim.opt.shiftwidth = 4
+vim.o.winborder = "rounded"
 
 -- highlight when yanking
 vim.api.nvim_create_autocmd("TextYankPost", {
