@@ -2,8 +2,6 @@ require("config.lazy")
 require("config.options")
 require("config.keymaps")
 vim.cmd.colorscheme("rose-pine")
-vim.keymap.set("n", "<space>x", ":.lua<cr>")
-vim.keymap.set("v", "<space>x", ":.lua<cr>")
 
 vim.opt.shiftwidth = 4
 

@@ -76,6 +76,7 @@ alias lta='lt -a'
 alias ff="fzf --preview 'bat --style=numbers --color=always {}'"
 
 alias cd="zd"
+alias code="code  --ozone-platform=wayland "
 zd() {
   if [ $# -eq 0 ]; then
     builtin cd ~ && return
