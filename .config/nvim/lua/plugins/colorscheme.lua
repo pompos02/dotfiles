@@ -71,7 +71,7 @@ return {
                     CursorLine = { bg = "highlight_low" },
                     -- Visual selection highlighting
                     Visual = { bg = "iris" },
-                    TreesitterContext = { fg = "text", bg = "bg", sp = "overlay" },
+                    FloatTitle = { fg = "text", bg = "bg" },
                 },
             })
         end,

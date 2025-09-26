@@ -88,7 +88,7 @@
     "format-icon": [""], 
     "tooltip": false,
     "interval": 60,
-    "exec": "$HOME/.config/waybar/uptime.sh"
+    "exec": "$HOME/.config/scripts/show_uptime.sh"
   },
   
   "backlight": {
@@ -104,7 +104,7 @@
       "default": ["", "", " "]
     },
     "on-click": "pavucontrol --tab=3",
-    "on-scroll-up": "$HOME/.config/waybar/volup.sh",
+    "on-scroll-up": "$HOME/.config/scripts/volume_manipulation.sh",
     "on-scroll-down": "pactl set-sink-volume @DEFAULT_SINK@ -5%"
   },
 
