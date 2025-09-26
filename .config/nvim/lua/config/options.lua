@@ -32,7 +32,7 @@ opt.splitbelow = true    -- Put new windows below current
 opt.splitkeep = "screen"
 opt.splitright = true    -- Put new windows right of current
 opt.tabstop = 2          -- Number of spaces tabs count for
-
+opt.listchars = { trail = "." }
 opt.termguicolors = true -- True color support
 opt.undofile = true
 opt.undolevels = 10000

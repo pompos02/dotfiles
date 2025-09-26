@@ -33,6 +33,11 @@ vim.keymap.set({ "n", "v" }, "<leader>d", [["_d]])
 
 local map = vim.keymap.set
 
+-- horizontall movements
+map("n", "<C-d>", "<C-d>zz", { desc = "Half page down and center" })
+map("n", "<C-u>", "<C-u>zz", { desc = "Half page up and center" })
+map("n", "}", "}zz", { desc = "Next paragraph and center" })
+map("n", "{", "{zz", { desc = "Previous paragraph and center" })
 -- better up/down
 map({ "n", "x" }, "j", "v:count == 0 ? 'gj' : 'j'", { desc = "Down", expr = true, silent = true })
 map({ "n", "x" }, "<Down>", "v:count == 0 ? 'gj' : 'j'", { desc = "Down", expr = true, silent = true })
