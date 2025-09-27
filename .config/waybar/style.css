@@ -57,11 +57,14 @@
 }
 
 #workspaces button.active {
-  color: #9bb4bc;
+  color: #cccae0;
   font-weight: bold;
-  border-bottom-color: #9bb4bc;
+  border-bottom-color: #cccae0;
 }
 
+#workspaces button:hover {
+  border-top: 1px solid #cccae0;
+}
 
 /* --- Center Module (Individual, Fully Rounded Block - With Simple Hover) --- */
 #clock {
