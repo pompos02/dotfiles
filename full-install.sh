@@ -17,6 +17,6 @@ yay -S --needed --noconfirm \
   vesktop-git gimp miniconda3
 
 # Stow ALL configs
-stow .
+# stow .
 
 echo "Full setup complete! Logout and select Hyprland."

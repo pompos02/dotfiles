@@ -22,6 +22,6 @@ fi
 chsh -s $(which zsh)
 
 # Stow CLI configs
-stow . -t ~ --ignore='hypr' --ignore='waybar' --ignore='kitty' --ignore='dunst' --ignore='ghostty' --ignore='walker'
+# stow . -t ~ --ignore='hypr' --ignore='waybar' --ignore='kitty' --ignore='dunst' --ignore='ghostty' --ignore='walker'
 
 echo "Minimal setup complete! Restart shell."
