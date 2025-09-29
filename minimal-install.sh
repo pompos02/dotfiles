@@ -23,6 +23,9 @@ chsh -s $(which zsh)
 
 # cd dotfiles
 # Stow CLI configs
-stow .config/nvim .config/tmux .config/scripts .zshrc starship.toml -t ~
+cd .config
+stow nvim tmux scripts -t ~/.config
+cd ..
+stow .zshrc starship.toml -t ~
 
 echo "Minimal setup complete! Restart shell."
