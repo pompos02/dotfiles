@@ -21,11 +21,7 @@ fi
 # Change shell to zsh
 chsh -s $(which zsh)
 
-# cd dotfiles
 # Stow CLI configs
-cd .config
-stow nvim tmux scripts -t ~/.config
-cd ..
-stow .zshrc starship.toml -t ~
+# stow . -t ~ --ignore='hypr|waybar|kitty|dunst|ghostty|walker|minimal-install.sh|full-install.sh|.gitignore|README.md'
 
 echo "Minimal setup complete! Restart shell."
