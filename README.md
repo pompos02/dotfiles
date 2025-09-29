@@ -7,7 +7,7 @@ Personal Arch Linux configuration files.
 ### CLI only (minimal)
 
 ```bash
-stow . -t ~ --ignore='hypr' --ignore='waybar' --ignore='kitty' --ignore='dunst' --ignore='ghostty' --ignore='walker'
+stow . -t ~ --ignore='hypr|waybar|kitty|dunst|ghostty|walker|minimal-install.sh|full-install.sh|.gitignore|README.md'
 ```
 
 ### Full desktop
