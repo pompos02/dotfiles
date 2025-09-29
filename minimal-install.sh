@@ -21,8 +21,8 @@ fi
 # Change shell to zsh
 chsh -s $(which zsh)
 
-cd dotfiles
+# cd dotfiles
 # Stow CLI configs
-stow . -t ~ --ignore='hypr|waybar|kitty|dunst|ghostty|walker|minimal-install.sh|full-install.sh|.gitignore|README.md'
+# stow . -t ~ --ignore='hypr|waybar|kitty|dunst|ghostty|walker|minimal-install.sh|full-install.sh|.gitignore|README.md'
 
 echo "Minimal setup complete! Restart shell."
