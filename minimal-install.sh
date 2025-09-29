@@ -6,11 +6,11 @@ sudo pacman -Syu --noconfirm
 
 # Install CLI essentials in one go
 sudo pacman -S --needed --noconfirm \
-  base-devel git stow \
+  base-devel stow \
   zsh tmux neovim starship \
   fd ripgrep bat eza fzf zoxide \
   python nodejs npm openssh btop curl wget \
-  tar unzip docker man-db lazygit
+  tar unzip docker man-db lazygit vim
 
 # Install yay
 if ! command -v yay; then
@@ -22,6 +22,6 @@ fi
 chsh -s $(which zsh)
 
 # Stow CLI configs
-# stow shell tmux nvim scripts
+stow . -t ~ --ignore='hypr' --ignore='waybar' --ignore='kitty' --ignore='dunst' --ignore='ghostty' --ignore='walker'
 
 echo "Minimal setup complete! Restart shell."
