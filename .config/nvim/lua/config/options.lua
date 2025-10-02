@@ -32,12 +32,12 @@ opt.splitbelow = true    -- Put new windows below current
 opt.splitkeep = "screen"
 opt.splitright = true    -- Put new windows right of current
 opt.tabstop = 2          -- Number of spaces tabs count for
-opt.listchars = { trail = "." }
+-- opt.listchars = { trail = "." }
 opt.termguicolors = true -- True color support
 opt.undofile = true
 opt.undolevels = 10000
 
-opt.updatetime = 200                                                                            -- Save swap file and trigger CursorHold
+opt.updatetime = 750                                                                            -- Save swap file and trigger CursorHold
 opt.virtualedit = "block"                                                                       -- Allow cursor to move where there is no text in visual block mode
 opt.wildmode = "longest:full,full"                                                              -- Command-line completion mode
 opt.winminwidth = 5                                                                             -- Minimum window width
@@ -46,4 +46,4 @@ opt.cursorline = true                                                           
 opt.fillchars:append({ eob = " " })                                                             -- Remove ~ from empty lines
 opt.showtabline = 0                                                                             -- Never show tabline
 opt.guicursor =
-"n-v-c-sm:block,i-ci-ve:block-blinkwait700-blinkoff400-blinkon250,r-cr-o:hor20"                 -- Use blinking block cursor in insert mode
+"n-v-c-sm:block,i-ci-ve:block-blinkwait500-blinkoff200-blinkon200,r-cr-o:hor20"                 -- Use blinking block cursor in insert mode
