@@ -16,7 +16,7 @@ return {
                     moon = {
                         bg = "#000000",
                         _nc = "#000000",
-                        base = "#141415",
+                        base = "#16151a",
                         surface = "#1c1c24",
                         overlay = "#252530",
                         muted = "#56526e",
