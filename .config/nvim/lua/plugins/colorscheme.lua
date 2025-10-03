@@ -41,7 +41,7 @@ return {
                     -- Set floating windows to use terminal background
                     NormalFloat = { fg = "text", bg = "bg" },
                     FloatBorder = { fg = "muted", bg = "bg" },
-                    YankHighlight = { fg = "base", bg = "foam" },
+                    YankHighlight = { fg = "base", bg = "text" },
                     -- Snacks picker specific
                     SnacksPicker = { fg = "text", bg = "bg" },
                     SnacksPickerBorder = { fg = "muted", bg = "bg" },
