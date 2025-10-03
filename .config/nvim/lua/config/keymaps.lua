@@ -70,3 +70,6 @@ map("i", ";", ";<c-g>u")
 -- better indenting
 map("v", "<", "<gv")
 map("v", ">", ">gv")
+
+-- foramatting
+map("n", "<leader>lf", vim.lsp.buf.format, { desc = "Format the current buffer" })
