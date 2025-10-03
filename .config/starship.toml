@@ -1,23 +1,37 @@
 add_newline = false
-format = """$directory$git_branch$character"""
+format = """$username[@](iris)$hostname $directory$character"""
 palette = "rose_pine"
 # move the rest of the prompt to the right
-right_format = """$all"""
+right_format = """$git_branch $all"""
 command_timeout = 1000
+
+[username]
+format = "[$user]($style)"
+style_user = "iris"
+show_always = true
+
+[hostname]
+format = "[$hostname]($style)"
+style = "iris"
+ssh_only = false
 
 [character]
 vicmd_symbol = " >>>"
-success_symbol = ' [➜](bold foam)'
-error_symbol = ' [➜](bold love)'
+success_symbol = '[\$](text)'
+error_symbol = '[\$](love)'
 
 [directory]
 read_only = " 󰌾"
-format = " [$path]($style)"
-style = "bold love"
+format = "[$path]($style)"
+style = "pine"
+truncation_length = 0
+truncate_to_repo = true
 
 [git_branch]
-format = " git:\\([$branch]($style)\\)"
-style = "iris"
+# format = "git:\\([$branch]($style)\\)"
+format = "[$branch]($style)"
+style = "pine"
+disabled = false
 
 
 [aws]
@@ -100,10 +114,10 @@ symbol = " "
 [hg_branch]
 symbol = " "
 
-[hostname]
-ssh_symbol = " "
-format = "[$ssh_symbol$hostname]($style) "
-style = 'iris'
+# [hostname]
+# ssh_symbol = " "
+# format = "[$ssh_symbol$hostname]($style) "
+# style = 'iris'
 
 [java]
 symbol = " "
@@ -227,19 +241,20 @@ symbol = " "
 
 
 [palettes.rose_pine]
-# Rose Pine Moon color palette
-  base = "#232136"
-  surface = "#2a273f"
-  overlay = "#393552"
-  muted = "#6e6a86"
-  subtle = "#908caa"
-  text = "#e0def4"
-  love = "#eb6f92"
-  gold = "#f6c177"
-  rose = "#ea9a97"
-  pine = "#3e8fb0"
-  foam = "#9ccfd8"
-  iris = "#c4a7e7"
-  highlight_low = "#2a283e"
-  highlight_med = "#44415a"
-  highlight_high = "#56526e"
+# Rose Pine Moon color palette (matching Neovim)
+  base = "#141415"
+  surface = "#1c1c24"
+  overlay = "#252530"
+  muted = "#56526e"
+  subtle = "#6e6a86"
+  text = "#cccae0"
+  love = "#de7e93"
+  gold = "#ebc49d"
+  rose = "#cd9696"
+  pine = "#7a9dc8"
+  foam = "#aac0c7"
+  iris = "#d0abed"
+  leaf = "#a7c1bd"
+  highlight_low = "#1a1826"
+  highlight_med = "#2a283e"
+  highlight_high = "#44415a"
