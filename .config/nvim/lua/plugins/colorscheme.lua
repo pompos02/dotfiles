@@ -23,11 +23,12 @@ return {
                         subtle = "#6e6a86",
                         text = "#cccae0",
                         love = "#de7e93",
-                        gold = "#ebc49d",
+                        gold = "#e8b589",
                         rose = "#cd9696",
                         pine = "#7a9dc8",
                         foam = "#aac0c7",
-                        iris = "#d0abed",
+                        iris = "#ba8dbd",
+
                         leaf = "#a7c1bd",
                         highlight_low = "#1a1826",
                         highlight_med = "#2a283e",
@@ -55,7 +56,7 @@ return {
                     BlinkCmpScrollBarGutter = { bg = "bg" },
                     BlinkCmpLabel = { fg = "text", bg = "bg" },
                     BlinkCmpLabelDeprecated = { fg = "muted", bg = "bg" },
-                    BlinkCmpLabelMatch = { fg = "rose", bg = "bg" },
+                    BlinkCmpLabelMatch = { fg = "iris", bg = "bg" },
                     BlinkCmpLabelDetail = { fg = "subtle", bg = "bg" },
                     BlinkCmpLabelDescription = { fg = "subtle", bg = "bg" },
                     BlinkCmpKind = { fg = "iris", bg = "bg" },
@@ -71,7 +72,7 @@ return {
                     -- Active line highlighting
                     CursorLine = { bg = "highlight_low" },
                     -- Visual selection highlighting
-                    Visual = { bg = "iris" },
+                    Visual = { bg = "#703076" },
                     FloatTitle = { fg = "text", bg = "bg" },
                 },
             })
