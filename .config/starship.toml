@@ -1,5 +1,5 @@
 add_newline = false
-format = """$username[@](iris)$hostname $directory$character"""
+format = """[\\[]($text)$username[@](text)$hostname $directory[\\]]($text)$character"""
 palette = "rose_pine"
 # move the rest of the prompt to the right
 right_format = """$git_branch $all"""
@@ -7,12 +7,12 @@ command_timeout = 1000
 
 [username]
 format = "[$user]($style)"
-style_user = "iris"
+style_user = "text"
 show_always = true
 
 [hostname]
 format = "[$hostname]($style)"
-style = "iris"
+style = "text"
 ssh_only = false
 
 [character]
@@ -22,8 +22,9 @@ error_symbol = '[\$](love)'
 
 [directory]
 read_only = " 󰌾"
-format = "[$path]($style)"
-style = "pine"
+format = "[$path]($style)[$read_only]($read_only_style)"
+style = "text"
+repo_root_style = "pine"
 truncation_length = 0
 truncate_to_repo = true
 
