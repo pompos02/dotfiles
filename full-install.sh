@@ -12,7 +12,7 @@ sudo pacman -S --needed --noconfirm \
 
 # Install AUR GUI packages
 yay -S --needed --noconfirm \
-  zen-browser-bin walker spotify-launcher obsidian \
+  zen-browser-bin wofi spotify-launcher obsidian \
   visual-studio-code-bin localsend ttf-jetbrains-mono-nerd \
   vesktop-git gimp miniconda3
 

@@ -1,0 +1,14 @@
+width=50%
+height=40%
+location=center
+show=drun
+prompt=
+allow_images=true
+allow_markup=true
+insensitive=true
+hide_scroll=false
+matching=contains
+columns=1
+image_size=32
+gtk_dark=true
+no_actions=true
