@@ -21,14 +21,13 @@ return {
                         overlay = "#252530",
                         muted = "#56526e",
                         subtle = "#6e6a86",
-                        text = "#cccae0",
+                        text = "#e9e9e9",
                         love = "#de7e93",
-                        gold = "#e8b589",
+                        gold = "#e8bb94",
                         rose = "#cd9696",
                         pine = "#7a9dc8",
-                        foam = "#aac0c7",
-                        iris = "#ba8dbd",
-
+                        foam = "#9f9fcf",
+                        iris = "#b993bc",
                         leaf = "#a7c1bd",
                         highlight_low = "#1a1826",
                         highlight_med = "#2a283e",
@@ -72,7 +71,7 @@ return {
                     -- Active line highlighting
                     CursorLine = { bg = "highlight_low" },
                     -- Visual selection highlighting
-                    Visual = { bg = "#703076" },
+                    Visual = { bg = "#6f6fca" },
                     FloatTitle = { fg = "text", bg = "bg" },
                 },
             })
