@@ -24,7 +24,7 @@ error_symbol = '[\$](love)'
 read_only = " 󰌾"
 format = "[$path]($style)[$read_only]($read_only_style)"
 style = "text"
-repo_root_style = "pine"
+repo_root_style = "subtle"
 truncation_length = 0
 truncate_to_repo = true
 
