@@ -4,6 +4,7 @@ require("config.keymaps")
 vim.cmd.colorscheme("rose-pine")
 -- vim.cmd.colorscheme("vague")
 -- vim.cmd.colorscheme("kanagawa")
+-- vim.cmd.colorscheme("onedark")
 vim.opt.shiftwidth = 4
 vim.o.winborder = "rounded"
 

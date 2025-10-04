@@ -31,7 +31,7 @@ truncate_to_repo = true
 [git_branch]
 # format = "git:\\([$branch]($style)\\)"
 format = "[$branch]($style)"
-style = "pine"
+style = "foam"
 disabled = false
 
 
@@ -243,18 +243,18 @@ symbol = " "
 
 [palettes.rose_pine]
 # Rose Pine Moon color palette (matching Neovim)
-  base = "#141415"
+  base = "#16151a"
   surface = "#1c1c24"
   overlay = "#252530"
   muted = "#56526e"
   subtle = "#6e6a86"
-  text = "#cccae0"
+  text = "#e9e9e9"
   love = "#de7e93"
-  gold = "#ebc49d"
+  gold = "#e8bb94"
   rose = "#cd9696"
   pine = "#7a9dc8"
-  foam = "#aac0c7"
-  iris = "#d0abed"
+  foam = "#9f9fcf"
+  iris = "#b993bc"
   leaf = "#a7c1bd"
   highlight_low = "#1a1826"
   highlight_med = "#2a283e"

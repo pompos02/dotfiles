@@ -55,7 +55,7 @@ return {
                     BlinkCmpScrollBarGutter = { bg = "bg" },
                     BlinkCmpLabel = { fg = "text", bg = "bg" },
                     BlinkCmpLabelDeprecated = { fg = "muted", bg = "bg" },
-                    BlinkCmpLabelMatch = { fg = "iris", bg = "bg" },
+                    BlinkCmpLabelMatch = { fg = "rose", bg = "bg" },
                     BlinkCmpLabelDetail = { fg = "subtle", bg = "bg" },
                     BlinkCmpLabelDescription = { fg = "subtle", bg = "bg" },
                     BlinkCmpKind = { fg = "iris", bg = "bg" },

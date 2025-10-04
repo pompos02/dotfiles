@@ -34,8 +34,8 @@ return {
 
         -- Define custom highlight groups for the branch component
         vim.api.nvim_set_hl(0, "LualineBDirectoryName", { fg = "#6e6a86" }) -- subtle color
-        vim.api.nvim_set_hl(0, "LualineBGitText", { fg = "#cccae0" })       -- text color
-        vim.api.nvim_set_hl(0, "LualineBBranchName", { fg = "#cccae0" })    -- iris color
+        vim.api.nvim_set_hl(0, "LualineBGitText", { fg = "#e9e9e9" })       -- text color
+        vim.api.nvim_set_hl(0, "LualineBBranchName", { fg = "#e9e9e9" })    -- iris color
 
         -- Set universal background color for statusline while preserving mode colors
         vim.api.nvim_set_hl(0, "StatusLine", { bg = "#000000" })
@@ -101,18 +101,18 @@ return {
         local palette = {
             bg = "#000000",
             _nc = "#000000",
-            base = "#141415",
+            base = "#16151a",
             surface = "#1c1c24",
             overlay = "#252530",
             muted = "#56526e",
             subtle = "#6e6a86",
-            text = "#cccae0",
+            text = "#e9e9e9",
             love = "#de7e93",
-            gold = "#ebc49d",
+            gold = "#e8bb94",
             rose = "#cd9696",
             pine = "#7a9dc8",
-            foam = "#aac0c7",
-            iris = "#d0abed",
+            foam = "#9f9fcf",
+            iris = "#b993bc",
             leaf = "#a7c1bd",
             highlight_low = "#1a1826",
             highlight_med = "#2a283e",
