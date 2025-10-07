@@ -32,14 +32,14 @@ return {
             desc = "Smart Find Files",
         },
         {
-            "<leader>,",
+            "<leader>b",
             function()
                 Snacks.picker.buffers()
             end,
             desc = "Buffers",
         },
         {
-            "<leader>/",
+            "<leader>g",
             function()
                 Snacks.picker.grep()
             end,
@@ -159,16 +159,16 @@ return {
             end,
             desc = "Git Log File",
         },
-        -- Grep
+        -- -- Grep
+        -- {
+        --     "<leader>sb",
+        --     function()
+        --         Snacks.picker.lines()
+        --     end,
+        --     desc = "Buffer Lines",
+        -- },
         {
             "<leader>sb",
-            function()
-                Snacks.picker.lines()
-            end,
-            desc = "Buffer Lines",
-        },
-        {
-            "<leader>sB",
             function()
                 Snacks.picker.grep_buffers()
             end,
@@ -220,13 +220,6 @@ return {
         },
         {
             "<leader>sc",
-            function()
-                Snacks.picker.command_history()
-            end,
-            desc = "Command History",
-        },
-        {
-            "<leader>sC",
             function()
                 Snacks.picker.commands()
             end,

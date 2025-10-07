@@ -1,10 +1,6 @@
 require("config.lazy")
 require("config.options")
 require("config.keymaps")
-vim.cmd.colorscheme("rose-pine")
--- vim.cmd.colorscheme("vague")
--- vim.cmd.colorscheme("kanagawa")
--- vim.cmd.colorscheme("onedark")
 vim.opt.shiftwidth = 4
 vim.o.winborder = "rounded"
 
@@ -16,3 +12,8 @@ vim.api.nvim_create_autocmd("TextYankPost", {
         vim.hl.on_yank({ higroup = "YankHighlight", timeout = 150 })
     end,
 })
+
+-- Set the colorscheme
+vim.cmd("colorscheme misirlou")
+-- vim.cmd.colorscheme("vague")
+-- vim.cmd.colorscheme("rose-pine")

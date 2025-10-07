@@ -25,7 +25,5 @@ return {
         require("treesitter-context").setup(opts)
         vim.cmd([[highlight TreesitterContext guibg=NONE]])
         vim.cmd([[highlight TreesitterContextBottom gui=underline guisp=overlay]])
-
-        -- Set background to overlay color after colorscheme loads
     end,
 }
