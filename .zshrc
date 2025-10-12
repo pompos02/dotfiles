@@ -59,7 +59,6 @@ zstyle ':fzf-tab:*' fzf-flags --color=bw
 # Aliases
 alias fzf='fzf --color="bw"'
 alias vim='nvim'
-alias vi='nvim'
 alias c='clear'
 alias codenohup='nohup code  >/dev/null 2>&1 &'
 alias cursornohup='nohup cursor  >/dev/null 2>&1 &'
