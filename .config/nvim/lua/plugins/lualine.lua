@@ -32,14 +32,35 @@ return {
             },
         }
 
+        local palette = {
+            bg = "#000000",
+            nc = "#000000",
+            base = "#1b1b1b",
+            surface = "#1c1c24",
+            overlay = "#313131",
+            muted = "#898989",
+            subtle = "#b2b2b2",
+            text = "#fbfbfb",
+            red = "#c77889",
+            gold = "#dfb591",
+            rose = "#ba8d8d",
+            blue = "#7c98b9",
+            lavender = "#9f9fcf",
+            purple = "#bb9dbd",
+            green = "#a7c1bd",
+            highlight_low = "#262626",
+            highlight_med = "#4f4f4f",
+            highlight_high = "#797979",
+        }
+
         -- Define custom highlight groups for the branch component
-        vim.api.nvim_set_hl(0, "LualineBDirectoryName", { fg = "#6e6a86" }) -- subtle color
-        vim.api.nvim_set_hl(0, "LualineBGitText", { fg = "#e9e9e9" })       -- text color
-        vim.api.nvim_set_hl(0, "LualineBBranchName", { fg = "#e9e9e9" })    -- iris color
+        vim.api.nvim_set_hl(0, "LualineBDirectoryName", { fg = palette.subtle })
+        vim.api.nvim_set_hl(0, "LualineBGitText", { fg = palette.text })
+        vim.api.nvim_set_hl(0, "LualineBBranchName", { fg = palette.text })
 
         -- Set universal background color for statusline while preserving mode colors
-        vim.api.nvim_set_hl(0, "StatusLine", { bg = "#000000" })
-        vim.api.nvim_set_hl(0, "StatusLineNC", { bg = "#000000" })
+        vim.api.nvim_set_hl(0, "StatusLine", { bg = palette.highlight_low })
+        vim.api.nvim_set_hl(0, "StatusLineNC", { bg = palette.highlight_low })
 
         -- Helper function to safely get highlight color
         local function get_hl_color(group)
@@ -98,94 +119,65 @@ return {
 
         vim.o.laststatus = vim.g.lualine_laststatus
 
-        local palette = {
-            bg = "#000000",
-            _nc = "#000000",
-            base = "#16151a",
-            surface = "#1c1c24",
-            overlay = "#252530",
-            muted = "#56526e",
-            subtle = "#6e6a86",
-            text = "#e9e9e9",
-            love = "#de7e93",
-            gold = "#e8bb94",
-            rose = "#cd9696",
-            pine = "#7a9dc8",
-            foam = "#9f9fcf",
-            iris = "#b993bc",
-            leaf = "#a7c1bd",
-            highlight_low = "#1a1826",
-            highlight_med = "#2a283e",
-            highlight_high = "#44415a",
-            none = "NONE",
-        }
-
         local opts = {
             options = {
                 theme = {
                     normal = {
                         a = { fg = palette.base, bg = palette.text, gui = "bold" },
-
-                        b = { fg = palette.text, bg = palette._nc },
-
-                        c = { fg = palette.text, bg = palette._nc },
+                        b = { fg = palette.text, bg = palette.surface },
+                        c = { fg = palette.text, bg = palette.surface },
                     },
-
                     insert = {
-
-                        a = { fg = palette.base, bg = palette.foam, gui = "bold" },
-
-                        b = { fg = palette.text, bg = palette._nc },
-
-                        c = { fg = palette.text, bg = palette._nc },
+                        a = { fg = palette.base, bg = palette.lavender, gui = "bold" },
+                        b = { fg = palette.text, bg = palette.surface },
+                        c = { fg = palette.text, bg = palette.surface },
                     },
-
                     visual = {
-
-                        a = { fg = palette.base, bg = palette.iris, gui = "bold" },
-
-                        b = { fg = palette.text, bg = palette._nc },
-
-                        c = { fg = palette.text, bg = palette._nc },
+                        a = { fg = palette.base, bg = palette.purple, gui = "bold" },
+                        b = { fg = palette.text, bg = palette.surface },
+                        c = { fg = palette.text, bg = palette.surface },
                     },
-
                     replace = {
-
-                        a = { fg = palette.base, bg = palette.love, gui = "bold" },
-
-                        b = { fg = palette.text, bg = palette._nc },
-
-                        c = { fg = palette.text, bg = palette._nc },
+                        a = { fg = palette.base, bg = palette.red, gui = "bold" },
+                        b = { fg = palette.text, bg = palette.surface },
+                        c = { fg = palette.text, bg = palette.surface },
                     },
-
                     command = {
-
-                        a = { fg = palette.base, bg = palette.pine, gui = "bold" },
-
-                        b = { fg = palette.text, bg = palette._nc },
-
-                        c = { fg = palette.text, bg = palette._nc },
+                        a = { fg = palette.base, bg = palette.blue, gui = "bold" },
+                        b = { fg = palette.text, bg = palette.surface },
+                        c = { fg = palette.text, bg = palette.surface },
                     },
-
                     inactive = {
-
-                        a = { fg = palette.muted, bg = palette._nc },
-
-                        b = { fg = palette.muted, bg = palette._nc },
-
-                        c = { fg = palette.muted, bg = palette._nc },
+                        a = { fg = palette.muted, bg = palette.surface },
+                        b = { fg = palette.muted, bg = palette.surface },
+                        c = { fg = palette.muted, bg = palette.surface },
                     },
                 },
                 globalstatus = vim.o.laststatus == 3,
                 component_separators = { left = "", right = "" },
-                section_separators = { left = "|", right = "" },
+                section_separators = { left = "", right = "" },
                 disabled_filetypes = {
                     statusline = { "dashboard", "alpha", "ministarter", "snacks_dashboard" },
                 },
             },
             sections = {
-                lualine_a = { { "mode", separator = { left = "", right = "" } } },
+                lualine_a = {},
                 lualine_b = {
+                    custom_branch_component(),
+                },
+                lualine_c = {
+                    pretty_path_component(),
+                    {
+                        "diagnostics",
+                        symbols = {
+                            error = icons.diagnostics.Error,
+                            warn = icons.diagnostics.Warn,
+                            info = icons.diagnostics.Info,
+                            hint = icons.diagnostics.Hint,
+                        },
+                    },
+                },
+                lualine_x = {
                     {
                         "diff",
                         symbols = {
@@ -194,9 +186,9 @@ return {
                             removed = icons.git.removed,
                         },
                         diff_color = {
-                            added = { fg = palette.leaf },
+                            added = { fg = palette.green },
                             modified = { fg = palette.gold },
-                            removed = { fg = palette.love },
+                            removed = { fg = palette.red },
                         },
                         source = function()
                             local gitsigns = vim.b.gitsigns_status_dict
@@ -209,21 +201,6 @@ return {
                             end
                         end,
                     },
-                    custom_branch_component(),
-                },
-                lualine_c = {
-                    {
-                        "diagnostics",
-                        symbols = {
-                            error = icons.diagnostics.Error,
-                            warn = icons.diagnostics.Warn,
-                            info = icons.diagnostics.Info,
-                            hint = icons.diagnostics.Hint,
-                        },
-                    },
-                    pretty_path_component(),
-                },
-                lualine_x = {
                     -- DAP status
                     {
                         function()
@@ -287,11 +264,9 @@ return {
                         end,
                         color = { fg = palette.highlight_high },
                     },
-
-                    -- Git diff
                 },
                 lualine_y = {
-                    { "progress", separator = " ",                  padding = { left = 1, right = 0 } },
+                    { "progress", padding = { left = 1, right = 0 } },
                     { "location", padding = { left = 0, right = 1 } },
                 },
                 lualine_z = {
