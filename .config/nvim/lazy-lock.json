@@ -14,7 +14,7 @@
   "mini.nvim": { "branch": "main", "commit": "5e1dd6e3d5f758eccf6c51461559da785dba688c" },
   "mini.splitjoin": { "branch": "main", "commit": "b0d57bb5d1ed154e5902ae2745f1a320a7642443" },
   "mini.surround": { "branch": "main", "commit": "444e155147e2b5159dd28a65f9736254c16cb817" },
-  "misirlou.nvim": { "branch": "master", "commit": "43924d3e99877ca128211c123d393b9f4d7b2e53" },
+  "misirlou.nvim": { "branch": "master", "commit": "2651ccb60f1c3de46e70ebfa96518dfeb205e464" },
   "none-ls-extras.nvim": { "branch": "main", "commit": "402c6b5c29f0ab57fac924b863709f37f55dc298" },
   "none-ls.nvim": { "branch": "main", "commit": "5cf63841461b49989972d35bf886e076a1ab3649" },
   "nui.nvim": { "branch": "main", "commit": "de740991c12411b663994b2860f1a4fd0937c130" },

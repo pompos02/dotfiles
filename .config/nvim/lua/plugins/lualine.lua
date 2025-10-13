@@ -35,8 +35,8 @@ return {
         local palette = {
             bg = "#000000",
             nc = "#000000",
-            base = "#1b1b1b",
-            surface = "#1c1c24",
+            base = "#1a1a1a",
+            surface = "#111111",
             overlay = "#313131",
             muted = "#898989",
             subtle = "#b2b2b2",
@@ -58,7 +58,7 @@ return {
         vim.api.nvim_set_hl(0, "LualineBGitText", { fg = palette.text })
         vim.api.nvim_set_hl(0, "LualineBBranchName", { fg = palette.text })
 
-        -- Set universal background color for statusline while preserving mode colors
+        -- Set universal background color for statusline
         vim.api.nvim_set_hl(0, "StatusLine", { bg = palette.highlight_low })
         vim.api.nvim_set_hl(0, "StatusLineNC", { bg = palette.highlight_low })
 
@@ -123,34 +123,52 @@ return {
             options = {
                 theme = {
                     normal = {
-                        a = { fg = palette.base, bg = palette.text, gui = "bold" },
-                        b = { fg = palette.text, bg = palette.surface },
-                        c = { fg = palette.text, bg = palette.surface },
+                        a = { fg = palette.text, bg = palette.base },
+                        b = { fg = palette.text, bg = palette.highlight_low },
+                        c = { fg = palette.text, bg = palette.base },
+                        x = { fg = palette.text, bg = palette.base },
+                        y = { fg = palette.text, bg = palette.base },
+                        z = { fg = palette.text, bg = palette.highlight_low },
                     },
                     insert = {
-                        a = { fg = palette.base, bg = palette.lavender, gui = "bold" },
-                        b = { fg = palette.text, bg = palette.surface },
-                        c = { fg = palette.text, bg = palette.surface },
+                        a = { fg = palette.text, bg = palette.base },
+                        b = { fg = palette.text, bg = palette.highlight_low },
+                        c = { fg = palette.text, bg = palette.base },
+                        x = { fg = palette.text, bg = palette.base },
+                        y = { fg = palette.text, bg = palette.base },
+                        z = { fg = palette.text, bg = palette.highlight_low },
                     },
                     visual = {
-                        a = { fg = palette.base, bg = palette.purple, gui = "bold" },
-                        b = { fg = palette.text, bg = palette.surface },
-                        c = { fg = palette.text, bg = palette.surface },
+                        a = { fg = palette.text, bg = palette.base },
+                        b = { fg = palette.text, bg = palette.highlight_low },
+                        c = { fg = palette.text, bg = palette.base },
+                        x = { fg = palette.text, bg = palette.base },
+                        y = { fg = palette.text, bg = palette.base },
+                        z = { fg = palette.text, bg = palette.highlight_low },
                     },
                     replace = {
-                        a = { fg = palette.base, bg = palette.red, gui = "bold" },
-                        b = { fg = palette.text, bg = palette.surface },
-                        c = { fg = palette.text, bg = palette.surface },
+                        a = { fg = palette.text, bg = palette.base },
+                        b = { fg = palette.text, bg = palette.highlight_low },
+                        c = { fg = palette.text, bg = palette.base },
+                        x = { fg = palette.text, bg = palette.base },
+                        y = { fg = palette.text, bg = palette.base },
+                        z = { fg = palette.text, bg = palette.highlight_low },
                     },
                     command = {
-                        a = { fg = palette.base, bg = palette.blue, gui = "bold" },
-                        b = { fg = palette.text, bg = palette.surface },
-                        c = { fg = palette.text, bg = palette.surface },
+                        a = { fg = palette.text, bg = palette.base },
+                        b = { fg = palette.text, bg = palette.highlight_low },
+                        c = { fg = palette.text, bg = palette.base },
+                        x = { fg = palette.text, bg = palette.base },
+                        y = { fg = palette.text, bg = palette.base },
+                        z = { fg = palette.text, bg = palette.highlight_low },
                     },
                     inactive = {
-                        a = { fg = palette.muted, bg = palette.surface },
-                        b = { fg = palette.muted, bg = palette.surface },
-                        c = { fg = palette.muted, bg = palette.surface },
+                        a = { fg = palette.muted, bg = palette.base },
+                        b = { fg = palette.muted, bg = palette.highlight_low },
+                        c = { fg = palette.muted, bg = palette.base },
+                        x = { fg = palette.muted, bg = palette.base },
+                        y = { fg = palette.muted, bg = palette.base },
+                        z = { fg = palette.muted, bg = palette.highlight_low },
                     },
                 },
                 globalstatus = vim.o.laststatus == 3,
