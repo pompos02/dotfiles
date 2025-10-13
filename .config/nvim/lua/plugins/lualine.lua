@@ -88,7 +88,8 @@ return {
                     local branch = vim.fn.system("git branch --show-current 2>/dev/null | tr -d '\n'")
                     if vim.v.shell_error ~= 0 or branch == "" then
                         return "%#LualineBDirectoryName#" ..
-                        dir_name .. "%*"                                      -- No git repo, just show directory in love color
+                            dir_name ..
+                            "%*"         -- No git repo, just show directory in love color
                     end
 
                     return "%#LualineBDirectoryName#"
