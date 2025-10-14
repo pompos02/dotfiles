@@ -2,7 +2,7 @@ add_newline = false
 format = """[\\[]($text)$username[@](text)$hostname $directory[\\]]($text)$character"""
 palette = "rose_pine"
 # move the rest of the prompt to the right
-right_format = """$git_branch $all"""
+right_format = """$git_branch$all"""
 command_timeout = 1000
 
 [username]
@@ -242,22 +242,22 @@ symbol = " "
 
 
 [palettes.rose_pine]
-# Rose Pine Moon color palette (matching Neovim)
+# Custom color palette
   bg = "#000000"
   nc = "#000000"
-  base = "#1b1b1b"
+  base = "#0e0e0e"
   surface = "#1c1c24"
   overlay = "#313131"
-  muted = "#898989"
-  subtle = "#b2b2b2"
-  text = "#fbfbfb"
-  red = "#c77889"
-  gold = "#dfb591"
-  rose = "#ba8d8d"
-  blue = "#7c98b9"
-  lavender = "#9f9fcf"
-  purple = "#bb9dbd"
-  green = "#a7c1bd"
+  muted = "#4b4b4b"
+  subtle = "#5d5d5d"
+  text = "#c6c6c6"
+  red = "#85555f"
+  gold = "#94775f"
+  rose = "#916e6e"
+  blue = "#4c5764"
+  lavender = "#656580"
+  purple = "#776579"
+  green = "#637370"
   highlight_low = "#262626"
   highlight_med = "#4f4f4f"
   highlight_high = "#797979"

@@ -15,5 +15,6 @@ vim.api.nvim_create_autocmd("TextYankPost", {
 
 -- Set the colorscheme
 vim.cmd("colorscheme misirlou")
+-- vim.cmd.colorscheme("immortal")
 -- vim.cmd.colorscheme("vague")
 -- vim.cmd.colorscheme("rose-pine")

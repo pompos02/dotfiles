@@ -35,32 +35,32 @@ return {
         local palette = {
             bg = "#000000",
             nc = "#000000",
-            base = "#1a1a1a",
-            surface = "#111111",
+            base = "#0e0e0e",
+            surface = "#1c1c24",
             overlay = "#313131",
-            muted = "#898989",
-            subtle = "#b2b2b2",
-            text = "#fbfbfb",
-            red = "#c77889",
-            gold = "#dfb591",
-            rose = "#ba8d8d",
-            blue = "#7c98b9",
-            lavender = "#9f9fcf",
-            purple = "#bb9dbd",
-            green = "#a7c1bd",
+            muted = "#4b4b4b",
+            subtle = "#5d5d5d",
+            text = "#c6c6c6",
+            red = "#85555f",
+            gold = "#94775f",
+            rose = "#916e6e",
+            blue = "#4c5764",
+            lavender = "#656580",
+            purple = "#776579",
+            green = "#637370",
             highlight_low = "#262626",
             highlight_med = "#4f4f4f",
             highlight_high = "#797979",
         }
 
         -- Define custom highlight groups for the branch component
-        vim.api.nvim_set_hl(0, "LualineBDirectoryName", { fg = palette.subtle })
-        vim.api.nvim_set_hl(0, "LualineBGitText", { fg = palette.text })
-        vim.api.nvim_set_hl(0, "LualineBBranchName", { fg = palette.text })
+        vim.api.nvim_set_hl(0, "LualineBDirectoryName", { bg = palette.highlight_low, fg = palette.text })
+        vim.api.nvim_set_hl(0, "LualineBGitText", { bg = palette.highlight_low, fg = palette.highlight_high })
+        vim.api.nvim_set_hl(0, "LualineBBranchName", { bg = palette.highlight_low, fg = palette.highlight_high })
 
         -- Set universal background color for statusline
-        vim.api.nvim_set_hl(0, "StatusLine", { bg = palette.highlight_low })
-        vim.api.nvim_set_hl(0, "StatusLineNC", { bg = palette.highlight_low })
+        -- vim.api.nvim_set_hl(0, "StatusLine", { bg = palette.base })
+        -- vim.api.nvim_set_hl(0, "StatusLineNC", { bg = palette.base })
 
         -- Helper function to safely get highlight color
         local function get_hl_color(group)
@@ -88,8 +88,7 @@ return {
                     local branch = vim.fn.system("git branch --show-current 2>/dev/null | tr -d '\n'")
                     if vim.v.shell_error ~= 0 or branch == "" then
                         return "%#LualineBDirectoryName#" ..
-                            dir_name ..
-                            "%*"         -- No git repo, just show directory in love color
+                        dir_name .. "%*"                                      -- No git repo, just show directory in love color
                     end
 
                     return "%#LualineBDirectoryName#"
@@ -125,7 +124,7 @@ return {
                 theme = {
                     normal = {
                         a = { fg = palette.text, bg = palette.base },
-                        b = { fg = palette.text, bg = palette.highlight_low },
+                        b = { fg = palette.text, bg = palette.highlight_high },
                         c = { fg = palette.text, bg = palette.base },
                         x = { fg = palette.text, bg = palette.base },
                         y = { fg = palette.text, bg = palette.base },

@@ -131,3 +131,4 @@ export PATH="/usr/lib/jvm/java-24-openjdk/bin:$PATH"
 
 # opencode
 export PATH=/home/karavellas/.opencode/bin:$PATH
+export MANPAGER='nvim +Man!'
