@@ -20,43 +20,43 @@ return {
         -- Define icons
         local icons = {
             diagnostics = {
-                Error = "󰅚 ",
-                Warn = "󰀪 ",
-                Info = " ",
-                Hint = "󰌶 ",
+                Error = "E ",
+                Warn = "W ",
+                Info = "I ",
+                Hint = "H ",
             },
             git = {
-                added = "󰜄 ",
-                modified = "󰏫 ",
-                removed = "󰍵 ",
+                added = "+ ",
+                modified = "~ ",
+                removed = "- ",
             },
         }
 
         local palette = {
             bg = "#000000",
             nc = "#000000",
-            base = "#0e0e0e",
-            surface = "#1c1c24",
-            overlay = "#313131",
-            muted = "#4b4b4b",
-            subtle = "#5d5d5d",
-            text = "#c6c6c6",
-            red = "#85555f",
-            gold = "#94775f",
-            rose = "#916e6e",
-            blue = "#4c5764",
-            lavender = "#656580",
-            purple = "#776579",
-            green = "#637370",
-            highlight_low = "#262626",
-            highlight_med = "#4f4f4f",
-            highlight_high = "#797979",
+            base = "#080808",
+            surface = "#191919",
+            overlay = "#2a2a2a",
+            muted = "#444444",
+            subtle = "#555555",
+            text = "#DDDDDD",
+            red = "#ce8787",
+            blue = "#7a7a7a",
+            rose = "#aaaaaa",
+            string = "#7788AA",
+            lavender = "#cccccc",
+            purple = "#7a7a7a",
+            green = "#555555",
+            highlight_low = "#191919",
+            highlight_med = "#444444",
+            highlight_high = "#aaaaaa",
         }
 
         -- Define custom highlight groups for the branch component
-        vim.api.nvim_set_hl(0, "LualineBDirectoryName", { bg = palette.highlight_low, fg = palette.text })
-        vim.api.nvim_set_hl(0, "LualineBGitText", { bg = palette.highlight_low, fg = palette.highlight_high })
-        vim.api.nvim_set_hl(0, "LualineBBranchName", { bg = palette.highlight_low, fg = palette.highlight_high })
+        vim.api.nvim_set_hl(0, "LualineBDirectoryName", { bg = palette.rose, fg = palette.highlight_low })
+        vim.api.nvim_set_hl(0, "LualineBGitText", { bg = palette.rose, fg = palette.bg })
+        vim.api.nvim_set_hl(0, "LualineBBranchName", { bg = palette.rose, fg = palette.bg })
 
         -- Set universal background color for statusline
         -- vim.api.nvim_set_hl(0, "StatusLine", { bg = palette.base })
@@ -123,51 +123,51 @@ return {
             options = {
                 theme = {
                     normal = {
-                        a = { fg = palette.text, bg = palette.base },
+                        a = { fg = palette.text, bg = palette.surface },
                         b = { fg = palette.text, bg = palette.highlight_high },
-                        c = { fg = palette.text, bg = palette.base },
-                        x = { fg = palette.text, bg = palette.base },
-                        y = { fg = palette.text, bg = palette.base },
+                        c = { fg = palette.text, bg = palette.surface },
+                        x = { fg = palette.text, bg = palette.surface },
+                        y = { fg = palette.text, bg = palette.surface },
                         z = { fg = palette.text, bg = palette.highlight_low },
                     },
                     insert = {
-                        a = { fg = palette.text, bg = palette.base },
+                        a = { fg = palette.text, bg = palette.surface },
                         b = { fg = palette.text, bg = palette.highlight_low },
-                        c = { fg = palette.text, bg = palette.base },
-                        x = { fg = palette.text, bg = palette.base },
-                        y = { fg = palette.text, bg = palette.base },
+                        c = { fg = palette.text, bg = palette.surface },
+                        x = { fg = palette.text, bg = palette.surface },
+                        y = { fg = palette.text, bg = palette.surface },
                         z = { fg = palette.text, bg = palette.highlight_low },
                     },
                     visual = {
-                        a = { fg = palette.text, bg = palette.base },
+                        a = { fg = palette.text, bg = palette.surface },
                         b = { fg = palette.text, bg = palette.highlight_low },
-                        c = { fg = palette.text, bg = palette.base },
-                        x = { fg = palette.text, bg = palette.base },
-                        y = { fg = palette.text, bg = palette.base },
+                        c = { fg = palette.text, bg = palette.surface },
+                        x = { fg = palette.text, bg = palette.surface },
+                        y = { fg = palette.text, bg = palette.surface },
                         z = { fg = palette.text, bg = palette.highlight_low },
                     },
                     replace = {
-                        a = { fg = palette.text, bg = palette.base },
+                        a = { fg = palette.text, bg = palette.surface },
                         b = { fg = palette.text, bg = palette.highlight_low },
-                        c = { fg = palette.text, bg = palette.base },
-                        x = { fg = palette.text, bg = palette.base },
-                        y = { fg = palette.text, bg = palette.base },
+                        c = { fg = palette.text, bg = palette.surface },
+                        x = { fg = palette.text, bg = palette.surface },
+                        y = { fg = palette.text, bg = palette.surface },
                         z = { fg = palette.text, bg = palette.highlight_low },
                     },
                     command = {
-                        a = { fg = palette.text, bg = palette.base },
+                        a = { fg = palette.text, bg = palette.surface },
                         b = { fg = palette.text, bg = palette.highlight_low },
-                        c = { fg = palette.text, bg = palette.base },
-                        x = { fg = palette.text, bg = palette.base },
-                        y = { fg = palette.text, bg = palette.base },
+                        c = { fg = palette.text, bg = palette.surface },
+                        x = { fg = palette.text, bg = palette.surface },
+                        y = { fg = palette.text, bg = palette.surface },
                         z = { fg = palette.text, bg = palette.highlight_low },
                     },
                     inactive = {
-                        a = { fg = palette.muted, bg = palette.base },
+                        a = { fg = palette.muted, bg = palette.surface },
                         b = { fg = palette.muted, bg = palette.highlight_low },
-                        c = { fg = palette.muted, bg = palette.base },
-                        x = { fg = palette.muted, bg = palette.base },
-                        y = { fg = palette.muted, bg = palette.base },
+                        c = { fg = palette.muted, bg = palette.surface },
+                        x = { fg = palette.muted, bg = palette.surface },
+                        y = { fg = palette.muted, bg = palette.surface },
                         z = { fg = palette.muted, bg = palette.highlight_low },
                     },
                 },

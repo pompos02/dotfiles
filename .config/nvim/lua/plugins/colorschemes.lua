@@ -1,0 +1,42 @@
+-- Colorschemes
+return {
+    {
+        "slugbyte/lackluster.nvim",
+        lazy = false,
+        priority = 1000,
+        init = function() end,
+    },
+    {
+        "pompos02/misirlou.nvim",
+        name = "misirlou.nvim",
+        config = function() end,
+    },
+    {
+        "pompos02/misirloun.nvim",
+        name = "misirloun",
+        config = function()
+            require("misirlou").setup({
+                palette = {
+                    bg = "#000000",
+                    nc = "#000000",
+                    base = "#080808",
+                    surface = "#191919",
+                    overlay = "#2a2a2a",
+                    muted = "#444444",
+                    subtle = "#555555",
+                    text = "#DDDDDD",
+                    red = "#ce8787",
+                    blue = "#7a7a7a",
+                    rose = "#aaaaaa",
+                    string = "#7788AA",
+                    lavender = "#cccccc",
+                    purple = "#7a7a7a",
+                    green = "#555555",
+                    highlight_low = "#191919",
+                    highlight_med = "#444444",
+                    highlight_high = "#aaaaaa",
+                },
+            })
+        end,
+    },
+}
