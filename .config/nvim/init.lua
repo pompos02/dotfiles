@@ -15,6 +15,6 @@ vim.api.nvim_create_autocmd("TextYankPost", {
 
 -- Set the colorscheme
 vim.cmd.colorscheme("misirloun")
--- vim.cmd.colorscheme("vague")
--- vim.cmd.colorscheme("rose-pine")
 -- vim.cmd.colorscheme("lackluster")
+-- vim.cmd.colorscheme("vague")
+-- vim.cmd.colorscheme("vim")

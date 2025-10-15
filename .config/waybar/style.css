@@ -79,17 +79,10 @@ tooltip {
   color: #DDDDDD;
 }
 
-#workspaces:hover,
-#custom-uptime:hover,
 #clock:hover,
-#language:hover,
 #cpu:hover,
-#memory:hover,
 #network:hover,
-#pulseaudio:hover,
-#backlight:hover,
-#battery:hover,
-#custom-music:hover {
+#pulseaudio:hover {
   background-color: #DDDDDD;
   color: #000000;
 }
