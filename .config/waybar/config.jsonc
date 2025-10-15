@@ -14,40 +14,25 @@
     "hyprland/language",
     "cpu",
     "memory",
-    // "custom/pomodoro",
-    "bluetooth",
     "network",
     "pulseaudio", 
     "backlight",
-    "battery",
-    "custom/music",
-    "custom/lock",
-  ],
+   ],
+
+   "battery": {
+     "format": "{capacity}% ::",
+     "interval": 30
+   },
 
   "hyprland/workspaces": {
     "format": "{name}",
   },
 
-  "bluetooth": {
-    "format": "󰂲",
-    "format-on": "{icon}",
-    "format-off": "{icon}", 
-    "format-connected":"{icon}",
-    "format-icons":{
-        "on":"󰂯",
-        "off": "󰂲",
-        "connected": "󰂱",
-        },
-    "on-click": "blueman-manager",
-    "tooltip-format-connected":"{device_enumerate}"
-  },
-
   "custom/music": {
-    "format": "  {}",
     "escape": true,
     "interval": 5,
     "tooltip": false,
-    "exec": "playerctl metadata --format='{{ artist }} - {{ title }}'",
+    "exec": "playerctl metadata --format='{{ title }}'",
     "on-click": "playerctl play-pause",
     "max-length": 50
   },
@@ -55,81 +40,57 @@
   "clock": {
     "timezone": "Egypt",
     "tooltip": false,
-    "format": "{:%H:%M:%S  -  %A, %d}",
+    "format": "{:%H:%M:%S}",
     "interval": 1,
     "on-click": "zen-browser --new-window https://calendar.google.com"
   },
 
-  "network": {
-    "format-wifi": "󰤢",
-    "format-ethernet": "󰈀 ",
-    "format-disconnected": "󰤠 ",
-    "interval": 5,
-    "tooltip-format": "{essid} ({signalStrength}%)",
-    "on-click": "nm-connection-editor"
+   "network": {
+     "format-wifi": "wlan0 ::",
+     "format-ethernet": "eth0 ::",
+     "format-disconnected": "error ::",
+     "interval": 5,
+     "tooltip-format": "{essid} ({signalStrength}%)",
+     "on-click": "nm-connection-editor"
 
- },
-
-  "cpu": {
-    "interval": 1,
-    "format": "  {icon0}{icon1}{icon2}{icon3} {usage:>2}%",
-    "format-icons": ["▁", "▂", "▃", "▄", "▅", "▆", "▇", "█"],
-    "on-click": "ghostty -e htop"
   },
 
-  "memory": {
-    "interval": 30,
-    "format": "  {used:0.1f}G/{total:0.1f}G",
-    "tooltip-format": "Memory"
-  },
+   "cpu": {
+     "interval": 1,
+     "format": "cpu{usage:>2}% ::",
+     "on-click": "kitty -e btop"
+   },
+
+   "memory": {
+     "interval": 30,
+     "format": "mem {used:0.1f}G/{total:0.1f}G ::",
+     "tooltip-format": "Memory"
+   },
 
   "custom/uptime": {
     "format": "{}",
-    "format-icon": [""], 
     "tooltip": false,
     "interval": 60,
     "exec": "$HOME/.config/scripts/show_uptime.sh"
   },
   
-  "backlight": {
-        "format": "{icon}  {percent}%",
-        "format-icons": ["","󰃜", "󰃛", "󰃞","󰃝","󰃟","󰃠"],
-        "tooltip": false
-  },
   
-  "pulseaudio": {
-    "format": "{icon}  {volume}%",
-    "format-muted": "",
-    "format-icons": {
-      "default": ["", "", " "]
-    },
-    "on-click": "pavucontrol --tab=3",
-    "on-scroll-up": "$HOME/.config/scripts/volume_manipulation.sh",
-    "on-scroll-down": "pactl set-sink-volume @DEFAULT_SINK@ -5%"
-  },
+   "pulseaudio": {
+     "format": "vol {volume}%",
+     "on-click": "pavucontrol --tab=3",
+     "on-scroll-up": "$HOME/.config/scripts/volume_manipulation.sh",
+     "on-scroll-down": "pactl set-sink-volume @DEFAULT_SINK@ -5%"
+   },
 
-  "battery": {
-        "interval":2,
-        "states": {
-            // "good": 95,
-            "warning": 30,
-            "critical": 15
-        },
-        "format": "{icon}  {capacity}%",
-        "format-full": "{icon}  {capacity}%",
-        "format-charging": " {capacity}%",
-        "format-plugged": " {capacity}%",
-        "format-alt": "{icon} {time}",
-        // "format-good": "", // An empty format will hide the module
-        // "format-full": "",
-        "format-icons": ["", "", "", "", ""]
-  },
-  
+   "backlight": {
+     "format": "{percent}% ::",
+     "interval": 1
+   },
 
-  "hyprland/language": {
-    "format": "{}",
-    "format-en": "US",
-    "format-gr": "GR"
-  }
+   "hyprland/language": {
+     "format": "{} ::",
+     "format-en": "US",
+     "format-gr": "GR"
+   }
 }
 

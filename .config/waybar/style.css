@@ -1,187 +1,100 @@
-/* --- Global Styles --- */
 * {
-  font-family: 'SF Pro Text', 'Inter', 'Segoe UI, NotoSans Nerd Font', sans-serif;
-  font-size: 11px;
+  border: none;
+  border-radius: 0;
   min-height: 0;
-  padding-right: 0px;
-  padding-left: 0px;
-  padding-bottom: 0px;
+  /* font-family: "Iosevka Term"; */
+  font-family: "TX-02";
+  font-size: 18px;
+  padding: 0;
 }
 
-/* --- Waybar Container --- */
-#waybar {
+window#waybar {
   background: #000000;
-  color: #cccae0;
-  margin: 0px;
-  font-weight: 500;
+  color: #DDDDDD;
 }
 
-/* --- Left Modules (Individual, Fully Rounded Blocks - With Horizontal Spacing & Simple Hover) --- */
-#workspaces,
+tooltip {
+  background-color: #000000;
+}
+
 #custom-uptime,
-#cpu {
-  background: transparent;
-  padding: 0.2rem 0.5rem;
-  margin: 0px;
-  border-radius: 0px;
-  box-shadow: none;
-  min-width: 0;
-  border: none;
-  transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
-}
-
-#workspaces {
-  padding: 1px;
-  margin: 0px;
-}
-
-#custom-uptime {
-  margin: 0px;
-}
-
-/* Simple Hover effects for individual left modules - BRIGHTER COLOR */
-#custom-uptime:hover,
-#cpu:hover {
-  background-color: rgba(255, 255, 255, 0.1);
-}
-
-#workspaces button {
-  color: #cccae0;
-  border-radius: 0px;
-  padding: 0.1rem 0.3rem;
-  background: transparent;
-  transition: all 0.2s ease-in-out;
-  border: none;
-  border-bottom: 2px solid transparent;
-  outline: none;
-}
-
-#workspaces button.active {
-  color: #cccae0;
-  font-weight: bold;
-  border-bottom-color: #cccae0;
-}
-
-#workspaces button:hover {
-  border-top: 1px solid #cccae0;
-}
-
-/* --- Center Module (Individual, Fully Rounded Block - With Simple Hover) --- */
-#clock {
-  background: transparent;
-  padding: 0.2rem 0.5rem;
-  margin: 0px;
-  border-radius: 0px;
-  box-shadow: none;
-  min-width: 0;
-  border: none;
-  transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
-}
-
-/* Simple Hover effect for clock module - BRIGHTER COLOR */
-#clock:hover {
-  background-color: rgba(255, 255, 255, 0.1);
-}
-
-/* --- Right Modules (Individual, Fully Rounded Blocks - With Horizontal Spacing & Simple Hover) --- */
+#clock,
 #language,
 #cpu,
 #memory,
-#bluetooth,
 #network,
 #pulseaudio,
 #backlight,
 #battery,
-#custom-music,
-#custom-lock {
-  background: transparent;
-  padding: 0.2rem 0.5rem;
-  margin: 0px;
-  border-radius: 0px;
-  box-shadow: none;
-  min-width: 0;
-  border: none;
-  transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
+#custom-music {
+  margin: 2px 2px 0px 0px;
+  padding: 2px 2px;
 }
 
+#workspaces {
+  margin: 2px 20px 0px 0px;
+  padding: 2px 2px;
+}
+#workspaces button {
+  color: #DDDDDD;
+}
+
+
+ #workspaces button.focused {
+   background-color: #DDDDDD;
+   color: #000000;
+ }
+
+ #workspaces button.active {
+   background-color: #DDDDDD;
+   color: #000000;
+ }
+
+#battery, #clock, #cpu, #pulseaudio, #memory, #language, #network, #backlight, #custom-music {
+  color: #DDDDDD;
+}
+
+#network.disconnected {
+  color: #DDDDDD;
+}
+
+#battery.charging {
+  color: #DDDDDD;
+}
+
+#battery.warning:not(.charging) {
+  color: #DDDDDD;
+}
+
+#bluetooth {
+  color: #DDDDDD;
+  font-size: 16px;
+}
+
+#bluetooth.on {
+  color: #DDDDDD;
+}
+
+#bluetooth.connected {
+  color: #DDDDDD;
+}
+
+#workspaces:hover,
+#custom-uptime:hover,
+#clock:hover,
 #language:hover,
 #cpu:hover,
 #memory:hover,
-#bluetooth:hover,
 #network:hover,
 #pulseaudio:hover,
 #backlight:hover,
 #battery:hover,
-#custom-music:hover,
-#custom-lock:hover {
-  background-color: rgba(255, 255, 255, 0.1);
+#custom-music:hover {
+  background-color: #DDDDDD;
+  color: #000000;
 }
 
-#custom-lock {
-  margin: 0px;
-}
-
-#custom-uptime {
-  color: #cccae0;
-}
-#cpu {
-  color: #cccae0;
-}
-
-#clock {
-  color: #cccae0;
-  font-weight: 500;
-}
-
-#pulseaudio {
-  color: #cccae0;
-}
-#backlight {
-  color: #cccae0;
-}
-
-#network {
-  color: #cccae0;
-}
-
-#network.disconnected {
-  color: #d8647e;
-}
-
-#custom-lock {
-  color: #cccae0;
-}
-#language {
-  color: #cccae0;
-}
-#bluetooth {
-  color: #cccae0;
-  font-size: 16px;
-}
-#bluetooth.on {
-  color: #6e94b2;
-}
-#bluetooth.connected {
-  color: #cccae0;
-}
-#battery {
-  color: #cccae0;
-}
-#battery.charging {
-  color: #95b1ac;
-}
-#battery.warning:not(.charging) {
-  color: #d8647e;
-}
-
-/* --- Tooltip Styles --- */
-tooltip {
-  background-color: #000000;
-  color: #cccae0;
-  padding: 5px 12px;
-  margin: 5px 0px;
-  border-radius: 0px;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  box-shadow: none;
-  font-size: 12px;
+#workspaces button:hover {
+  background-color: #DDDDDD;
+  color: #000000;
 }
