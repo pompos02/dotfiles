@@ -2,27 +2,43 @@
 # This configuration matches your vibrant Rose Pine Neovim theme
 
 # Font settings (keep your existing preferences)
-font-family = "JetBrainsMono Nerd Font Mono"
-font-size = 18
+custom-shader = shaders/cursor_smear.glsl
+font-family = "TX-02"
+font-size = 22
 
 # Window settings (keep your existing preferences)
 background-blur-radius = 80
-background-opacity =1 
+background-opacity =1
 mouse-hide-while-typing = true
 window-decoration = false
 
-# Rose Pine Moon Color Scheme
-# Using the same vibrant palette from your Neovim config
+macos-option-as-alt = true
 
-# Base colors (matching your enhanced Rose Pine Moon palette)
-background = 0f0e1a
 
-foreground = f0eef6
+background = 000000
+
+foreground = DDDDDD
 
 # Cursor colors
-cursor-color = f0eef6
+cursor-color = DDDDDD
+cursor-style = block
+shell-integration-features = no-cursor
 
-# Selection colors (matching your enhanced visual selection)
-selection-background = f2b8c4
-selection-foreground = 0f0e1a
+palette = 0=#080808
+palette = 1=#ce8787
+palette = 2=#789978
+palette = 3=#f0c674
+palette = 4=#7788AA
+palette = 5=#c397b0
+palette = 6=#708090
+palette = 7=#DDDDDD
+palette = 8=#444444
+palette = 9=#ce8787
+palette = 10=#789978
+palette = 11=#f0c674
+palette = 12=#7788AA
+palette = 13=#c397b0
+palette = 14=#708090
+palette = 15=#DDDDDD
+
 
