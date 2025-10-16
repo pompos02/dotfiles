@@ -15,6 +15,8 @@ eval "$(starship init zsh)"
 
 # Add in zsh plugins
 zinit light zsh-users/zsh-syntax-highlighting
+
+ZSH_HIGHLIGHT_STYLES[unknown-token]='fg=red'
 zinit light zsh-users/zsh-completions
 zinit light zsh-users/zsh-autosuggestions
 zinit light Aloxaf/fzf-tab
