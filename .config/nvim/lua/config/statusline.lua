@@ -121,8 +121,8 @@ local function build_statusline()
 end
 
 local function setup_colors()
-    vim.api.nvim_set_hl(0, "StatusLine", { fg = "#DDDDDD", bg = "#000000" })
-    vim.api.nvim_set_hl(0, "StatusLineNC", { fg = "#DDDDDD", bg = "#000000" })
+    vim.api.nvim_set_hl(0, "StatusLine", { fg = "#b4b4b4", bg = "#191919" })
+    vim.api.nvim_set_hl(0, "StatusLineNC", { fg = "#b4b4b4", bg = "#191919" })
 end
 
 local function setup_autocmds()
