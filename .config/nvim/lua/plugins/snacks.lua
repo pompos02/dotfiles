@@ -1,3 +1,4 @@
+---@diagnostic disable: undefined-doc-name, undefined-global
 return {
     "folke/snacks.nvim",
     priority = 1000,
@@ -14,7 +15,13 @@ return {
             enabled = true,
             timeout = 3000,
         },
-        picker = { enabled = true },
+        picker = {
+            icons = {
+                files = {
+                    enabled = false,
+                },
+            },
+        },
         quickfile = { enabled = true },
         scope = { enabled = true },
         scroll = { enabled = false },
@@ -23,6 +30,7 @@ return {
         zen = { enabled = false },
     },
     keys = {
+        --
         -- Top Pickers & Explorer
         {
             "<leader>ff",

@@ -73,3 +73,7 @@ map("v", ">", ">gv")
 
 -- foramatting
 map("n", "<leader>lf", vim.lsp.buf.format, { desc = "Format the current buffer" })
+
+-- actions
+map("n", "<leader>ca", vim.lsp.buf.code_action, { desc = "Code Actions" })
+map("n", "<leader>rn", vim.lsp.buf.rename, { desc = "Rename variable" })
