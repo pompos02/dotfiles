@@ -37,6 +37,7 @@ return {
                 "luap",
                 "markdown",
                 "markdown_inline",
+                "make",
                 "printf",
                 "python",
                 "query",

@@ -13,7 +13,12 @@ local function get_filename()
     if filename == "" then
         return "[No Name]"
     end
-    return filename
+    local modified_indicator = ""
+    if vim.bo.modified then
+        modified_indicator = "%#StatusLineModified#[+]%*"
+    end
+
+    return filename .. modified_indicator
 end
 
 local function get_diagnostics()
