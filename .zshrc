@@ -111,6 +111,12 @@ conda() {
   conda "$@"
 }
 bindkey -v
+export KEYTIMEOUT=1
+
+autoload -Uz edit-command-line
+zle -N edit-command-line
+bindkey '^E' edit-command-line
+
 bindkey '^K' autosuggest-accept
 
 export PATH="/opt/homebrew/opt/postgresql@17/bin:$PATH"

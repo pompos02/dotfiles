@@ -1,12 +1,18 @@
-# Ghostty Rose Pine Moon Configuration
-# This configuration matches your vibrant Rose Pine Neovim theme
 
-# Font settings (keep your existing preferences)
-custom-shader = shaders/cursor_smear.glsl
+custom-shader = shaders/cursor_smear_verygood.glsl
+
+
 font-family = "TX-02"
-font-size = 22
+# font-family = "VictorMono Nerd Font Mono"
+# font-family = "SauceCodePro Nerd Font Propo"
+# font-family = "ProFontWindows Nerd Font Propo"
+# font-family = "ProFont IIx Nerd Font Propo"
+# font-family = "IosevkaTermSlab Nerd Font Propo"
+# font-family = "GoMono Nerd Font Propo"
+font-size = 16.0
+# font-style-italic = false
+# font-style-bold-italic = false
 
-# Window settings (keep your existing preferences)
 background-blur-radius = 80
 background-opacity =1
 mouse-hide-while-typing = true
@@ -19,7 +25,6 @@ background = 000000
 
 foreground = DDDDDD
 
-# Cursor colors
 cursor-color = DDDDDD
 cursor-style = block
 shell-integration-features = no-cursor

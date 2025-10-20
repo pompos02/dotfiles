@@ -18,6 +18,7 @@ return {
                 "bash",
                 "sql",
                 "c",
+                "glsl",
                 "cpp",
                 "diff",
                 "elixir",
