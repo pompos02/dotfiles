@@ -47,3 +47,4 @@ opt.cursorline = true                                                           
 opt.showtabline = 0                                                                             -- Never show tabline
 opt.guicursor =
 "n-v-c-sm:block,i-ci-ve:block-blinkwait500-blinkoff200-blinkon200,r-cr-o:hor20"                 -- Use blinking block cursor in insert mode
+vim.opt.colorcolumn = "80"

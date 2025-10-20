@@ -1,142 +1,80 @@
 return {
-    --     "nvim-lualine/lualine.nvim",
-    --     event = "VeryLazy",
-    --     dependencies = {
-    --         "nvim-tree/nvim-web-devicons",
-    --     },
-    --     opts = function()
-    --         local lualine_require = require("lualine_require")
-    --         lualine_require.require = require
-    --         vim.o.laststatus = vim.g.lualine_laststatus
-    --
-    --         local palette = {
-    --             b = "#000000",
-    --             w = "#DDDDDD",
-    --         }
-    --
-    --         local theme = {
-    --             normal = {
-    --                 a = { fg = palette.w, bg = palette.b },
-    --                 b = { fg = palette.w, bg = palette.b },
-    --                 c = { fg = palette.w, bg = palette.b },
-    --             },
-    --             insert = {
-    --                 a = { fg = palette.w, bg = palette.b },
-    --                 b = { fg = palette.w, bg = palette.b },
-    --                 c = { fg = palette.w, bg = palette.b },
-    --             },
-    --             visual = {
-    --                 a = { fg = palette.w, wg = palette.b },
-    --                 b = { fg = palette.w, bg = palette.b },
-    --                 c = { fg = palette.w, bg = palette.b },
-    --             },
-    --             replace = {
-    --                 a = { fg = palette.w, bg = palette.b },
-    --                 b = { fg = palette.w, bg = palette.b },
-    --                 c = { fg = palette.w, bg = palette.b },
-    --             },
-    --             command = {
-    --                 a = { fg = palette.w, bg = palette.b },
-    --                 b = { fg = palette.w, bg = palette.b },
-    --                 c = { fg = palette.w, bg = palette.b },
-    --             },
-    --             inactive = {
-    --                 a = { fg = palette.w, bg = palette.b },
-    --                 b = { fg = palette.w, bg = palette.b },
-    --                 c = { fg = palette.w, bg = palette.b },
-    --             },
-    --         }
-    --
-    --         return {
-    --             options = {
-    --                 globalstatus = vim.o.laststatus == 3,
-    --                 component_separators = { left = "", right = "" },
-    --                 section_separators = { left = "", right = "" },
-    --                 theme = theme,
-    --                 disabled_filetypes = {
-    --                     statusline = { "dashboard", "alpha", "ministarter", "snacks_dashboard" },
-    --                 },
-    --             },
-    --             sections = {
-    --                 lualine_a = {
-    --                     { "branch", icons_enabled = false, padding = 0 },
-    --                     {
-    --                         function()
-    --                             return "::"
-    --                         end,
-    --                         padding = 0,
-    --                     },
-    --                 },
-    --                 lualine_b = {
-    --                     { "filename", padding = 0 },
-    --                     {
-    --                         function()
-    --                             return "::"
-    --                         end,
-    --                         padding = 0,
-    --                     },
-    --                 },
-    --                 lualine_c = {
-    --                     {
-    --                         "diagnostics",
-    --                         symbols = {
-    --                             error = "E:",
-    --                             warn = "W:",
-    --                             info = "I:",
-    --                             hint = "H:",
-    --                         },
-    --                         padding = 0,
-    --                     },
-    --                 },
-    --                 lualine_x = {
-    --                     {
-    --                         "diff",
-    --                         symbols = {
-    --                             added = "+",
-    --                             modified = "~",
-    --                             removed = "-",
-    --                         },
-    --                         padding = 0,
-    --
-    --                         source = function()
-    --                             local gitsigns = vim.b.gitsigns_status_dict
-    --                             if gitsigns then
-    --                                 return {
-    --                                     added = gitsigns.added,
-    --                                     modified = gitsigns.changed,
-    --                                     removed = gitsigns.removed,
-    --                                 }
-    --                             end
-    --                         end,
-    --                     },
-    --                     {
-    --                         function()
-    --                             return "::"
-    --                         end,
-    --                         padding = 0,
-    --                     },
-    --                 },
-    --                 lualine_y = {
-    --                     {
-    --                         "lsp_status",
-    --                         icons_enabled = false,
-    --                         symbols = {
-    --                             done = "",
-    --                             separator = ":",
-    --                         },
-    --                         ignore_lsp = { "null-ls" },
-    --                         show_name = true,
-    --                         padding = 0,
-    --                     },
-    --                     {
-    --                         function()
-    --                             return "::"
-    --                         end,
-    --                         padding = 0,
-    --                     },
-    --                 },
-    --                 lualine_z = { { "datetime", style = "%H:%M", padding = 1 } },
-    --             },
-    --         }
-    --     end,
+    "nvim-lualine/lualine.nvim",
+    event = "VeryLazy",
+    dependencies = {
+        "nvim-tree/nvim-web-devicons",
+    },
+    enabled = false,
+    opts = function()
+        local lualine_require = require("lualine_require")
+        lualine_require.require = require
+        vim.o.laststatus = vim.g.lualine_laststatus
+
+        return {
+            options = {
+                globalstatus = vim.o.laststatus == 3,
+                component_separators = { left = "", right = "" },
+                section_separators = { left = "", right = "" },
+                disabled_filetypes = {
+                    statusline = { "dashboard", "alpha", "ministarter", "snacks_dashboard" },
+                },
+            },
+            sections = {
+                lualine_a = {
+                    { "branch", icons_enabled = false, padding = 1 },
+                },
+                lualine_b = {
+                    { "filename", padding = 1 },
+                },
+                lualine_c = {
+                    {
+                        "diagnostics",
+                        symbols = {
+                            error = "E:",
+                            warn = "W:",
+                            info = "I:",
+                            hint = "H:",
+                        },
+                        padding = 1,
+                    },
+                },
+                lualine_x = {
+                    {
+                        "diff",
+                        symbols = {
+                            added = "+",
+                            modified = "~",
+                            removed = "-",
+                        },
+                        padding = 1,
+
+                        source = function()
+                            local gitsigns = vim.b.gitsigns_status_dict
+                            if gitsigns then
+                                return {
+                                    added = gitsigns.added,
+                                    modified = gitsigns.changed,
+                                    removed = gitsigns.removed,
+                                }
+                            end
+                        end,
+                    },
+                },
+                lualine_y = {
+                    {
+                        "lsp_status",
+                        icons_enabled = false,
+                        symbols = {
+                            done = "",
+                            separator = ":",
+                        },
+                        ignore_lsp = { "null-ls" },
+                        show_name = true,
+                        padding = 1,
+                    },
+                },
+                lualine_z = { { "datetime", style = "%H:%M", padding = 1 } },
+            },
+        }
+    end,
 }

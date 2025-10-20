@@ -80,7 +80,7 @@ else
   fi
 
   # Use fzf to select
-  selected_relative=$(echo "$final_list" | fzf --color="bw" --no-border)
+  selected_relative=$(echo "$final_list" | fzf --color="bw" --tmux center,50%)
 
   [[ $selected_relative ]] && selected="$HOME/$selected_relative"
 fi

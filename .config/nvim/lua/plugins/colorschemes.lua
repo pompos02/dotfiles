@@ -36,13 +36,22 @@ return {
             })
         end,
     },
-    {
-        "folke/tokyonight.nvim",
-        lazy = false,
-        priority = 1000,
-        opts = {},
-    },
     { "shaunsingh/nord.nvim", name = "nord" },
-    { "catppuccin/nvim" },
-    { "rose-pine/neovim",     as = "rose-pine" },
+    {
+        -- dir = "~/plugins/colorbuddy.nvim",
+        "tjdevries/colorbuddy.nvim",
+        -- config = function()
+        --     vim.cmd.colorscheme("gruvbuddy")
+        -- end,
+    },
+    { "rose-pine/neovim",     name = "rose-pine" },
+    "miikanissi/modus-themes.nvim",
+    "rebelot/kanagawa.nvim",
+    "folke/tokyonight.nvim",
+    "ntk148v/komau.vim",
+    { "catppuccin/nvim",       name = "catppuccin" },
+    { "EdenEast/nightfox.nvim" },
+    "sainnhe/gruvbox-material",
+    "neanias/everforest-nvim",
+    "datsfilipe/vesper.nvim",
 }

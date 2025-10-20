@@ -1,6 +1,8 @@
+local map = vim.keymap.set
+
 -- clear search highlight
-vim.keymap.set("n", "<C-c>", ":nohl<CR>", { desc = "Clear search hl", silent = true })
-vim.keymap.set("n", "<Esc>", function()
+map("n", "<C-c>", ":nohl<CR>", { desc = "Clear search hl", silent = true })
+map("n", "<Esc>", function()
     if vim.opt.hlsearch:get() then
         vim.cmd.nohlsearch()
     else
@@ -9,7 +11,7 @@ vim.keymap.set("n", "<Esc>", function()
 end, { desc = "Clear search hl", silent = true, expr = true })
 
 -- jump to next/prev snippet
-vim.keymap.set({ "i", "s" }, "<c-l>", function()
+map({ "i", "s" }, "<c-l>", function()
     if vim.snippet.active({ direction = 1 }) then
         vim.snippet.jump(1)
         return
@@ -17,7 +19,7 @@ vim.keymap.set({ "i", "s" }, "<c-l>", function()
     return "<Tab>"
 end, { silent = true, expr = true })
 
-vim.keymap.set({ "i", "s" }, "<c-h>", function()
+map({ "i", "s" }, "<c-h>", function()
     if vim.snippet.active({ direction = -1 }) then
         vim.snippet.jump(-1)
         return
@@ -26,12 +28,10 @@ vim.keymap.set({ "i", "s" }, "<c-h>", function()
 end, { silent = true, expr = true })
 
 -- moving lines up and down
-vim.keymap.set("v", "K", ":m '<-2<CR>gv=gv")
-vim.keymap.set("v", "J", ":m '>+1<CR>gv=gv")
+map("v", "K", ":m '<-2<CR>gv=gv")
+map("v", "J", ":m '>+1<CR>gv=gv")
 -- delete but not yank
-vim.keymap.set({ "n", "v" }, "<leader>d", [["_d]])
-
-local map = vim.keymap.set
+map({ "n", "v" }, "<leader>d", [["_d]])
 
 -- horizontall movements
 map("n", "<C-d>", "<C-d>zz", { desc = "Half page down and center" })
