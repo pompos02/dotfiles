@@ -79,6 +79,9 @@ alias ff="fzf --preview 'bat --style=numbers --color=always {}'"
 
 alias cd="zd"
 alias code="code  --ozone-platform=wayland "
+alias pacl="pacman -Qq | fzf --preview 'pacman -Qi {}' --layout=reverse --height=80% --border"
+alias yayl="yay -Qq | fzf --preview 'pacman -Qi {}' --layout=reverse --height=80% --border"
+
 zd() {
   if [ $# -eq 0 ]; then
     builtin cd ~ && return

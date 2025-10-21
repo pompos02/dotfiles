@@ -4,9 +4,9 @@
 UPTIME_PRETTY=$(uptime -p)
 
 # Extract days, hours, and minutes separately
-DAYS=$(echo "$UPTIME_PRETTY" | sed -n 's/.*\([0-9]\+\) day[s]\?.*/\1/p')
-HOURS=$(echo "$UPTIME_PRETTY" | sed -n 's/.*\([0-9]\+\) hour[s]\?.*/\1/p')
-MINUTES=$(echo "$UPTIME_PRETTY" | sed -n 's/.*\([0-9]\+\) minute[s]\?.*/\1/p')
+DAYS=$(echo "$UPTIME_PRETTY" | grep -o '[0-9]\+ day' | grep -o '[0-9]\+')
+HOURS=$(echo "$UPTIME_PRETTY" | grep -o '[0-9]\+ hour' | grep -o '[0-9]\+')
+MINUTES=$(echo "$UPTIME_PRETTY" | grep -o '[0-9]\+ minute' | grep -o '[0-9]\+')
 
 # Default to 0 if not found
 DAYS=${DAYS:-0}
