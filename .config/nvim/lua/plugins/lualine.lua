@@ -28,18 +28,6 @@ return {
                 },
                 lualine_c = {
                     {
-                        "diagnostics",
-                        symbols = {
-                            error = "E:",
-                            warn = "W:",
-                            info = "I:",
-                            hint = "H:",
-                        },
-                        padding = 1,
-                    },
-                },
-                lualine_x = {
-                    {
                         "diff",
                         symbols = {
                             added = "+",
@@ -58,6 +46,18 @@ return {
                                 }
                             end
                         end,
+                    },
+                },
+                lualine_x = {
+                    {
+                        "diagnostics",
+                        symbols = {
+                            error = "E:",
+                            warn = "W:",
+                            info = "I:",
+                            hint = "H:",
+                        },
+                        padding = 1,
                     },
                 },
                 lualine_y = {

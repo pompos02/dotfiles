@@ -101,18 +101,18 @@ local function build_statusline()
         table.insert(parts, "[" .. branch .. "]")
     end
 
-    table.insert(parts, get_filename() .. "    ")
+    table.insert(parts, get_filename() .. "  ")
 
-    local diag = get_diagnostics()
-    if diag ~= "" then
-        table.insert(parts, diag)
+    local diff = get_git_diff()
+    if diff ~= "" then
+        table.insert(parts, diff)
     end
 
     table.insert(parts, "%=")
 
-    local diff = get_git_diff()
-    if diff ~= "" then
-        table.insert(parts, diff .. "::")
+    local diag = get_diagnostics()
+    if diag ~= "" then
+        table.insert(parts, diag .. "::")
     end
 
     local lsp = get_lsp_status()
@@ -123,11 +123,6 @@ local function build_statusline()
     table.insert(parts, get_time())
 
     return table.concat(parts, "")
-end
-
-local function setup_colors()
-    vim.api.nvim_set_hl(0, "StatusLine", { fg = "#b4b4b4", bg = "#191919" })
-    vim.api.nvim_set_hl(0, "StatusLineNC", { fg = "#b4b4b4", bg = "#191919" })
 end
 
 local function setup_autocmds()
@@ -155,7 +150,6 @@ end
 M.build_statusline = build_statusline
 
 M.setup = function()
-    setup_colors()
     setup_autocmds()
     vim.o.statusline = "%!v:lua.require('config.statusline').build_statusline()"
     vim.o.laststatus = 3

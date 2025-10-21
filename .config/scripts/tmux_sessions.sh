@@ -1,8 +1,8 @@
 DIRS=(
-  "$HOME/projects/"
-  "$HOME"
-  "$HOME/projects/personal"
-  "$HOME/projects/opensource"
+    "$HOME/projects/"
+    "$HOME"
+    "$HOME/projects/personal"
+    "$HOME/projects/opensource"
 )
 
 # Create state directory if it doesn't exist
@@ -14,75 +14,75 @@ STATE_FILE="$STATE_DIR/last_session"
 
 # Function to convert session name back to directory path
 session_to_dir() {
-  local session_name="$1"
-  # Reverse the tr . _ operation and reconstruct path
-  local dir_name=$(echo "$session_name" | tr _ .)
+    local session_name="$1"
+    # Reverse the tr . _ operation and reconstruct path
+    local dir_name=$(echo "$session_name" | tr _ .)
 
-  # Get all possible directories from our DIRS
-  local all_possible_dirs=$(fd . "${DIRS[@]}" --type=dir --max-depth=1 --full-path 2>/dev/null)
+    # Get all possible directories from our DIRS
+    local all_possible_dirs=$(fd . "${DIRS[@]}" --type=dir --max-depth=1 --full-path 2>/dev/null)
 
-  # Find directory whose basename matches the session name
-  while IFS= read -r dir_path; do
-    local basename_dir=$(basename "$dir_path")
-    if [[ "$basename_dir" == "$dir_name" ]]; then
-      echo "$dir_path"
-      return 0
-    fi
-  done <<<"$all_possible_dirs"
+    # Find directory whose basename matches the session name
+    while IFS= read -r dir_path; do
+        local basename_dir=$(basename "$dir_path")
+        if [[ "$basename_dir" == "$dir_name" ]]; then
+            echo "$dir_path"
+            return 0
+        fi
+    done <<<"$all_possible_dirs"
 }
 
 # Get current tmux session directory if we're in tmux
 get_current_session_dir() {
-  if [[ -n "$TMUX" ]]; then
-    local current_session=$(tmux display-message -p '#S' 2>/dev/null)
-    if [[ -n "$current_session" ]]; then
-      session_to_dir "$current_session"
+    if [[ -n "$TMUX" ]]; then
+        local current_session=$(tmux display-message -p '#S' 2>/dev/null)
+        if [[ -n "$current_session" ]]; then
+            session_to_dir "$current_session"
+        fi
     fi
-  fi
 }
 
 # Get last session directory from state file
 get_last_session_dir() {
-  if [[ -f "$STATE_FILE" && -r "$STATE_FILE" ]]; then
-    local last_dir=$(cat "$STATE_FILE" 2>/dev/null | tr -d '\n' | xargs)
-    # Check if directory still exists and is in our search scope
-    if [[ -n "$last_dir" && -d "$last_dir" ]]; then
-      # Verify it's a directory we would find in our search
-      local relative_path=$(echo "$last_dir" | sed "s|^$HOME/||")
-      local all_dirs=$(fd . "${DIRS[@]}" --type=dir --max-depth=1 --full-path --base-directory $HOME 2>/dev/null | sed "s|^$HOME/||")
-      if echo "$all_dirs" | grep -q "^$relative_path$"; then
-        echo "$last_dir"
-      fi
+    if [[ -f "$STATE_FILE" && -r "$STATE_FILE" ]]; then
+        local last_dir=$(cat "$STATE_FILE" 2>/dev/null | tr -d '\n' | xargs)
+        # Check if directory still exists and is in our search scope
+        if [[ -n "$last_dir" && -d "$last_dir" ]]; then
+            # Verify it's a directory we would find in our search
+            local relative_path=$(echo "$last_dir" | sed "s|^$HOME/||")
+            local all_dirs=$(fd . "${DIRS[@]}" --type=dir --max-depth=1 --full-path --base-directory $HOME 2>/dev/null | sed "s|^$HOME/||")
+            if echo "$all_dirs" | grep -q "^$relative_path$"; then
+                echo "$last_dir"
+            fi
+        fi
     fi
-  fi
 }
 
 if [[ $# -eq 1 ]]; then
-  selected=$1
+    selected=$1
 else
-  # Get all directories
-  all_dirs=$(fd . "${DIRS[@]}" --type=dir --max-depth=1 --full-path --base-directory $HOME |
-    sed "s|^$HOME/||")
+    # Get all directories
+    all_dirs=$(fd . "${DIRS[@]}" --type=dir --max-depth=1 --full-path --base-directory "$HOME" |
+        sed "s|^$HOME/||")
 
-  # Get priority directory (previous session from state file)
-  priority_dir=$(get_last_session_dir)
+    # Get priority directory (previous session from state file)
+    priority_dir=$(get_last_session_dir)
 
-  # Build the directory list with priority directory first
-  if [[ -n "$priority_dir" ]]; then
-    # Convert to relative path for display
-    priority_relative=$(echo "$priority_dir" | sed "s|^$HOME/||")
+    # Build the directory list with priority directory first
+    if [[ -n "$priority_dir" ]]; then
+        # Convert to relative path for display
+        priority_relative=$(echo "$priority_dir" | sed "s|^$HOME/||")
 
-    # Remove priority dir from main list and put it first
-    dir_list=$(echo "$all_dirs" | grep -v "^$priority_relative$")
-    final_list=$(printf "%s\n%s" "$priority_relative" "$dir_list")
-  else
-    final_list="$all_dirs"
-  fi
+        # Remove priority dir from main list and put it first
+        dir_list=$(echo "$all_dirs" | grep -v "^$priority_relative$")
+        final_list=$(printf "%s\n%s" "$priority_relative" "$dir_list")
+    else
+        final_list="$all_dirs"
+    fi
 
-  # Use fzf to select
-  selected_relative=$(echo "$final_list" | fzf --color="bw" --tmux center,50%)
+    # Use fzf to select
+    selected_relative=$(echo "$final_list" | fzf --color="bw" --tmux center,50%)
 
-  [[ $selected_relative ]] && selected="$HOME/$selected_relative"
+    [[ $selected_relative ]] && selected="$HOME/$selected_relative"
 fi
 
 [[ ! $selected ]] && exit 0
@@ -90,27 +90,27 @@ fi
 selected_name=$(basename "$selected" | tr . _)
 
 if ! tmux has-session -t "$selected_name"; then
-  tmux new-session -ds "$selected_name" -c "$selected"
-  tmux select-window -t "$selected_name:1"
+    tmux new-session -ds "$selected_name" -c "$selected"
+    tmux select-window -t "$selected_name:1"
 fi
 
 # Save the current session directory before switching (so it becomes the "previous" session)
 # Only save if we're currently in tmux and switching to a different session
 if [[ -n "$TMUX" ]]; then
-  current_session=$(tmux display-message -p '#S' 2>/dev/null)
-  if [[ -n "$current_session" && "$current_session" != "$selected_name" ]]; then
-    current_session_dir=$(get_current_session_dir)
-    if [[ -n "$current_session_dir" ]]; then
-      # Atomic write to prevent corruption
-      echo "$current_session_dir" >"$STATE_FILE.tmp" && mv "$STATE_FILE.tmp" "$STATE_FILE"
-      # Set proper permissions (user read/write only)
-      chmod 600 "$STATE_FILE" 2>/dev/null
+    current_session=$(tmux display-message -p '#S' 2>/dev/null)
+    if [[ -n "$current_session" && "$current_session" != "$selected_name" ]]; then
+        current_session_dir=$(get_current_session_dir)
+        if [[ -n "$current_session_dir" ]]; then
+            # Atomic write to prevent corruption
+            echo "$current_session_dir" >"$STATE_FILE.tmp" && mv "$STATE_FILE.tmp" "$STATE_FILE"
+            # Set proper permissions (user read/write only)
+            chmod 600 "$STATE_FILE" 2>/dev/null
+        fi
     fi
-  fi
 fi
 
 if [[ -n "$TMUX" ]]; then
-  tmux switch-client -t "$selected_name"
+    tmux switch-client -t "$selected_name"
 else
-  tmux attach-session -t "$selected_name"
+    tmux attach-session -t "$selected_name"
 fi

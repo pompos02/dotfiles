@@ -14,7 +14,6 @@ return {
             diagnostics.checkmake,
             formatting.prettier.with({
                 filetypes = {
-
                     "html",
                     "json",
                     "yaml",
@@ -30,7 +29,6 @@ return {
             formatting.terraform_fmt,
             require("none-ls.formatting.ruff").with({ extra_args = { "--extend-select", "I" } }),
             require("none-ls.formatting.ruff_format"),
-            -- Go formatters and linters
             formatting.goimports,
             formatting.gofumpt,
             diagnostics.golangci_lint,
@@ -42,7 +40,7 @@ return {
             sources = sources,
             -- you can reuse a shared lspconfig on_attach callback here
             on_attach = function(client, bufnr)
-                if client.supports_method("textDocument/formatting") then
+                if client:supports_method("textDocument/formatting") then
                     vim.api.nvim_clear_autocmds({ group = augroup, buffer = bufnr })
                     vim.api.nvim_create_autocmd("BufWritePre", {
                         group = augroup,
