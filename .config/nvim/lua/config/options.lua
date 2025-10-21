@@ -21,19 +21,18 @@ opt.relativenumber = true                               -- Relative line numbers
 opt.ruler = false                                       -- Disable the default ruler
 opt.scrolloff = 4                                       -- Lines of context
 opt.sessionoptions = { "buffers", "curdir", "tabpages", "winsize", "help", "globals", "skiprtp", "folds" }
-opt.shortmess:append({ W = true, I = true, c = true, C = true })
-opt.sidescrolloff = 8    -- Columns of context
-opt.signcolumn = "yes"   -- Always show the signcolumn, otherwise it would shift the text each time
-opt.smartcase = true     -- Don't ignore case with capitals
-opt.ignorecase = true    -- Case insesive search
-opt.smartindent = true   -- Insert indents automatically
+opt.sidescrolloff = 8                                   -- Columns of context
+opt.signcolumn = "yes"                                  -- Always show the signcolumn, otherwise it would shift the text each time
+opt.smartcase = true                                    -- Don't ignore case with capitals
+opt.ignorecase = true                                   -- Case insesive search
+opt.smartindent = true                                  -- Insert indents automatically
 opt.spelllang = { "en" }
-opt.splitbelow = true    -- Put new windows below current
+opt.splitbelow = true                                   -- Put new windows below current
 opt.splitkeep = "screen"
-opt.splitright = true    -- Put new windows right of current
-opt.tabstop = 2          -- Number of spaces tabs count for
+opt.splitright = true                                   -- Put new windows right of current
+opt.tabstop = 2                                         -- Number of spaces tabs count for
 -- opt.listchars = { trail = "." }
-opt.termguicolors = true -- True color support
+opt.termguicolors = true                                -- True color support
 opt.undofile = true
 opt.undolevels = 10000
 

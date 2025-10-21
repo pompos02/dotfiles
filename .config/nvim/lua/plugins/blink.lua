@@ -159,6 +159,8 @@ return {
                 enabled = true,
                 window = { border = "single" },
             },
+
+            -- Command line configuration
         },
 
         -- config = function(_, opts)
