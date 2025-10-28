@@ -1,10 +1,12 @@
 
-custom-shader = shaders/cursor_smear_verygood.glsl
+# custom-shader = shaders/cursor_smear_verygood.glsl
+
+custom-shader = shaders/cursor_warp.glsl
 
 
 term = xterm-256color
 font-family = "TX-02"
-# font-family = "VictorMono Nerd Font Mono"
+# font-family = "JetBrains Mono"
 # font-family = "SauceCodePro Nerd Font Propo"
 # font-family = "ProFontWindows Nerd Font Propo"
 # font-family = "ProFont IIx Nerd Font Propo"
