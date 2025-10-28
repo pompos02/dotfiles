@@ -44,9 +44,7 @@ return {
             -- Completion behavior
             completion = {
                 accept = {
-                    auto_brackets = {
-                        enabled = true,
-                    },
+                    auto_brackets = { enabled = true },
                 },
 
                 menu = {
@@ -159,8 +157,6 @@ return {
                 enabled = true,
                 window = { border = "single" },
             },
-
-            -- Command line configuration
         },
 
         -- config = function(_, opts)

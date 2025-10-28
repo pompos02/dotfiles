@@ -4,11 +4,11 @@ require("config.keymaps")
 vim.opt.shiftwidth = 4
 vim.o.winborder = "rounded"
 
--- highlight when yanking
-
 -- Set the colorscheme
-vim.cmd.colorscheme("misirlou")
+vim.cmd.colorscheme("misirlou-sure")
 require("config.statusline").setup()
+
+-- highlight when yanking
 vim.api.nvim_create_autocmd("TextYankPost", {
     desc = "Highlight when yanking text",
     group = vim.api.nvim_create_augroup("highlight yank", { clear = true }),

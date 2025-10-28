@@ -54,4 +54,6 @@ return {
     "sainnhe/gruvbox-material",
     "neanias/everforest-nvim",
     "datsfilipe/vesper.nvim",
+    "vague2k/vague.nvim",
+    "ellisonleao/gruvbox.nvim",
 }

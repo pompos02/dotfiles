@@ -1,6 +1,5 @@
 # Set the directory we want to store zinit and plugins
 ZINIT_HOME="${XDG_DATA_HOME:-${HOME}/.local/share}/zinit/zinit.git"
-
 # Download Zinit, if it's not there yet
 if [ ! -d "$ZINIT_HOME" ]; then
    mkdir -p "$(dirname $ZINIT_HOME)"
@@ -79,8 +78,8 @@ alias ff="fzf --preview 'bat --style=numbers --color=always {}'"
 
 alias cd="zd"
 alias code="code  --ozone-platform=wayland "
-alias pacl="pacman -Qq | fzf --preview 'pacman -Qi {}' --layout=reverse --height=80% --border"
-alias yayl="yay -Qq | fzf --preview 'pacman -Qi {}' --layout=reverse --height=80% --border"
+alias pacl="pacman -Slq | fzf --preview 'pacman -Si {}' --layout=reverse --height=80% --border"
+alias yayl="yay -Slq | fzf --preview 'yay -Si {}' --layout=reverse --height=80% --border"
 
 zd() {
   if [ $# -eq 0 ]; then
@@ -124,9 +123,6 @@ bindkey '^K' autosuggest-accept
 
 export PATH="/opt/homebrew/opt/postgresql@17/bin:$PATH"
 export EDITOR=nvim
-google(){
-  gemini -p "search google for <query>$1</query> and summarize results"
-}
 # this is for macbook
 # export PATH=$PATH:/Users/yianniscaravellas/go/bin
 export PATH="$PATH:$HOME/go/bin"
@@ -142,4 +138,4 @@ export PATH="/usr/lib/jvm/java-24-openjdk/bin:$PATH"
 
 # opencode
 export PATH=/home/karavellas/.opencode/bin:$PATH
-export MANPAGER='nvim +Man!'
+# source /usr/share/nvm/init-nvm.sh

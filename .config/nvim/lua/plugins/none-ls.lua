@@ -11,10 +11,10 @@ return {
         local diagnostics = null_ls.builtins.diagnostics -- to setup linters
 
         local sources = {
-            diagnostics.checkmake,
             formatting.prettier.with({
                 filetypes = {
                     "html",
+                    "python",
                     "json",
                     "yaml",
                     "markdown",
@@ -26,11 +26,11 @@ return {
             }),
             formatting.stylua,
             formatting.shfmt.with({ args = { "-i", "2" } }),
-            formatting.terraform_fmt,
-            require("none-ls.formatting.ruff").with({ extra_args = { "--extend-select", "I" } }),
-            require("none-ls.formatting.ruff_format"),
+            -- require("none-ls.formatting.ruff").with({ extra_args = { "--extend-select", "I" } }),
+            -- require("none-ls.formatting.ruff_format"),
             formatting.goimports,
             formatting.gofumpt,
+            formatting.clang_format.with({ filetypes = { "c", "cpp", "h", "hpp" } }),
             diagnostics.golangci_lint,
         }
 

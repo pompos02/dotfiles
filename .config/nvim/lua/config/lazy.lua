@@ -28,4 +28,8 @@ require("lazy").setup({
         { import = "plugins" },
         { import = "plugins.lsp" },
     },
+    change_detection = {
+        -- enabled = false, -- disable automatic config reloading
+        notify = false, -- disable notification when config changes are detected
+    },
 })
