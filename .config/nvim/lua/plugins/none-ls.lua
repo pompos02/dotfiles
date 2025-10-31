@@ -30,7 +30,8 @@ return {
             -- require("none-ls.formatting.ruff_format"),
             formatting.goimports,
             formatting.gofumpt,
-            formatting.clang_format.with({ filetypes = { "c", "cpp", "h", "hpp" } }),
+            filetypes = { "c", "cpp", "h", "hpp" },
+            formatting.clang_format.with({ filetypes = { "c", "cpp", "h", "hpp" }, extra_args = { "--style", "file" } }),
             diagnostics.golangci_lint,
         }
 

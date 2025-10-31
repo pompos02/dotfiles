@@ -5,11 +5,13 @@ return {
         local harpoon = require("harpoon")
         harpoon:setup()
 
-        vim.keymap.set("n", "<leader>hm", function()
+        -- Map <C-h><C-m> to add the current file to the harpoon list
+        vim.keymap.set("n", "<c-h><c-m>", function()
             harpoon:list():add()
         end, { desc = "Harpoon: Add File" })
 
-        vim.keymap.set("n", "<leader>hl", function()
+        -- Map <C-h><C-l> to toggle the quick menu/UI
+        vim.keymap.set("n", "<c-h><c-l>", function()
             harpoon.ui:toggle_quick_menu(harpoon:list())
         end, { desc = "Harpoon: Toggle Menu" })
 
