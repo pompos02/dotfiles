@@ -1,6 +1,6 @@
 
 # custom-shader = shaders/cursor_smear_verygood.glsl
-custom-shader = shaders/cursor_warp.glsl
+# custom-shader = shaders/cursor_warp.glsl
 
 # custom-shader = shaders/cursor_sweep.glsl
 

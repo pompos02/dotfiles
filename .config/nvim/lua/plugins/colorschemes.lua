@@ -31,7 +31,7 @@ return {
                     -- gold = "#d4ab5f",
                     -- green = "#789978",
                     -- string = "#7788AA",
-                    -- white = "#ffffff",
+	    -- white = "#ffffff",
                 },
             })
         end,

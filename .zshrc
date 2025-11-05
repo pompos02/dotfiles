@@ -87,7 +87,7 @@ zd() {
   elif [ -d "$1" ]; then
     builtin cd "$1"
   else
-    z "$@" && printf " \U000F17A9 " && pwd || echo "Error: Directory not found"
+    z "$@" && printf  "\U000F17A9 " && pwd || echo "Error: Directory not found"
   fi
 }
 open() {
@@ -138,4 +138,6 @@ export PATH="/usr/lib/jvm/java-24-openjdk/bin:$PATH"
 
 # opencode
 export PATH=/home/karavellas/.opencode/bin:$PATH
-# source /usr/share/nvm/init-nvm.sh
+
+# this is the node version manager
+source /usr/share/nvm/init-nvm.sh
