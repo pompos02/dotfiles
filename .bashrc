@@ -15,13 +15,11 @@ bind "set completion-ignore-case on"
 alias ls='ls --color=auto'
 alias grep='grep --color=auto'
 alias vim='nvim'
-alias c='clear'
 alias codenohup='nohup code  >/dev/null 2>&1 &'
 alias cursornohup='nohup cursor  >/dev/null 2>&1 &'
 alias gs='git status'
 alias my_ip="ip address | grep -o \"inet 192.*/\" | awk '{ print \$2 }' | tr / ' ' | xargs"
 alias ..="cd .."
-alias lsa='ls -la'
 alias ff="fzf --preview 'bat --style=numbers --color=always {}'"
 alias code="code  --ozone-platform=wayland "
 alias pacl="pacman -Slq | fzf --preview 'pacman -Si {}' --layout=reverse --height=80% --border"
@@ -50,4 +48,13 @@ conda() {
     unset -f conda
     . "/opt/miniconda3/etc/profile.d/conda.sh"
     conda "$@"
+}
+
+man() {
+    if [ $# -eq 0 ]; then
+        local page=$(apropos . | awk '{print $1}' | sort -u | fzf --preview "man {}" --preview-window "right:60%" --height=40% --layout=reverse)
+        [ -n "$page" ] && nvim -c "Man $page"
+    else
+        nvim -c "Man $* | only"
+    fi
 }
