@@ -2,7 +2,7 @@
   border: none;
   border-radius: 0;
   min-height: 0;
-  font-family: "IosevkaTermSlab Nerd Font Propo";
+  font-family: "LiberationSans-Regular";
   /* font-family: "TX-02"; */
   font-size: 12px;
   padding: 0;
@@ -32,12 +32,12 @@ tooltip {
 }
 
 #workspaces {
-  margin: 1px 10px 0px 0px;
-  padding: 1px 1px;
+  margin: 0px 10px 0px 0px;
+  padding: 0px 0px;
 }
 #workspaces button {
   color: #DDDDDD;
-  margin: 1px 1px 0px 0px;
+  margin: 0px -1px 0px 0px;
 }
 
 
