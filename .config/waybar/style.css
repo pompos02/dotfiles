@@ -2,7 +2,7 @@
   border: none;
   border-radius: 0;
   min-height: 0;
-  font-family: "LiberationSans-Regular";
+  font-family: "IosevkaNerdFont-Thin";
   /* font-family: "TX-02"; */
   font-size: 12px;
   padding: 0;
@@ -38,6 +38,7 @@ tooltip {
 #workspaces button {
   color: #DDDDDD;
   margin: 0px -1px 0px 0px;
+  padding: 0px 0px;
 }
 
 
