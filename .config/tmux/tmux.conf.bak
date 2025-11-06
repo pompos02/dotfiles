@@ -1,3 +1,8 @@
+# Main tmux configuration
+# Sources modular configuration files
+
+source-file ~/.config/tmux/keybindings.conf
+source-file ~/.config/tmux/theme.conf
 # Basic settings
 set -g base-index 1              # start indexing windows at 1 instead of 0
 setw -g pane-base-index 1        # start indexing panes at 1
@@ -12,6 +17,7 @@ set -g mouse on
 set -g focus-events on           # enable focus events for nvim
 
 # Terminal colors and features
+# set -g default-terminal "screen-256color"
 set -g default-terminal "tmux-256color"
 set -ag terminal-overrides ",*:RGB"
 set -as terminal-overrides ',*:Setulc=\E[58::2::::%p1%{65536}%/%d::%p1%{256}%/%{255}%&%d::%p1%{255}%&%d%;m'
@@ -33,38 +39,5 @@ set -g display-time 1500
 set -wg automatic-rename on
 set -g automatic-rename-format "#{pane_current_command}"
 
-# ------------------ keybindings                        
-set-window-option -g mode-keys vi
-bind-key -T copy-mode-vi 'v' send -X begin-selection
-bind-key -T copy-mode-vi 'y' send -X copy-selection
-unbind -T copy-mode-vi MouseDragEnd1Pane
-
-# Alternative copy mode binding
-bind-key [ copy-mode
-# Last opened session toggle
-bind-key a last-window
-# Custom keybindings
-bind-key G run-shell "~/.config/scripts/open_github.sh"
-bind f run  "tmux neww ~/.config/scripts/tmux_sessions.sh"
-bind g neww -n "git" -S lazygit
-# Reload config
-bind R source-file ~/.config/tmux/tmux.conf \; display-message "~/.config/tmux/tmux.conf reloaded"
-set-window-option -g mode-keys vi
-bind-key -T copy-mode-vi 'v' send -X begin-selection
-bind-key -T copy-mode-vi 'y' send -X copy-selection
-unbind -T copy-mode-vi MouseDragEnd1Pane
-bind-key [ copy-mode
-# Custom keybindings
-bind-key G run-shell "~/.config/scripts/open_github.sh"
-bind f run  "tmux neww ~/.config/scripts/tmux_sessions.sh"
-bind g neww -n "git" -S lazygit
-
-# Transparent background
-set -g status-style bg=default,fg=default
-set -g pane-border-style fg=default,bg=default
-# set -g pane-active-border-style fg=default,bg=default
-
-# Source plugin configuration
+# Source modular configurations
 source-file ~/.config/tmux/plugins.conf
-
-
