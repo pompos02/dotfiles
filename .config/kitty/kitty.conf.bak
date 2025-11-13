@@ -2800,6 +2800,6 @@ bold_italic_font auto
 
 
 # BEGIN_KITTY_THEME
-# Gnome-ish gray-on-black
+# Rosé Pine Moon
 include current-theme.conf
 # END_KITTY_THEME

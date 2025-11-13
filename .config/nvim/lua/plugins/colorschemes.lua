@@ -31,19 +31,13 @@ return {
                     -- gold = "#d4ab5f",
                     -- green = "#789978",
                     -- string = "#7788AA",
-	    -- white = "#ffffff",
+                    -- white = "#ffffff",
                 },
             })
         end,
     },
     { "shaunsingh/nord.nvim", name = "nord" },
-    {
-        -- dir = "~/plugins/colorbuddy.nvim",
-        "tjdevries/colorbuddy.nvim",
-        -- config = function()
-        --     vim.cmd.colorscheme("gruvbuddy")
-        -- end,
-    },
+    "tjdevries/colorbuddy.nvim",
     { "rose-pine/neovim",     name = "rose-pine" },
     "miikanissi/modus-themes.nvim",
     "rebelot/kanagawa.nvim",
@@ -53,7 +47,10 @@ return {
     { "EdenEast/nightfox.nvim" },
     "sainnhe/gruvbox-material",
     "neanias/everforest-nvim",
-    "datsfilipe/vesper.nvim",
     "vague2k/vague.nvim",
     "ellisonleao/gruvbox.nvim",
+    "datsfilipe/vesper.nvim",
+    "projekt0n/github-nvim-theme",
+    "webhooked/kanso.nvim",
+    "bluz71/vim-moonfly-colors",
 }
