@@ -16,14 +16,17 @@ STATE_FILE="$STATE_DIR/last_session"
 session_to_dir() {
     local session_name="$1"
     # Reverse the tr . _ operation and reconstruct path
-    local dir_name=$(echo "$session_name" | tr _ .)
+    local dir_name
+    dir_name=$(echo "$session_name" | tr _ .)
 
     # Get all possible directories from our DIRS
-    local all_possible_dirs=$(fd . "${DIRS[@]}" --type=dir --max-depth=1 --full-path 2>/dev/null)
+    local all_possible_dirs
+    all_possible_dirs=$(find "${DIRS[@]}" -mindepth 1 -maxdepth 1 -type d ! -name ".*" 2>/dev/null)
 
     # Find directory whose basename matches the session name
     while IFS= read -r dir_path; do
-        local basename_dir=$(basename "$dir_path")
+        local basename_dir
+        basename_dir=$(basename "$dir_path")
         if [[ "$basename_dir" == "$dir_name" ]]; then
             echo "$dir_path"
             return 0
@@ -34,7 +37,8 @@ session_to_dir() {
 # Get current tmux session directory if we're in tmux
 get_current_session_dir() {
     if [[ -n "$TMUX" ]]; then
-        local current_session=$(tmux display-message -p '#S' 2>/dev/null)
+        local current_session
+        current_session=$(tmux display-message -p '#S' 2>/dev/null)
         if [[ -n "$current_session" ]]; then
             session_to_dir "$current_session"
         fi
@@ -44,12 +48,14 @@ get_current_session_dir() {
 # Get last session directory from state file
 get_last_session_dir() {
     if [[ -f "$STATE_FILE" && -r "$STATE_FILE" ]]; then
-        local last_dir=$(cat "$STATE_FILE" 2>/dev/null | tr -d '\n' | xargs)
+        local last_dir
+        last_dir=$(cat "$STATE_FILE" 2>/dev/null | tr -d '\n' | xargs)
         # Check if directory still exists and is in our search scope
         if [[ -n "$last_dir" && -d "$last_dir" ]]; then
             # Verify it's a directory we would find in our search
-            local relative_path=$(echo "$last_dir" | sed "s|^$HOME/||")
-            local all_dirs=$(fd . "${DIRS[@]}" --type=dir --max-depth=1 --full-path --base-directory $HOME 2>/dev/null | sed "s|^$HOME/||")
+            local relative_path="${last_dir#"$HOME"/}"
+            local all_dirs
+            all_dirs=$(find "${DIRS[@]}" -mindepth 1 -maxdepth 1 -type d ! -name ".*" 2>/dev/null | sed "s|^$HOME/||")
             if echo "$all_dirs" | grep -q "^$relative_path$"; then
                 echo "$last_dir"
             fi
@@ -61,7 +67,7 @@ if [[ $# -eq 1 ]]; then
     selected=$1
 else
     # Get all directories
-    all_dirs=$(fd . "${DIRS[@]}" --type=dir --max-depth=1 --full-path --base-directory "$HOME" |
+    all_dirs=$(find "${DIRS[@]}" -mindepth 1 -maxdepth 1 -type d ! -name ".*" |
         sed "s|^$HOME/||")
 
     # Get priority directory (previous session from state file)
@@ -70,7 +76,7 @@ else
     # Build the directory list with priority directory first
     if [[ -n "$priority_dir" ]]; then
         # Convert to relative path for display
-        priority_relative=$(echo "$priority_dir" | sed "s|^$HOME/||")
+        priority_relative="${priority_dir#"$HOME"/}"
 
         # Remove priority dir from main list and put it first
         dir_list=$(echo "$all_dirs" | grep -v "^$priority_relative$")

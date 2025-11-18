@@ -53,4 +53,5 @@ return {
     "projekt0n/github-nvim-theme",
     "webhooked/kanso.nvim",
     "bluz71/vim-moonfly-colors",
+    "mcauley-penney/techbase.nvim",
 }

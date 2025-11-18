@@ -32,6 +32,8 @@ map("v", "K", ":m '<-2<CR>gv=gv")
 map("v", "J", ":m '>+1<CR>gv=gv")
 -- delete but not yank
 map({ "n", "v" }, "<leader>d", [["_d]])
+-- Paste without overwriting the default register
+map("v", "<Leader>p", '"_dP')
 
 -- horizontall movements
 map("n", "<C-d>", "<C-d>zz", { desc = "Half page down and center" })
