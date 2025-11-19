@@ -46,6 +46,7 @@ map({ "n", "x" }, "j", "v:count == 0 ? 'gj' : 'j'", {
     expr = true,
     silent = true,
 })
+
 map({ "n", "x" }, "<Down>", "v:count == 0 ? 'gj' : 'j'", {
     desc = "Down",
     expr = true,

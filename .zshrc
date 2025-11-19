@@ -58,7 +58,7 @@ zstyle ':fzf-tab:complete:__zoxide_z:*' fzf-preview 'ls --color $realpath'
 zstyle ':fzf-tab:*' fzf-flags --color=bw
 
 # Aliases
-alias fzf='fzf --color="bw"'
+alias fzf='fzf'
 alias vim='nvim'
 alias c='clear'
 alias codenohup='nohup code  >/dev/null 2>&1 &'
