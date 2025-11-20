@@ -5,27 +5,13 @@
 # If not running interactively, don't do anything
 [[ $- != *i* ]] && return
 
-# Prompt - Hardcoded colors
-RED='\[\033[38;2;211;138;149m\]'    # #d38a95
-ROSE='\[\033[38;2;214;151;151m\]'   # #d69797
-BLUE='\[\033[38;2;140;154;176m\]'   # #8c9ab0
-PURPLE='\[\033[38;2;178;143;178m\]' # #b28fb2
-GREEN='\[\033[38;2;143;173;158m\]'  # #8fad9e
-RESET='\[\033[0m\]'
-ROOT_RED='\[\033[38;5;1m\]'
-
-# exit code of last process
-PS1='$(ret=$?;(($ret!=0)) && echo "'$RED'($ret) '$RESET'")'
-# username (purple, red for root)
-PS1+=$PURPLE'$(((UID==0)) && echo "'$ROOT_RED'")\u@'
-# hostname
-PS1+='\h'$RESET' '
-# cwd (current directory only)
-PS1+=$BLUE'\W '
-# optional git branch
-PS1+='$(branch=$(git rev-parse --abbrev-ref HEAD 2>/dev/null); [[ -n $branch ]] && echo "'$ROSE'*'$GREEN'$branch ")'
-# prompt character
-PS1+=$BLUE'\$'$RESET' '
+# Simple prompt without colors
+PS1='$(ret=$?;(($ret!=0)) && echo "\[\033[38;5;1m\]($ret)\[\033[0m\] ")'  # exit code (red)
+PS1+='$(((UID==0)) && echo "\[\033[38;5;1m\]")\u@\h\[\033[0m\]'  # user@host (red for root)
+PS1+=':'  # separator
+PS1+='\W'  # current directory
+PS1+='$(branch=$(git rev-parse --abbrev-ref HEAD 2>/dev/null); [[ -n $branch ]] && echo "(*$branch)")'  # git branch
+PS1+=' \$ '  # prompt character
 
 export HISTSIZE=5000
 export HISTFILESIZE=20000
@@ -86,3 +72,78 @@ man() {
         nvim -c "Man $* | only"
     fi
 }
+
+extstats() {
+  dir="${1:-.}"
+
+  # detect terminal for color
+  if [ -t 1 ]; then color=1; else color=0; fi
+
+  find "$dir" -type f -name '*.*' -print |
+  awk '
+  {
+    file = $0
+
+    # Extract extension from last dot
+    pos = match(file, /\.[^.]+$/)
+    if (pos == 0)
+      next   # skip files with no extension
+
+    ext = substr(file, pos + 1)
+
+    # Skip weird cases: empty extension or only dots
+    if (ext == "" || ext ~ /^[.]+$/)
+      next
+
+    # Count files
+    count[ext]++
+
+    # Get lines + bytes
+    cmd = "wc -lc < \"" file "\""
+    cmd | getline res
+    close(cmd)
+
+    split(res, tmp)
+    lines = tmp[1]
+    bytes = tmp[2]
+
+    total_lines[ext] += lines
+    total_bytes[ext] += bytes
+  }
+  END {
+    for (e in count)
+      printf "%s\t%d\t%d\t%d\n", e, count[e], total_lines[e], total_bytes[e]
+  }' |
+  sort -k2,2nr |
+  awk -v color="$color" '
+  BEGIN {
+    if (color) {
+      CYAN="\033[36m"; GREEN="\033[32m"; YELLOW="\033[33m"
+      MAGENTA="\033[35m"; RESET="\033[0m"
+    } else {
+      CYAN=GREEN=YELLOW=MAGENTA=RESET=""
+    }
+
+    printf CYAN "%-10s %10s %12s %12s %12s %12s %12s\n",
+      "EXT", "FILES", "LINES", "BYTES", "SIZE", "AVG_LINES", "AVG_SIZE"
+    printf "---------------------------------------------------------------------------------------------\n" RESET
+  }
+
+  function hr(bytes,    units,i) {
+    split("B KB MB GB TB", units)
+    for (i=1; bytes>=1024 && i<5; i++) bytes/=1024
+    return sprintf("%.1f %s", bytes, units[i])
+  }
+
+  {
+    ext=$1; files=$2; lines=$3; bytes=$4
+    size=hr(bytes)
+    avg_lines=(files>0?lines/files:0)
+    avg_size=hr((files>0?bytes/files:0))
+
+    printf GREEN "%-10s" RESET " ", ext
+    printf YELLOW "%10d" RESET " %12d %12d ", files, lines, bytes
+    printf MAGENTA "%12s %12.1f %12s" RESET "\n", size, avg_lines, avg_size
+  }'
+}
+

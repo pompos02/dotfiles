@@ -149,9 +149,31 @@ end
 
 M.build_statusline = build_statusline
 
+local function setup_statusline_colors()
+    local cursorline = vim.api.nvim_get_hl(0, { name = "CursorLine" })
+    local normal = vim.api.nvim_get_hl(0, { name = "Normal" })
+    
+    vim.api.nvim_set_hl(0, "StatusLine", {
+        bg = cursorline.bg or normal.bg,
+        fg = normal.fg,
+    })
+    
+    vim.api.nvim_set_hl(0, "StatusLineNC", {
+        bg = cursorline.bg or normal.bg,
+        fg = normal.fg,
+    })
+end
+
 M.setup = function()
     setup_autocmds()
+    setup_statusline_colors()
     vim.o.statusline = "%!v:lua.require('config.statusline').build_statusline()"
     vim.o.laststatus = 3
+    
+    -- Reapply colors when colorscheme changes
+    vim.api.nvim_create_autocmd("ColorScheme", {
+        group = vim.api.nvim_create_augroup("StatuslineColors", { clear = true }),
+        callback = setup_statusline_colors,
+    })
 end
 return M

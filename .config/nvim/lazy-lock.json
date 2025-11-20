@@ -1,10 +1,11 @@
 {
+  "adwaita.nvim": { "branch": "main", "commit": "334d918d5241262816624e8c80410574ccdb25dc" },
   "blink.cmp": { "branch": "main", "commit": "b19413d214068f316c78978b08264ed1c41830ec" },
   "catppuccin": { "branch": "main", "commit": "da33755d00e09bff2473978910168ff9ea5dc453" },
   "colorbuddy.nvim": { "branch": "master", "commit": "8b968581e5c19d22a861d5f3fe5dbd83394fa681" },
   "everforest-nvim": { "branch": "main", "commit": "557bce922401e247a596583679bc181d4d688554" },
   "friendly-snippets": { "branch": "main", "commit": "572f5660cf05f8cd8834e096d7b4c921ba18e175" },
-  "fzf-lua": { "branch": "main", "commit": "6db367781c650d0aa336577aa16bbb6aeca9ddfa" },
+  "fzf-lua": { "branch": "main", "commit": "123cc546c4618f5fd90d5db2da5643e76979162c" },
   "github-nvim-theme": { "branch": "main", "commit": "c106c9472154d6b2c74b74565616b877ae8ed31d" },
   "gitsigns.nvim": { "branch": "main", "commit": "cdafc320f03f2572c40ab93a4eecb733d4016d07" },
   "gruvbox-material": { "branch": "master", "commit": "4bfc6983abc249c5943a60d8eb3980a3c2ababe1" },
@@ -26,7 +27,7 @@
   "mini.nvim": { "branch": "main", "commit": "b409fd1d8b9ea7ec7c0923eb2562b52ed5d1ab0a" },
   "mini.splitjoin": { "branch": "main", "commit": "9fcd8856efb95a505090c3225726466494076127" },
   "mini.surround": { "branch": "main", "commit": "88c52297ed3e69ecf9f8652837888ecc727a28ee" },
-  "misirlou.nvim": { "branch": "master", "commit": "2cc5fb99bd2cb58e8a164c5d386c1ccf7c746326" },
+  "misirlou.nvim": { "branch": "master", "commit": "59dbfcec6940ae6e26672393be2bfd30cc2b3b92" },
   "misirloun": { "branch": "master", "commit": "b3b5b717e1b2a8421ebfd94caff2c2ed4390bdfe" },
   "modus-themes.nvim": { "branch": "master", "commit": "c57c2c56c9f0af04f3b609d11caa840880074784" },
   "nightfox.nvim": { "branch": "main", "commit": "ba47d4b4c5ec308718641ba7402c143836f35aa9" },
@@ -34,7 +35,7 @@
   "none-ls.nvim": { "branch": "main", "commit": "550197530c12b4838d685cf4e0d5eb4cca8d52c7" },
   "nord": { "branch": "master", "commit": "80c1e5321505aeb22b7a9f23eb82f1e193c12470" },
   "nui.nvim": { "branch": "main", "commit": "de740991c12411b663994b2860f1a4fd0937c130" },
-  "nvim-lspconfig": { "branch": "master", "commit": "d4f77e7a9a4b910622a0bc225e482c4c808e4099" },
+  "nvim-lspconfig": { "branch": "master", "commit": "b7c48a7111534b66bee077da8035ac7208a294ff" },
   "nvim-treesitter": { "branch": "master", "commit": "42fc28ba918343ebfd5565147a42a26580579482" },
   "nvim-treesitter-context": { "branch": "master", "commit": "660861b1849256398f70450afdf93908d28dc945" },
   "nvim-treesitter-textobjects": { "branch": "master", "commit": "5ca4aaa6efdcc59be46b95a3e876300cfead05ef" },
@@ -54,5 +55,5 @@
   "vim-dadbod": { "branch": "master", "commit": "e95afed23712f969f83b4857a24cf9d59114c2e6" },
   "vim-dadbod-completion": { "branch": "master", "commit": "a8dac0b3cf6132c80dc9b18bef36d4cf7a9e1fe6" },
   "vim-dadbod-ui": { "branch": "master", "commit": "236179fd6bdc2aabeb1326d428e6b29d41044d8e" },
-  "vim-moonfly-colors": { "branch": "master", "commit": "cb268b34cac82792857b286450b65ba07a8f444d" }
+  "vim-moonfly-colors": { "branch": "master", "commit": "930f33f2e91225afb0491d259cf151ea9eca6ca3" }
 }

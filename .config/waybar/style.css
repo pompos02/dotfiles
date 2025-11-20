@@ -10,7 +10,7 @@
 
 window#waybar {
   background: #000000;
-  color: #DDDDDD;
+  color: #ffffff;
 }
 
 tooltip {
@@ -36,60 +36,60 @@ tooltip {
   padding: 0px 0px;
 }
 #workspaces button {
-  color: #DDDDDD;
+  color: #ffffff;
   margin: 0px -1px 0px 0px;
   padding: 0px 0px;
 }
 
 
  #workspaces button.focused {
-   background-color: #DDDDDD;
+   background-color: #ffffff;
    color: #000000;
  }
 
  #workspaces button.active {
-   background-color: #DDDDDD;
+   background-color: #ffffff;
    color: #000000;
  }
 
 #battery, #clock, #cpu, #pulseaudio, #memory, #language, #network, #backlight, #custom-music {
-  color: #DDDDDD;
+  color: #ffffff;
 }
 
 #network.disconnected {
-  color: #DDDDDD;
+  color: #ffffff;
 }
 
 #battery.charging {
-  color: #DDDDDD;
+  color: #ffffff;
 }
 
 #battery.warning:not(.charging) {
-  color: #DDDDDD;
+  color: #ffffff;
 }
 
 #bluetooth {
-  color: #DDDDDD;
+  color: #ffffff;
   font-size: 12px;
 }
 
 #bluetooth.on {
-  color: #DDDDDD;
+  color: #ffffff;
 }
 
 #bluetooth.connected {
-  color: #DDDDDD;
+  color: #ffffff;
 }
 
 #clock:hover,
 #cpu:hover,
 #network:hover,
 #pulseaudio:hover {
-  background-color: #DDDDDD;
+  background-color: #ffffff;
   color: #000000;
 }
 
 #workspaces button:hover {
-  background-color: #DDDDDD;
+  background-color: #ffffff;
   color: #000000;
 }
