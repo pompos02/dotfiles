@@ -6,16 +6,23 @@
 
 
 term = xterm-256color
-font-family = "TX-02"
+
+# Font Configuration
+font-family = "Iosevka Custom"
+font-style = Light
+font-style-bold = Regular
+font-style-italic = "Light Oblique"
+font-style-bold-italic = Oblique
+font-size = 15.0
+
+# Previous font options (commented out)
+# font-family = "TX-02"
 # font-family = "JetBrains Mono"
 # font-family = "SauceCodePro Nerd Font Propo"
 # font-family = "ProFontWindows Nerd Font Propo"
 # font-family = "ProFont IIx Nerd Font Propo"
 # font-family = "IosevkaTermSlab Nerd Font Propo"
 # font-family = "GoMono Nerd Font Propo"
-font-size = 15.0
-# font-style-italic = false
-# font-style-bold-italic = false
 
 background-blur-radius = 80
 background-opacity =1
@@ -25,12 +32,54 @@ window-decoration = false
 macos-option-as-alt = true
 
 
-# background = 000000
-#
-# foreground = DDDDDD
+# Custom Light Theme - 16 Color Palette
+# Based on provided color scheme
 
-# cursor-color = DDDDDD
+# Background and Foreground
+background = ffffff
+foreground = 1a1a1a
+
+# Cursor
+cursor-color = 1a1a1a
 cursor-style = block
+cursor-text = ffffff
+
+# Selection
+selection-background = e0e0e0
+selection-foreground = 1a1a1a
+
+# 16 ANSI Colors
+# Black (0 & 8 - Normal & Bright)
+palette = 0=#666666
+palette = 8=#999999
+
+# Red (1 & 9 - Normal & Bright)
+palette = 1=#d94c5a
+palette = 9=#e5707a
+
+# Green (2 & 10 - Normal & Bright)
+palette = 2=#71b35a
+palette = 10=#8dc77a
+
+# Yellow (3 & 11 - Normal & Bright)
+palette = 3=#e5c07b
+palette = 11=#f0d89b
+
+# Blue (4 & 12 - Normal & Bright)
+palette = 4=#4d92ca
+palette = 12=#6daae0
+
+# Magenta (5 & 13 - Normal & Bright)
+palette = 5=#b362cb
+palette = 13=#c982db
+
+# Cyan (6 & 14 - Normal & Bright)
+palette = 6=#56b6c2
+palette = 14=#76c6d2
+
+# White (7 & 15 - Normal & Bright)
+palette = 7=#f5f5f5
+palette = 15=#ffffff
+
 shell-integration-features = no-cursor
-theme = Adwaita
 
