@@ -63,12 +63,6 @@ map({ "n", "x" }, "<Up>", "v:count == 0 ? 'gk' : 'k'", {
     silent = true,
 })
 
--- Move to window using the <ctrl> hjkl keys
-map("n", "<C-h>", "<C-w>h", { desc = "Go to Left Window", remap = true })
-map("n", "<C-j>", "<C-w>j", { desc = "Go to Lower Window", remap = true })
-map("n", "<C-k>", "<C-w>k", { desc = "Go to Upper Window", remap = true })
-map("n", "<C-l>", "<C-w>l", { desc = "Go to Right Window", remap = true })
-
 -- Window splits
 map("n", "<leader>wv", "<C-w>v", { desc = "Split Window Vertically" })
 map("n", "<leader>wh", "<C-w>s", { desc = "Split Window Horizontally" })

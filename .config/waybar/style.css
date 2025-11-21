@@ -25,8 +25,8 @@ tooltip {
 #network,
 #pulseaudio,
 #backlight,
-#battery,
-#custom-music {
+#custom-music,
+#custom-date {
   margin: 1px 1px 0px 0px;
   padding: 1px 1px;
 }
@@ -40,36 +40,10 @@ tooltip {
   margin: 0px -1px 0px 0px;
   padding: 0px 0px;
 }
-
-#battery, #clock, #cpu, #pulseaudio, #memory, #language, #network, #backlight, #custom-music {
+#workspaces button:hover {
+  background: none;
   color: #ffffff;
 }
-
-#network.disconnected {
-  color: #ffffff;
-}
-
-#battery.charging {
-  color: #ffffff;
-}
-
-#battery.warning:not(.charging) {
-  color: #ffffff;
-}
-
-#bluetooth {
-  color: #ffffff;
-  font-size: 12px;
-}
-
-#bluetooth.on {
-  color: #ffffff;
-}
-
-#bluetooth.connected {
-  color: #ffffff;
-}
-
 #clock:hover,
 #cpu:hover,
 #network:hover,
