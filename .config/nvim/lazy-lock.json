@@ -27,7 +27,7 @@
   "mini.nvim": { "branch": "main", "commit": "6e885e4c27743ae6bf5957ea78ce86c032835f09" },
   "mini.splitjoin": { "branch": "main", "commit": "9fcd8856efb95a505090c3225726466494076127" },
   "mini.surround": { "branch": "main", "commit": "88c52297ed3e69ecf9f8652837888ecc727a28ee" },
-  "misirlou.nvim": { "branch": "master", "commit": "9972662f11099b83a8e176a51b19866e9d85a026" },
+  "misirlou.nvim": { "branch": "master", "commit": "afe63a52efff697d4f8e246766b12d9f80cbabd4" },
   "misirloun": { "branch": "master", "commit": "b3b5b717e1b2a8421ebfd94caff2c2ed4390bdfe" },
   "modus-themes.nvim": { "branch": "master", "commit": "c57c2c56c9f0af04f3b609d11caa840880074784" },
   "nightfox.nvim": { "branch": "main", "commit": "ba47d4b4c5ec308718641ba7402c143836f35aa9" },
@@ -54,6 +54,6 @@
   "vesper.nvim": { "branch": "main", "commit": "1717b1ad657c94bec3fc2bdebb0c55452d9fe46d" },
   "vim-dadbod": { "branch": "master", "commit": "e95afed23712f969f83b4857a24cf9d59114c2e6" },
   "vim-dadbod-completion": { "branch": "master", "commit": "a8dac0b3cf6132c80dc9b18bef36d4cf7a9e1fe6" },
-  "vim-dadbod-ui": { "branch": "master", "commit": "236179fd6bdc2aabeb1326d428e6b29d41044d8e" },
+  "vim-dadbod-ui": { "branch": "master", "commit": "48c4f271da13d380592f4907e2d1d5558044e4e5" },
   "vim-moonfly-colors": { "branch": "master", "commit": "930f33f2e91225afb0491d259cf151ea9eca6ca3" }
 }
