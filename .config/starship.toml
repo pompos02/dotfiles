@@ -1,263 +1,257 @@
-add_newline = false
-format = """[\\[]($text)$username[@](text)$hostname $directory[\\]]($text)$character"""
-palette = "rose_pine"
-# move the rest of the prompt to the right
-right_format = """$git_branch $all"""
-command_timeout = 1000
-
-[username]
-format = "[$user]($style)"
-style_user = "text"
-show_always = true
-
-[hostname]
-format = "[$hostname]($style)"
-style = "text"
-ssh_only = false
-
-[character]
-vicmd_symbol = " >>>"
-success_symbol = '[\$](text)'
-error_symbol = '[\$](red)'
-
-[directory]
-read_only = " 󰌾"
-format = "[$path]($style)[$read_only]($read_only_style)"
-style = "text"
-repo_root_style = "subtle"
-truncation_length = 0
-truncate_to_repo = true
-
-[git_branch]
-# format = "git:\\([$branch]($style)\\)"
-format = "[$branch]($style)"
-style = "lavender"
-disabled = false
-
-
-[aws]
-format = '[$symbol(profile: "$profile" )(\(region: $region\) )]($style)'
-disabled = false
-style = 'bold blue'
-symbol = " "
-
-[buf]
-symbol = " "
-
-[bun]
-symbol = " "
-
-[c]
-symbol = " "
-
-[cpp]
-symbol = " "
-
-[cmake]
-symbol = " "
-
-[conda]
-symbol = "⬢ "
-
-[crystal]
-symbol = " "
-
-[dart]
-symbol = " "
-
-[deno]
-symbol = " "
-
-
-[docker_context]
-symbol = " "
-
-[elixir]
-symbol = " "
-
-[elm]
-symbol = " "
-
-[fennel]
-symbol = " "
-
-[fossil_branch]
-symbol = " "
-
-[gcloud]
-symbol = "  "
-
-
-[git_commit]
-tag_symbol = '  '
-
-[golang]
-format = '[ ](bold cyan)'
-
-[kubernetes]
-symbol = '☸ '
-disabled = true
-detect_files = ['Dockerfile']
-format = '[$symbol$context( \($namespace\))]($style) '
-contexts = [
-  { context_pattern = "arn:aws:eks:us-west-2:577926974532:cluster/zd-pvc-omer", style = "green", context_alias = "omerxx", symbol = " " },
-]
-
-[guix_shell]
-symbol = " "
-
-[haskell]
-symbol = " "
-
-[haxe]
-symbol = " "
-
-[hg_branch]
-symbol = " "
-
+# add_newline = false
+# format = """$username[@]()$hostname:$directory$git_branch$character"""
+# # move the rest of the prompt to the right
+# right_format = """$git_branch $all"""
+# command_timeout = 1000
+#
+# [username]
+# format = "$user"
+# show_always = true
+#
 # [hostname]
-# ssh_symbol = " "
-# format = "[$ssh_symbol$hostname]($style) "
-# style = 'iris'
-
-[java]
-symbol = " "
-
-[julia]
-symbol = " "
-
-[kotlin]
-symbol = " "
-
-[lua]
-symbol = " "
-
-[memory_usage]
-symbol = "󰍛 "
-
-[meson]
-symbol = "󰔷 "
-
-[nim]
-symbol = "󰆥 "
-
-[nix_shell]
-symbol = " "
-
-[nodejs]
-format = 'via [$symbol($version)]($style)'
-symbol = " "
-detect_files = ["package.json", ".node-version", ".nvmrc"]
-detect_folders = ["node_modules"]
-detect_extensions = ["js", "mjs", "cjs", "ts"]
-
-[ocaml]
-symbol = " "
-
-[os.symbols]
-Alpaquita = " "
-Alpine = " "
-AlmaLinux = " "
-Amazon = " "
-Android = " "
-Arch = " "
-Artix = " "
-CachyOS = " "
-CentOS = " "
-Debian = " "
-DragonFly = " "
-Emscripten = " "
-EndeavourOS = " "
-Fedora = " "
-FreeBSD = " "
-Garuda = "󰛓 "
-Gentoo = " "
-HardenedBSD = "󰞌 "
-Illumos = "󰈸 "
-Kali = " "
-Linux = " "
-Mabox = " "
-Macos = " "
-Manjaro = " "
-Mariner = " "
-MidnightBSD = " "
-Mint = " "
-NetBSD = " "
-NixOS = " "
-Nobara = " "
-OpenBSD = "󰈺 "
-openSUSE = " "
-OracleLinux = "󰌷 "
-Pop = " "
-Raspbian = " "
-Redhat = " "
-RedHatEnterprise = " "
-RockyLinux = " "
-Redox = "󰀘 "
-Solus = "󰠳 "
-SUSE = " "
-Ubuntu = " "
-Unknown = " "
-Void = " "
-Windows = "󰍲 "
-
-[package]
-symbol = "󰏗 "
-
-[perl]
-symbol = " "
-
-[php]
-symbol = " "
-
-[pijul_channel]
-symbol = " "
-
-[pixi]
-symbol = "󰏗 "
-
-[python]
-symbol = " "
-
-[rlang]
-symbol = "󰟔 "
-
-[ruby]
-symbol = " "
-
-[rust]
-symbol = "󱘗 "
-
-[scala]
-symbol = " "
-
-[swift]
-symbol = " "
-
-[zig]
-symbol = " "
-
-[gradle]
-symbol = " "
-
-
-[palettes.rose_pine]
-# Custom color palette
-  bg = "#000000"
-  nc = "#000000"
-  base = "#080808"
-  surface = "#191919"
-  overlay = "#2a2a2a"
-  muted = "#444444"
-  subtle = "#555555"
-  text = "#DDDDDD"
-  red = "#ce8787"
-  string = "#7788AA"
-  rose = "#aaaaaa"
-  blue = "#7a7a7a"
-  lavender = "#cccccc"
-  purple = "#7a7a7a"
-  green = "#555555"
-  highlight_low = "#191919"
-  highlight_med = "#444444"
-  highlight_high = "#aaaaaa"
+# format = "$hostname"
+# ssh_only = false
+#
+# [character]
+# vicmd_symbol = " >>>"
+# success_symbol = ' \$'
+# error_symbol = ' \$'
+#
+# [directory]
+# read_only = " 󰌾"
+# format = "$path[$read_only]($read_only_style)"
+# truncation_length = 0
+# truncate_to_repo = true
+#
+# [git_branch]
+# # format = "git:\\([$branch]($style)\\)"
+# format = "(*$branch)"
+# disabled = false
+#
+#
+# [aws]
+# format = '[$symbol(profile: "$profile" )(\(region: $region\) )]($style)'
+# disabled = false
+# style = 'bold blue'
+# symbol = " "
+#
+# [buf]
+# symbol = " "
+#
+# [bun]
+# symbol = " "
+#
+# [c]
+# symbol = " "
+#
+# [cpp]
+# symbol = " "
+#
+# [cmake]
+# symbol = " "
+#
+# [conda]
+# symbol = "⬢ "
+#
+# [crystal]
+# symbol = " "
+#
+# [dart]
+# symbol = " "
+#
+# [deno]
+# symbol = " "
+#
+#
+# [docker_context]
+# symbol = " "
+#
+# [elixir]
+# symbol = " "
+#
+# [elm]
+# symbol = " "
+#
+# [fennel]
+# symbol = " "
+#
+# [fossil_branch]
+# symbol = " "
+#
+# [gcloud]
+# symbol = "  "
+#
+#
+# [git_commit]
+# tag_symbol = '  '
+#
+# [golang]
+# format = '[ ](bold cyan)'
+#
+# [kubernetes]
+# symbol = '☸ '
+# disabled = true
+# detect_files = ['Dockerfile']
+# format = '[$symbol$context( \($namespace\))]($style) '
+# contexts = [
+#   { context_pattern = "arn:aws:eks:us-west-2:577926974532:cluster/zd-pvc-omer", style = "green", context_alias = "omerxx", symbol = " " },
+# ]
+#
+# [guix_shell]
+# symbol = " "
+#
+# [haskell]
+# symbol = " "
+#
+# [haxe]
+# symbol = " "
+#
+# [hg_branch]
+# symbol = " "
+#
+# # [hostname]
+# # ssh_symbol = " "
+# # format = "[$ssh_symbol$hostname]($style) "
+# # style = 'iris'
+#
+# [java]
+# symbol = " "
+#
+# [julia]
+# symbol = " "
+#
+# [kotlin]
+# symbol = " "
+#
+# [lua]
+# symbol = " "
+#
+# [memory_usage]
+# symbol = "󰍛 "
+#
+# [meson]
+# symbol = "󰔷 "
+#
+# [nim]
+# symbol = "󰆥 "
+#
+# [nix_shell]
+# symbol = " "
+#
+# [nodejs]
+# format = 'via [$symbol($version)]($style)'
+# symbol = " "
+# detect_files = ["package.json", ".node-version", ".nvmrc"]
+# detect_folders = ["node_modules"]
+# detect_extensions = ["js", "mjs", "cjs", "ts"]
+#
+# [ocaml]
+# symbol = " "
+#
+# [os.symbols]
+# Alpaquita = " "
+# Alpine = " "
+# AlmaLinux = " "
+# Amazon = " "
+# Android = " "
+# Arch = " "
+# Artix = " "
+# CachyOS = " "
+# CentOS = " "
+# Debian = " "
+# DragonFly = " "
+# Emscripten = " "
+# EndeavourOS = " "
+# Fedora = " "
+# FreeBSD = " "
+# Garuda = "󰛓 "
+# Gentoo = " "
+# HardenedBSD = "󰞌 "
+# Illumos = "󰈸 "
+# Kali = " "
+# Linux = " "
+# Mabox = " "
+# Macos = " "
+# Manjaro = " "
+# Mariner = " "
+# MidnightBSD = " "
+# Mint = " "
+# NetBSD = " "
+# NixOS = " "
+# Nobara = " "
+# OpenBSD = "󰈺 "
+# openSUSE = " "
+# OracleLinux = "󰌷 "
+# Pop = " "
+# Raspbian = " "
+# Redhat = " "
+# RedHatEnterprise = " "
+# RockyLinux = " "
+# Redox = "󰀘 "
+# Solus = "󰠳 "
+# SUSE = " "
+# Ubuntu = " "
+# Unknown = " "
+# Void = " "
+# Windows = "󰍲 "
+#
+# [package]
+# symbol = "󰏗 "
+#
+# [perl]
+# symbol = " "
+#
+# [php]
+# symbol = " "
+#
+# [pijul_channel]
+# symbol = " "
+#
+# [pixi]
+# symbol = "󰏗 "
+#
+# [python]
+# symbol = " "
+#
+# [rlang]
+# symbol = "󰟔 "
+#
+# [ruby]
+# symbol = " "
+#
+# [rust]
+# symbol = "󱘗 "
+#
+# [scala]
+# symbol = " "
+#
+# [swift]
+# symbol = " "
+#
+# [zig]
+# symbol = " "
+#
+# [gradle]
+# symbol = " "
+#
+#
+# [palettes.rose_pine]
+# # Custom color palette
+#   bg = "#000000"
+#   nc = "#000000"
+#   base = "#080808"
+#   surface = "#191919"
+#   overlay = "#2a2a2a"
+#   muted = "#444444"
+#   subtle = "#555555"
+#   text = "#DDDDDD"
+#   red = "#ce8787"
+#   string = "#7788AA"
+#   rose = "#aaaaaa"
+#   blue = "#7a7a7a"
+#   lavender = "#cccccc"
+#   purple = "#7a7a7a"
+#   green = "#555555"
+#   highlight_low = "#191919"
+#   highlight_med = "#444444"
+#   highlight_high = "#aaaaaa"
