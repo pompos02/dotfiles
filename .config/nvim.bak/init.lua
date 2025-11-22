@@ -1,7 +1,6 @@
 require("config.lazy")
 require("config.options")
 require("config.keymaps")
-require("config.lsp")
 vim.opt.shiftwidth = 4
 vim.o.winborder = "rounded"
 

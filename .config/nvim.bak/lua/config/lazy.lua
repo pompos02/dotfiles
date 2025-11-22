@@ -26,7 +26,7 @@ require("lazy").setup({
     spec = {
         -- import your plugins
         { import = "plugins" },
-        -- LSP configs moved to native ~/.config/nvim/lsp/
+        { import = "plugins.lsp" },
     },
     change_detection = {
         -- enabled = false, -- disable automatic config reloading
