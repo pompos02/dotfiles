@@ -2,11 +2,10 @@ require("config.lazy")
 require("config.options")
 require("config.keymaps")
 require("config.lsp")
-require("config.surround")
 
--- these are the custom plugins
-require("config.statusline").setup()
-require("config.surround").setup()
+-- custom plugins
+require("custom.statusline").setup()
+require("custom.surround").setup()
 
 vim.opt.shiftwidth = 4
 vim.o.winborder = "rounded"
