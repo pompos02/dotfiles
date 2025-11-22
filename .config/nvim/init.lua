@@ -2,12 +2,18 @@ require("config.lazy")
 require("config.options")
 require("config.keymaps")
 require("config.lsp")
+require("config.surround")
+
+-- these are the custom plugins
+require("config.statusline").setup()
+require("config.surround").setup()
+
 vim.opt.shiftwidth = 4
 vim.o.winborder = "rounded"
 
 -- Set the colorscheme
 vim.cmd.colorscheme("misirlou-lb")
-require("config.statusline").setup()
+
 
 -- highlight when yanking
 vim.api.nvim_create_autocmd("TextYankPost", {
