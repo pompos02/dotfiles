@@ -15,10 +15,9 @@ map({ "i", "s" }, "<c-l>", function()
     if vim.snippet.active({ direction = 1 }) then
         vim.snippet.jump(1)
         return
-    end
+   end
     return "<Tab>"
 end, { silent = true, expr = true })
-
 map({ "i", "s" }, "<c-h>", function()
     if vim.snippet.active({ direction = -1 }) then
         vim.snippet.jump(-1)
@@ -90,3 +89,24 @@ map("n", "<leader>lf", vim.lsp.buf.format, { desc = "Format the current buffer" 
 -- actions
 map("n", "<leader>ca", vim.lsp.buf.code_action, { desc = "Code Actions" })
 map("n", "<leader>rn", vim.lsp.buf.rename, { desc = "Rename variable" })
+
+-- Diagnostics and Quickfix
+map("n", "<leader>xx", function()
+    vim.diagnostic.setqflist()
+    vim.cmd.copen()
+end, { desc = "Open diagnostics in quickfix" })
+
+-- Quickfix navigation
+map("n", "[q", function()
+    local ok, err = pcall(vim.cmd.cprev)
+    if not ok then
+        vim.notify(err, vim.log.levels.ERROR)
+    end
+end, { desc = "Previous quickfix item" })
+
+map("n", "]q", function()
+    local ok, err = pcall(vim.cmd.cnext)
+    if not ok then
+        vim.notify(err, vim.log.levels.ERROR)
+    end
+end, { desc = "Next quickfix item" })

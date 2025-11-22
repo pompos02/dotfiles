@@ -5,7 +5,7 @@ vim.opt_local.list = false
 
 -- Insert error handling snippet with <C-e>
 vim.keymap.set("i", "<C-e>", function()
-    local row, col = unpack(vim.api.nvim_win_get_cursor(0))
+    local row, _ = unpack(vim.api.nvim_win_get_cursor(0))
 
     -- Get current line to determine indentation
     local current_line = vim.api.nvim_buf_get_lines(0, row - 1, row, false)[1] or ""

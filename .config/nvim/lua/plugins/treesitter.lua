@@ -3,10 +3,6 @@ return {
     build = ":TSUpdate",
     event = { "BufReadPost", "BufNewFile" },
     cmd = { "TSUpdateSync", "TSUpdate", "TSInstall" },
-    keys = {
-        { "<c-space>", desc = "Increment Selection" },
-        { "<bs>",      desc = "Decrement Selection", mode = "x" },
-    },
     dependencies = {
         "nvim-treesitter/nvim-treesitter-textobjects",
     },
@@ -18,12 +14,8 @@ return {
                 "bash",
                 "sql",
                 "c",
-                "glsl",
                 "cpp",
                 "diff",
-                "elixir",
-                "heex",
-                "eex",
                 "go",
                 "gomod",
                 "gowork",
@@ -39,7 +31,6 @@ return {
                 "markdown",
                 "markdown_inline",
                 "make",
-                "printf",
                 "python",
                 "query",
                 "regex",
@@ -53,40 +44,7 @@ return {
                 "rust",
                 "ron",
             },
-            incremental_selection = {
-                enable = true,
-                keymaps = {
-                    init_selection = "<C-space>",
-                    node_incremental = "<C-space>",
-                    scope_incremental = false,
-                    node_decremental = "<bs>",
-                },
-            },
             textobjects = {
-                select = {
-                    enable = true,
-                    lookahead = true, -- Automatically jump forward to textobj
-                    keymaps = {
-                        -- Functions
-                        ["af"] = "@function.outer",
-                        ["if"] = "@function.inner",
-                        -- Classes
-                        ["ac"] = "@class.outer",
-                        ["ic"] = "@class.inner",
-                        -- quotes
-                        ["aq"] = "@quote.outer",
-                        ["iq"] = "@quote.inner",
-                        -- Conditionals
-                        ["ai"] = "@conditional.outer",
-                        ["ii"] = "@conditional.inner",
-                        -- Loops
-                        ["al"] = "@loop.outer",
-                        ["il"] = "@loop.inner",
-                        -- Blocks
-                        ["ab"] = "@block.outer",
-                        ["ib"] = "@block.inner",
-                    },
-                },
                 move = {
                     enable = true,
                     set_jumps = true,
