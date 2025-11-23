@@ -84,6 +84,7 @@ map("n", "<leader>fg", function() require("custom.picker").live_grep() end, { de
 map("n", "<leader>fb", function() require("custom.picker").buffers() end, { desc = "Switch buffer" })
 map("n", "<leader>fh", function() require("custom.picker").help_tags() end, { desc = "Help tags" })
 map("n", "<leader>fo", function() require("custom.picker").oldfiles() end, { desc = "Recent files" })
+map("n", "<leader>fk", function() require("custom.picker").keymaps() end, { desc = "Find keymaps" })
 
 -- Native LSP navigation
 map("n", "gd", vim.lsp.buf.definition, { desc = "Go to definition" })
@@ -112,4 +113,3 @@ map("n", "<C-Right>", "<cmd>vertical resize +2<cr>", { desc = "Increase Window W
 -- File explorer (native netrw)
 map("n", "<leader>e", ":Explore<CR>", { desc = "Explorer (netrw)" })
 map("n", "<leader>E", ":Explore " .. vim.fn.getcwd() .. "<CR>", { desc = "Explorer - Project Root" })
-

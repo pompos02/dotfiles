@@ -3,7 +3,7 @@
 local M = {}
 
 local function has_fzf()
-    return vim.fn.exists("*fzf#run") == 1 and vim.fn.exists("*fzf#wrap") == 1
+   return vim.fn.exists("*fzf#run") == 1 and vim.fn.exists("*fzf#wrap") == 1
 end
 
 local function run_fzf(spec, name, fullscreen)
@@ -42,7 +42,9 @@ function M.find_files()
     run_fzf({
         source = cmd,
         sink = "edit",
-        options = "--prompt='Files> '",
+        options = {
+            "--prompt=Files> ",
+        },
     }, "files")
 end
 
@@ -72,6 +74,44 @@ function M.live_grep(initial_query)
         end,
         options = "--prompt='Grep> '",
     }, "live_grep")
+end
+
+function M.live_grep_live(initial_query)
+    local query = initial_query or ""
+
+    local has_rg = vim.fn.executable("rg") == 1
+
+    local function reload_cmd(q)
+        if has_rg then
+            return string.format(
+                "rg --line-number  -- %s",
+                vim.fn.shellescape(q)
+            )
+        else
+            return string.format(
+                "grep -rn %s . 2>/dev/null | grep -v '.git/'",
+                vim.fn.shellescape(q)
+            )
+        end
+    end
+
+    local initial_source = query ~= "" and reload_cmd(query) or "printf ''"
+
+    run_fzf({
+        source = initial_source,
+        sink = function(item)
+            jump_to_file_line(item)
+        end,
+        options = {
+            "--prompt=Grep> ",
+            "--delimiter=:",
+            "--preview", "sed -n '{2},+120p' -- {1}",
+            "--preview-window=right:50%",
+            "--bind", string.format("change:reload:%s", reload_cmd("{q}")),
+            "--phony",
+            query ~= "" and ("--query=" .. query) or nil,
+        },
+    }, "live_grep_live")
 end
 
 function M.buffers()
@@ -104,29 +144,6 @@ function M.buffers()
     }, "buffers")
 end
 
-function M.oldfiles()
-    local items = {}
-    for _, file in ipairs(vim.v.oldfiles) do
-        if vim.fn.filereadable(file) == 1 then
-            table.insert(items, vim.fn.fnamemodify(file, ":~:."))
-            if #items >= 100 then
-                break
-            end
-        end
-    end
-
-    if #items == 0 then
-        vim.notify("No recent files", vim.log.levels.INFO)
-        return
-    end
-
-    run_fzf({
-        source = items,
-        sink = "edit",
-        options = "--prompt='Oldfiles> '",
-    }, "oldfiles")
-end
-
 function M.help_tags()
     local tags = {}
     local files = vim.api.nvim_get_runtime_file("doc/tags", true)
@@ -155,6 +172,62 @@ function M.help_tags()
         end,
         options = "--prompt='Help> '",
     }, "help_tags")
+end
+
+local keymap_modes = {
+    { "n", "NORMAL" },
+    { "i", "INSERT" },
+    { "v", "VISUAL" },
+    { "x", "VISUAL-BLOCK" },
+    { "s", "SELECT" },
+    { "o", "OPERATOR" },
+    { "c", "COMMAND" },
+    { "t", "TERMINAL" },
+}
+
+local function format_map(mode, scope, map)
+    local lhs = map.lhs or map.lhsraw or ""
+    local desc = map.desc
+    local rhs = map.rhs or ""
+
+    local label
+    if desc and desc ~= "" then
+        label = desc
+    elseif rhs ~= "" then
+        label = rhs
+    elseif map.callback then
+        label = "<lua>"
+    else
+        label = "<mapping>"
+    end
+
+    return string.format("%-6s %-6s %-20s %s", mode, scope, lhs, label)
+end
+
+function M.keymaps()
+    local items = {}
+
+    for _, mode in ipairs(keymap_modes) do
+        for _, map in ipairs(vim.api.nvim_get_keymap(mode[1])) do
+            table.insert(items, format_map(mode[2], "global", map))
+        end
+        for _, map in ipairs(vim.api.nvim_buf_get_keymap(0, mode[1])) do
+            table.insert(items, format_map(mode[2], "buffer", map))
+        end
+    end
+
+    if #items == 0 then
+        vim.notify("No keymaps found", vim.log.levels.INFO)
+        return
+    end
+
+    run_fzf({
+        source = items,
+        sink = function(line)
+            vim.notify(line, vim.log.levels.INFO)
+        end,
+        options = "--prompt=Keys>  ",
+    }, "keymaps")
 end
 
 function M.setup() end

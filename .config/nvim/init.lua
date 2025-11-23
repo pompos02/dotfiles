@@ -21,7 +21,8 @@ vim.opt.shiftwidth = 4
 vim.o.winborder = "rounded"
 
 -- Set colorscheme
-vim.cmd.colorscheme("misirlou-lightstrong")
+-- vim.cmd.colorscheme("misirlou-lightstrong")
+vim.cmd.colorscheme("misirlou-lb")
 
 -- Highlight on yank
 vim.api.nvim_create_autocmd("TextYankPost", {
