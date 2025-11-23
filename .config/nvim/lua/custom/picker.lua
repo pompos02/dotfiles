@@ -26,6 +26,8 @@ local function run_fzf(spec, name, fullscreen)
 end
 
 local function jump_to_file_line(line)
+    -- strip ANSI color codes so file:line parsing remains valid when sources are colored
+    line = line:gsub("\27%[[0-9;]*m", "")
     local file, lnum = line:match("^([^:]+):(%d+)")
     if file and lnum then
         vim.cmd("edit " .. vim.fn.fnameescape(file))
@@ -60,11 +62,11 @@ function M.live_grep(initial_query)
     local cmd
     if vim.fn.executable("rg") == 1 then
         cmd = string.format(
-            "rg --line-number --no-heading --color never %s",
+            "rg --line-number --hidden --glob='!.git/**' --color=always %s",
             vim.fn.shellescape(query)
         )
     else
-        cmd = "grep -rn " .. vim.fn.shellescape(query) .. " . 2>/dev/null | grep -v '.git/'"
+        cmd = "grep --color=always -rn --include='.*' --include='*' --exclude-dir=.git " .. vim.fn.shellescape(query) .. " . 2>/dev/null"
     end
 
     run_fzf({
@@ -72,7 +74,16 @@ function M.live_grep(initial_query)
         sink = function(item)
             jump_to_file_line(item)
         end,
-        options = "--prompt='Grep> '",
+        options = {
+            "--ansi",
+            "--prompt=Grep> ",
+            "--delimiter=:",
+            "--preview", string.format(
+                "rg --color=always --line-number --hidden --glob='!.git/**' --context 5 -- %s -- {1}",
+                vim.fn.shellescape(query)
+            ),
+            "--preview-window=right:60%",
+        },
     }, "live_grep")
 end
 
@@ -84,12 +95,12 @@ function M.live_grep_live(initial_query)
     local function reload_cmd(q)
         if has_rg then
             return string.format(
-                "rg --line-number  -- %s",
+                "rg --line-number --no-heading --hidden --glob='!.git/**' --color=never -- %s",
                 vim.fn.shellescape(q)
             )
         else
             return string.format(
-                "grep -rn %s . 2>/dev/null | grep -v '.git/'",
+                "grep --color=never -rn --include='.*' --include='*' --exclude-dir=.git %s . 2>/dev/null",
                 vim.fn.shellescape(q)
             )
         end
@@ -103,10 +114,14 @@ function M.live_grep_live(initial_query)
             jump_to_file_line(item)
         end,
         options = {
+            "--ansi",
             "--prompt=Grep> ",
             "--delimiter=:",
-            "--preview", "sed -n '{2},+120p' -- {1}",
-            "--preview-window=right:50%",
+            "--preview",
+            has_rg
+                and "rg --color=always --line-number --no-heading --hidden --glob='!.git/**' --context 5 -- {q} -- {1}"
+                or "grep --color=always -n -C4 --include='.*' --include='*' --exclude-dir=.git -- {q} {1}",
+            "--preview-window=right:60%",
             "--bind", string.format("change:reload:%s", reload_cmd("{q}")),
             "--phony",
             query ~= "" and ("--query=" .. query) or nil,
