@@ -50,44 +50,8 @@ function M.find_files()
     }, "files")
 end
 
+
 function M.live_grep(initial_query)
-    local query = initial_query or ""
-    if query == "" then
-        query = vim.fn.input("Grep for: ")
-        if query == "" then
-            return
-        end
-    end
-
-    local cmd
-    if vim.fn.executable("rg") == 1 then
-        cmd = string.format(
-            "rg --line-number --hidden --glob='!.git/**' --color=always %s",
-            vim.fn.shellescape(query)
-        )
-    else
-        cmd = "grep --color=always -rn --include='.*' --include='*' --exclude-dir=.git " .. vim.fn.shellescape(query) .. " . 2>/dev/null"
-    end
-
-    run_fzf({
-        source = cmd,
-        sink = function(item)
-            jump_to_file_line(item)
-        end,
-        options = {
-            "--ansi",
-            "--prompt=Grep> ",
-            "--delimiter=:",
-            "--preview", string.format(
-                "rg --color=always --line-number --hidden --glob='!.git/**' --context 5 -- %s -- {1}",
-                vim.fn.shellescape(query)
-            ),
-            "--preview-window=right:60%",
-        },
-    }, "live_grep")
-end
-
-function M.live_grep_live(initial_query)
     local query = initial_query or ""
 
     local has_rg = vim.fn.executable("rg") == 1
@@ -95,7 +59,7 @@ function M.live_grep_live(initial_query)
     local function reload_cmd(q)
         if has_rg then
             return string.format(
-                "rg --line-number --no-heading --hidden --glob='!.git/**' --color=never -- %s",
+                "rg --line-number  --hidden --glob='!.git/**' --color=never -- %s",
                 vim.fn.shellescape(q)
             )
         else
@@ -119,7 +83,7 @@ function M.live_grep_live(initial_query)
             "--delimiter=:",
             "--preview",
             has_rg
-                and "rg --color=always --line-number --no-heading --hidden --glob='!.git/**' --context 5 -- {q} -- {1}"
+                and "rg --color=always --line-number  --hidden --glob='!.git/**' --context 5 -- {q} -- {1}"
                 or "grep --color=always -n -C4 --include='.*' --include='*' --exclude-dir=.git -- {q} {1}",
             "--preview-window=right:60%",
             "--bind", string.format("change:reload:%s", reload_cmd("{q}")),
