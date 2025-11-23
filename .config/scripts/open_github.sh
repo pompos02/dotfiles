@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
 
-cd $(tmux run "echo #{pane_start_path}") || exit
+set -euo pipefail
+
+cd "$(tmux run "echo #{pane_start_path}")" || exit
 url=$(git remote get-url origin)
 
 if [[ $url == *github.com* ]]; then
