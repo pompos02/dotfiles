@@ -10,8 +10,6 @@ map("n", "<Esc>", function()
     end
 end, { desc = "Clear search hl", silent = true, expr = true })
 
--- Snippet navigation removed - snippets not used in minimal config
-
 -- moving lines up and down
 map("v", "K", ":m '<-2<CR>gv=gv")
 map("v", "J", ":m '>+1<CR>gv=gv")
@@ -48,19 +46,6 @@ map({ "n", "x" }, "<Up>", "v:count == 0 ? 'gk' : 'k'", {
     silent = true,
 })
 
--- Window splits
-map("n", "<leader>wv", "<C-w>v", { desc = "Split Window Vertically" })
-map("n", "<leader>wh", "<C-w>s", { desc = "Split Window Horizontally" })
-
--- Buffer management
-map("n", "<leader>bd", "<cmd>bdelete<cr>", { desc = "Delete Buffer" })
-
--- Resize window using <ctrl> arrow keys
-map("n", "<C-Up>", "<cmd>resize +2<cr>", { desc = "Increase Window Height" })
-map("n", "<C-Down>", "<cmd>resize -2<cr>", { desc = "Decrease Window Height" })
-map("n", "<C-Left>", "<cmd>vertical resize -2<cr>", { desc = "Decrease Window Width" })
-map("n", "<C-Right>", "<cmd>vertical resize +2<cr>", { desc = "Increase Window Width" })
-
 -- Add undo break-points
 map("i", ",", ",<c-g>u")
 map("i", ".", ".<c-g>u")
@@ -71,10 +56,6 @@ map("v", ">", ">gv")
 
 -- foramatting
 map("n", "<leader>lf", vim.lsp.buf.format, { desc = "Format the current buffer" })
-
--- actions
-map("n", "<leader>ca", vim.lsp.buf.code_action, { desc = "Code Actions" })
-map("n", "<leader>rn", vim.lsp.buf.rename, { desc = "Rename variable" })
 
 -- Diagnostics and Quickfix
 map("n", "<leader>xx", function()
@@ -97,12 +78,12 @@ map("n", "]q", function()
     end
 end, { desc = "Next quickfix item" })
 
--- Native file finding (no fzf)
-map("n", "<leader><leader>", ":find **/", { desc = "Find files" })
-map("n", "<leader>fg", ":grep -r ", { desc = "Grep in files" })
-map("n", "<leader>fb", ":buffers<CR>:buffer ", { desc = "Switch buffer" })
-map("n", "<leader>fh", ":help ", { desc = "Help" })
-map("n", "<leader>fo", ":browse oldfiles<CR>", { desc = "Recent files" })
+-- Custom picker (pure Lua, no dependencies)
+map("n", "<leader><leader>", function() require("custom.picker").find_files() end, { desc = "Find files" })
+map("n", "<leader>fg", function() require("custom.picker").live_grep() end, { desc = "Live grep" })
+map("n", "<leader>fb", function() require("custom.picker").buffers() end, { desc = "Switch buffer" })
+map("n", "<leader>fh", function() require("custom.picker").help_tags() end, { desc = "Help tags" })
+map("n", "<leader>fo", function() require("custom.picker").oldfiles() end, { desc = "Recent files" })
 
 -- Native LSP navigation
 map("n", "gd", vim.lsp.buf.definition, { desc = "Go to definition" })
@@ -112,7 +93,23 @@ map("n", "gr", vim.lsp.buf.references, { desc = "Show references" })
 map("n", "K", vim.lsp.buf.hover, { desc = "Hover documentation" })
 map("n", "<leader>lr", vim.lsp.buf.references, { desc = "References" })
 map("n", "<leader>ls", vim.lsp.buf.document_symbol, { desc = "Document symbols" })
+map("n", "<leader>ca", vim.lsp.buf.code_action, { desc = "Code Actions" })
+map("n", "<leader>rn", vim.lsp.buf.rename, { desc = "Rename variable" })
+
+-- Window splits
+map("n", "<leader>wv", "<C-w>v", { desc = "Split Window Vertically" })
+map("n", "<leader>wh", "<C-w>s", { desc = "Split Window Horizontally" })
+
+-- Buffer management
+map("n", "<leader>bd", "<cmd>bdelete<cr>", { desc = "Delete Buffer" })
+
+-- Resize window using <ctrl> arrow keys
+map("n", "<C-Up>", "<cmd>resize +2<cr>", { desc = "Increase Window Height" })
+map("n", "<C-Down>", "<cmd>resize -2<cr>", { desc = "Decrease Window Height" })
+map("n", "<C-Left>", "<cmd>vertical resize -2<cr>", { desc = "Decrease Window Width" })
+map("n", "<C-Right>", "<cmd>vertical resize +2<cr>", { desc = "Increase Window Width" })
 
 -- File explorer (native netrw)
 map("n", "<leader>e", ":Explore<CR>", { desc = "Explorer (netrw)" })
 map("n", "<leader>E", ":Explore " .. vim.fn.getcwd() .. "<CR>", { desc = "Explorer - Project Root" })
+
