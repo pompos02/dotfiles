@@ -83,7 +83,7 @@ function M.live_grep(initial_query)
             "--delimiter=:",
             "--preview",
             has_rg
-                and "rg --color=always --line-number  --hidden --glob='!.git/**' --context 5 -- {q} -- {1}"
+                and "rg --color=always --line-number  --hidden --glob='!.git/**' --context 5 -- {q} {1}"
                 or "grep --color=always -n -C4 --include='.*' --include='*' --exclude-dir=.git -- {q} {1}",
             "--preview-window=right:60%",
             "--bind", string.format("change:reload:%s", reload_cmd("{q}")),
@@ -209,6 +209,5 @@ function M.keymaps()
     }, "keymaps")
 end
 
-function M.setup() end
 
 return M

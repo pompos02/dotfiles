@@ -5,6 +5,9 @@
 vim.g.mapleader = " "
 vim.g.maplocalleader = "\\"
 
+-- Disable fzf history; we don't want per-command files created
+vim.g.fzf_history_dir = ""
+
 -- Load core configuration modules
 require("config.options")
 require("config.keymaps")

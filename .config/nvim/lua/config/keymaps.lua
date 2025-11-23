@@ -86,6 +86,7 @@ map("n", "<leader>fh", function() require("custom.picker").help_tags() end, { de
 map("n", "<leader>fo", function() require("custom.picker").oldfiles() end, { desc = "Recent files" })
 map("n", "<leader>fk", function() require("custom.picker").keymaps() end, { desc = "Find keymaps" })
 
+
 -- Native LSP navigation
 map("n", "gd", vim.lsp.buf.definition, { desc = "Go to definition" })
 map("n", "gD", vim.lsp.buf.declaration, { desc = "Go to declaration" })
