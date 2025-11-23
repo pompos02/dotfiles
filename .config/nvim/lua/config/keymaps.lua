@@ -96,14 +96,6 @@ map("n", "K", vim.lsp.buf.hover, { desc = "Hover documentation" })
 map("n", "<leader>lr", vim.lsp.buf.references, { desc = "References" })
 map("n", "<leader>ls", vim.lsp.buf.document_symbol, { desc = "Document symbols" })
 map("n", "<leader>ca", vim.lsp.buf.code_action, { desc = "Code Actions" })
-map("n", "<leader>rn", vim.lsp.buf.rename, { desc = "Rename variable" })
-
--- Window splits
-map("n", "<leader>wv", "<C-w>v", { desc = "Split Window Vertically" })
-map("n", "<leader>wh", "<C-w>s", { desc = "Split Window Horizontally" })
-
--- Buffer management
-map("n", "<leader>bd", "<cmd>bdelete<cr>", { desc = "Delete Buffer" })
 
 -- Resize window using <ctrl> arrow keys
 map("n", "<C-Up>", "<cmd>resize +2<cr>", { desc = "Increase Window Height" })
@@ -114,3 +106,19 @@ map("n", "<C-Right>", "<cmd>vertical resize +2<cr>", { desc = "Increase Window W
 -- File explorer (native netrw)
 map("n", "<leader>e", ":Explore<CR>", { desc = "Explorer (netrw)" })
 map("n", "<leader>E", ":Explore " .. vim.fn.getcwd() .. "<CR>", { desc = "Explorer - Project Root" })
+
+-- Vimgrep visual selection (populate command, don't execute)
+map("v", "gs", function()
+    vim.cmd('noau normal! "vy"')
+    local text = vim.fn.getreg('v')
+    -- Escape forward slashes for vimgrep pattern
+    text = text:gsub("/", "\\/")
+    vim.fn.feedkeys(":vimgrep /" .. text .. "/j **/*", 'n')
+end, { desc = "Vimgrep selection in codebase" })
+
+-- Vimgrep word under cursor (normal mode)
+map("n", "gw", function()
+    local word = vim.fn.expand("<cword>")
+    word = word:gsub("/", "\\/")
+    vim.fn.feedkeys(":vimgrep /" .. word .. "/j **/*", 'n')
+end, { desc = "Vimgrep word under cursor" })
