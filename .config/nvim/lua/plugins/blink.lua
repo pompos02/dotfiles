@@ -1,24 +1,12 @@
 return {
-    -- Disable nvim-cmp if present
-    {
-        "hrsh7th/nvim-cmp",
-        enabled = false,
-    },
-
     -- Main blink.cmp configuration
     {
         "saghen/blink.cmp",
         version = "*",
         dependencies = {
             "rafamadriz/friendly-snippets",
-            {
-                "saghen/blink.compat",
-                optional = true,
-                opts = {},
-                version = "*",
-            },
             { "onsails/lspkind.nvim" },
-            { "nvim-tree/nvim-web-devicons" },
+            -- { "nvim-tree/nvim-web-devicons" },
         },
         event = "InsertEnter",
         opts = {
@@ -35,16 +23,13 @@ return {
                 ["<C-d>"] = { "scroll_documentation_down", "fallback" },
             },
 
-            -- Visual appearance
-            appearance = {
-                use_nvim_cmp_as_default = false,
-                nerd_font_variant = "mono",
-            },
 
             -- Completion behavior
             completion = {
                 accept = {
-                    auto_brackets = { enabled = true },
+                        auto_brackets = {
+                            enabled = true,
+                        },
                 },
 
                 menu = {
@@ -66,20 +51,6 @@ return {
 
                                     return icon .. ctx.icon_gap
                                 end,
-
-                                -- Optionally, use the highlight groups from nvim-web-devicons
-                                -- You can also add the same function for `kind.highlight` if you want to
-                                -- keep the highlight groups in sync with the icons.
-                                highlight = function(ctx)
-                                    local hl = ctx.kind_hl
-                                    if vim.tbl_contains({ "Path" }, ctx.source_name) then
-                                        local dev_icon, dev_hl = require("nvim-web-devicons").get_icon(ctx.label)
-                                        if dev_icon then
-                                            hl = dev_hl
-                                        end
-                                    end
-                                    return hl
-                                end,
                             },
                         },
                     },
@@ -100,7 +71,7 @@ return {
                 list = {
                     selection = {
                         preselect = false,
-                        auto_insert = true,
+                        auto_insert = false,
                     },
                 },
             },
@@ -151,25 +122,11 @@ return {
                 use_proximity = true,
                 sorts = { "score", "sort_text", "label" },
             },
-
             -- Signature help
             signature = {
                 enabled = true,
                 window = { border = "single" },
             },
         },
-
-        -- config = function(_, opts)
-        --     -- Setup Tab key behavior
-        --     if not opts.keymap["<Tab>"] then
-        --         opts.keymap["<Tab>"] = { "select_and_accept", "fallback" }
-        --     end
-        --
-        --     if not opts.keymap["<S-Tab>"] then
-        --         opts.keymap["<S-Tab>"] = { "select_prev", "fallback" }
-        --     end
-        --
-        --     require("blink.cmp").setup(opts)
-        -- end,
     },
 }

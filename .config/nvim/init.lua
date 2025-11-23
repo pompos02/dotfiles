@@ -11,7 +11,8 @@ vim.opt.shiftwidth = 4
 vim.o.winborder = "rounded"
 
 -- Set the colorscheme
-vim.cmd.colorscheme("misirlou-lb")
+-- vim.cmd.colorscheme("misirlou-lb")
+vim.cmd.colorscheme("misirlou-lightstrong")
 
 
 -- highlight when yanking
