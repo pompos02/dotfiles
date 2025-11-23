@@ -1,12 +1,9 @@
 local M = {}
 
 local function get_git_branch()
-    -- Use native git command to get branch
-    local handle = io.popen("git branch --show-current 2>/dev/null")
-    if handle then
-        local branch = handle:read("*l")
-        handle:close()
-        return branch or ""
+    local head = vim.b.gitsigns_head
+    if head and head ~= "" then
+        return head
     end
     return ""
 end
@@ -57,8 +54,23 @@ local function get_diagnostics()
 end
 
 local function get_git_diff()
-    -- Git diff removed - gitsigns not available
-    return ""
+    local gitsigns = vim.b.gitsigns_status_dict
+    if not gitsigns then
+        return ""
+    end
+
+    local parts = {}
+    if gitsigns.added and gitsigns.added > 0 then
+        table.insert(parts, "%#GitSignsAdd#+" .. gitsigns.added .. "%*")
+    end
+    if gitsigns.changed and gitsigns.changed > 0 then
+        table.insert(parts, "%#GitSignsChange#~" .. gitsigns.changed .. "%*")
+    end
+    if gitsigns.removed and gitsigns.removed > 0 then
+        table.insert(parts, "%#GitSignsDelete#-" .. gitsigns.removed .. "%*")
+    end
+
+    return table.concat(parts, " ")
 end
 
 local function get_lsp_status()

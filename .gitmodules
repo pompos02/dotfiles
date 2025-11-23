@@ -1,0 +1,3 @@
+[submodule ".config/nvim/pack/vendor/start/misirlou.nvim"]
+	path = .config/nvim/pack/vendor/start/misirlou.nvim
+	url = https://github.com/pompos02/misirlou.nvim

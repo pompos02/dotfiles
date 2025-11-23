@@ -1,6 +1,6 @@
 -- Native config for gopls
 return {
-  cmd = { "gopls" },
+  cmd = { vim.fn.stdpath("data") .. "/mason/bin/gopls" },
   filetypes = { "go", "gomod", "gowork", "gotmpl" },
   root_markers = { "go.work", "go.mod", ".git" },
   settings = {

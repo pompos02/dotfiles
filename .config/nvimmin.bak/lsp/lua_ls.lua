@@ -1,6 +1,6 @@
 -- Native config for lua-language-server
 return {
-  cmd = { "lua-language-server" },
+  cmd = { vim.fn.stdpath("data") .. "/mason/bin/lua-language-server" },
   filetypes = { "lua" },
   root_markers = { ".luarc.json", ".luarc.jsonc", ".git" },
   settings = {

@@ -1,6 +1,6 @@
 -- Native config for basedpyright
 return {
-  cmd = { "basedpyright-langserver", "--stdio" },
+  cmd = { vim.fn.stdpath("data") .. "/mason/bin/basedpyright-langserver", "--stdio" },
   filetypes = { "python" },
   root_markers = { "pyproject.toml", "setup.py", "requirements.txt", ".git" },
   settings = {

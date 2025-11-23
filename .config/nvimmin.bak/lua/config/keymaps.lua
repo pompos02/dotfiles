@@ -10,7 +10,21 @@ map("n", "<Esc>", function()
     end
 end, { desc = "Clear search hl", silent = true, expr = true })
 
--- Snippet navigation removed - snippets not used in minimal config
+-- jump to next/prev snippet
+map({ "i", "s" }, "<c-l>", function()
+    if vim.snippet.active({ direction = 1 }) then
+        vim.snippet.jump(1)
+        return
+   end
+    return "<Tab>"
+end, { silent = true, expr = true })
+map({ "i", "s" }, "<c-h>", function()
+    if vim.snippet.active({ direction = -1 }) then
+        vim.snippet.jump(-1)
+        return
+    end
+    return "<S-Tab>"
+end, { silent = true, expr = true })
 
 -- moving lines up and down
 map("v", "K", ":m '<-2<CR>gv=gv")
@@ -96,23 +110,3 @@ map("n", "]q", function()
         vim.notify(err, vim.log.levels.ERROR)
     end
 end, { desc = "Next quickfix item" })
-
--- Native file finding (no fzf)
-map("n", "<leader><leader>", ":find **/", { desc = "Find files" })
-map("n", "<leader>fg", ":grep -r ", { desc = "Grep in files" })
-map("n", "<leader>fb", ":buffers<CR>:buffer ", { desc = "Switch buffer" })
-map("n", "<leader>fh", ":help ", { desc = "Help" })
-map("n", "<leader>fo", ":browse oldfiles<CR>", { desc = "Recent files" })
-
--- Native LSP navigation
-map("n", "gd", vim.lsp.buf.definition, { desc = "Go to definition" })
-map("n", "gD", vim.lsp.buf.declaration, { desc = "Go to declaration" })
-map("n", "gi", vim.lsp.buf.implementation, { desc = "Go to implementation" })
-map("n", "gr", vim.lsp.buf.references, { desc = "Show references" })
-map("n", "K", vim.lsp.buf.hover, { desc = "Hover documentation" })
-map("n", "<leader>lr", vim.lsp.buf.references, { desc = "References" })
-map("n", "<leader>ls", vim.lsp.buf.document_symbol, { desc = "Document symbols" })
-
--- File explorer (native netrw)
-map("n", "<leader>e", ":Explore<CR>", { desc = "Explorer (netrw)" })
-map("n", "<leader>E", ":Explore " .. vim.fn.getcwd() .. "<CR>", { desc = "Explorer - Project Root" })

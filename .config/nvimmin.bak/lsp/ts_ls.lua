@@ -1,6 +1,6 @@
 -- Native config for typescript-language-server
 return {
-  cmd = { "typescript-language-server", "--stdio" },
+  cmd = { vim.fn.stdpath("data") .. "/mason/bin/typescript-language-server", "--stdio" },
   filetypes = {
     "javascript",
     "javascriptreact",

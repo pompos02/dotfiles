@@ -1,6 +1,6 @@
 -- Native config for bash-language-server
 return {
-  cmd = { "bash-language-server", "start" },
+  cmd = { vim.fn.stdpath("data") .. "/mason/bin/bash-language-server", "start" },
   filetypes = { "sh", "bash" },
   root_markers = { ".git" },
   settings = {
