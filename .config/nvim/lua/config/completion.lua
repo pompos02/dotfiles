@@ -11,38 +11,7 @@ M.setup = function()
     end,
   })
 
-  -- Completion mappings
-  local map = vim.keymap.set
-  
-  
-  -- Tab/S-Tab for navigation in completion menu
-  map("i", "<Tab>", function()
-    if vim.fn.pumvisible() == 1 then
-      return "<C-n>"
-    else
-      return "<Tab>"
-    end
-  end, { expr = true, silent = true, desc = "Next completion" })
-  
-  map("i", "<S-Tab>", function()
-    if vim.fn.pumvisible() == 1 then
-      return "<C-p>"
-    else
-      return "<S-Tab>"
-    end
-  end, { expr = true, silent = true, desc = "Previous completion" })
-  
-  -- Enter to select completion
-  map("i", "<CR>", function()
-    if vim.fn.pumvisible() == 1 then
-      return "<C-y>"
-    else
-      return "<CR>"
-    end
-  end, { expr = true, silent = true, desc = "Accept completion" })
-  
-  -- Ctrl+e to close completion menu
-  map("i", "<C-e>", function()
+  vim.map("i", "<C-e>", function()
     if vim.fn.pumvisible() == 1 then
       return "<C-e>"
     else
