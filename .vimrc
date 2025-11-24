@@ -14,6 +14,7 @@ syntax enable
 filetype plugin indent on
 
 " Options
+set ttimeoutlen=50
 set hlsearch
 set incsearch
 set noswapfile
