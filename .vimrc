@@ -14,6 +14,8 @@ syntax enable
 filetype plugin indent on
 
 " Options
+set hlsearch
+set incsearch
 set noswapfile
 set number
 set relativenumber
@@ -263,7 +265,7 @@ augroup END
 call s:StatuslineColors()
 
 " Surround (sa/add, sd/delete, sr/replace) --------------------------
-let s:surround_pairs = {
+let s:sur_pairs = {
       \ '(': ['(', ')'],
       \ ')': ['(', ')'],
       \ '[': ['[', ']'],
@@ -277,88 +279,109 @@ let s:surround_pairs = {
       \ '`': ['`', '`'],
       \ }
 
-function! s:GetPair(ch) abort
-  return has_key(s:surround_pairs, a:ch) ? s:surround_pairs[a:ch] : [a:ch, a:ch]
+function! s:SurGetPair(ch) abort
+  return has_key(s:sur_pairs, a:ch) ? s:sur_pairs[a:ch] : [a:ch, a:ch]
 endfunction
 
-function! s:SurroundAdd(type) abort
-  let l:ch = input('Surround with: ')
-  if empty(l:ch)
-    return
-  endif
-  let [l:left, l:right] = s:GetPair(l:ch[0])
-  let [l1, c1] = getpos("'[")[1:2]
-  let [l2, c2] = getpos("']")[1:2]
-  if l1 == l2
-    let l:line = getline(l1)
-    call setline(l1, strpart(l:line, 0, c1 - 1) . l:left . strpart(l:line, c1 - 1, c2 - c1 + 1) . l:right . strpart(l:line, c2))
+function! s:SurPromptId(kind) abort
+  try
+    let l:ch = getcharstr()
+  catch /^Vim:Interrupt$/
+    return ''
+  endtry
+  return l:ch ==# "\<Esc>" ? '' : l:ch
+endfunction
+
+function! s:SurGetMarks(mode) abort
+  if a:mode ==# 'visual'
+    let l:a = getpos("'<")
+    let l:b = getpos("'>")
+    if &selection ==# 'exclusive'
+      let l:b[2] -= 1
+    endif
   else
-    let l:first = getline(l1)
-    let l:last = getline(l2)
-    call setline(l1, strpart(l:first, 0, c1 - 1) . l:left . strpart(l:first, c1 - 1))
-    call setline(l2, strpart(l:last, 0, c2) . l:right . strpart(l:last, c2))
+    let l:a = getpos("'[")
+    let l:b = getpos("']")
   endif
+  return [{'line': l:a[1], 'col': l:a[2]}, {'line': l:b[1], 'col': l:b[2]}]
 endfunction
 
-function! s:SurroundDelete() abort
-  let l:ch = input('Delete surrounding: ')
-  if empty(l:ch)
-    return
+function! s:SurInsert(line, col, text) abort
+  let l:ln = getline(a:line)
+  let l:idx = max([0, a:col - 1])
+  call setline(a:line, strpart(l:ln, 0, l:idx) . a:text . strpart(l:ln, l:idx))
+endfunction
+
+function! s:SurAdd(mode) abort
+  let l:id = s:SurPromptId('output')
+  if empty(l:id) | return | endif
+  let [l:left, l:right] = s:SurGetPair(l:id[0])
+  let [l:pos1, l:pos2] = s:SurGetMarks(a:mode)
+  " insert right after end (inclusive), left before start
+  call s:SurInsert(l:pos2.line, l:pos2.col + 1, l:right)
+  call s:SurInsert(l:pos1.line, l:pos1.col, l:left)
+  call cursor(l:pos1.line, l:pos1.col + strlen(l:left))
+endfunction
+
+function! s:SurFindAround(ch) abort
+  let [l:left, l:right] = s:SurGetPair(a:ch)
+  let l:save = getpos('.')
+  let l:s = []
+  if l:left ==# l:right
+    let l:pat = '\V' . escape(l:left, '\')
+    let l:beg = searchpos(l:pat, 'bnW')
+    call setpos('.', l:save)
+    let l:end = searchpos(l:pat, 'nW')
+    call setpos('.', l:save)
+  else
+    let l:beg = searchpairpos('\V'.escape(l:left,'\'), '', '\V'.escape(l:right,'\'), 'bnW')
+    call setpos('.', l:save)
+    let l:end = searchpairpos('\V'.escape(l:left,'\'), '', '\V'.escape(l:right,'\'), 'nW')
+    call setpos('.', l:save)
   endif
-  let [l:left, l:right] = s:GetPair(l:ch[0])
-  let l:start = searchpairpos(l:left, '', l:right, 'bnW')
-  let l:finish = searchpairpos(l:left, '', l:right, 'nW')
-  if l:start[0] == 0 || l:finish[0] == 0
+  if empty(l:beg) || empty(l:end) || l:beg[0] == 0 || l:end[0] == 0
+    return {}
+  endif
+  return {'left': {'line': l:beg[0], 'col': l:beg[1]}, 'right': {'line': l:end[0], 'col': l:end[1]}}
+endfunction
+
+function! s:SurDelete() abort
+  let l:id = s:SurPromptId('input')
+  if empty(l:id) | return | endif
+  let l:surr = s:SurFindAround(l:id[0])
+  if empty(l:surr)
     echo "No surrounding found"
     return
   endif
-  if l:start[0] == l:finish[0]
-    let l:line = getline(l:start[0])
-    let l:line = strpart(l:line, 0, l:finish[1] - 1) . strpart(l:line, l:finish[1])
-    let l:line = strpart(l:line, 0, l:start[1] - 1) . strpart(l:line, l:start[1])
-    call setline(l:start[0], l:line)
-  else
-    let l:last = getline(l:finish[0])
-    call setline(l:finish[0], strpart(l:last, 0, l:finish[1] - 1) . strpart(l:last, l:finish[1]))
-    let l:first = getline(l:start[0])
-    call setline(l:start[0], strpart(l:first, 0, l:start[1] - 1) . strpart(l:first, l:start[1]))
-  endif
+  let l:ln = getline(l:surr.right.line)
+  call setline(l:surr.right.line, strpart(l:ln, 0, l:surr.right.col - 1) . strpart(l:ln, l:surr.right.col))
+  let l:ln = getline(l:surr.left.line)
+  call setline(l:surr.left.line, strpart(l:ln, 0, l:surr.left.col - 1) . strpart(l:ln, l:surr.left.col))
+  call cursor(l:surr.left.line, l:surr.left.col)
 endfunction
 
-function! s:SurroundReplace() abort
-  let l:ch = input('Replace surrounding: ')
-  if empty(l:ch)
-    return
-  endif
-  let [l:left, l:right] = s:GetPair(l:ch[0])
-  let l:start = searchpairpos(l:left, '', l:right, 'bnW')
-  let l:finish = searchpairpos(l:left, '', l:right, 'nW')
-  if l:start[0] == 0 || l:finish[0] == 0
+function! s:SurReplace() abort
+  let l:id = s:SurPromptId('input')
+  if empty(l:id) | return | endif
+  let l:surr = s:SurFindAround(l:id[0])
+  if empty(l:surr)
     echo "No surrounding found"
     return
   endif
-  let l:new = input('With: ')
-  if empty(l:new)
-    return
-  endif
-  let [l:nl, l:nr] = s:GetPair(l:new[0])
-  if l:start[0] == l:finish[0]
-    let l:line = getline(l:start[0])
-    let l:line = strpart(l:line, 0, l:finish[1] - 1) . l:nr . strpart(l:line, l:finish[1])
-    let l:line = strpart(l:line, 0, l:start[1] - 1) . l:nl . strpart(l:line, l:start[1])
-    call setline(l:start[0], l:line)
-  else
-    let l:last = getline(l:finish[0])
-    call setline(l:finish[0], strpart(l:last, 0, l:finish[1] - 1) . l:nr . strpart(l:last, l:finish[1]))
-    let l:first = getline(l:start[0])
-    call setline(l:start[0], strpart(l:first, 0, l:start[1] - 1) . l:nl . strpart(l:first, l:start[1]))
-  endif
+  let l:new = s:SurPromptId('output')
+  if empty(l:new) | return | endif
+  let [l:nl, l:nr] = s:SurGetPair(l:new[0])
+  let l:ln = getline(l:surr.right.line)
+  call setline(l:surr.right.line, strpart(l:ln, 0, l:surr.right.col - 1) . l:nr . strpart(l:ln, l:surr.right.col))
+  let l:ln = getline(l:surr.left.line)
+  call setline(l:surr.left.line, strpart(l:ln, 0, l:surr.left.col - 1) . l:nl . strpart(l:ln, l:surr.left.col))
+  call cursor(l:surr.left.line, l:surr.left.col + strlen(l:nl))
 endfunction
 
-nnoremap <silent> sa :set opfunc=<SID>SurroundAdd<CR>g@
-xnoremap <silent> sa :<C-u>call <SID>SurroundAdd('visual')<CR>
-nnoremap <silent> sd :call <SID>SurroundDelete()<CR>
-nnoremap <silent> sr :call <SID>SurroundReplace()<CR>
+nnoremap <silent> sa :set opfunc=<SID>SurAdd<CR>g@
+xnoremap <silent> sa :<C-u>call <SID>SurAdd('visual')<CR>
+nnoremap <silent> sd :call <SID>SurDelete()<CR>
+nnoremap <silent> sr :call <SID>SurReplace()<CR>
 
 " Filetype-specific settings ----------------------------------------
 augroup FiletypeSettings
