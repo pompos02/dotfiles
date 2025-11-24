@@ -3,6 +3,7 @@ let mapleader = " "
 let maplocalleader = "\\"
 
 colorscheme lunaperche
+" set background=dark
 
 
 " Disable fzf history files
@@ -363,7 +364,6 @@ nnoremap <silent> sr :call <SID>SurroundReplace()<CR>
 augroup FiletypeSettings
   autocmd!
   autocmd FileType go setlocal shiftwidth=4 tabstop=4 noexpandtab nolist
-  autocmd FileType go inoremap <buffer> <C-e> <Cmd>call GoErrSnippet()<CR>
   autocmd FileType c setlocal shiftwidth=4
   autocmd FileType lua setlocal number
   autocmd FileType markdown let b:completion = 0
