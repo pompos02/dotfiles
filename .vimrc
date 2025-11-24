@@ -114,9 +114,17 @@ nnoremap <silent> <leader>E :execute 'Explore ' . getcwd()<CR>
 
 " Vimgrep helpers
 function! s:VimgrepSelection() abort
-  normal! "vy
-  let text = escape(getreg('v'), '/')
-  call feedkeys(":vimgrep /" . text . "/j **/*", 'n')
+  " Reselect last visual area, yank into register v, and use it for vimgrep
+  let l:save_reg = getreg('"')
+  let l:save_reg_type = getregtype('"')
+  normal! gv"vy
+  let l:text = escape(substitute(getreg('v'), '\n\+$', '', ''), '\/')
+  call setreg('"', l:save_reg, l:save_reg_type)
+  if empty(l:text)
+    echo "No selection to grep"
+    return
+  endif
+  call feedkeys(':vimgrep /' . l:text . '/j **/*', 'n')
 endfunction
 xnoremap <silent> gs :<C-u>call <SID>VimgrepSelection()<CR>
 
