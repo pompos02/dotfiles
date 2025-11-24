@@ -22,9 +22,6 @@ bind "set completion-ignore-case on"
 alias ls='ls --color=auto'
 alias grep='grep --color=auto'
 alias vim='nvim'
-alias codenohup='nohup code  >/dev/null 2>&1 &'
-alias cursornohup='nohup cursor  >/dev/null 2>&1 &'
-alias gs='git status'
 alias ..="cd .."
 alias ff="fzf --preview 'bat --style=numbers --color=always {}'"
 alias code="code  --ozone-platform=wayland "
@@ -41,6 +38,7 @@ export PATH="$PATH:$HOME/go/bin"
 export PATH="/opt/homebrew/opt/postgresql@17/bin:$PATH"
 export EDITOR=nvim
 export PATH="$HOME/.npm-global/bin:$PATH"
+export PATH="$HOME/.config/scripts:$PATH"
 
 # vim motions
 set -o vi

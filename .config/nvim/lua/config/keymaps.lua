@@ -86,23 +86,6 @@ map("n", "<leader>fh", function() require("custom.picker").help_tags() end, { de
 map("n", "<leader>fo", function() require("custom.picker").oldfiles() end, { desc = "Recent files" })
 map("n", "<leader>fk", function() require("custom.picker").keymaps() end, { desc = "Find keymaps" })
 
-
--- Native LSP navigation
-map("n", "gd", vim.lsp.buf.definition, { desc = "Go to definition" })
-map("n", "gD", vim.lsp.buf.declaration, { desc = "Go to declaration" })
-map("n", "gi", vim.lsp.buf.implementation, { desc = "Go to implementation" })
-map("n", "gr", vim.lsp.buf.references, { desc = "Show references" })
-map("n", "K", vim.lsp.buf.hover, { desc = "Hover documentation" })
-map("n", "<leader>lr", vim.lsp.buf.references, { desc = "References" })
-map("n", "<leader>ls", vim.lsp.buf.document_symbol, { desc = "Document symbols" })
-map("n", "<leader>ca", vim.lsp.buf.code_action, { desc = "Code Actions" })
-
--- Resize window using <ctrl> arrow keys
-map("n", "<C-Up>", "<cmd>resize +2<cr>", { desc = "Increase Window Height" })
-map("n", "<C-Down>", "<cmd>resize -2<cr>", { desc = "Decrease Window Height" })
-map("n", "<C-Left>", "<cmd>vertical resize -2<cr>", { desc = "Decrease Window Width" })
-map("n", "<C-Right>", "<cmd>vertical resize +2<cr>", { desc = "Increase Window Width" })
-
 -- File explorer (native netrw)
 map("n", "<leader>e", ":Explore<CR>", { desc = "Explorer (netrw)" })
 map("n", "<leader>E", ":Explore " .. vim.fn.getcwd() .. "<CR>", { desc = "Explorer - Project Root" })

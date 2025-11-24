@@ -205,7 +205,7 @@ function M.keymaps()
         sink = function(line)
             vim.notify(line, vim.log.levels.INFO)
         end,
-        options = "--prompt=Keys>  ",
+        options = "--prompt='Keys> '",
     }, "keymaps")
 end
 

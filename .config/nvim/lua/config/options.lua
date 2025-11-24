@@ -44,7 +44,7 @@ opt.winminwidth = 5                                                             
 opt.wrap = false                                                                                -- Disable line wrap
 opt.cursorline = true                                                                           -- Highlight the line where the cursor is located
 -- opt.fillchars:append({ eob = " " })                                                             -- Remove ~ from empty lines
-opt.showtabline = 0                                                                             -- Never show tabline
+opt.showtabline = 1                                                                             -- Never show tabline
 opt.guicursor =
 "n-v-c-sm:block,i-ci-ve:block-blinkwait500-blinkoff200-blinkon200,r-cr-o:hor20"                 -- Use blinking block cursor in insert mode
 vim.opt.colorcolumn = "80"

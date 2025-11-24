@@ -3,7 +3,7 @@
 
 configuration {
 /*	modes: "window,drun,run,ssh";*/
-	font: "TX-02 16";
+	font: "Iosevka Custom 16";
 /*	location: 0;*/
 /*	yoffset: 0;*/
 /*	xoffset: 0;*/
