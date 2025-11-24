@@ -83,7 +83,6 @@ map("n", "<leader><leader>", function() require("custom.picker").find_files() en
 map("n", "<leader>fg", function() require("custom.picker").live_grep() end, { desc = "Live grep" })
 map("n", "<leader>fb", function() require("custom.picker").buffers() end, { desc = "Switch buffer" })
 map("n", "<leader>fh", function() require("custom.picker").help_tags() end, { desc = "Help tags" })
-map("n", "<leader>fo", function() require("custom.picker").oldfiles() end, { desc = "Recent files" })
 map("n", "<leader>fk", function() require("custom.picker").keymaps() end, { desc = "Find keymaps" })
 
 -- File explorer (native netrw)

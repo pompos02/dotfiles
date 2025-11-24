@@ -12,7 +12,6 @@ vim.g.fzf_history_dir = ""
 require("config.options")
 require("config.keymaps")
 require("config.lsp")
-require("config.completion")
 
 -- Load custom plugins (pure Lua, no external dependencies)
 require("custom.statusline").setup()
