@@ -36,11 +36,24 @@ local function jump_to_file_line(line)
     end
 end
 
+local function parse_grep_line(line)
+    line = line:gsub("\27%[[0-9;]*m", "")
+    local file, lnum, col, text = line:match("^([^:]+):(%d+):?(%d*):(.*)$")
+    if not (file and lnum) then
+        return nil
+    end
+    return {
+        filename = file,
+        lnum = tonumber(lnum),
+        col = col ~= "" and tonumber(col) or nil,
+        text = vim.trim(text or ""),
+    }
+end
+
 function M.find_files()
     local cmd = vim.fn.executable("fd") == 1
         and "fd --type f --hidden --exclude .git"
         or "find . -type f -not -path '*/.git/*' 2>/dev/null"
-
     run_fzf({
         source = cmd,
         sink = "edit",
@@ -74,8 +87,35 @@ function M.live_grep(initial_query)
 
     run_fzf({
         source = initial_source,
-        sink = function(item)
-            jump_to_file_line(item)
+        sinklist = function(lines)
+            if #lines == 0 then
+                return
+            end
+
+            local key = lines[1]
+            local items = {}
+            local start_idx = key ~= "" and 2 or 1
+
+            for i = start_idx, #lines do
+                local entry = parse_grep_line(lines[i])
+                if entry then
+                    table.insert(items, entry)
+                end
+            end
+
+            if key == "ctrl-q" then
+                if #items == 0 then
+                    vim.notify("No entries to add to quickfix", vim.log.levels.INFO)
+                    return
+                end
+                vim.fn.setqflist({}, "r", { items = items })
+                vim.cmd.copen()
+                return
+            end
+
+            if items[1] then
+                jump_to_file_line(string.format("%s:%d", items[1].filename, items[1].lnum))
+            end
         end,
         options = {
             "--ansi",
@@ -88,6 +128,9 @@ function M.live_grep(initial_query)
             "--preview-window=right:60%",
             "--bind", string.format("change:reload:%s", reload_cmd("{q}")),
             "--phony",
+            "--expect=ctrl-q",
+            "--multi",
+            "--bind=ctrl-a:select-all,ctrl-d:deselect-all",
             query ~= "" and ("--query=" .. query) or nil,
         },
     }, "live_grep_live")
