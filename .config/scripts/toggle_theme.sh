@@ -7,6 +7,8 @@ CURRENT_THEME_LINK="$KITTY_CONFIG_DIR/current-theme.conf"
 DARK_THEME="$KITTY_CONFIG_DIR/dark.conf"
 LIGHT_THEME="$KITTY_CONFIG_DIR/light.conf"
 NVIM_INIT="$HOME/.config/nvim/init.lua"
+VIM_CONFIG="$HOME/.vimrc"
+
 
 # Determine current theme by checking what the symlink points to
 current_target=$(readlink "$CURRENT_THEME_LINK")
@@ -38,6 +40,12 @@ else
     sed -i 's/^vim\.cmd\.colorscheme("misirlou-lb")/-- vim.cmd.colorscheme("misirlou-lb")/; s/^-- vim\.cmd\.colorscheme("misirlou-lightstrong")/vim.cmd.colorscheme("misirlou-lightstrong")/' "$NVIM_INIT"
 fi
 
+
+if grep -q '^set background=dark$' "$VIM_CONFIG"; then
+    sed -i 's/" set background=dark/set background=dark/' "$VIM_CONFIG"
+else
+    sed -i 's/set background=dark/" set background=dark/' "$VIM_CONFIG"
+fi
 # Display a notification (optional, but helpful for user feedback)
 # notify-send "Switched to $theme_name theme"
 

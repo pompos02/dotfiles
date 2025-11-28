@@ -5,7 +5,13 @@
 # If not running interactively, don't do anything
 [[ $- != *i* ]] && return
 
-# Simple prompt without colors
+export PATH="$HOME/.local/bin:$PATH"
+export PATH="$PATH:$HOME/go/bin"
+export PATH="$HOME/.npm-global/bin:$PATH"
+export PATH="$HOME/.config/scripts:$PATH"
+export PATH="$HOME/.opencode/bin:$PATH"
+
+# Prompt
 PS1='$(ret=$?;(($ret!=0)) && echo "\[\033[38;5;1m\]($ret)\[\033[0m\] ")'  # exit code (red)
 PS1+='$(((UID==0)) && echo "\[\033[38;5;1m\]")\u@\h\[\033[0m\]'  # user@host (red for root)
 PS1+=':'  # separator
@@ -23,22 +29,14 @@ alias ls='ls --color=auto'
 alias grep='grep --color=auto'
 alias vim='nvim'
 alias ..="cd .."
-alias ff="fzf --preview 'bat --style=numbers --color=always {}'"
-alias code="code  --ozone-platform=wayland "
-alias pacl="pacman -Slq | fzf --preview 'pacman -Si {}' --layout=reverse --height=80% --border"
-alias yayl="yay -Slq | fzf --preview 'yay -Si {}' --layout=reverse --height=80% --border"
+
 
 eval "$(fzf --bash)"
-# opencode
-export PATH=/home/karavellas/.opencode/bin:$PATH
+
 # this is the node version manager
-source /usr/share/nvm/init-nvm.sh
-export PATH="$HOME/.local/bin:$PATH"
-export PATH="$PATH:$HOME/go/bin"
-export PATH="/opt/homebrew/opt/postgresql@17/bin:$PATH"
+# source /usr/share/nvm/init-nvm.sh
+
 export EDITOR=nvim
-export PATH="$HOME/.npm-global/bin:$PATH"
-export PATH="$HOME/.config/scripts:$PATH"
 
 # vim motions
 set -o vi
@@ -51,9 +49,6 @@ my_ip() {
     ip address | grep -o "inet 192.*/" | awk '{ print $2 }' | tr / ' ' | xargs
 }
 
-open() {
-    xdg-open "$@" >/dev/null 2>&1 &
-}
 
 conda() {
     unset -f conda
@@ -62,14 +57,15 @@ conda() {
 }
 
 man() {
-    if [ $# -eq 0 ]; then
-        local page
-        page=$(apropos . | awk '{print $1}' | sort -u | fzf --preview "man {}" --preview-window "right:60%" --height=40% --layout=reverse)
-        [ -n "$page" ] && nvim -c "Man $page"
-    else
-        nvim -c "Man $* | only"
-    fi
+    nvim -c "Man $* | only"
 }
 
-extstats() { "$HOME/.config/scripts/extstats.sh"; }
+# Arch/Wayland specific
+alias code="code  --ozone-platform=wayland "
+alias pacl="pacman -Slq | fzf --preview 'pacman -Si {}' --layout=reverse --height=80% --border"
+alias yayl="yay -Slq | fzf --preview 'yay -Si {}' --layout=reverse --height=80% --border"
+
+open() {
+    xdg-open "$@" >/dev/null 2>&1 &
+}
 

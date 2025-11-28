@@ -3,7 +3,7 @@ let mapleader = " "
 let maplocalleader = "\\"
 
 colorscheme lunaperche
-" set background=dark
+set background=dark
 
 
 " Disable fzf history files
