@@ -1,10 +1,10 @@
 # Custom prompt (matching .bashrc)
-setopt PROMPT_SUBST
-PROMPT='%(!.%F{red}.)%n@%m%f'  # user@host (red for root)
-PROMPT+=':'  # separator
-PROMPT+='%1~'  # current directory
-PROMPT+='$(branch=$(git rev-parse --abbrev-ref HEAD 2>/dev/null); [[ -n $branch ]] && echo "(*$branch)")'  # git branch
-PROMPT+=' %# '  # prompt character
+# setopt PROMPT_SUBST
+# PROMPT='%(!.%F{red}.)%n@%m%f'  # user@host (red for root)
+# PROMPT+=':'  # separator
+# PROMPT+='%1~'  # current directory
+# PROMPT+='$(branch=$(git rev-parse --abbrev-ref HEAD 2>/dev/null); [[ -n $branch ]] && echo "(*$branch)")'  # git branch
+# PROMPT+=' %# '  # prompt character
 
 # Set the directory we want to store zinit and plugins
 ZINIT_HOME="${XDG_DATA_HOME:-${HOME}/.local/share}/zinit/zinit.git"
@@ -17,7 +17,7 @@ fi
 source "${ZINIT_HOME}/zinit.zsh"
 
 # Add in Starshp
-# eval "$(starship init zsh)"
+eval "$(starship init zsh)"
 
 # Add in zsh plugins
 zinit light zsh-users/zsh-syntax-highlighting
