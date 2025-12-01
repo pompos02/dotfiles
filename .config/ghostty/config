@@ -8,9 +8,9 @@
 term = xterm-256color
 
 # Font Configuration
-font-family = "Iosevka Custom"
+font-family = "JetBrainsMonoNL Nerd Font"
 font-style = Light
-font-style-bold = Regular
+font-style-bold = Bold
 font-style-italic = "Light Oblique"
 font-style-bold-italic = Oblique
 font-size = 15.0
