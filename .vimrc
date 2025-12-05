@@ -273,7 +273,7 @@ augroup CustomStatusline
 augroup END
 call s:StatuslineColors()
 
-" Surround (sa/add, sd/delete, sr/replace) --------------------------
+" Surround (ys/add, ds/delete, cs/replace; S visual) ----------------
 let s:sur_pairs = {
       \ '(': ['(', ')'],
       \ ')': ['(', ')'],
@@ -387,10 +387,14 @@ function! s:SurReplace() abort
   call cursor(l:surr.left.line, l:surr.left.col + strlen(l:nl))
 endfunction
 
-nnoremap <silent> sa :set opfunc=<SID>SurAdd<CR>g@
-xnoremap <silent> sa :<C-u>call <SID>SurAdd('visual')<CR>
-nnoremap <silent> sd :call <SID>SurDelete()<CR>
-nnoremap <silent> sr :call <SID>SurReplace()<CR>
+silent! nunmap sa
+silent! xunmap sa
+silent! nunmap sd
+silent! nunmap sr
+nnoremap <silent> ys :set opfunc=<SID>SurAdd<CR>g@
+xnoremap <silent> S :<C-u>call <SID>SurAdd('visual')<CR>
+nnoremap <silent> ds :call <SID>SurDelete()<CR>
+nnoremap <silent> cs :call <SID>SurReplace()<CR>
 
 " Filetype-specific settings ----------------------------------------
 augroup FiletypeSettings

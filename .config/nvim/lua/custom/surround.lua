@@ -7,9 +7,9 @@ local H = {}
 M.config = {
   custom_surroundings = nil,
   mappings = {
-    add = 'sa',
-    delete = 'sd',
-    replace = 'sr',
+    add = 'ys',
+    delete = 'ds',
+    replace = 'cs',
   },
   n_lines = 20,
   respect_selection_type = false,
@@ -203,7 +203,7 @@ H.apply_config = function(config)
   expr_map(m.add, H.make_operator('add', nil, true), 'Add surrounding')
   expr_map(m.delete, H.make_operator('delete'), 'Delete surrounding')
   expr_map(m.replace, H.make_operator('replace'), 'Replace surrounding')
-  map(m.add, [[:<C-u>lua MiniSurroundBasic.add('visual')<CR>]], 'Add surrounding to selection')
+  map('S', [[:<C-u>lua MiniSurroundBasic.add('visual')<CR>]], 'Add surrounding to selection')
 end
 
 H.get_config = function(config)
