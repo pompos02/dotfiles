@@ -22,7 +22,7 @@ If you just want a handful of files and directories, you can create symlinks dir
 
 ```bash
 REPO="$HOME/dotfiles"
-for p in .vimrc .config/nvim .config/tmux .config/scripts .bashrc; do
+for p in .vimrc .config/nvim .config/tmux .config/scripts .bashrc .inputrc; do
   mkdir -p "$HOME/$(dirname "$p")"
   ln -sfn "$REPO/$p" "$HOME/$p"
 done

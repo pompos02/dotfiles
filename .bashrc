@@ -5,12 +5,13 @@
 # If not running interactively, don't do anything
 [[ $- != *i* ]] && return
 
+export PATH="/usr/local/bin:$PATH"
 export PATH="$HOME/.local/bin:$PATH"
 export PATH="$PATH:$HOME/go/bin"
 export PATH="$HOME/.npm-global/bin:$PATH"
 export PATH="$HOME/.config/scripts:$PATH"
 export PATH="$HOME/.opencode/bin:$PATH"
-export PATH="$PATH:/opt/nvim-linux-x86_64/bin"
+export PATH="$PATH:/opt/nvim-linux-x86_64/bin:"
 
 # Prompt
 PS1='$(ret=$?;(($ret!=0)) && echo "\[\033[38;5;1m\]($ret)\[\033[0m\] ")'  # exit code (red)
@@ -69,4 +70,3 @@ alias yayl="yay -Slq | fzf --preview 'yay -Si {}' --layout=reverse --height=80% 
 open() {
     xdg-open "$@" >/dev/null 2>&1 &
 }
-
