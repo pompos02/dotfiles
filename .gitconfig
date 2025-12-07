@@ -1,0 +1,4 @@
+[diff]
+    tool = vimdiff
+[difftool "nvimdiff"]
+    cmd = "nvim -d \"$LOCAL\" \"$REMOTE\""
