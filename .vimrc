@@ -11,6 +11,7 @@ let g:fzf_history_dir = ""
 " udner here should go 
 " add something like this
 " /home/karavellas/.vim/pack/plugins/start/fzf.vim/plugin/fzf.vim
+" also add the undo directory see the first option 
 " set runtimepath^=~/.vim 
 
 " Enable syntax and filetype detection/plugins/indent
@@ -18,6 +19,7 @@ syntax enable
 filetype plugin indent on
 
 " Options
+set undodir=~/.vim/undo
 set ttimeoutlen=50
 set hlsearch
 set incsearch
