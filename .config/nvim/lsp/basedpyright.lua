@@ -22,7 +22,7 @@ local function set_python_path(command)
 end
 
 return {
-  cmd = { 'basedpyright-langserver', '--stdio' },
+  cmd = { "uvx", "--from", "basedpyright", "basedpyright-langserver", "--stdio" },
   filetypes = { 'python' },
   root_markers = {
     'pyrightconfig.json',
@@ -36,9 +36,21 @@ return {
   settings = {
     basedpyright = {
       analysis = {
+        typeCheckingMode = 'off',
         autoSearchPaths = true,
         useLibraryCodeForTypes = true,
         diagnosticMode = 'openFilesOnly',
+        diagnosticSeverityOverrides = {
+          reportUnusedImport = 'none',
+          reportUnusedVariable = 'none',
+          reportUnusedClass = 'none',
+          reportUnusedFunction = 'none',
+          reportMissingTypeStubs = 'none',
+          reportMissingModuleSource = 'none',
+          reportOptionalMemberAccess = 'warning',
+          reportOptionalSubscript = 'warning',
+          reportGeneralTypeIssues = 'warning',
+        },
       },
     },
   },

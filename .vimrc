@@ -12,7 +12,7 @@ let g:fzf_history_dir = ""
 " add something like this
 " /home/karavellas/.vim/pack/plugins/start/fzf.vim/plugin/fzf.vim
 " also add the undo directory see the first option 
-" set runtimepath^=~/.vim 
+set runtimepath+=~/.fzf/plugin
 
 " Enable syntax and filetype detection/plugins/indent
 syntax enable
