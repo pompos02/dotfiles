@@ -4,6 +4,7 @@ let maplocalleader = "\\"
 
 colorscheme lunaperche
 set background=dark
+" colorscheme delek
 
 
 " Disable fzf history files
