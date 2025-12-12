@@ -69,6 +69,9 @@ alias code="code  --ozone-platform=wayland "
 alias pacl="pacman -Slq | fzf --preview 'pacman -Si {}' --layout=reverse --height=80% --border"
 alias yayl="yay -Slq | fzf --preview 'yay -Si {}' --layout=reverse --height=80% --border"
 
+# open() {
+#     xdg-open "$@" >/dev/null 2>&1 &
+# }
 open() {
-    xdg-open "$@" >/dev/null 2>&1 &
+    explorer.exe "$@" >/dev/null 2>&1 &
 }
