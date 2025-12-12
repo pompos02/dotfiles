@@ -88,7 +88,13 @@ else
     # Use fzf to select
     selected_relative=$(echo "$final_list" | fzf )
 
-    [[ $selected_relative ]] && selected="$HOME/$selected_relative"
+    if [[ -n "$selected_relative" ]]; then
+        case "$selected_relative" in
+            /*) selected="$selected_relative" ;;                    # absolute path (e.g. /mnt/c/...)
+            ~*) selected="${selected_relative/#\~/$HOME}" ;;        # tilde expansion if ever shown
+            *) selected="$HOME/$selected_relative" ;;               # default: relative to HOME
+        esac
+    fi
 fi
 
 [[ ! $selected ]] && exit 0

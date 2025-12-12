@@ -29,6 +29,7 @@ shopt -s histappend
 bind "set completion-ignore-case on"
 
 alias ls='ls --color=auto'
+alias python='python3'
 alias grep='grep --color=auto'
 alias vim='nvim'
 alias ..="cd .."
