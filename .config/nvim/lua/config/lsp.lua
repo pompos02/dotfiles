@@ -55,5 +55,6 @@ vim.lsp.enable({
     "elixirls",
     "gopls",
     "lua_ls",
+    "marksman",
     "ts_ls",
 })
