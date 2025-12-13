@@ -34,7 +34,7 @@ set conceallevel=2
 set confirm
 set expandtab
 if exists('+inccommand')
-  set inccommand=nosplit
+    set inccommand=nosplit
 endif
 set linebreak
 set mouse=a
@@ -49,7 +49,7 @@ set smartindent
 set spelllang=en
 set splitbelow
 if exists('+splitkeep')
-  set splitkeep=screen
+    set splitkeep=screen
 endif
 set splitright
 
@@ -69,7 +69,7 @@ let &colorcolumn = '80'
 set shiftwidth=4
 set laststatus=2
 if empty($SSH_TTY)
-  set clipboard=unnamedplus
+    set clipboard=unnamedplus
 endif
 
 
@@ -121,122 +121,122 @@ nnoremap <silent> <leader>E :execute 'Explore ' . getcwd()<CR>
 
 " Vimgrep helpers
 function! s:VimgrepSelection() abort
-  " Reselect last visual area, yank into register v, and use it for vimgrep
-  let l:save_reg = getreg('"')
-  let l:save_reg_type = getregtype('"')
-  normal! gv"vy
-  let l:text = escape(substitute(getreg('v'), '\n\+$', '', ''), '\/')
-  call setreg('"', l:save_reg, l:save_reg_type)
-  if empty(l:text)
-    echo "No selection to grep"
-    return
-  endif
-  call feedkeys(':vimgrep /' . l:text . '/j **/*', 'n')
+    " Reselect last visual area, yank into register v, and use it for vimgrep
+    let l:save_reg = getreg('"')
+    let l:save_reg_type = getregtype('"')
+    normal! gv"vy
+    let l:text = escape(substitute(getreg('v'), '\n\+$', '', ''), '\/')
+    call setreg('"', l:save_reg, l:save_reg_type)
+    if empty(l:text)
+        echo "No selection to grep"
+        return
+    endif
+    call feedkeys(':vimgrep /' . l:text . '/j **/*', 'n')
 endfunction
 xnoremap <silent> gs :<C-u>call <SID>VimgrepSelection()<CR>
 
 function! s:VimgrepCword() abort
-  let word = escape(expand('<cword>'), '/')
-  call feedkeys(":vimgrep /" . word . "/j **/*", 'n')
+    let word = escape(expand('<cword>'), '/')
+    call feedkeys(":vimgrep /" . word . "/j **/*", 'n')
 endfunction
 nnoremap <silent> gw :call <SID>VimgrepCword()<CR>
 
 " Pickers (fzf) -------------------------------------------------------
 function! s:EnsureFzf() abort
-  if exists('*fzf#run') && exists('*fzf#wrap')
-    return 1
-  endif
-  echoerr "fzf.vim is not available on runtimepath"
-  return 0
+    if exists('*fzf#run') && exists('*fzf#wrap')
+        return 1
+    endif
+    echoerr "fzf.vim is not available on runtimepath"
+    return 0
 endfunction
 
 function! s:JumpFileLine(line) abort
-  let l:clean = substitute(a:line, '\e\\[[0-9;]*m', '', 'g')
-  let l:match = matchlist(l:clean, '^\([^:]\+\):\(\d\+\)')
-  if len(l:match) >= 3
-    execute 'edit' fnameescape(l:match[1])
-    execute l:match[2]
-    normal! zz
-  endif
+    let l:clean = substitute(a:line, '\e\\[[0-9;]*m', '', 'g')
+    let l:match = matchlist(l:clean, '^\([^:]\+\):\(\d\+\)')
+    if len(l:match) >= 3
+        execute 'edit' fnameescape(l:match[1])
+        execute l:match[2]
+        normal! zz
+    endif
 endfunction
 
 function! s:PickerFiles() abort
-  if !s:EnsureFzf() | return | endif
-  if executable('fd')
-    let l:cmd = "fd --type f --hidden --exclude .git"
-  else
-    let l:cmd = "find . -type f -not -path '*/.git/*' 2>/dev/null"
-  endif
-  let l:spec = {'source': l:cmd, 'sink': 'edit', 'options': ['--prompt=Files> ']}
-  call fzf#run(fzf#wrap('files', l:spec, 0))
+    if !s:EnsureFzf() | return | endif
+    if executable('fd')
+        let l:cmd = "fd --type f --hidden --exclude .git"
+    else
+        let l:cmd = "find . -type f -not -path '*/.git/*' 2>/dev/null"
+    endif
+    let l:spec = {'source': l:cmd, 'sink': 'edit', 'options': ['--prompt=Files> ']}
+    call fzf#run(fzf#wrap('files', l:spec, 0))
 endfunction
 
 function! s:PickerLiveGrep(...) abort
-  if !s:EnsureFzf() | return | endif
-  let l:query = a:0 ? a:1 : ''
-  let l:has_rg = executable('rg')
-  function! s:GrepReload(q) closure abort
-    if l:has_rg
-      return "rg --line-number --hidden --glob '!.git/**' --color=never -- " . shellescape(a:q)
+    if !s:EnsureFzf() | return | endif
+    let l:query = a:0 ? a:1 : ''
+    let l:has_rg = executable('rg')
+    function! s:GrepReload(q) closure abort
+        if l:has_rg
+            return "rg --line-number --hidden --glob '!.git/**' --color=never -- " . shellescape(a:q)
+        endif
+        return "grep --color=never -rn --include='*' --exclude-dir=.git " . shellescape(a:q) . " . 2>/dev/null"
+    endfunction
+    let l:init = empty(l:query) ? "printf ''" : s:GrepReload(l:query)
+    let l:opts = [
+                \ '--ansi',
+                \ '--prompt=Grep> ',
+                \ '--delimiter=:',
+                \ '--preview',
+                \ l:has_rg
+                \   ? "rg --color=always --line-number --hidden --glob '!.git/**' --context 5 -- {q} {1}"
+                \   : "grep --color=always -n -C4 --include='*' --exclude-dir=.git -- {q} {1}",
+                \ '--preview-window=right:60%',
+                \ '--bind', 'change:reload:'.s:GrepReload('{q}'),
+                \ '--phony'
+                \ ]
+    if !empty(l:query)
+        call add(l:opts, '--query='.l:query)
     endif
-    return "grep --color=never -rn --include='*' --exclude-dir=.git " . shellescape(a:q) . " . 2>/dev/null"
-  endfunction
-  let l:init = empty(l:query) ? "printf ''" : s:GrepReload(l:query)
-  let l:opts = [
-        \ '--ansi',
-        \ '--prompt=Grep> ',
-        \ '--delimiter=:',
-        \ '--preview',
-        \ l:has_rg
-        \   ? "rg --color=always --line-number --hidden --glob '!.git/**' --context 5 -- {q} {1}"
-        \   : "grep --color=always -n -C4 --include='*' --exclude-dir=.git -- {q} {1}",
-        \ '--preview-window=right:60%',
-        \ '--bind', 'change:reload:'.s:GrepReload('{q}'),
-        \ '--phony'
-        \ ]
-  if !empty(l:query)
-    call add(l:opts, '--query='.l:query)
-  endif
-  let l:spec = {'source': l:init, 'sink*': function('s:JumpFileLine'), 'options': l:opts}
-  call fzf#run(fzf#wrap('live_grep', l:spec, 0))
+    let l:spec = {'source': l:init, 'sink*': function('s:JumpFileLine'), 'options': l:opts}
+    call fzf#run(fzf#wrap('live_grep', l:spec, 0))
 endfunction
 
 function! s:PickerBuffers() abort
-  if !s:EnsureFzf() | return | endif
-  let l:items = []
-  for buf in getbufinfo({'bufloaded': 1})
-    if !empty(buf.name)
-      let l:display = fnamemodify(buf.name, ':~:.')
-      let l:modified = buf.changed ? ' [+]' : ''
-      call add(l:items, printf('%d: %s%s', buf.bufnr, l:display, l:modified))
+    if !s:EnsureFzf() | return | endif
+    let l:items = []
+    for buf in getbufinfo({'bufloaded': 1})
+        if !empty(buf.name)
+            let l:display = fnamemodify(buf.name, ':~:.')
+            let l:modified = buf.changed ? ' [+]' : ''
+            call add(l:items, printf('%d: %s%s', buf.bufnr, l:display, l:modified))
+        endif
+    endfor
+    if empty(l:items)
+        echo "No buffers to show"
+        return
     endif
-  endfor
-  if empty(l:items)
-    echo "No buffers to show"
-    return
-  endif
-  let l:spec = {'source': l:items, 'sink': {line -> execute('buffer ' . matchstr(line, '^[0-9]\\+'))}, 'options': "--prompt=Buffers> "}
-  call fzf#run(fzf#wrap('buffers', l:spec, 0))
+    let l:spec = {'source': l:items, 'sink': {line -> execute('buffer ' . matchstr(line, '^[0-9]\\+'))}, 'options': "--prompt=Buffers> "}
+    call fzf#run(fzf#wrap('buffers', l:spec, 0))
 endfunction
 
 function! s:PickerHelp() abort
-  if !s:EnsureFzf() | return | endif
-  let l:tags = []
-  for file in split(globpath(&rtp, 'doc/tags'), '\n')
-    if empty(file) | continue | endif
-    for line in readfile(file)
-      let l:tag = matchstr(line, '^[^\t]\+')
-      if !empty(l:tag)
-        call add(l:tags, l:tag)
-      endif
+    if !s:EnsureFzf() | return | endif
+    let l:tags = []
+    for file in split(globpath(&rtp, 'doc/tags'), '\n')
+        if empty(file) | continue | endif
+        for line in readfile(file)
+            let l:tag = matchstr(line, '^[^\t]\+')
+            if !empty(l:tag)
+                call add(l:tags, l:tag)
+            endif
+        endfor
     endfor
-  endfor
-  if empty(l:tags)
-    echo "No help tags found"
-    return
-  endif
-  let l:spec = {'source': l:tags, 'sink': {tag -> execute('help ' . tag)}, 'options': "--prompt='Help>' "}
-  call fzf#run(fzf#wrap('help_tags', l:spec, 0))
+    if empty(l:tags)
+        echo "No help tags found"
+        return
+    endif
+    let l:spec = {'source': l:tags, 'sink': {tag -> execute('help ' . tag)}, 'options': "--prompt='Help>' "}
+    call fzf#run(fzf#wrap('help_tags', l:spec, 0))
 endfunction
 
 
@@ -247,151 +247,151 @@ nnoremap <silent> <leader>fh :call <SID>PickerHelp()<CR>
 
 " Statusline ---------------------------------------------------------
 function! s:GitBranch() abort
-  let l:out = systemlist('git branch --show-current 2>/dev/null')
-  if len(l:out) > 0 && !empty(l:out[0])
-    return '[' . l:out[0] . '] '
-  endif
-  return ''
+    let l:out = systemlist('git branch --show-current 2>/dev/null')
+    if len(l:out) > 0 && !empty(l:out[0])
+        return '[' . l:out[0] . '] '
+    endif
+    return ''
 endfunction
 
 function! Statusline() abort
-  let l:fname = expand('%:.')
-  if empty(l:fname)
-    let l:fname = '[No Name]'
-  endif
-  let l:mod = &modified ? '[+]' : ''
-  return s:GitBranch() . l:fname . l:mod . '%=' . strftime('%H:%M')
+    let l:fname = expand('%:.')
+    if empty(l:fname)
+        let l:fname = '[No Name]'
+    endif
+    let l:mod = &modified ? '[+]' : ''
+    return s:GitBranch() . l:fname . l:mod . '%=' . strftime('%H:%M')
 endfunction
 set statusline=%!Statusline()
 
 function! s:StatuslineColors() abort
-  let l:n_fg = synIDattr(hlID('Normal'), 'fg#')
-  let l:n_bg = synIDattr(hlID('Normal'), 'bg#')
-  let l:cl_bg = hlexists('CursorLine') ? synIDattr(hlID('CursorLine'), 'bg#') : ''
-  let l:bg = empty(l:cl_bg) ? (empty(l:n_bg) ? 'NONE' : l:n_bg) : l:cl_bg
-  let l:fg = empty(l:n_fg) ? 'NONE' : l:n_fg
-  execute 'hi StatusLine guibg=' . l:bg . ' guifg=' . l:fg
-  execute 'hi StatusLineNC guibg=' . l:bg . ' guifg=' . l:fg
+    let l:n_fg = synIDattr(hlID('Normal'), 'fg#')
+    let l:n_bg = synIDattr(hlID('Normal'), 'bg#')
+    let l:cl_bg = hlexists('CursorLine') ? synIDattr(hlID('CursorLine'), 'bg#') : ''
+    let l:bg = empty(l:cl_bg) ? (empty(l:n_bg) ? 'NONE' : l:n_bg) : l:cl_bg
+    let l:fg = empty(l:n_fg) ? 'NONE' : l:n_fg
+    execute 'hi StatusLine guibg=' . l:bg . ' guifg=' . l:fg
+    execute 'hi StatusLineNC guibg=' . l:bg . ' guifg=' . l:fg
 endfunction
 
 augroup CustomStatusline
-  autocmd!
-  autocmd BufEnter,BufWritePost,WinEnter,ColorScheme * redrawstatus | call s:StatuslineColors()
+    autocmd!
+    autocmd BufEnter,BufWritePost,WinEnter,ColorScheme * redrawstatus | call s:StatuslineColors()
 augroup END
 call s:StatuslineColors()
 
 " Surround (ys/add, ds/delete, cs/replace; S visual) ----------------
 let s:sur_pairs = {
-      \ '(': ['(', ')'],
-      \ ')': ['(', ')'],
-      \ '[': ['[', ']'],
-      \ ']': ['[', ']'],
-      \ '{': ['{', '}'],
-      \ '}': ['{', '}'],
-      \ '<': ['<', '>'],
-      \ '>': ['<', '>'],
-      \ '"': ['"', '"'],
-      \ "'": ["'", "'"],
-      \ '`': ['`', '`'],
-      \ }
+            \ '(': ['(', ')'],
+            \ ')': ['(', ')'],
+            \ '[': ['[', ']'],
+            \ ']': ['[', ']'],
+            \ '{': ['{', '}'],
+            \ '}': ['{', '}'],
+            \ '<': ['<', '>'],
+            \ '>': ['<', '>'],
+            \ '"': ['"', '"'],
+            \ "'": ["'", "'"],
+            \ '`': ['`', '`'],
+            \ }
 
 function! s:SurGetPair(ch) abort
-  return has_key(s:sur_pairs, a:ch) ? s:sur_pairs[a:ch] : [a:ch, a:ch]
+    return has_key(s:sur_pairs, a:ch) ? s:sur_pairs[a:ch] : [a:ch, a:ch]
 endfunction
 
 function! s:SurPromptId(kind) abort
-  try
-    let l:ch = getcharstr()
-  catch /^Vim:Interrupt$/
-    return ''
-  endtry
-  return l:ch ==# "\<Esc>" ? '' : l:ch
+    try
+        let l:ch = getcharstr()
+    catch /^Vim:Interrupt$/
+        return ''
+    endtry
+    return l:ch ==# "\<Esc>" ? '' : l:ch
 endfunction
 
 function! s:SurGetMarks(mode) abort
-  if a:mode ==# 'visual'
-    let l:a = getpos("'<")
-    let l:b = getpos("'>")
-    if &selection ==# 'exclusive'
-      let l:b[2] -= 1
+    if a:mode ==# 'visual'
+        let l:a = getpos("'<")
+        let l:b = getpos("'>")
+        if &selection ==# 'exclusive'
+            let l:b[2] -= 1
+        endif
+    else
+        let l:a = getpos("'[")
+        let l:b = getpos("']")
     endif
-  else
-    let l:a = getpos("'[")
-    let l:b = getpos("']")
-  endif
-  return [{'line': l:a[1], 'col': l:a[2]}, {'line': l:b[1], 'col': l:b[2]}]
+    return [{'line': l:a[1], 'col': l:a[2]}, {'line': l:b[1], 'col': l:b[2]}]
 endfunction
 
 function! s:SurInsert(line, col, text) abort
-  let l:ln = getline(a:line)
-  let l:idx = max([0, a:col - 1])
-  call setline(a:line, strpart(l:ln, 0, l:idx) . a:text . strpart(l:ln, l:idx))
+    let l:ln = getline(a:line)
+    let l:idx = max([0, a:col - 1])
+    call setline(a:line, strpart(l:ln, 0, l:idx) . a:text . strpart(l:ln, l:idx))
 endfunction
 
 function! s:SurAdd(mode) abort
-  let l:id = s:SurPromptId('output')
-  if empty(l:id) | return | endif
-  let [l:left, l:right] = s:SurGetPair(l:id[0])
-  let [l:pos1, l:pos2] = s:SurGetMarks(a:mode)
-  " insert right after end (inclusive), left before start
-  call s:SurInsert(l:pos2.line, l:pos2.col + 1, l:right)
-  call s:SurInsert(l:pos1.line, l:pos1.col, l:left)
-  call cursor(l:pos1.line, l:pos1.col + strlen(l:left))
+    let l:id = s:SurPromptId('output')
+    if empty(l:id) | return | endif
+    let [l:left, l:right] = s:SurGetPair(l:id[0])
+    let [l:pos1, l:pos2] = s:SurGetMarks(a:mode)
+    " insert right after end (inclusive), left before start
+    call s:SurInsert(l:pos2.line, l:pos2.col + 1, l:right)
+    call s:SurInsert(l:pos1.line, l:pos1.col, l:left)
+    call cursor(l:pos1.line, l:pos1.col + strlen(l:left))
 endfunction
 
 function! s:SurFindAround(ch) abort
-  let [l:left, l:right] = s:SurGetPair(a:ch)
-  let l:save = getpos('.')
-  let l:s = []
-  if l:left ==# l:right
-    let l:pat = '\V' . escape(l:left, '\')
-    let l:beg = searchpos(l:pat, 'bnW')
-    call setpos('.', l:save)
-    let l:end = searchpos(l:pat, 'nW')
-    call setpos('.', l:save)
-  else
-    let l:beg = searchpairpos('\V'.escape(l:left,'\'), '', '\V'.escape(l:right,'\'), 'bnW')
-    call setpos('.', l:save)
-    let l:end = searchpairpos('\V'.escape(l:left,'\'), '', '\V'.escape(l:right,'\'), 'nW')
-    call setpos('.', l:save)
-  endif
-  if empty(l:beg) || empty(l:end) || l:beg[0] == 0 || l:end[0] == 0
-    return {}
-  endif
-  return {'left': {'line': l:beg[0], 'col': l:beg[1]}, 'right': {'line': l:end[0], 'col': l:end[1]}}
+    let [l:left, l:right] = s:SurGetPair(a:ch)
+    let l:save = getpos('.')
+    let l:s = []
+    if l:left ==# l:right
+        let l:pat = '\V' . escape(l:left, '\')
+        let l:beg = searchpos(l:pat, 'bnW')
+        call setpos('.', l:save)
+        let l:end = searchpos(l:pat, 'nW')
+        call setpos('.', l:save)
+    else
+        let l:beg = searchpairpos('\V'.escape(l:left,'\'), '', '\V'.escape(l:right,'\'), 'bnW')
+        call setpos('.', l:save)
+        let l:end = searchpairpos('\V'.escape(l:left,'\'), '', '\V'.escape(l:right,'\'), 'nW')
+        call setpos('.', l:save)
+    endif
+    if empty(l:beg) || empty(l:end) || l:beg[0] == 0 || l:end[0] == 0
+        return {}
+    endif
+    return {'left': {'line': l:beg[0], 'col': l:beg[1]}, 'right': {'line': l:end[0], 'col': l:end[1]}}
 endfunction
 
 function! s:SurDelete() abort
-  let l:id = s:SurPromptId('input')
-  if empty(l:id) | return | endif
-  let l:surr = s:SurFindAround(l:id[0])
-  if empty(l:surr)
-    echo "No surrounding found"
-    return
-  endif
-  let l:ln = getline(l:surr.right.line)
-  call setline(l:surr.right.line, strpart(l:ln, 0, l:surr.right.col - 1) . strpart(l:ln, l:surr.right.col))
-  let l:ln = getline(l:surr.left.line)
-  call setline(l:surr.left.line, strpart(l:ln, 0, l:surr.left.col - 1) . strpart(l:ln, l:surr.left.col))
-  call cursor(l:surr.left.line, l:surr.left.col)
+    let l:id = s:SurPromptId('input')
+    if empty(l:id) | return | endif
+    let l:surr = s:SurFindAround(l:id[0])
+    if empty(l:surr)
+        echo "No surrounding found"
+        return
+    endif
+    let l:ln = getline(l:surr.right.line)
+    call setline(l:surr.right.line, strpart(l:ln, 0, l:surr.right.col - 1) . strpart(l:ln, l:surr.right.col))
+    let l:ln = getline(l:surr.left.line)
+    call setline(l:surr.left.line, strpart(l:ln, 0, l:surr.left.col - 1) . strpart(l:ln, l:surr.left.col))
+    call cursor(l:surr.left.line, l:surr.left.col)
 endfunction
 
 function! s:SurReplace() abort
-  let l:id = s:SurPromptId('input')
-  if empty(l:id) | return | endif
-  let l:surr = s:SurFindAround(l:id[0])
-  if empty(l:surr)
-    echo "No surrounding found"
-    return
-  endif
-  let l:new = s:SurPromptId('output')
-  if empty(l:new) | return | endif
-  let [l:nl, l:nr] = s:SurGetPair(l:new[0])
-  let l:ln = getline(l:surr.right.line)
-  call setline(l:surr.right.line, strpart(l:ln, 0, l:surr.right.col - 1) . l:nr . strpart(l:ln, l:surr.right.col))
-  let l:ln = getline(l:surr.left.line)
-  call setline(l:surr.left.line, strpart(l:ln, 0, l:surr.left.col - 1) . l:nl . strpart(l:ln, l:surr.left.col))
-  call cursor(l:surr.left.line, l:surr.left.col + strlen(l:nl))
+    let l:id = s:SurPromptId('input')
+    if empty(l:id) | return | endif
+    let l:surr = s:SurFindAround(l:id[0])
+    if empty(l:surr)
+        echo "No surrounding found"
+        return
+    endif
+    let l:new = s:SurPromptId('output')
+    if empty(l:new) | return | endif
+    let [l:nl, l:nr] = s:SurGetPair(l:new[0])
+    let l:ln = getline(l:surr.right.line)
+    call setline(l:surr.right.line, strpart(l:ln, 0, l:surr.right.col - 1) . l:nr . strpart(l:ln, l:surr.right.col))
+    let l:ln = getline(l:surr.left.line)
+    call setline(l:surr.left.line, strpart(l:ln, 0, l:surr.left.col - 1) . l:nl . strpart(l:ln, l:surr.left.col))
+    call cursor(l:surr.left.line, l:surr.left.col + strlen(l:nl))
 endfunction
 
 silent! nunmap sa
@@ -405,10 +405,10 @@ nnoremap <silent> cs :call <SID>SurReplace()<CR>
 
 " Filetype-specific settings ----------------------------------------
 augroup FiletypeSettings
-  autocmd!
-  autocmd FileType go setlocal shiftwidth=4 tabstop=4 noexpandtab nolist
-  autocmd FileType c setlocal shiftwidth=4
-  autocmd FileType lua setlocal number
-  autocmd FileType markdown let b:completion = 0
-  autocmd FileType typescript,typescriptreact setlocal shiftwidth=2
+    autocmd!
+    autocmd FileType go setlocal shiftwidth=4 tabstop=4 noexpandtab nolist
+    autocmd FileType c setlocal shiftwidth=4
+    autocmd FileType lua setlocal number
+    autocmd FileType markdown let b:completion = 0
+    autocmd FileType typescript,typescriptreact setlocal shiftwidth=2
 augroup END

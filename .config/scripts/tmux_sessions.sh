@@ -3,6 +3,7 @@ DIRS=(
     "$HOME"
     "$HOME/projects/personal"
     "$HOME/projects/opensource"
+    "/mnt/c/Users/yiann"
 )
 
 # Create state directory if it doesn't exist
