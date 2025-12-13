@@ -49,6 +49,8 @@ M.colors = {
     -- Links
     Link            = '@markup.link.label.markdown_inline',
     WikiLink        = 'RenderMarkdownLink',
+    WikiLinkText    = 'DiagnosticInfo',
+    WikiLinkUnderline = 'Underlined',
     -- Checkboxes
     Unchecked       = '@markup.list.unchecked',
     Checked         = '@markup.list.checked',
