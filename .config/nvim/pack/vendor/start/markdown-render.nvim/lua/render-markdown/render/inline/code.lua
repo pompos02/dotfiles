@@ -25,6 +25,7 @@ function Render:run()
     self.marks:over(self.config, 'code_background', self.node, {
         priority = self.config.priority,
         hl_group = highlight,
+        hl_mode = 'combine',
     })
     self:padding(highlight, true)
     self:padding(highlight, false)

@@ -12,11 +12,11 @@ vim.g.fzf_history_dir = ""
 require("config.options")
 require("config.keymaps")
 require("config.lsp")
+require("config.markdown").setup()
 
 -- Load custom plugins (pure Lua, no external dependencies)
 require("custom.statusline").setup()
 require("custom.surround").setup()
-
 
 -- Set shiftwidth and window borders
 vim.opt.shiftwidth = 4

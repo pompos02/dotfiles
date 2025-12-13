@@ -227,6 +227,7 @@ function Render:background(start_row, end_row)
             end_row = row + 1,
             priority = self.config.priority,
             hl_group = self.config.highlight,
+            hl_mode = 'combine',
             hl_eol = true,
         })
         if not padding:empty() and win_col > 0 then
