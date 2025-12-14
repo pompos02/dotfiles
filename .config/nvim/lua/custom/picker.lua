@@ -25,24 +25,7 @@ local function run_fzf(spec, name, fullscreen)
     run(wrapped)
 end
 
-local function preview_command(target_expr, lnum_expr, query_expr)
-    local has_rg = vim.fn.executable("rg") == 1
-    local has_grep = vim.fn.executable("grep") == 1
-
-    if query_expr and query_expr ~= "" then
-        if has_rg then
-            return table.concat({
-                "rg --color=always --line-number --hidden --glob='!.git/**' --context 5 -- ",
-                query_expr, " ", target_expr,
-            })
-        elseif has_grep then
-            return table.concat({
-                "grep --color=always -n -C4 --perl-regexp -- ",
-                query_expr, " ", target_expr,
-            })
-        end
-    end
-
+local function preview_command(target_expr, lnum_expr)
     local bat = vim.fn.executable("batcat") == 1 and "batcat"
         or (vim.fn.executable("bat") == 1 and "bat" or nil)
 
@@ -61,14 +44,10 @@ local function preview_command(target_expr, lnum_expr, query_expr)
     end
 
     if lnum_expr then
-        -- Show a small slice when bat is unavailable; fzf placeholders expand in the shell
-        local match_highlight = ""
-        if query_expr and query_expr ~= "" then
-            match_highlight = [[{ gsub(q, "\033[31m&\033[0m") }]]
-        end
-        return "awk -v q=\"" .. (query_expr or "") .. "\" 'NR>=" .. lnum_expr .. "-50 && NR<=" .. lnum_expr
-            .. "+50 { printf(\"%6d  %s%s\\n\", NR, NR==" .. lnum_expr
-            .. "?\" > \":\"  \", $0); " .. match_highlight .. " }' " .. target_expr
+        -- Show a centered slice when bat is unavailable; fzf placeholders expand in the shell
+        return "awk 'NR>=" .. lnum_expr .. "-20 && NR<=" .. lnum_expr
+            .. "+20 { printf(\"%6d  %s%s\\n\", NR, NR==" .. lnum_expr
+            .. "?\" > \":\"  \", $0) }' " .. target_expr
     end
 
     return "cat -n " .. target_expr
@@ -172,7 +151,7 @@ function M.live_grep(initial_query)
             "--ansi",
             "--prompt=Grep> ",
             "--delimiter=:",
-            "--preview", preview_command("{1}", "{2}", "{q}"),
+            "--preview", preview_command("{1}", "{2}"),
             "--preview-window=right:60%:wrap",
             "--bind", string.format("change:reload:%s", reload_cmd("{q}")),
             "--phony",
