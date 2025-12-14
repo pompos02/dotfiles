@@ -53,6 +53,25 @@ local function preview_command(target_expr, lnum_expr)
     return "cat -n " .. target_expr
 end
 
+local window_opts = {
+    height = 0.85,
+    width = 0.80,
+    row = 0.35,
+    col = 0.50,
+    border = "rounded",
+    preview = {
+        border = "rounded",
+        wrap = false,
+        hidden = "nohidden",
+        vertical = "down:45%",
+        horizontal = "right:60%",
+        layout = "flex",
+        flip_columns = 120,
+        title = true,
+        scrollbar = "float",
+    },
+}
+
 local function jump_to_file_line(line)
     -- strip ANSI color codes so file:line parsing remains valid when sources are colored
     line = line:gsub("\27%[[0-9;]*m", "")
@@ -90,6 +109,7 @@ function M.find_files()
             "--preview", preview_command("{1}"),
             "--preview-window=right:60%:wrap",
         },
+        window = window_opts,
     }, "files")
 end
 
@@ -160,6 +180,7 @@ function M.live_grep(initial_query)
             "--bind=ctrl-a:select-all,ctrl-d:deselect-all",
             query ~= "" and ("--query=" .. query) or nil,
         },
+        window = window_opts,
     }, "live_grep_live")
 end
 
