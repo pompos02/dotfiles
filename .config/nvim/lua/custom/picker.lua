@@ -152,7 +152,7 @@ function M.live_grep(initial_query)
             "--prompt=Grep> ",
             "--delimiter=:",
             "--preview", preview_command("{1}", "{2}"),
-            "--preview-window=right:60%:wrap",
+            "--preview-window=right:60%:wrap:+{2}",
             "--bind", string.format("change:reload:%s", reload_cmd("{q}")),
             "--phony",
             "--expect=ctrl-q",
