@@ -412,20 +412,8 @@ end
 -- do not use `require` so we do not lazy load the plugin
 M.plugin_load(nil, true)
 
-M.plugin_loaded = function()
-  return M.PLUGIN:loaded()
-end
-
 M.plugin_path = function()
   return M.PLUGIN:path()
-end
-
-M.plugin_name = function()
-  return M.PLUGIN:name()
-end
-
-M.icon_by_ft = function(ft)
-  return M.PLUGIN:icon_by_ft(ft)
 end
 
 -- NOTE: plugin_name is only sent when called from `FzfLuaServer:load_icons`
@@ -452,11 +440,6 @@ M.set_state = function(plugin_name, state)
   else
     return M.PLUGIN:set_state(state)
   end
-end
-
--- For testing
-M.unload = function()
-  M.PLUGIN:unload()
 end
 
 

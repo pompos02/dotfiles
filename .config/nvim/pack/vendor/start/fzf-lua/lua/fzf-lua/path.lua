@@ -27,10 +27,6 @@ M.separator = function(path)
   return string.char(utils._if_win(M.bslash_byte, M.fslash_byte))
 end
 
-M.separator_byte = function(path)
-  return string_byte(M.separator(path), 1)
-end
-
 ---@param byte number
 ---@return boolean
 M.byte_is_separator = function(byte)
@@ -41,10 +37,6 @@ M.byte_is_separator = function(byte)
   else
     return byte == M.fslash_byte
   end
-end
-
-M.is_separator = function(c)
-  return M.byte_is_separator(string_byte(c, 1))
 end
 
 ---@param path string

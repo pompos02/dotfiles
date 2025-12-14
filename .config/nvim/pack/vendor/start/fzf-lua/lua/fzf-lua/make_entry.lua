@@ -516,25 +516,6 @@ M.postprocess = function(opts)
   end
 end
 
----@param entry table
----@param opts table
----@return string
-M.lcol = function(entry, opts)
-  local hl_colnr = utils.tbl_contains(opts._cached_hls or {}, "path_colnr")
-      and opts.hls.path_colnr or "blue"
-  local hl_linenr = utils.tbl_contains(opts._cached_hls or {}, "path_linenr")
-      and opts.hls.path_linenr or "green"
-  local filename = entry.filename or vim.api.nvim_buf_get_name(entry.bufnr)
-  return string.format("%s:%s%s%s",
-    -- uncomment to test URIs
-    -- "file://" .. filename,
-    filename, --utils.ansi_codes.magenta(filename),
-    tonumber(entry.lnum) == nil and "" or (utils.ansi_codes[hl_linenr](tostring(entry.lnum)) .. ":"),
-    tonumber(entry.col) == nil and "" or (utils.ansi_codes[hl_colnr](tostring(entry.col)) .. ":"),
-    type(entry.text) ~= "string" and ""
-    or (" " .. (opts and opts.trim_entry and vim.trim(entry.text) or entry.text)))
-end
-
 ---@param x string
 ---@param opts table
 ---@return string? entry
@@ -744,66 +725,6 @@ M.git_status = function(x, opts)
     staged, utils.nbsp, unstaged, utils.nbsp .. utils.nbsp,
     (f2 and ("%s -> %s"):format(f1, f2) or f1))
   return entry
-end
-
-M.git_hunk = function(x, opts)
-  local entry
-  if not opts.__git_hunk_stats then
-    opts.__git_hunk_stats = { i = math.huge / 2 }
-  end
-  -- local ref for easy access
-  local S = opts.__git_hunk_stats
-  do
-    (function()
-      local l = utils.strip_ansi_coloring(x)
-      -- Skip the first 3 header lines, e.g:
-      --    diff --git a/lua/fzf-lua/defaults.lua b/lua/fzf-lua/defaults.lua
-      --    index 3354405..799e467 100644
-      --    --- a/lua/fzf-lua/defaults.lua
-      --    +++ b/lua/fzf-lua/defaults.lua
-      if l:match("^diff") then S.i = 0 end
-      if S.i < 3 then
-        return
-      end
-      -- Extract filename from the "b-line", e.g:
-      --  +++ b/lua/fzf-lua/defaults.lua
-      -- NOTE: prefix can also appear as {i|w} (#2151)
-      --  --- i/<file>
-      --  +++ w/<file>
-      if S.i == 3 then
-        S.filename = l:match("^%+%+%+ %l/(.*)")
-        return
-      end
-      -- Process only lines that start with + or -
-      local byte = string.byte(l, 1)
-      if byte == 43 or byte == 45 then
-        entry = string.format("%s:%d:%s", M.file(S.filename, opts), S.line, x)
-      elseif byte == 64 then
-        -- Extract line number
-        S.line = tonumber(l:match("^@@ %-%d+,%d+ %+(%d+),%d+ @@"))
-      end
-      -- Advance line number for non-modified or added lines
-      if byte == 32 or byte == 43 then
-        S.line = S.line + 1
-      end
-    end)()
-  end
-  -- Next line
-  S.i = S.i + 1
-  return entry
-end
-
-M.zoxide = function(x, opts)
-  local score, dir = x:match("(%d+%.%d+)%s+(.-)$")
-  if not score then return x end
-  if opts.cwd then
-    dir = path.relative_to(dir, opts.cwd)
-  end
-  local _fmt_postfix -- when using `path.filename_first` v2
-  if opts._fmt and type(opts._fmt.to) == "function" then
-    dir, _fmt_postfix = opts._fmt.to(dir, opts, { path = path, utils = utils })
-  end
-  return string.format("%8s\t%s%s", tostring(score), dir, _fmt_postfix or "")
 end
 
 return M

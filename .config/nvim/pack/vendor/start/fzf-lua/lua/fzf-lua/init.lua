@@ -234,25 +234,14 @@ function M.setup(opts, do_not_reset_defaults)
   M.setup_highlights()
 end
 
-M.redraw = function()
-  local winobj = require "fzf-lua".win.__SELF()
-  if winobj then
-    winobj:redraw()
-  end
-end
-
 local lazyloaded_modules = {
   files = { "fzf-lua.providers.files", "files" },
-  grep_cword = { "fzf-lua.providers.grep", "grep_cword" },
-  grep_cWORD = { "fzf-lua.providers.grep", "grep_cWORD" },
-  grep_visual = { "fzf-lua.providers.grep", "grep_visual" },
   live_grep = { "fzf-lua.providers.grep", "live_grep" },
   helptags = { "fzf-lua.providers.helptags", "helptags" },
   keymaps = { "fzf-lua.providers.nvim", "keymaps" },
   lsp_references = { "fzf-lua.providers.lsp", "references" },
   help_tags = { "fzf-lua.providers.helptags", "helptags" },
   -- API shortcuts
-  resume = { "fzf-lua.core", "fzf_resume", false },
   fzf_wrap = { "fzf-lua.core", "fzf_wrap", false },
   fzf_exec = { "fzf-lua.core", "fzf_exec", true },
   fzf_live = { "fzf-lua.core", "fzf_live", true },
@@ -269,14 +258,6 @@ end
 M.get_info = utils.get_info
 
 M.set_info = utils.set_info
-
-M.get_last_query = function()
-  return utils.get_info().last_query
-end
-
-M.setup_fzfvim_cmds = function(...)
-  return require("fzf-lua.profiles.fzf-vim").fn_load(...)
-end
 
 function M.hide()
   return FzfLua.win.hide()
@@ -306,7 +287,6 @@ local exported_modules = {
 ---@private
 M._excluded_meta = {
   "setup",
-  "redraw",
   "fzf",
   "fzf_raw",
   "fzf_wrap",
@@ -318,7 +298,6 @@ M._excluded_meta = {
   "_exported_wapi",
   "get_info",
   "set_info",
-  "get_last_query",
   "hide",
   "unhide",
   -- Exclude due to rename:
@@ -326,7 +305,6 @@ M._excluded_meta = {
   --   man_pages -> manpages
   "help_tags",
   "man_pages",
-  "register_extension",
 }
 
 for _, m in ipairs(exported_modules) do
@@ -368,18 +346,6 @@ M.builtin = function(opts)
   opts.metatable = M
   opts.metatable_exclude = M._excluded_metamap
   return require "fzf-lua.providers.meta".metatable(opts)
-end
-
-M.register_extension = function(name, fun, default_opts, override)
-  if not override and M[name] then
-    utils.warn("Extension '%s' already exists, set 3rd arg to 'true' to override", name)
-    return
-  end
-  M.defaults[name] = utils.deepcopy(default_opts)
-  M[name] = function(...)
-    utils.set_info({ cmd = name, fnc = name })
-    return fun(...)
-  end
 end
 
 if not gen then return M end

@@ -798,22 +798,6 @@ M.unescape_fzf = function(s, fzf_version, is_win)
   return ret
 end
 
--- with live_grep, we use a modified "reload" command as our
--- FZF_DEFAULT_COMMAND and due to the above oddity with fzf
--- doing weird extra escaping with {q},  we use this to simulate
--- {q} being sent via the reload action as the initial command
--- TODO: better solution for these stupid hacks (upstream issues?)
-M.escape_fzf = function(s, fzf_version, is_win)
-  if is_win == nil then is_win = _is_win end
-  if not is_win then return s end
-  if tonumber(fzf_version) and tonumber(fzf_version) >= 0.52 then return s end
-  local ret = s:gsub("\\+[^\\]", function(x)
-    local bslash_num = #x:match([[\+]])
-    return string.rep([[\]], bslash_num * 2) .. x:sub(-1)
-  end)
-  return ret
-end
-
 -- `vim.fn.escape`
 -- (1) On *NIX: double the backslashes as they will be reduced by expand
 -- (2) ... other issues we will surely find with special chars

@@ -100,10 +100,6 @@ local M = {}
 M.LRU = LRU
 
 -- NOTE: CI ONLY - DO NOT USE
-function M.cache_new(size) _cache = new_cache(size) end
-
-function M.cache_set_size(size) _cache:set_size(size) end
-
 function M.register_func(fn)
   return (_cache:set(fn))
 end

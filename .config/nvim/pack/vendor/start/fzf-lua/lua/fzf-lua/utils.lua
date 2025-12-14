@@ -20,12 +20,6 @@ M.__IS_WINDOWS = vim.fn.has("win32") == 1 or vim.fn.has("win64") == 1
 -- `:help shellslash` (for more info see #1055)
 M.__WIN_HAS_SHELLSLASH = M.__IS_WINDOWS and vim.fn.exists("+shellslash") == 1
 
-function M.__FILE__() return debug.getinfo(2, "S").source end
-
-function M.__LINE__() return debug.getinfo(2, "l").currentline end
-
-function M.__FNC__() return debug.getinfo(2, "n").name end
-
 -- current function ref, since `M.__FNCREF__` is itself a function
 -- we need to go backwards once in stack (i.e. "2")
 function M.__FNCREF__() return debug.getinfo(2, "f").func end
@@ -34,11 +28,6 @@ function M.__FNCREF__() return debug.getinfo(2, "f").func end
 -- out of `utils.__FNCREF2__`, second out of calling function
 function M.__FNCREF2__()
   local dbginfo = debug.getinfo(3, "f")
-  return dbginfo and dbginfo.func
-end
-
-function M.__FNCREF3__()
-  local dbginfo = debug.getinfo(4, "f")
   return dbginfo and dbginfo.func
 end
 
@@ -126,14 +115,6 @@ M.strsplit = function(inputstr, sep)
     table.insert(t, m or s)
   until not m
   return t
-end
-
-function M.round(num, limit)
-  if not num then return nil end
-  if not limit then limit = 0.5 end
-  local fraction = num - math.floor(num)
-  if fraction > limit then return math.ceil(num) end
-  return math.floor(num)
 end
 
 M._notify_header = "LineNr"
@@ -287,51 +268,6 @@ function M.pcall_expand(filepath)
   end
 end
 
--- TODO: why does `file --dereference --mime` return
--- wrong result for some lua files ('charset=binary')?
-M.file_is_binary = function(filepath)
-  filepath = M.pcall_expand(filepath)
-  if vim.fn.executable("file") ~= 1 or
-      not uv.fs_stat(filepath) then
-    return false
-  end
-  local out = M.io_system({ "file", "--dereference", "--mime", filepath })
-  return out:match("charset=binary") ~= nil
-end
-
-local S_IFMT = 0xF000  -- filetype mask
-local S_IFIFO = 0x1000 -- fifo
-local S_IFDIR = 0x4000 -- directory
-
-M.path_is_directory = function(filepath, stat)
-  if stat == nil then
-    stat = uv.fs_stat(filepath)
-  end
-  if stat and bit.band(stat.mode, S_IFMT) == S_IFDIR then
-    return true
-  end
-  return false
-end
-
-M.file_is_fifo = function(filepath, stat)
-  if stat == nil then
-    stat = uv.fs_stat(filepath)
-  end
-  if stat and bit.band(stat.mode, S_IFMT) == S_IFIFO then
-    return true
-  end
-  return false
-end
-
-M.file_is_readable = function(filepath)
-  local fd = uv.fs_open(filepath, "r", 438)
-  if fd then
-    uv.fs_close(fd)
-    return true
-  end
-  return false
-end
-
 M.perl_file_is_binary = function(filepath)
   filepath = M.pcall_expand(filepath)
   if vim.fn.executable("perl") ~= 1 or
@@ -452,12 +388,6 @@ M.tbl_islist = vim.islist or vim.tbl_islist
 function M.tbl_isempty(T)
   assert(type(T) == "table", string.format("Expected table, got %s", type(T)))
   return next(T) == nil
-end
-
-function M.tbl_count(T)
-  local count = 0
-  for _ in pairs(T) do count = count + 1 end
-  return count
 end
 
 function M.tbl_join(t1, t2)
@@ -705,14 +635,6 @@ for color, escseq in pairs(M.ansi_escseq) do
   M.cache_ansi_escseq(color, escseq)
 end
 
--- Helper func to test for invalid (cleared) highlights
-function M.is_hl_cleared(hl)
-  local ok, hl_def = pcall(vim.api.nvim_get_hl, 0, { name = hl, link = false })
-  if not ok or M.tbl_isempty(hl_def) then
-    return true
-  end
-end
-
 function M.COLORMAP()
   if not M.__COLORMAP then
     M.__COLORMAP = vim.api.nvim_get_color_map()
@@ -830,76 +752,6 @@ function M.strip_ansi_coloring(str)
   return str:gsub("[\27\155][][()#;?%d]*[A-PRZcf-ntqry=><~]", "")
 end
 
-function M.ansi_escseq_len(str)
-  local stripped = M.strip_ansi_coloring(str)
-  return #str - #stripped
-end
-
-function M.mode_is_visual()
-  local visual_modes = {
-    v   = true,
-    vs  = true,
-    V   = true,
-    Vs  = true,
-    nov = true,
-    noV = true,
-    niV = true,
-    Rv  = true,
-    Rvc = true,
-    Rvx = true,
-  }
-  local mode = vim.api.nvim_get_mode()
-  return visual_modes[mode.mode]
-end
-
-function M.get_visual_selection()
-  -- this will exit visual mode
-  -- use 'gv' to reselect the text
-  local _, csrow, cscol, cerow, cecol
-  local mode = vim.fn.mode()
-  if mode == "v" or mode == "V" or mode == "" then
-    -- if we are in visual mode use the live position
-    _, csrow, cscol, _ = unpack(vim.fn.getpos("."))
-    _, cerow, cecol, _ = unpack(vim.fn.getpos("v"))
-    if mode == "V" then
-      -- visual line doesn't provide columns
-      cscol, cecol = 0, 999
-    end
-    -- NOTE: not required since commit: e8b2093
-    -- exit visual mode
-    -- vim.api.nvim_feedkeys(
-    --   vim.api.nvim_replace_termcodes("<Esc>",
-    --     true, false, true), "n", true)
-  else
-    -- otherwise, use the last known visual position
-    _, csrow, cscol, _ = unpack(vim.fn.getpos("'<"))
-    _, cerow, cecol, _ = unpack(vim.fn.getpos("'>"))
-  end
-  -- swap vars if needed
-  if cerow < csrow then csrow, cerow = cerow, csrow end
-  if cecol < cscol then cscol, cecol = cecol, cscol end
-  local lines = vim.fn.getline(csrow, cerow)
-  ---@cast lines -string
-  -- local n = cerow-csrow+1
-  local n = #lines
-  if n <= 0 then return "" end
-  lines[n] = string.sub(assert(lines[n]), 1, cecol)
-  lines[1] = string.sub(assert(lines[1]), cscol)
-  return table.concat(lines, "\n"), {
-    start   = { line = csrow, char = cscol },
-    ["end"] = { line = cerow, char = cecol },
-  }
-end
-
-function M.fzf_exit()
-  -- Usually called from the LSP module to exit the interface on "async" mode
-  -- when no results are found or when `jump1` is used, when the latter is used
-  -- in "sync" mode we also need to make sure __CTX is cleared or we'll
-  -- have the wrong cursor coordinates (#928)
-  M.clear_CTX()
-  require("fzf-lua").win.win_leave()
-end
-
 ---@return fzf-lua.Win?
 function M.fzf_winobj()
   return require("fzf-lua").win.__SELF()
@@ -1003,11 +855,6 @@ function M.load_profiles(profiles, silent)
   return ret
 end
 
-function M.send_ctrl_c()
-  vim.api.nvim_feedkeys(
-    vim.api.nvim_replace_termcodes("<C-c>", true, false, true), "n", true)
-end
-
 function M.feed_keys_termcodes(key)
   vim.api.nvim_feedkeys(
     vim.api.nvim_replace_termcodes(key, true, false, true), "n", true)
@@ -1029,50 +876,6 @@ function M.is_term_buffer(bufnr)
   end
   local bufname = vim.api.nvim_buf_is_valid(bufnr) and vim.api.nvim_buf_get_name(bufnr)
   return M.is_term_bufname(bufname)
-end
-
----@param bufnr integer
----@param warn? boolean
----@param only_if_last_buffer? boolean
----@return boolean
-function M.buffer_is_dirty(bufnr, warn, only_if_last_buffer)
-  bufnr = bufnr or vim.api.nvim_get_current_buf()
-  local info = bufnr and M.getbufinfo(bufnr)
-  if info and info.changed ~= 0 then
-    if only_if_last_buffer and 1 < #vim.fn.win_findbuf(bufnr) then
-      return false
-    end
-    if warn then
-      M.warn(("buffer %d:%s has unsaved changes"):format(bufnr,
-        info.name and #info.name > 0 and info.name or "<unnamed>"))
-    end
-    return true
-  end
-  return false
-end
-
----@param bufnr integer
----@return boolean
-function M.save_dialog(bufnr)
-  bufnr = bufnr or vim.api.nvim_get_current_buf()
-  local info = bufnr and M.getbufinfo(bufnr)
-  if not info.name or #info.name == 0 then
-    -- unnamed buffers can't be saved
-    M.warn(string.format("buffer %d has unsaved changes", bufnr))
-    return false
-  end
-  local res = vim.fn.confirm(string.format([[Save changes to "%s"?]], info.name),
-    "&Yes\n&No\n&Cancel")
-  if res == 0 or res == 3 then
-    -- user cancelled
-    return false
-  end
-  if res == 1 then
-    -- user requested save
-    local out = vim.api.nvim_cmd({ cmd = "update" }, { output = true })
-    M.info(out)
-  end
-  return true
 end
 
 -- returns:
@@ -1102,34 +905,6 @@ function M.buf_is_qf(bufnr, bufinfo)
     return M.win_is_qf(window)
   end
   return false
-end
-
--- bufwinid from tab handle, different from tab idx (or "tabnr")
--- NOTE:  When tabs are reordered they still maintain the same
--- tab handle (also a number), example:
--- open two tabs and examine `vim.api.nvim_list_tabpages()`
--- the result should be { 1, 2 }
--- However, after moving the first tab with `:tabm` the result
--- is now { 2, 1 }
--- After closing the second tab with `:tabc` and opening a new
--- tab the result will be { 2, 3 } and after another `:tabm` on
--- the first tab the final result will be { 3, 2 }
--- At this point we have
---   * 1st visual tab: index:1 handle:3
---   * 2nd visual tab: index:2 handle:2
-function M.winid_from_tabh(tabh, bufnr)
-  for _, w in ipairs(vim.api.nvim_tabpage_list_wins(tabh)) do
-    if bufnr == vim.api.nvim_win_get_buf(w) then
-      return w
-    end
-  end
-  return nil
-end
-
--- bufwinid from visual tab index
-function M.winid_from_tabi(tabi, bufnr)
-  local tabh = vim.api.nvim_list_tabpages()[tabi]
-  return M.winid_from_tabh(tabh, bufnr)
 end
 
 ---@param bufnr integer
@@ -1440,49 +1215,6 @@ function M.sk_version(opts)
   local out, rc = M.io_system({ opts and opts.fzf_bin or "sk", "--version" })
   vim.env.SKIM_DEFAULT_OPTIONS = SKIM_DEFAULT_OPTIONS
   return M.parse_verstr(out), rc, out
-end
-
-function M.git_version()
-  local out = M.io_system({ "git", "--version" })
-  return tonumber(out:match("(%d+.%d+)."))
-end
-
-function M.create_user_command_callback(provider, arg, altmap)
-  ---@param o vim.api.keyset.create_user_command.command_args
-  ---@return table
-  local function fzflua_opts(o)
-    local ret = {}
-    -- fzf.vim's bang version of the commands opens fullscreen
-    if o.bang then ret.winopts = { fullscreen = true } end
-    return ret
-  end
-
-  ---@param o vim.api.keyset.create_user_command.command_args
-  return function(o)
-    local fzf_lua = require("fzf-lua")
-    local prov = provider
-    local opts = fzflua_opts(o) -- setup bang!
-    if type(o.fargs[1]) == "string" then
-      local farg = o.fargs[1]
-      for c, p in pairs(altmap or {}) do
-        -- fzf.vim hijacks the first character of the arg
-        -- to setup special commands postfixed with `?:/`
-        -- "GFiles?", "History:" and "History/"
-        if farg:sub(1, 1) == c then
-          prov = p
-          ---@diagnostic disable-next-line: assign-type-mismatch
-          -- we still allow using args with alt
-          -- providers by removing the "?:/" prefix
-          farg = #farg > 1 and vim.trim(farg:sub(2))
-          break
-        end
-      end
-      if arg and farg and #farg > 0 then
-        opts[arg] = vim.trim(farg)
-      end
-    end
-    fzf_lua[prov](opts)
-  end
 end
 
 -- setmetatable wrapper support `__gc`

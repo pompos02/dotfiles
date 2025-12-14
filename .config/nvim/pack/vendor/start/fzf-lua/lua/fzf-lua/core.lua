@@ -202,22 +202,6 @@ M.fzf_live = function(contents, opts)
   return M.fzf_wrap(cmd, opts, true)
 end
 
-M.fzf_resume = function(opts)
-  -- First try to unhide the window
-  if win.unhide() then return end
-  if not config.__resume_data or not config.__resume_data.contents then
-    utils.info("No resume data available.")
-    return
-  end
-  opts = utils.tbl_deep_extend("force", config.__resume_data.opts, opts or {})
-  assert(opts == config.__resume_data.opts)
-  opts.cwd = opts.cwd and libuv.expand(opts.cwd) or nil
-  -- resume a picker when using "hide" and no_resume=true (#2425)
-  local query = utils.map_get(opts, opts.is_live and "__call_opts.search" or "__call_opts.query")
-  if query and #query > 0 then opts.query = query end
-  M.fzf_wrap(assert(config.__resume_data.contents), config.__resume_data.opts)
-end
-
 ---@param cmd string
 ---@param opts? fzf-lua.config.Resolved|{}
 ---@param convert_actions boolean?

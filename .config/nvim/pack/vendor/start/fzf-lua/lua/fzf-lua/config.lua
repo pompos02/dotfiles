@@ -1025,13 +1025,8 @@ M.bytecode = function(s, _)
       -- with new upvalues). If strip is a true value, the binary representation may not
       -- include all debug information about the function, to save space.
       return string.dump(iter, true)
-    end
   end
-end
-
-M.set_action_helpstr = function(fn, helpstr)
-  assert(type(fn) == "function")
-  M._action_to_helpstr[fn] = helpstr
+  end
 end
 
 M.get_action_helpstr = function(fn)
