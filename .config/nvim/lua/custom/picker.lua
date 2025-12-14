@@ -34,6 +34,7 @@ local function preview_command(target_expr, lnum_expr)
             bat,
             "--style=numbers,changes",
             "--color=always",
+            "--theme=ansi",
         }
         if lnum_expr then
             table.insert(parts, "--highlight-line " .. lnum_expr)
@@ -63,8 +64,8 @@ local window_opts = {
         border = "rounded",
         wrap = false,
         hidden = "nohidden",
-        vertical = "down:45%",
-        horizontal = "right:60%",
+        vertical = "down:35%",
+        horizontal = "right:50%",
         layout = "flex",
         flip_columns = 120,
         title = true,
@@ -107,7 +108,7 @@ function M.find_files()
         options = {
             "--prompt=Files> ",
             "--preview", preview_command("{1}"),
-            "--preview-window=right:60%:wrap",
+            "--preview-window=right:50%:wrap",
         },
         window = window_opts,
     }, "files")
@@ -122,7 +123,7 @@ function M.live_grep(initial_query)
     local function reload_cmd(q)
         if has_rg then
             return string.format(
-                "rg --line-number  --hidden --glob='!.git/**' --color=never -- %s",
+                "rg --line-number --column --hidden --glob='!.git/**' --color=always -- %s",
                 vim.fn.shellescape(q)
             )
         else
@@ -172,7 +173,7 @@ function M.live_grep(initial_query)
             "--prompt=Grep> ",
             "--delimiter=:",
             "--preview", preview_command("{1}", "{2}"),
-            "--preview-window=right:60%:wrap:+{2}-10",
+            "--preview-window=right:50%:wrap:+{2}-10",
             "--bind", string.format("change:reload:%s", reload_cmd("{q}")),
             "--phony",
             "--expect=ctrl-q",
