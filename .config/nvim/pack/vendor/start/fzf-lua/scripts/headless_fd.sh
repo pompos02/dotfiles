@@ -13,9 +13,6 @@ usage() {
     echo "Display Options"
     echo "-c, --cwd             Working Directory"
     echo "-x, --cmd             Executed Command (default: fd --color=never)"
-    echo "-g, --git-icons       Git icons [false|true] (default:false)"
-    echo "-f, --file-icons      File icons [false|true] (default:true)"
-    echo "--color               Color icons [false|true] (default:true)"
 }
 
 # saner programming env: these switches turn some bugs into errors
@@ -34,8 +31,8 @@ if [ $? -ne 4 ]; then
     exit 1
 fi
 
-OPTIONS=hd:c:x:f:g:
-LONGOPTS=help,debug:,cwd:,file-icons:,git-icons:,color:,cmd:
+OPTIONS=hd:c:x:
+LONGOPTS=help,debug:,cwd:,cmd:
 
 PARSED=$($GETOPT --options=$OPTIONS --longoptions=$LONGOPTS --name "$0" -- "$@")
 if [ $? -ne 0 ]; then
@@ -49,9 +46,6 @@ eval set -- "$PARSED"
 
 debug="false"
 cwd= cmd=
-git_icons="false"
-file_icons="true"
-color_icons="true"
 
 # now enjoy the options in order and nicely split until we see --
 while true; do
@@ -70,25 +64,6 @@ while true; do
             ;;
         -x|--cmd)
             cmd="$2"
-            shift 2
-            ;;
-        -f|--file-icons)
-            case $2 in
-                "true"|"srv"|"mini"|"devicons")
-                    file_icons="$2"
-                    ;;
-                *)
-                    file_icons="nil"
-                    ;;
-            esac
-            shift 2
-            ;;
-        -g|--git-icons)
-            git_icons="$2"
-            shift 2
-            ;;
-        --color)
-            color_icons="$2"
             shift 2
             ;;
         --)
@@ -111,39 +86,14 @@ if [ $# -gt 0 ]; then
     exit 4
 fi
 
-ICONS_PATH=nil
-ICONS_SETUP=nil
-
-if [ $file_icons != "nil" ]; then
-    if [ $file_icons != "mini" ]; then
-        if [ -d "${BASEDIR}/../deps/nvim-web-devicons" ]; then
-            ICONS_PATH="${BASEDIR}/../deps/nvim-web-devicons"
-        else
-            ICONS_PATH="${XDG_DATA_HOME:-$HOME/.local/share}/nvim/lazy/nvim-web-devicons"
-        fi
-        ICONS_SETUP="${BASEDIR}/devicons.lua"
-    else
-        if [ -d "${BASEDIR}/../deps/mini.nvim" ]; then
-            ICONS_PATH="${BASEDIR}/../deps/mini.nvim"
-        else
-            ICONS_PATH="${XDG_DATA_HOME:-$HOME/.local/share}/nvim/lazy/mini.nvim"
-        fi
-    fi
-fi
-
 # VIMRUNTIME=/usr/share/nvim/runtime \
 nvim -u NONE -l ${BASEDIR}/../lua/fzf-lua/spawn.lua "return
   -- opts
   {
     g = {
       _fzf_lua_server = #[[${FZF_LUA_SERVER:-}]] > 0 and [[${FZF_LUA_SERVER:-}]] or nil,
-      _devicons_path = [[${ICONS_PATH}]],
-      _devicons_setup = [[${ICONS_SETUP}]],
     },
     debug = [[$debug]] == [[v]] and [[v]] or $debug,
-    file_icons = [[${file_icons}]] == true or [[${file_icons}]],
-    git_icons = ${git_icons},
-    color_icons = ${color_icons},
     contents = [[${cmd:-fd --color=never}]],
     cmd = [[${cmd:-fd --color=never}]],
     cwd = vim.fn.expand([[${cwd:-$BASEDIR}]]),

@@ -29,7 +29,6 @@ Previewer.builtin.keymaps = function() return require "fzf-lua.previewer.builtin
 ---@field preview_offset? string
 ---@field theme? string
 ---@field pager? string|function
----@field _fn_git_icons? table[]|fun():table?
 ---builtin
 ---@field title_fnamemodify? function
 

@@ -139,9 +139,6 @@ M.defaults.files = {
   previewer = M._default_previewer_fn,
   prompt = "> ",
   multiprocess = 1,
-  git_icons = true,
-  file_icons = 1,
-  color_icons = true,
   fd_opts = "--color=never --type f --hidden --follow --exclude .git",
   rg_opts = "--color=never --files --hidden --follow -g '!.git'",
   find_opts = "-type f",
@@ -155,9 +152,6 @@ M.defaults.grep = {
   input_prompt = "Grep For> ",
   multiprocess = 1,
   _type = "file",
-  file_icons = 1,
-  color_icons = true,
-  git_icons = false,
   fzf_opts = { ["--multi"] = true },
   grep_opts = utils.is_darwin()
       and "--binary-files=without-match --line-number --recursive --color=always --extended-regexp -e"
@@ -208,9 +202,6 @@ M.defaults.keymaps = {
 -- Minimal LSP defaults (references only)
 M.defaults.lsp = {
   previewer = M._default_previewer_fn,
-  file_icons = 1,
-  color_icons = true,
-  git_icons = false,
   async_or_timeout = 5000,
   jump1 = true,
   jump1_action = actions.file_edit,

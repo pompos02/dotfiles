@@ -437,7 +437,7 @@ function M.entry_to_file(entry, opts, force_uri)
       entry = opts._fmt.from(entry, opts)
     end
   end
-  -- Remove ANSI coloring and prefixed icons
+  -- Remove ANSI coloring and prefixed metadata
   entry = utils.strip_ansi_coloring(entry)
   if opts.render_crlf then
     entry = entry:gsub("␊", "\n"):gsub("␍", "\r")

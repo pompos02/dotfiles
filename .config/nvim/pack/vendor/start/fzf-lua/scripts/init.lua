@@ -1,11 +1,11 @@
--- add temp path from scripts/mini.sh in case this is running locally
+-- add temp path in case this is running locally
 local tempdir = vim.trim(vim.fn.system([[sh -c "dirname $(mktemp -u)"]]))
 local packpath = os.getenv("PACKPATH") or tempdir .. "/fzf-lua.tmp/nvim/site"
 vim.cmd("set packpath+=" .. packpath)
 
 vim.o.termguicolors = true
 
-require "fzf-lua".setup { defaults = { git_icons = false } }
+require "fzf-lua".setup {}
 
 
 vim.api.nvim_set_keymap("n", "<C-\\>", [[<Cmd>lua require"fzf-lua".buffers()<CR>]], {})

@@ -356,16 +356,6 @@ function Previewer.git_diff:new(o, opts)
     -- https://superuser.com/questions/223104/setting-and-using-variable-within-same-command-line-in-windows-cmd-ex
     self.pager = "| " .. utils._if_win_normalize_vars(pager, 2)
   end
-  do
-    -- populate the icon mappings
-    local icons_overrides = o._fn_git_icons and o._fn_git_icons()
-    self.git_icons = {}
-    for _, i in ipairs({ "D", "M", "R", "A", "C", "T", "?" }) do
-      self.git_icons[i] =
-          icons_overrides and icons_overrides[i] and
-          utils.lua_regex_escape(icons_overrides[i].icon) or i
-    end
-  end
   return self
 end
 
@@ -377,17 +367,15 @@ function Previewer.git_diff:cmdline(o)
       return utils.shell_nop()
     end
     if not items[1] then return utils.shell_nop() end
-    local is_deleted = items[1]:match(self.git_icons["D"] .. utils.nbsp) ~= nil
-    local is_modified = items[1]:match("[" ..
-      self.git_icons["M"] ..
-      self.git_icons["R"] ..
-      self.git_icons["A"] ..
-      self.git_icons["T"] ..
-      "]" .. utils.nbsp) ~= nil
-    local is_untracked = items[1]:match("[" ..
-      self.git_icons["?"] ..
-      self.git_icons["C"] ..
-      "]" .. utils.nbsp) ~= nil
+    local staged, unstaged = (function()
+      local cleaned = items[1]:gsub(utils.nbsp, " ")
+      local s1, s2 = cleaned:match("^(.)%s+(.)")
+      return s1 or " ", s2 or " "
+    end)()
+    local is_deleted = staged == "D" or unstaged == "D"
+    local is_modified = utils.tbl_contains({ "M", "R", "A", "T" }, staged)
+        or utils.tbl_contains({ "M", "R", "A", "T" }, unstaged)
+    local is_untracked = staged == "?" or unstaged == "?" or staged == "C" or unstaged == "C"
     local s = items[1]
     if s:match("%s%->%s") then
       -- for renames, we take only the last part (#864)

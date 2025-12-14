@@ -5,7 +5,6 @@ local uv = vim.uv or vim.loop
 local path = require "fzf-lua.path"
 local utils = require "fzf-lua.utils"
 local libuv = require "fzf-lua.libuv"
-local devicons = require "fzf-lua.devicons"
 local config ---@module 'fzf-lua.config'
 
 -- attempt to load the current config
@@ -80,10 +79,6 @@ if _G._fzf_lua_is_headless then
   local _config = load_config() or {} ---@module 'fzf-lua.config'
   ---@diagnostic disable-next-line: missing-fields
   _config.globals = { git = {}, files = {}, grep = {} }
-  _config.globals.git.icons = load_config_section("globals.git.icons", "table") or {}
-  _config.globals.files.git_status_cmd =
-      load_config_section("globals.files.git_status_cmd", "table")
-      or { "git", "-c", "color.status=false", "--no-optional-locks", "status", "--porcelain=v1" }
 
   -- prioritize `opts.rg_glob_fn` over globals
   _config.globals.grep.rg_glob_fn = opts2.rg_glob_fn or
@@ -101,48 +96,9 @@ if _G._fzf_lua_is_headless then
     path = path,
     utils = utils,
     libuv = libuv,
-    devicons = devicons,
   }
 end
 assert(config.globals, "missing gloabals in fzf-lua config")
-
----@param opts table
----@return table<string, [string, true?]>
-M.get_diff_files = function(opts)
-  local diff_files = {}
-  local cmd = opts.git_status_cmd or config.globals.files.git_status_cmd ---@cast cmd string[]
-  if not cmd then return {} end
-  local start = uv.hrtime()
-  local ok, status, err = pcall(utils.io_systemlist, path.git_cwd(cmd, opts)) ---@cast status string[]
-  local seconds = (uv.hrtime() - start) / 1e9
-  if seconds >= 0.5 and opts.silent ~= true then
-    local exec_str = string.format([[require"fzf-lua".utils.warn(]] ..
-      [["'git status' took %.2f seconds, consider using `git_icons=false` in this repository or use `silent=true` to supress this message.")]]
-      , seconds)
-    if not _G._fzf_lua_is_headless then
-      assert(loadstring(exec_str))()
-    else
-      ---@diagnostic disable-next-line: undefined-field
-      local chan_id = vim.fn.sockconnect("pipe", _G._fzf_lua_server, { rpc = true })
-      vim.rpcrequest(chan_id, "nvim_exec_lua", exec_str, {})
-      vim.fn.chanclose(chan_id)
-    end
-  end
-  if ok and err == 0 then
-    for _, line in ipairs(status) do
-      local icon = line:match("[MUDARCT?]+")
-      local file = line:match("[^ ]*$")
-      if icon and file then
-        -- Extract first char, staged if not space or ? (32 or 63)
-        local first = #line > 0 and string.byte(line, 1)
-        local is_staged = first ~= 32 and first ~= 63 or nil
-        diff_files[file] = { icon:gsub("%?%?", "?"), is_staged }
-      end
-    end
-  end
-
-  return diff_files
-end
 
 ---@param query string
 ---@param opts table
@@ -486,14 +442,6 @@ M.preprocess = function(opts)
     opts.cwd = utils.cwd()
   end
 
-  if opts.file_icons then
-    devicons.load()
-  end
-
-  if opts.git_icons then
-    opts.diff_files = M.get_diff_files(opts)
-  end
-
   -- formatter `to` function
   if opts.formatter and not opts._fmt then
     opts._fmt = opts._fmt or {}
@@ -510,19 +458,12 @@ M.preprocess = function(opts)
   return opts
 end
 
-M.postprocess = function(opts)
-  if opts.file_icons == "mini" and devicons.PLUGIN and devicons.PLUGIN.update_state_mini then
-    devicons.PLUGIN:update_state_mini()
-  end
-end
-
 ---@param x string
 ---@param opts table
 ---@return string? entry
 M.file = function(x, opts)
   opts = opts or {}
   local ret = {}
-  local icon, hl
   local colon_start_idx = 1
   if utils.__IS_WINDOWS then
     if string.byte(x, #x) == 13 then
@@ -592,7 +533,7 @@ M.file = function(x, opts)
     end
   end
   -- only shorten after we're done with all the filtering
-  -- save a copy for git indicator and icon lookups
+  -- save a copy for git indicator lookups
   local origpath = filepath
   if opts.path_shorten then
     filepath = path.shorten(filepath, tonumber(opts.path_shorten),
@@ -600,34 +541,6 @@ M.file = function(x, opts)
       -- otherwise we might have issues "lenghening" as in the case of git which
       -- uses normalized paths (using /) for `rev-parse --show-toplevel` and `ls-files`
       utils.__IS_WINDOWS and opts.cwd and path.separator(opts.cwd))
-  end
-  if opts.git_icons then
-    ---@type [string, true?]
-    local diff_info = opts.diff_files
-        and opts.diff_files[utils._if_win(path.normalize(origpath), origpath)]
-    local indicators = diff_info and diff_info[1] or " "
-    for i = 1, #indicators do
-      icon = indicators:sub(i, i)
-      local git_icon = config.globals.git.icons[icon]
-      if git_icon then
-        icon = git_icon.icon
-        if opts.color_icons then
-          -- diff_info[2] contains 'is_staged' var, only the first indicator can be "staged"
-          local git_color = diff_info[2] and i == 1 and "green" or git_icon.color or "dark_grey"
-          icon = utils.ansi_codes[git_color](icon)
-        end
-      end
-      ret[#ret + 1] = icon
-    end
-    ret[#ret + 1] = utils.nbsp
-  end
-  if opts.file_icons then
-    icon, hl = devicons.get_devicon(origpath)
-    if hl and opts.color_icons then
-      icon = utils.ansi_from_rgb(hl, icon)
-    end
-    ret[#ret + 1] = icon
-    ret[#ret + 1] = utils.nbsp
   end
   local _fmt_postfix -- when using `path.filename_first` v2
   if opts._fmt and type(opts._fmt.to) == "function" then
@@ -689,16 +602,6 @@ M.tag = function(x, opts)
 end
 
 M.git_status = function(x, opts)
-  local function git_iconify(icon, staged)
-    local git_icon = config.globals.git.icons[icon]
-    if git_icon then
-      icon = git_icon.icon
-      if opts.color_icons then
-        icon = utils.ansi_codes[staged and "green" or git_icon.color or "dark_grey"](icon)
-      end
-    end
-    return icon
-  end
   -- unrecognizable format, return
   if not x or #x < 4 then return x end
   -- strip ansi coloring or the pattern matching fails
@@ -719,8 +622,8 @@ M.git_status = function(x, opts)
   -- accommodate 'file_ignore_patterns'
   if not f1 then return end
   f2 = f2 and M.file(f2, opts)
-  local staged = git_iconify(x:sub(1, 1):gsub("?", " "), true)
-  local unstaged = git_iconify(x:sub(2, 2))
+  local staged = x:sub(1, 1):gsub("?", " ")
+  local unstaged = x:sub(2, 2)
   local entry = ("%s%s%s%s%s"):format(
     staged, utils.nbsp, unstaged, utils.nbsp .. utils.nbsp,
     (f2 and ("%s -> %s"):format(f1, f2) or f1))

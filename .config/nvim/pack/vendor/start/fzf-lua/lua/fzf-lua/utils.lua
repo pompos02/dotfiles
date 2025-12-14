@@ -31,7 +31,7 @@ function M.__FNCREF2__()
   return dbginfo and dbginfo.func
 end
 
--- sets an invisible unicode character as icon separator
+-- sets an invisible unicode character as a separator
 -- the below was reached after many iterations, a short summary of everything
 -- that was tried and why it failed:
 --

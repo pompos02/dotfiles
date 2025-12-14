@@ -4,7 +4,6 @@ local path = require "fzf-lua.path"
 local utils = require "fzf-lua.utils"
 local libuv = require "fzf-lua.libuv"
 local actions = require "fzf-lua.actions"
-local devicons = require "fzf-lua.devicons"
 
 ---@class fzf-lua.config
 ---@field globals fzf-lua.config.Defaults
@@ -377,8 +376,6 @@ function M.normalize_opts(opts, globals, __resume_key) ---@diagnostic disable
     "fzf_args",
     "fzf_cli_args",
     "fzf_raw_args",
-    "file_icon_padding",
-    "dir_icon",
     "help_open_win",
   }) do
     if opts[s] == nil then
@@ -513,18 +510,6 @@ function M.normalize_opts(opts, globals, __resume_key) ---@diagnostic disable
     end
   end
 
-  -- Exclude file icons from the fuzzy matching (#1080)
-  if (opts.file_icons or opts.git_icons)
-      and opts._fzf_nth_devicons
-      and not opts.fzf_opts["--delimiter"]
-      -- Can't work due to : delimiter (#2112)
-      and opts.previewer ~= "bat"
-      and opts.previewer ~= "bat_native"
-  then
-    opts.fzf_opts["--nth"] = opts.fzf_opts["--nth"] or "-1.."
-    opts.fzf_opts["--delimiter"] = string.format("[%s]", utils.nbsp)
-  end
-
   if type(opts.previewer) == "function" then
     -- we use a function so the user can override
     -- globals.winopts.preview.default
@@ -653,9 +638,6 @@ function M.normalize_opts(opts, globals, __resume_key) ---@diagnostic disable
       end
     end
   end
-
-  -- test for valid git_repo
-  opts.git_icons = opts.git_icons and path.is_git_repo(opts, true)
 
   local executable = function(binary, fncerr, strerr)
     if binary and vim.fn.executable(binary) ~= 1 then
@@ -893,49 +875,10 @@ function M.normalize_opts(opts, globals, __resume_key) ---@diagnostic disable
   end
 
 
-  if opts.file_icons then
-    -- refresh icons, does nothing if "vim.o.bg" didn't change
-    if not devicons.load({
-          plugin = opts.file_icons,
-          icon_padding = opts.file_icon_padding,
-          dir_icon = {
-            icon = opts.dir_icon,
-            color = utils.hexcol_from_hl(opts.hls.dir_icon, "fg")
-          }
-        })
-    then
-      -- Disable file_icons if requested package isn't available
-      -- we set the default value to "1" but since it's the default
-      -- don't display the warning unless the user specifically set
-      -- file_icons to `true` or `mini|devicons`
-      if not tonumber(opts.file_icons) then
-        utils.warn("error loading '%s', disabling 'file_icons'.",
-          opts.file_icons == "mini" and "mini.icons" or "nvim-web-devicons")
-      end
-      opts.file_icons = nil
-    end
-    if opts.file_icons == "mini" then
-      -- When using "mini.icons" process lines 1-by-1 in the luv callback as having
-      -- to wait for all lines takes much longer due to the `vim.filetype.match` call
-      -- which makes the UX appear laggy
-      -- NOTE: DO NOT UNCOMMENT, bad perforamnce
-      -- opts.process1 = opts.process1 == nil and true or opts.process1
-      -- We also want to store the cached extensions/filenames in the main thread
-      -- which we do in "make_entry.postprocess"
-      opts.fn_postprocess = opts.multiprocess
-          and [[return require("fzf-lua.make_entry").postprocess]]
-          -- NOTE: we don't need to update mini when running on main thread
-          -- or require("fzf-lua.make_entry").postprocess
-          or nil
-    end
-  end
-
   -- entry type is file, "optional file processing, only trandform
   -- entries if an option is present which requires a transform
   if opts._type == "file"
-      and (opts.git_icons
-        or opts.file_icons
-        or opts.file_ignore_patterns
+      and (opts.file_ignore_patterns
         or opts.strip_cwd_prefix
         or opts.render_crlf
         or opts.path_shorten
@@ -950,12 +893,9 @@ function M.normalize_opts(opts, globals, __resume_key) ---@diagnostic disable
         and [[return require("fzf-lua.make_entry").preprocess]]
         or opts.fn_preprocess
   end
-  -- Must have preprocess to load icon sets, relocate {argvz}, etc
+  -- Must have preprocess to relocate {argvz}, etc
   if opts.fn_transform and opts.fn_preprocess == nil
-      and (opts.file_icons
-        or opts.git_icons
-        or opts.formatter
-        or opts.fn_transform_cmd)
+      and (opts.formatter or opts.fn_transform_cmd)
   then
     opts.fn_preprocess = [[return require("fzf-lua.make_entry").preprocess]]
   end

@@ -90,7 +90,6 @@ function M.setup_highlights(override)
     { "FzfLuaScrollBorderFull",  "scrollborder_f", { default = default, link = "FzfLuaBorder" } },
     { "FzfLuaScrollFloatEmpty",  "scrollfloat_e",  { default = default, link = "PmenuSbar" } },
     { "FzfLuaScrollFloatFull",   "scrollfloat_f",  { default = default, link = "PmenuThumb" } },
-    { "FzfLuaDirIcon",           "dir_icon",       { default = default, link = "Directory" } },
     { "FzfLuaDirPart",           "dir_part",       { default = default, link = "Comment" } },
     { "FzfLuaFilePart",          "file_part",      { default = default, link = "@none" } },
     -- Fzf terminal hls, colors from `vim.api.nvim_get_color_map()`
@@ -205,19 +204,6 @@ function M.setup(opts, do_not_reset_defaults)
   if do_not_reset_defaults then
     -- no defaults reset requested, merge with previous setup options
     opts = vim.tbl_deep_extend("keep", opts, config.setup_opts or {})
-  end
-  -- backward compat `global_{git|gile|color}_icons`
-  -- converts `global_file_icons` to `defaults.file_icons`, etc
-  for _, o in ipairs({ "file_icons", "git_icons", "color_icons" }) do
-    local gopt = "global_" .. o
-    if opts[gopt] ~= nil then
-      opts.defaults = opts.defaults or {}
-      opts.defaults[o] = opts[gopt]
-      opts[gopt] = nil
-      local oldk = ("%s = %s"):format(gopt, tostring(opts.defaults[o]))
-      local newk = ("defaults = { %s = %s }"):format(gopt, tostring(opts.defaults[o]))
-      vim.deprecate(oldk, newk, "Jan 2026", "FzfLua")
-    end
   end
   -- backward compat, merge lsp.symbols into lsp.{document|workspace}_synbols
   if opts.lsp and opts.lsp.symbols then

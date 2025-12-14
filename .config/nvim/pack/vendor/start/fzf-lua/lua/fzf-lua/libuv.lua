@@ -276,8 +276,7 @@ M.spawn = function(opts, fn_transform, fn_done)
         else
           -- Testing shows better performance writing the entire table at once as opposed to
           -- calling 'write_cb' for every line after 'fn_transform', we therefore only use
-          -- `process1` when using "mini.icons" as `vim.filetype.match` causes a signigicant
-          -- delay and having to wait for all lines to be processed has an apparent lag
+          -- `process1` when the transform itself benefits from per-line handling
           if opts.process1 then
             vim.tbl_map(function(l) write_cb(l .. EOL) end, lines)
           else
@@ -430,8 +429,6 @@ M.spawn_stdio = function(opts)
   local EOL = _G._EOL or opts.multiline and "\0" or "\n"
 
   -- Requiring make_entry will create the pseudo `_G.FzfLua` global
-  -- Must be called after global vars are created or devicons will
-  -- err with "fzf-lua fatal: '_G._fzf_lua_server', '_G._devicons_path' both nil"
   pcall(require, "fzf-lua.make_entry")
 
   -- still need load_fn from str val? now deserialize do all the thing automatically
