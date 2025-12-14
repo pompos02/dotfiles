@@ -30,6 +30,12 @@ vim.cmd.colorscheme("misirlou-lb")
 local home = vim.fn.expand("~/.fzf")
 vim.opt.rtp:prepend(home)
 
+-- Use Windows explorer.exe for vim.ui.open (WSL/Windows friendly)
+vim.ui.open = function(path)
+    local job = vim.fn.jobstart({ "explorer.exe", path }, { detach = true })
+    return job > 0
+end
+
 
 -- Highlight on yank
 vim.api.nvim_create_autocmd("TextYankPost", {
