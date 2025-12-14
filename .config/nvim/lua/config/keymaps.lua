@@ -85,6 +85,10 @@ map("n", "<leader>fb", function() require("custom.picker").buffers() end, { desc
 map("n", "<leader>fh", function() require("custom.picker").help_tags() end, { desc = "Help tags" })
 map("n", "<leader>fk", function() require("custom.picker").keymaps() end, { desc = "Find keymaps" })
 
+
+
+
+
 -- File explorer (native netrw)
 map("n", "<leader>e", ":Explore<CR>", { desc = "Explorer (netrw)" })
 map("n", "<leader>E", ":Explore " .. vim.fn.getcwd() .. "<CR>", { desc = "Explorer - Project Root" })

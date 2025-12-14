@@ -25,6 +25,55 @@ local function run_fzf(spec, name, fullscreen)
     run(wrapped)
 end
 
+local function preview_command(target_expr, lnum_expr, query_expr)
+    local has_rg = vim.fn.executable("rg") == 1
+    local has_grep = vim.fn.executable("grep") == 1
+
+    if query_expr and query_expr ~= "" then
+        if has_rg then
+            return table.concat({
+                "rg --color=always --line-number --hidden --glob='!.git/**' --context 5 -- ",
+                query_expr, " ", target_expr,
+            })
+        elseif has_grep then
+            return table.concat({
+                "grep --color=always -n -C4 --perl-regexp -- ",
+                query_expr, " ", target_expr,
+            })
+        end
+    end
+
+    local bat = vim.fn.executable("batcat") == 1 and "batcat"
+        or (vim.fn.executable("bat") == 1 and "bat" or nil)
+
+    if bat then
+        local parts = {
+            bat,
+            "--style=numbers,changes",
+            "--color=always",
+        }
+        if lnum_expr then
+            table.insert(parts, "--highlight-line " .. lnum_expr)
+        end
+        table.insert(parts, "--")
+        table.insert(parts, target_expr)
+        return table.concat(parts, " ")
+    end
+
+    if lnum_expr then
+        -- Show a small slice when bat is unavailable; fzf placeholders expand in the shell
+        local match_highlight = ""
+        if query_expr and query_expr ~= "" then
+            match_highlight = [[{ gsub(q, "\033[31m&\033[0m") }]]
+        end
+        return "awk -v q=\"" .. (query_expr or "") .. "\" 'NR>=" .. lnum_expr .. "-50 && NR<=" .. lnum_expr
+            .. "+50 { printf(\"%6d  %s%s\\n\", NR, NR==" .. lnum_expr
+            .. "?\" > \":\"  \", $0); " .. match_highlight .. " }' " .. target_expr
+    end
+
+    return "cat -n " .. target_expr
+end
+
 local function jump_to_file_line(line)
     -- strip ANSI color codes so file:line parsing remains valid when sources are colored
     line = line:gsub("\27%[[0-9;]*m", "")
@@ -59,6 +108,8 @@ function M.find_files()
         sink = "edit",
         options = {
             "--prompt=Files> ",
+            "--preview", preview_command("{1}"),
+            "--preview-window=right:60%:wrap",
         },
     }, "files")
 end
@@ -121,11 +172,8 @@ function M.live_grep(initial_query)
             "--ansi",
             "--prompt=Grep> ",
             "--delimiter=:",
-            "--preview",
-            has_rg
-                and "rg --color=always --line-number  --hidden --glob='!.git/**' --context 5 -- {q} {1}"
-                or "grep --color=always -n -C4 --include='.*' --include='*' --exclude-dir=.git -- {q} {1}",
-            "--preview-window=right:60%",
+            "--preview", preview_command("{1}", "{2}", "{q}"),
+            "--preview-window=right:60%:wrap",
             "--bind", string.format("change:reload:%s", reload_cmd("{q}")),
             "--phony",
             "--expect=ctrl-q",
