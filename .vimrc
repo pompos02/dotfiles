@@ -57,7 +57,7 @@ set termguicolors
 
 set undofile
 set undolevels=10000
-set updatetime=750
+set updatetime=200
 set virtualedit=block
 set wildmode=longest:full,full
 set winminwidth=5
