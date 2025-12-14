@@ -1267,7 +1267,7 @@ M.link.default = {
     highlight = 'RenderMarkdownLink',
     -- Applies to WikiLink elements.
     wiki = {
-        icon = '[wiki] ',
+        icon = '@>',
         body = function()
             return nil
         end,
