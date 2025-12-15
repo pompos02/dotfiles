@@ -1,3 +1,4 @@
+#!/bin/bash
 DIRS=(
     "$HOME/projects/"
     "$HOME"
@@ -50,7 +51,8 @@ get_current_session_dir() {
 get_last_session_dir() {
     if [[ -f "$STATE_FILE" && -r "$STATE_FILE" ]]; then
         local last_dir
-        last_dir=$(cat "$STATE_FILE" 2>/dev/null | tr -d '\n' | xargs)
+        # last_dir=$(cat "$STATE_FILE" 2>/dev/null | tr -d '\n' | xargs)
+        last_dir=$(tr -d '\n' < "$STATE_FILE" | xargs)
         # Check if directory still exists and is in our search scope
         if [[ -n "$last_dir" && -d "$last_dir" ]]; then
             # Verify it's a directory we would find in our search
