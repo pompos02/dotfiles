@@ -54,16 +54,6 @@ local function preview_command(target_expr, lnum_expr)
     return "cat -n " .. target_expr
 end
 
-local function live_grep_preview_command()
-    local base = preview_command("{1}", "{2}")
-    local escaped_base = base:gsub('"', '\\"')
-    return table.concat({
-        "pattern=$(printf '%s' {q} | sed -e 's/[\\\\]/\\\\\\\\/g' -e 's/[\\/&]/\\\\&/g' -e 's/[.[*^$(){}+?|]/\\\\&/g')",
-        "preview=\"" .. escaped_base .. "\"",
-        "if [ -z \"$pattern\" ]; then eval \"$preview\"; else eval \"$preview\" | sed -E \"s/${pattern}/\\x1b[31m&\\x1b[0m/g\"; fi"
-    }, " ; ")
-end
-
 local window_opts = {
     height = 0.60,
     width = 0.80,
@@ -183,7 +173,7 @@ function M.live_grep(initial_query)
             "--ansi",
             "--prompt=Grep> ",
             "--delimiter=:",
-            "--preview", live_grep_preview_command(),
+            "--preview", preview_command("{1}", "{2}"),
             "--preview-window=right:50%:wrap:+{2}-10",
             "--bind", string.format("change:reload:%s", reload_cmd("{q}")),
             "--phony",
