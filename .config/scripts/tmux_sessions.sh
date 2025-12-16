@@ -14,6 +14,15 @@ STATE_FILE="$STATE_DIR/last_session"
 # Ensure directory exists
 [[ ! -d "$STATE_DIR" ]] && mkdir -p "$STATE_DIR"
 
+# List candidate session directories, preferring fd but falling back to find
+list_candidate_dirs() {
+    if command -v fd >/dev/null 2>&1; then
+        fd --type d --max-depth 1 --min-depth 1 --absolute-path --color never '.*' "${DIRS[@]}" 2>/dev/null
+    else
+        find "${DIRS[@]}" -mindepth 1 -maxdepth 1 -type d ! -name ".*" 2>/dev/null
+    fi
+}
+
 # Function to convert session name back to directory path
 session_to_dir() {
     local session_name="$1"
@@ -23,7 +32,7 @@ session_to_dir() {
 
     # Get all possible directories from our DIRS
     local all_possible_dirs
-    all_possible_dirs=$(find "${DIRS[@]}" -mindepth 1 -maxdepth 1 -type d ! -name ".*" 2>/dev/null)
+    all_possible_dirs=$(list_candidate_dirs)
 
     # Find directory whose basename matches the session name
     while IFS= read -r dir_path; do
@@ -51,15 +60,13 @@ get_current_session_dir() {
 get_last_session_dir() {
     if [[ -f "$STATE_FILE" && -r "$STATE_FILE" ]]; then
         local last_dir
-        # last_dir=$(cat "$STATE_FILE" 2>/dev/null | tr -d '\n' | xargs)
         last_dir=$(tr -d '\n' < "$STATE_FILE" | xargs)
         # Check if directory still exists and is in our search scope
         if [[ -n "$last_dir" && -d "$last_dir" ]]; then
             # Verify it's a directory we would find in our search
-            local relative_path="${last_dir#"$HOME"/}"
             local all_dirs
-            all_dirs=$(find "${DIRS[@]}" -mindepth 1 -maxdepth 1 -type d ! -name ".*" 2>/dev/null | sed "s|^$HOME/||")
-            if echo "$all_dirs" | grep -q "^$relative_path$"; then
+            all_dirs=$(list_candidate_dirs)
+            if echo "$all_dirs" | grep -Fx "$last_dir" >/dev/null; then
                 echo "$last_dir"
             fi
         fi
@@ -70,36 +77,24 @@ if [[ $# -eq 1 ]]; then
     selected=$1
 else
     # Get all directories
-    all_dirs=$(find "${DIRS[@]}" -mindepth 1 -maxdepth 1 -type d ! -name ".*" |
-        sed "s|^$HOME/||")
+    all_dirs=$(list_candidate_dirs)
 
     # Get priority directory (previous session from state file)
     priority_dir=$(get_last_session_dir)
 
     # Build the directory list with priority directory first
     if [[ -n "$priority_dir" ]]; then
-        # Convert to relative path for display
-        priority_relative="${priority_dir#"$HOME"/}"
-
         # Remove priority dir from main list and put it first
-        dir_list=$(echo "$all_dirs" | grep -v "^$priority_relative$")
-        final_list=$(printf "%s\n%s" "$priority_relative" "$dir_list")
+        dir_list=$(echo "$all_dirs" | grep -Fvx "$priority_dir")
+        final_list=$(printf "%s\n%s" "$priority_dir" "$dir_list")
     else
         final_list="$all_dirs"
     fi
 
     # Use fzf to select
-    selected_relative=$(echo "$final_list" | fzf-tmux -p 90%,60% \
+    selected=$(echo "$final_list" | fzf-tmux -p 90%,60% \
         --border=rounded --padding=1 \
         --color=hl:67:bold:underline,hl+:67:bold:underline)
-
-    if [[ -n "$selected_relative" ]]; then
-        case "$selected_relative" in
-            /*) selected="$selected_relative" ;;                    # absolute path (e.g. /mnt/c/...)
-            ~*) selected="${selected_relative/#\~/$HOME}" ;;        # tilde expansion if ever shown
-            *) selected="$HOME/$selected_relative" ;;               # default: relative to HOME
-        esac
-    fi
 fi
 
 [[ ! $selected ]] && exit 0
