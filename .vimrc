@@ -9,7 +9,6 @@ set background=dark
 
 " Disable fzf history files
 let g:fzf_history_dir = ""
-" udner here should go 
 " add something like this
 " /home/karavellas/.vim/pack/plugins/start/fzf.vim/plugin/fzf.vim
 " also add the undo directory see the first option 
