@@ -124,7 +124,7 @@ function M.live_grep(initial_query)
     local function reload_cmd(q)
         if has_rg then
             return string.format(
-                "rg --line-number --column --hidden --glob='!.git/**' --color=always -- %s",
+                "rg --line-number --hidden --glob='!.git/**' --color=always -- %s",
                 vim.fn.shellescape(q)
             )
         else
