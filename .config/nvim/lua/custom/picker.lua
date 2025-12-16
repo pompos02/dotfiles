@@ -55,7 +55,7 @@ local function preview_command(target_expr, lnum_expr)
 end
 
 local window_opts = {
-    height = 0.85,
+    height = 0.60,
     width = 0.80,
     row = 0.35,
     col = 0.50,
@@ -108,7 +108,8 @@ function M.find_files()
         options = {
             "--prompt=Files> ",
             "--preview", preview_command("{1}"),
-            "--preview-window=right:50%:wrap",
+            "--preview-window=right:50%:wrap:hidden",
+            "--bind=ctrl-s:toggle-preview",
         },
         window = window_opts,
     }, "files")
@@ -178,7 +179,7 @@ function M.live_grep(initial_query)
             "--phony",
             "--expect=ctrl-q",
             "--multi",
-            "--bind=ctrl-a:select-all,ctrl-d:deselect-all",
+            "--bind=ctrl-a:select-all,ctrl-d:deselect-all,ctrl-s:toggle-preview",
             query ~= "" and ("--query=" .. query) or nil,
         },
         window = window_opts,
