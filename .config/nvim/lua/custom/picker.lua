@@ -56,7 +56,7 @@ end
 
 local window_opts = {
     height = 0.60,
-    width = 0.80,
+    width = 0.90,
     row = 0.35,
     col = 0.50,
     border = "rounded",
@@ -107,6 +107,9 @@ function M.find_files()
         sink = "edit",
         options = {
             "--prompt=Files> ",
+            "--ansi",
+            -- dimmer green highlights for black backgrounds
+            "--color=hl:71:bold:underline,hl+:71:bold:underline",
             "--preview", preview_command("{1}"),
             "--preview-window=right:50%:wrap:hidden",
             "--bind=ctrl-s:toggle-preview",
