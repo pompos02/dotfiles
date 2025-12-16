@@ -109,7 +109,7 @@ function M.find_files()
             "--prompt=Files> ",
             "--ansi",
             -- dimmer green highlights for black backgrounds
-            "--color=hl:71:bold:underline,hl+:71:bold:underline",
+            "--color=hl:67:bold:underline,hl+:67:bold:underline",
             "--preview", preview_command("{1}"),
             "--preview-window=right:50%:wrap:hidden",
             "--bind=ctrl-s:toggle-preview",
@@ -132,7 +132,7 @@ function M.live_grep(initial_query)
             )
         else
             return string.format(
-                "grep --color=never -rn --include='.*' --include='*' --exclude-dir=.git %s . 2>/dev/null",
+                "grep --color=never -rin --include='.*' --include='*' --exclude-dir=.git %s . 2>/dev/null",
                 vim.fn.shellescape(q)
             )
         end
