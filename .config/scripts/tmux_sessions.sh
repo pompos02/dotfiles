@@ -89,7 +89,23 @@ else
     fi
 
     # Use fzf to select
-    selected_relative=$(echo "$final_list" | fzf )
+    if [[ -n "$TMUX" && -x "$(command -v fzf-tmux)" ]]; then
+        # tmux popup is truly centered; size mirrors the Neovim picker proportions
+        selected_relative=$(echo "$final_list" | fzf-tmux -p 90%,60% \
+            --border=rounded \
+            --padding=1 \
+            --color=hl:67:bold:underline,hl+:67:bold:underline)
+    else
+        fzf_opts=(
+            --height=60%          # similar proportions to the Neovim find_files picker
+            --margin=20%,5%       # center vertically (20% top/bottom) and give side breathing room
+            --padding=1
+            --border=rounded
+            --color=hl:67:bold:underline,hl+:67:bold:underline
+        )
+
+        selected_relative=$(echo "$final_list" | fzf "${fzf_opts[@]}")
+    fi
 
     if [[ -n "$selected_relative" ]]; then
         case "$selected_relative" in
