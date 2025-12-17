@@ -94,7 +94,9 @@ else
     # Use fzf to select
     selected=$(echo "$final_list" | fzf-tmux -p 90%,60% \
         --border=rounded --padding=1 \
-        --color=hl:67:bold:underline,hl+:67:bold:underline)
+        --color=hl+:bold:underline,hl+:bold \
+        --color=border:white,list-border:white,preview-border:white,input-border:white,header-border:white,footer-border:white \
+        --color=pointer:white)
 fi
 
 [[ ! $selected ]] && exit 0

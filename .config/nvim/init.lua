@@ -25,7 +25,7 @@ vim.o.winborder = "rounded"
 
 -- Set colorscheme
 -- vim.cmd.colorscheme("misirlou-lightstrong")
-vim.cmd.colorscheme("misirlou-lb")
+vim.cmd.colorscheme("misirlou-resu")
 
 -- Put the fzf plugin root in the runtime path when built from source
 local home = vim.fn.expand("~/.fzf")
