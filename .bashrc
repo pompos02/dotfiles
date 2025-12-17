@@ -14,6 +14,11 @@ export PATH="$HOME/.opencode/bin:$PATH"
 export PATH="$PATH:/opt/nvim-linux-x86_64/bin:"
 export PATH="${PATH:+${PATH}:}/home/karavellas/.fzf/bin"
 
+#  # tmux can start bash with empty/invalid PWD; \W then prints nothing
+  if [[ -z $PWD || ! -d $PWD ]]; then
+    PWD="$(pwd)"
+  fi
+
 # Prompt
 PS1='$(ret=$?;(($ret!=0)) && echo "\[\033[38;5;1m\]($ret)\[\033[0m\] ")'  # exit code (red)
 PS1+='$(((UID==0)) && echo "\[\033[38;5;1m\]")\u@\h\[\033[0m\]'  # user@host (red for root)

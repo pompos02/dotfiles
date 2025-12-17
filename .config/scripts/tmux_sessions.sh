@@ -102,6 +102,10 @@ fi
 
 [[ ! $selected ]] && exit 0
 
+if [[ $selected != "/" ]]; then
+    selected="${selected%/}"
+fi
+
 selected_name=$(basename "$selected" | tr . _)
 
 if ! tmux has-session -t "$selected_name"; then
