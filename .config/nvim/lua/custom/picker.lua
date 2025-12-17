@@ -108,8 +108,11 @@ function M.find_files()
         options = {
             "--prompt=Files> ",
             "--ansi",
-            -- dimmer green highlights for black backgrounds
-            "--color=hl:67:bold:underline,hl+:67:bold:underline",
+            "--color=hl:#87CEEB:reverse:bold,hl+:#87CEEB:reverse:bold",
+            "--color=info:white",
+            "--color=border:white,list-border:white,preview-border:white,input-border:white,header-border:white,footer-border:white",
+            "--color=pointer:white",
+            "--keep-right",
             "--preview", preview_command("{1}"),
             "--preview-window=right:50%:wrap:hidden",
             "--bind=ctrl-s:toggle-preview",
