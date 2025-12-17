@@ -93,8 +93,8 @@ else
 
     # Use fzf to select
     selected=$(echo "$final_list" | fzf-tmux -p 90%,60% \
-        --border=rounded --padding=1 \
-        --color=hl+:bold:underline,hl+:bold \
+        --border=rounded --info=right \
+        --color=hl+:bold:reverse,hl+:bold:reverse \
         --color=border:white,list-border:white,preview-border:white,input-border:white,header-border:white,footer-border:white \
         --color=pointer:white)
 fi
