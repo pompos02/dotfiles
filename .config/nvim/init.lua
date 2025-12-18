@@ -18,6 +18,7 @@ require("config.markdown").setup()
 require("custom.statusline").setup()
 require("custom.surround").setup()
 require("local-highlight").setup()
+require'treesitter-context'.setup()
 
 -- Set shiftwidth and window borders
 vim.opt.shiftwidth = 4
@@ -46,3 +47,42 @@ vim.api.nvim_create_autocmd("TextYankPost", {
         vim.highlight.on_yank()
     end,
 })
+
+-- Treesitter setup
+do
+    local ok, ts = pcall(require, "nvim-treesitter")
+    if not ok then
+        vim.notify("nvim-treesitter not found in runtimepath", vim.log.levels.WARN)
+        return
+    end
+
+    local languages = {
+        "bash", "sql", "c", "go",
+        "html", "javascript", "jsdoc", "json", "jsonc", "lua", "luadoc", "luap",
+        "markdown", "markdown_inline", "printf", "python", "query", "regex", "toml",
+        "tsx", "typescript", "vim", "vimdoc", "xml", "yaml", "ron",
+    }
+
+    -- Install any missing parsers asynchronously (no-op for already installed ones).
+    local installed = ts.get_installed()
+    local missing = vim.tbl_filter(function(lang)
+        return not vim.list_contains(installed, lang)
+    end, languages)
+    if #missing > 0 then
+        ts.install(missing, { summary = true })
+    end
+
+    -- Ensure parsers/queries go to the standard data dir (prepends to runtimepath).
+    ts.setup({ install_dir = vim.fn.stdpath("data") .. "/site" })
+
+    -- Enable Treesitter highlight and indent when entering a buffer.
+    local group = vim.api.nvim_create_augroup("treesitter_enable", { clear = true })
+    vim.api.nvim_create_autocmd("FileType", {
+        desc = "Enable Treesitter features",
+        group = group,
+        callback = function(args)
+            pcall(vim.treesitter.start, args.buf)
+            vim.bo[args.buf].indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
+        end,
+    })
+end
