@@ -16,8 +16,8 @@ require("config.markdown").setup()
 
 -- Load custom plugins (pure Lua, no external dependencies)
 require("custom.statusline").setup()
-require("custom.highlight_hover").setup()
 require("custom.surround").setup()
+require("local-highlight").setup()
 
 -- Set shiftwidth and window borders
 vim.opt.shiftwidth = 4

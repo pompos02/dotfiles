@@ -39,7 +39,7 @@ else
 fi
 
 # Use the provided arg if present, otherwise open fzf-tmux for selection.
-selected=$(echo "$final_list" | fzf-tmux -p 90%,60% \
+selected=$(echo "$final_list" | fzf\
     --border=rounded --info=right \
     --color=hl:#87CEEB:reverse:bold,hl+:#87CEEB:reverse:bold \
     --color=info:white \
