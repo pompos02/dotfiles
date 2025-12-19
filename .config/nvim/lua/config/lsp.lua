@@ -17,6 +17,7 @@ vim.diagnostic.config({
             [vim.diagnostic.severity.INFO] = "I",
             [vim.diagnostic.severity.HINT] = "H",
         },
+        priority = 2000,
     },
 })
 

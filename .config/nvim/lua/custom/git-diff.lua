@@ -33,8 +33,8 @@ MiniDiff.config = {
     -- signs = { add = '▒', change = '▒', delete = '▒' },
     signs = { add = '+', change = '~', delete = '-' },
 
-    -- Priority of used visualization extmarks
-    priority = 199,
+    -- Priority of used visualization extmarks (lower than diagnostics)
+    priority = 50,
   },
 
   -- Delays (in ms) defining asynchronous processes
