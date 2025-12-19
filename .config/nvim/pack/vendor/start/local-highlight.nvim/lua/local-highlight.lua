@@ -7,7 +7,7 @@ local uv = vim.uv or vim.loop
 -- Opinionated defaults (no configuration exposed)
 local HLGROUP = 'LocalHighlight'
 local CW_HLGROUP = HLGROUP
-local DEBOUNCE_TIMEOUT = 40
+local DEBOUNCE_TIMEOUT = 100
 local INSERT_MODE = false
 local MIN_MATCH_LEN = 1
 local MAX_MATCH_LEN = math.huge
@@ -267,6 +267,7 @@ end
 local function setup_highlight_group()
   api.nvim_set_hl(0, HLGROUP, {
     bold = true, -- keep existing colors; just embolden matches
+    underline = true,
     default = true,
   })
 end

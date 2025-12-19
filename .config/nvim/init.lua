@@ -104,11 +104,11 @@ do
         group = group,
         callback = function(args)
             pcall(vim.treesitter.start, args.buf)
-            local ft = vim.bo[args.buf].filetype
-            if ft == "sql" or ft == "plsql" then
-                return -- keep Vim's default SQL/PLSQL indent behavior
-            end
-            vim.bo[args.buf].indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
+            -- local ft = vim.bo[args.buf].filetype
+            -- if ft == "sql" or ft == "plsql" then
+            --     return -- keep Vim's default SQL/PLSQL indent behavior
+            -- end
+            -- vim.bo[args.buf].indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
         end,
     })
 end
