@@ -1,7 +1,5 @@
 # Treesitter setup (working path)
 
-This documents the setup that is currently working in this repo: Treesitter highlighting and indentation using the native `pack` loader, without plugin managers.
-
 ## Prerequisites
 - Neovim 0.11 (nightly) or newer (the branch checked out in `nvim-treesitter` requires this).
 - `tree-sitter` CLI ≥ 0.26.1 (`tree-sitter --version` should show a build that supports `tree-sitter build`).
@@ -56,18 +54,10 @@ end
 ```
 
 ## Installing parsers
-- On first start, the snippet will try to install any missing parsers listed in `languages`. If you prefer manual control, comment out that block and run:
-  - `:lua require("nvim-treesitter").install({ "lua", "python", ... }, { summary = true })`
-  - or `:TSInstall <lang>` per language.
-- Check installed parsers with:
-  - `:lua print(vim.inspect(require("nvim-treesitter").get_installed()))`
-  - `:TSInstallInfo`
-
-## Notes
-- This uses the current nvim-treesitter branch without the legacy `nvim-treesitter.configs` API, so textobjects from `temp.lua` are not included here. To use textobjects, switch the plugin to the `master` branch and enable them there.***
+Get the parser from the ora_parser repo and put the .so binary in ~/.local/share/nvim/site/parser/xxxx.so
 
 
-## to setup the hilighing you should have this file insdiex ~/.local/share/nvim/site/queries/plsql/highlights.scm
+## to setup the hilighing you should have this file inside that will hold the higlights ~/.local/share/nvim/site/queries/plsql/highlights.scm
 
 ```scm
 ; PL/SQL highlights for tree-sitter-plsql
