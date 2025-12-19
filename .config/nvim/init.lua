@@ -67,16 +67,16 @@ do
         return
     end
 
-    local parser_config = require("nvim-treesitter.parsers")
-    parser_config.plsql = parser_config.plsql or {}
-    parser_config.plsql.install_info = parser_config.plsql.install_info or {
-        path = "/home/karavellas/projects/opensource/tree-sitter-plsql",
-        files = { "src/parser.c" },
-    } -- parser already built locally; keep path for optional TSInstall
-    parser_config.plsql.filetype = "plsql"
-    parser_config.plsql.used_by = { "sql" }
-    pcall(vim.treesitter.language.register, "plsql", "plsql")
-    pcall(vim.treesitter.language.register, "plsql", "sql")
+    -- local parser_config = require("nvim-treesitter.parsers")
+    -- parser_config.plsql = parser_config.plsql or {}
+    -- parser_config.plsql.install_info = parser_config.plsql.install_info or {
+    --     path = "/home/karavellas/projects/opensource/tree-sitter-plsql",
+    --     files = { "src/parser.c" },
+    -- } -- parser already built locally; keep path for optional TSInstall
+    -- parser_config.plsql.filetype = "plsql"
+    -- parser_config.plsql.used_by = { "sql" }
+    -- pcall(vim.treesitter.language.register, "plsql", "plsql")
+    -- pcall(vim.treesitter.language.register, "plsql", "sql")
 
     local languages = {
         "bash", "sql", "plsql", "c", "go",
@@ -86,13 +86,13 @@ do
     }
 
     -- Install any missing parsers asynchronously (no-op for already installed ones).
-    local installed = ts.get_installed()
-    local missing = vim.tbl_filter(function(lang)
-        return not vim.list_contains(installed, lang)
-    end, languages)
-    if #missing > 0 then
-        ts.install(missing, { summary = true })
-    end
+    -- local installed = ts.get_installed()
+    -- local missing = vim.tbl_filter(function(lang)
+    --     return not vim.list_contains(installed, lang)
+    -- end, languages)
+    -- if #missing > 0 then
+    --     ts.install(missing, { summary = true })
+    -- end
 
     -- Ensure parsers/queries go to the standard data dir (prepends to runtimepath).
     ts.setup({ install_dir = vim.fn.stdpath("data") .. "/site" })
