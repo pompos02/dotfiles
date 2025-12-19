@@ -30,7 +30,18 @@ vim.cmd.colorscheme("misirlou-resu")
 
 -- Put the fzf plugin root in the runtime path when built from source
 local home = vim.fn.expand("~/.fzf")
+-- local home = vim.fn.expand("~/.local/share/nvim")
+
 vim.opt.rtp:prepend(home)
+
+-- Recognize common PL/SQL package file extensions
+vim.filetype.add({
+    extension = {
+        pkb = "plsql",
+        pks = "plsql",
+        pls = "plsql",
+    },
+})
 
 -- Use Windows explorer.exe for vim.ui.open (WSL/Windows friendly)
 vim.ui.open = function(path)
@@ -56,8 +67,19 @@ do
         return
     end
 
+    local parser_config = require("nvim-treesitter.parsers")
+    parser_config.plsql = parser_config.plsql or {}
+    parser_config.plsql.install_info = parser_config.plsql.install_info or {
+        path = "/home/karavellas/projects/opensource/tree-sitter-plsql",
+        files = { "src/parser.c" },
+    } -- parser already built locally; keep path for optional TSInstall
+    parser_config.plsql.filetype = "plsql"
+    parser_config.plsql.used_by = { "sql" }
+    pcall(vim.treesitter.language.register, "plsql", "plsql")
+    pcall(vim.treesitter.language.register, "plsql", "sql")
+
     local languages = {
-        "bash", "sql", "c", "go",
+        "bash", "sql", "plsql", "c", "go",
         "html", "javascript", "jsdoc", "json", "jsonc", "lua", "luadoc", "luap",
         "markdown", "markdown_inline", "printf", "python", "query", "regex", "toml",
         "tsx", "typescript", "vim", "vimdoc", "xml", "yaml", "ron",
@@ -82,6 +104,10 @@ do
         group = group,
         callback = function(args)
             pcall(vim.treesitter.start, args.buf)
+            local ft = vim.bo[args.buf].filetype
+            if ft == "sql" or ft == "plsql" then
+                return -- keep Vim's default SQL/PLSQL indent behavior
+            end
             vim.bo[args.buf].indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
         end,
     })
