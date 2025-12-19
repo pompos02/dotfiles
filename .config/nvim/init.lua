@@ -13,6 +13,7 @@ require("config.options")
 require("config.keymaps")
 require("config.lsp")
 require("config.markdown").setup()
+--testing
 
 -- Load custom plugins (pure Lua, no external dependencies)
 require("custom.statusline").setup()
