@@ -19,6 +19,7 @@ require("custom.statusline").setup()
 require("custom.surround").setup()
 require("local-highlight").setup()
 require'treesitter-context'.setup()
+require("custom.git-diff")
 
 -- Set shiftwidth and window borders
 vim.opt.shiftwidth = 4
