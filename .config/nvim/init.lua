@@ -21,6 +21,15 @@ require("custom.surround").setup()
 require("local-highlight").setup()
 require'treesitter-context'.setup()
 require("custom.git-diff")
+require("diffview").setup({
+    use_icons = false,
+    signs = {
+        fold_closed = ">",
+        fold_open = "v",
+        done = "x",
+    },
+
+})
 
 -- Set shiftwidth and window borders
 vim.opt.shiftwidth = 4
@@ -28,11 +37,11 @@ vim.o.winborder = "rounded"
 
 -- Set colorscheme
 -- vim.cmd.colorscheme("misirlou-lightstrong")
-vim.cmd.colorscheme("misirlou-resu")
+-- vim.cmd.colorscheme("misirlou-resu")
+vim.cmd.colorscheme("misirlou-lb")
 
 -- Put the fzf plugin root in the runtime path when built from source
 local home = vim.fn.expand("~/.fzf")
--- local home = vim.fn.expand("~/.local/share/nvim")
 
 vim.opt.rtp:prepend(home)
 
