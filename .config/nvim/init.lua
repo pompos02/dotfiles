@@ -36,7 +36,7 @@ vim.opt.shiftwidth = 4
 vim.o.winborder = "rounded"
 
 -- Set colorscheme
-vim.cmd.colorscheme("misirlou-des")
+vim.cmd.colorscheme("misirlou-git")
 
 -- Put the fzf plugin root in the runtime path when built from source
 local home = vim.fn.expand("~/.fzf")
@@ -88,7 +88,7 @@ do
     -- pcall(vim.treesitter.language.register, "plsql", "sql")
 
     local languages = {
-        "bash", "sql", "plsql", "c", "go",
+        "bash", "sql", "plsql", "c", "go", "cpp",
         "html", "javascript", "jsdoc", "json", "jsonc", "lua", "luadoc", "luap",
         "markdown", "markdown_inline", "printf", "python", "query", "regex", "toml",
         "tsx", "typescript", "vim", "vimdoc", "xml", "yaml", "ron",

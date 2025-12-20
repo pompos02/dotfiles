@@ -108,7 +108,7 @@ function M.find_files()
         options = {
             "--prompt=Files> ",
             "--ansi",
-            "--color=hl:#87CEEB:reverse:bold,hl+:#87CEEB:reverse:bold",
+            "--color=hl:#A5D6FF:reverse:bold,hl+:#79C0FF:reverse:bold",
             "--color=info:white",
             "--color=border:white,list-border:white,preview-border:white,input-border:white,header-border:white,footer-border:white",
             "--color=pointer:white",
