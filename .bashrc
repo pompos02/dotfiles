@@ -30,7 +30,6 @@ PS1+=' \$ '  # prompt character
 export HISTSIZE=5000
 export HISTFILESIZE=20000
 export HISTCONTROL=ignoredups:erasedups
-export FZF_DEFAULT_OPTS="--color=hl:#87CEEB:reverse,hl+:#87CEEB:reverse,pointer:white"
 shopt -s histappend
 bind "set completion-ignore-case on"
 
