@@ -73,6 +73,11 @@ local function get_git_branch()
         local ref = head:match("^ref:%s*(.+)$")
         if ref then
             branch = ref:match("^refs/heads/(.+)$") or ref
+        else
+            local hash = head:match("^%x+$")
+            if hash then
+                branch = hash:sub(1, 7)
+            end
         end
     end
     git_branch_cache[git_dir] = { branch = branch, mtime = mtime }
