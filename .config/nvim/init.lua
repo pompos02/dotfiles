@@ -86,15 +86,16 @@ do
     -- parser_config.plsql.used_by = { "sql" }
     -- pcall(vim.treesitter.language.register, "plsql", "plsql")
     -- pcall(vim.treesitter.language.register, "plsql", "sql")
+    vim.treesitter.language.register("plsql", "sql")
 
     local languages = {
-        "bash", "sql", "plsql", "c", "go", "cpp",
+        "bash", "sql", "plsql", "c", "go", "cpp", "gitcommit",
         "html", "javascript", "jsdoc", "json", "jsonc", "lua", "luadoc", "luap",
         "markdown", "markdown_inline", "printf", "python", "query", "regex", "toml",
         "tsx", "typescript", "vim", "vimdoc", "xml", "yaml", "ron",
     }
 
-    -- Install any missing parsers asynchronously (no-op for already installed ones).
+--    Install any missing parsers asynchronously (no-op for already installed ones).
     -- local installed = ts.get_installed()
     -- local missing = vim.tbl_filter(function(lang)
     --     return not vim.list_contains(installed, lang)
@@ -113,11 +114,7 @@ do
         group = group,
         callback = function(args)
             pcall(vim.treesitter.start, args.buf)
-            -- local ft = vim.bo[args.buf].filetype
-            -- if ft == "sql" or ft == "plsql" then
-            --     return -- keep Vim's default SQL/PLSQL indent behavior
-            -- end
-            -- vim.bo[args.buf].indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
+            local ft = vim.bo[args.buf].filetype
         end,
     })
 end
