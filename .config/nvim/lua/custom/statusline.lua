@@ -1,14 +1,82 @@
 local M = {}
 
-local function get_git_branch()
-    -- Use native git command to get branch
-    local handle = io.popen("git branch --show-current 2>/dev/null")
-    if handle then
-        local branch = handle:read("*l")
-        handle:close()
-        return branch or ""
+local git_branch_cache = {}
+local minidiff_cache = {}
+
+local function read_first_line(path)
+    local handle = io.open(path, "r")
+    if not handle then
+        return nil
     end
-    return ""
+    local line = handle:read("*l")
+    handle:close()
+    return line
+end
+
+local function find_git_dir(path)
+    if path == "" then
+        return nil
+    end
+    local dir = vim.fn.fnamemodify(path, ":p:h")
+    if dir == "" then
+        return nil
+    end
+    while dir and dir ~= "" do
+        local git_path = dir .. "/.git"
+        local stat = vim.loop.fs_stat(git_path)
+        if stat then
+            if stat.type == "directory" then
+                return vim.loop.fs_realpath(git_path) or git_path
+            end
+            if stat.type == "file" then
+                local line = read_first_line(git_path)
+                local gitdir = line and line:match("^gitdir:%s*(.+)$")
+                if gitdir then
+                    if not gitdir:match("^/") then
+                        gitdir = dir .. "/" .. gitdir
+                    end
+                    return vim.loop.fs_realpath(gitdir) or gitdir
+                end
+            end
+        end
+        local parent = vim.fn.fnamemodify(dir, ":h")
+        if parent == dir then
+            break
+        end
+        dir = parent
+    end
+    return nil
+end
+
+local function get_git_branch()
+    local path = vim.api.nvim_buf_get_name(0)
+    if path == "" then
+        return ""
+    end
+    local git_dir = find_git_dir(path)
+    if not git_dir then
+        return ""
+    end
+    local head_path = git_dir .. "/HEAD"
+    local stat = vim.loop.fs_stat(head_path)
+    local mtime = 0
+    if stat and stat.mtime then
+        mtime = (stat.mtime.sec * 1000000000) + stat.mtime.nsec
+    end
+    local cache = git_branch_cache[git_dir]
+    if cache and cache.mtime == mtime then
+        return cache.branch or ""
+    end
+    local head = read_first_line(head_path)
+    local branch = ""
+    if head then
+        local ref = head:match("^ref:%s*(.+)$")
+        if ref then
+            branch = ref:match("^refs/heads/(.+)$") or ref
+        end
+    end
+    git_branch_cache[git_dir] = { branch = branch, mtime = mtime }
+    return branch
 end
 
 local function get_filename()
@@ -56,9 +124,68 @@ local function get_diagnostics()
     return table.concat(parts, " ")
 end
 
+local function get_minidiff_state(buf_id)
+    -- Reach into MiniDiff internals to reuse its computed hunks without extra git work.
+    if minidiff_cache.state == nil then
+        local ok, minidiff = pcall(require, "custom.git-diff")
+        if ok and type(minidiff) == "table" and type(minidiff.enable) == "function" then
+            if debug and type(debug.getupvalue) == "function" then
+                local i = 1
+                while true do
+                    local name, value = debug.getupvalue(minidiff.enable, i)
+                    if not name then
+                        break
+                    end
+                    if name == "H" and type(value) == "table" then
+                        minidiff_cache.state = value
+                        break
+                    end
+                    i = i + 1
+                end
+            end
+        end
+    end
+    if type(minidiff_cache.state) ~= "table" then
+        return nil
+    end
+    return minidiff_cache.state.cache and minidiff_cache.state.cache[buf_id] or nil
+end
+
 local function get_git_diff()
-    -- Git diff removed - gitsigns not available
-    return ""
+    local buf_id = vim.api.nvim_get_current_buf()
+    local state = get_minidiff_state(buf_id)
+    if not state or type(state.hunks) ~= "table" or state.ref_text == nil then
+        return ""
+    end
+
+    local summary = { add = 0, change = 0, delete = 0 }
+    for _, hunk in ipairs(state.hunks) do
+        if hunk.type == "add" then
+            summary.add = summary.add + (hunk.buf_count or 0)
+        elseif hunk.type == "change" then
+            local ref = hunk.ref_count or 0
+            local buf = hunk.buf_count or 0
+            summary.change = summary.change + math.max(ref, buf)
+        elseif hunk.type == "delete" then
+            summary.delete = summary.delete + (hunk.ref_count or 0)
+        end
+    end
+
+    if summary.add == 0 and summary.change == 0 and summary.delete == 0 then
+        return ""
+    end
+
+    local parts = {}
+    if summary.add > 0 then
+        table.insert(parts, "%#MiniDiffSignAdd#+" .. summary.add .. "%*")
+    end
+    if summary.change > 0 then
+        table.insert(parts, "%#MiniDiffSignChange#~" .. summary.change .. "%*")
+    end
+    if summary.delete > 0 then
+        table.insert(parts, "%#MiniDiffSignDelete#-" .. summary.delete .. "%*")
+    end
+    return table.concat(parts, " ")
 end
 
 local function get_lsp_status()
