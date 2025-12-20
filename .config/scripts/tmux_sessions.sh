@@ -5,7 +5,7 @@ DIRS=(
     "$HOME"
     "$HOME/projects/personal"
     "$HOME/projects/opensource"
-    "/mnt/c/Users/yiann"
+    # "/mnt/c/Users/yiann"
 )
 
 # State file that stores the last session's directory so it can be prioritized next run.
@@ -41,7 +41,7 @@ fi
 # Use the provided arg if present, otherwise open fzf-tmux for selection.
 selected=$(echo "$final_list" | fzf\
     --border=rounded --info=right \
-    --color=hl:#87CEEB:reverse:bold,hl+:#87CEEB:reverse:bold \
+    --color=hl:#A5D6FF:reverse:bold,hl+:#79C0FF:reverse:bold,
     --color=info:white \
     --color=border:white,list-border:white,preview-border:white,input-border:white,header-border:white,footer-border:white \
     --color=pointer:white)
