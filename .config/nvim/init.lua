@@ -86,10 +86,10 @@ do
     -- parser_config.plsql.used_by = { "sql" }
     -- pcall(vim.treesitter.language.register, "plsql", "plsql")
     -- pcall(vim.treesitter.language.register, "plsql", "sql")
-    vim.treesitter.language.register("plsql", "sql")
+    -- vim.treesitter.language.register("plsql", "sql")
 
     local languages = {
-        "bash", "sql", "plsql", "c", "go", "cpp", "gitcommit",
+        "bash", "sql", "c", "go", "cpp", "gitcommit",
         "html", "javascript", "jsdoc", "json", "jsonc", "lua", "luadoc", "luap",
         "markdown", "markdown_inline", "printf", "python", "query", "regex", "toml",
         "tsx", "typescript", "vim", "vimdoc", "xml", "yaml", "ron",
