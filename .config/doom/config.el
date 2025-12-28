@@ -49,8 +49,12 @@
 (setq org-directory "~/org/")
 
 ;; Disable autopairs
-(after! smartparens
-  (smartparens-global-mode -1))
+ ;; run immediately, before doom-first-buffer-hook fires
+  (remove-hook 'doom-first-buffer-hook #'smartparens-global-mode)
+
+  (after! smartparens
+    (smartparens-global-mode -1))
+
 ;; List the directories of your projects (make it like the custom tmux_sessions)
   (after! projectile
     (setq projectile-project-search-path
@@ -77,7 +81,7 @@
 ;; Hilight words wheen hovering, here we define in which modes we should have this enabled
 ;; Its maybe better to to use the lsp (hilighitng)
 (use-package! highlight-symbol
-  :hook (prog-mode . highlight-symbol-mode)
+  ;; :hook (prog-mode . highlight-symbol-mode)
   :hook (text-mode . highlight-symbol-mode)
   :hook (conf-mode . highlight-symbol-mode)
   :hook (sql-mode . highlight-symbol-mode)
@@ -96,6 +100,36 @@
 ;; make the default sql-mode product oracle
   (after! sql
     (setq sql-product 'oracle))
+
+
+;; Custom oracle sql scrip
+(setenv "TNS_ADMIN" "/opt/oracle/wallet")
+(defun my/oracle-tns-services ()
+  "Return a list of TNS service names from tnsnames.ora."
+  (let* ((tns (expand-file-name "tnsnames.ora" (getenv "TNS_ADMIN"))))
+    (with-temp-buffer
+      (Insert-file-contents tns)
+      (goto-char (point-min))
+      (let (services)
+        (while (re-search-forward "^\\s-*\\([^# \t\n]+\\)\\s-*=" nil t)
+          (push (match-string 1) services))
+        (nreverse services)))))
+
+(defun my/sql-oracle-connect ()
+  "Prompt for TNS service and connect via sqlplus."
+  (interactive)
+  (let* ((service (completing-read "Service: " (my/oracle-tns-services)))
+         (conn-name (format "oracle:%s" service))
+         (sql-connection-alist
+          (cons `(,conn-name
+                  (sql-product 'oracle)
+                  (sql-database ,service))
+                sql-connection-alist)))
+    (sql-connect conn-name)))
+
+(after! org
+    (setq org-log-done 'time))   ; add CLOSED timestamp on DONE
+
 
 ;; Whenever you reconfigure a package, make sure to wrap your config in an
 ;; `after!' block, otherwise Doom's defaults may override your settings. E.g.

@@ -196,3 +196,14 @@
        :config
        ;;literate
        (default +bindings))
+
+
+(add-to-list 'exec-path "/opt/oracle/instantclient_23_26/sqlplus")
+(setq sql-oracle-program "/opt/oracle/instantclient_23_26/sqlplus")
+(setq sql-oracle-login-params
+      '((user :default "admin")
+        (database :default "ub9p1lm1eivjej7g_medium")
+        (server :default nil)))
+
+;; ((setenv "TNS_ADMIN" "/path/to/your/wallet")
+;; setenv "TNS_ADMIN" "/path/to/your/wallet_directory")
