@@ -29,6 +29,7 @@ opt.ignorecase = true                                   -- Case insesive search
 opt.smartindent = true                                  -- Insert indents automatically
 opt.spelllang = { "en" }
 opt.splitbelow = true                                   -- Put new windows below current
+opt.equalalways = true
 opt.splitkeep = "screen"
 opt.splitright = true                                   -- Put new windows right of current
 opt.tabstop = 2                                         -- Number of spaces tabs count for

@@ -111,7 +111,7 @@ function M.find_files()
             "--color=hl:#A5D6FF:reverse:bold,hl+:#79C0FF:reverse:bold",
             "--color=info:white",
             "--color=border:white,list-border:white,preview-border:white,input-border:white,header-border:white,footer-border:white",
-            "--color=pointer:white",
+            -- "--color=pointer:white",
             "--keep-right",
             "--preview", preview_command("{1}"),
             "--preview-window=right:50%:wrap:hidden",

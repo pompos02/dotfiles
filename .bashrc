@@ -13,6 +13,7 @@ export PATH="$HOME/.config/scripts:$PATH"
 export PATH="$HOME/.opencode/bin:$PATH"
 export PATH="$PATH:/opt/nvim-linux-x86_64/bin:"
 export PATH="${PATH:+${PATH}:}/home/karavellas/.fzf/bin"
+export PATH="$HOME/.config/emacs/bin:$PATH"
 
 #  # tmux can start bash with empty/invalid PWD; \W then prints nothing
   if [[ -z $PWD || ! -d $PWD ]]; then

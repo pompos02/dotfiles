@@ -36,7 +36,7 @@ vim.opt.shiftwidth = 4
 vim.o.winborder = "rounded"
 
 -- Set colorscheme
-vim.cmd.colorscheme("misirlou-git")
+vim.cmd.colorscheme("kanagawa")
 
 -- Put the fzf plugin root in the runtime path when built from source
 local home = vim.fn.expand("~/.fzf")
@@ -51,6 +51,8 @@ vim.filetype.add({
         pls = "plsql",
     },
 })
+
+vim.filetype.add({ extension = { sql = "plsql", }, })
 
 -- Use Windows explorer.exe for vim.ui.open (WSL/Windows friendly)
 vim.ui.open = function(path)
@@ -75,20 +77,7 @@ do
         vim.notify("nvim-treesitter not found in runtimepath", vim.log.levels.WARN)
         return
     end
-
-    -- local parser_config = require("nvim-treesitter.parsers")
-    -- parser_config.plsql = parser_config.plsql or {}
-    -- parser_config.plsql.install_info = parser_config.plsql.install_info or {
-    --     path = "/home/karavellas/projects/opensource/tree-sitter-plsql",
-    --     files = { "src/parser.c" },
-    -- } -- parser already built locally; keep path for optional TSInstall
-    -- parser_config.plsql.filetype = "plsql"
-    -- parser_config.plsql.used_by = { "sql" }
-    -- pcall(vim.treesitter.language.register, "plsql", "plsql")
-    -- pcall(vim.treesitter.language.register, "plsql", "sql")
-    vim.treesitter.language.register("plsql", "sql")
-    vim.filetype.add({ extension = { sql = "plsql", }, })
-
+    -- these table is unusded, we just showcase possible grammars
     local languages = {
         "bash", "sql", "c", "go", "cpp", "gitcommit",
         "html", "javascript", "jsdoc", "json", "jsonc", "lua", "luadoc", "luap",
@@ -96,26 +85,6 @@ do
         "tsx", "typescript", "vim", "vimdoc", "xml", "yaml", "ron",
     }
 
---    Install any missing parsers asynchronously (no-op for already installed ones).
-    -- local installed = ts.get_installed()
-    -- local missing = vim.tbl_filter(function(lang)
-    --     return not vim.list_contains(installed, lang)
-    -- end, languages)
-    -- if #missing > 0 then
-    --     ts.install(missing, { summary = true })
-    -- end
-
     -- Ensure parsers/queries go to the standard data dir (prepends to runtimepath).
     ts.setup({ install_dir = vim.fn.stdpath("data") .. "/site" })
-
-    -- Enable Treesitter highlight and indent when entering a buffer.
-    local group = vim.api.nvim_create_augroup("treesitter_enable", { clear = true })
-    vim.api.nvim_create_autocmd("FileType", {
-        desc = "Enable Treesitter features",
-        group = group,
-        callback = function(args)
-            pcall(vim.treesitter.start, args.buf)
-            local ft = vim.bo[args.buf].filetype
-        end,
-    })
 end

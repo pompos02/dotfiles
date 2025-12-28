@@ -266,7 +266,7 @@ end
 
 local function setup_highlight_group()
   api.nvim_set_hl(0, HLGROUP, {
-    bold = true, -- keep existing colors; just embolden matches
+    bold = true,
     underline = true,
     default = true,
   })
