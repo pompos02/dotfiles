@@ -845,12 +845,12 @@ hi def link plsqlSqlPlusCommentL    Comment
 
 " to be able to change them after loading, need override whether defined or not
 if get(g:,"plsql_legacy_sql_keywords",0) == 1
-    hi link plsqlSQLKeyword         Function
-    hi link plsqlSymbol	            Normal
-    hi link plsqlParen	            Normal
+    hi def link plsqlSQLKeyword         Function
+    hi def link plsqlSymbol             Normal
+    hi def link plsqlParen              Normal
 else
-    hi link plsqlSymbol	            Delimiter
-    hi link plsqlParen	            Delimiter
+    hi def link plsqlSymbol             Delimiter
+    hi def link plsqlParen              Delimiter
 endif
 
 let b:current_syntax = "plsql"
