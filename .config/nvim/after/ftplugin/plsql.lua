@@ -8,6 +8,9 @@ if vim.g.plsql_fold == 1 then
   vim.b.undo_ftplugin = 'setlocal foldmethod<'
 end
 
+-- Use SQL line comments by default
+vim.opt_local.commentstring = "-- %s"
+
 local function ensure_oracle_complete()
   if _G._oracle_complete then
     return
@@ -73,4 +76,4 @@ local undo = vim.b.undo_ftplugin or ""
 if undo ~= "" then
   undo = undo .. " | "
 end
-vim.b.undo_ftplugin = undo .. "setlocal omnifunc<"
+vim.b.undo_ftplugin = undo .. "setlocal omnifunc< | setlocal commentstring<"

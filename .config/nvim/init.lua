@@ -49,11 +49,10 @@ vim.filetype.add({
         pkb = "plsql",
         pks = "plsql",
         pls = "plsql",
+        sql = "plsql",
     },
 })
-
-vim.filetype.add({ extension = { sql = "plsql", }, })
-
+-- vim.filetype.add({ extension = { sql = "plsql", }, })
 -- Use Windows explorer.exe for vim.ui.open (WSL/Windows friendly)
 vim.ui.open = function(path)
     local job = vim.fn.jobstart({ "explorer.exe", path }, { detach = true })
