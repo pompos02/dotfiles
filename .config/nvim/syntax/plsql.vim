@@ -798,10 +798,10 @@ endif
 " Define the default highlighting.
 " Only when an item doesn't have highlighting yet.
 
-hi def link plsqlAttribute	        Macro
+hi def link plsqlAttribute	        Special
 hi def link plsqlBlockError	        Error
 hi def link plsqlBooleanLiteral     Boolean
-hi def link plsqlQuotedIdentifier	Character
+hi def link plsqlQuotedIdentifier	Identifier
 hi def link plsqlComment	        Comment
 hi def link plsqlCommentL	        Comment
 hi def link plsqlConditional	    Conditional
@@ -810,35 +810,35 @@ hi def link plsqlError	            Error
 hi def link plsqlErrInBracket	    Error
 hi def link plsqlErrInBlock	        Error
 hi def link plsqlErrInParen	        Error
-hi def link plsqlException	        Function
+hi def link plsqlException	        Exception
 hi def link plsqlFloatLiteral	    Float
 hi def link plsqlFunction	        Function
 hi def link plsqlGarbage	        Error
 hi def link plsqlHostIdentifier     Label
-hi def link plsqlIdentifier	        Normal
+hi def link plsqlIdentifier	        Identifier
 hi def link plsqlIntLiteral	        Number
 hi def link plsqlOperator	        Operator
 hi def link plsqlParenError	        Error
 hi def link plsqlSpaceError	        Error
 hi def link plsqlPseudo	            PreProc
 hi def link plsqlKeyword	        Keyword
-hi def link plsqlEND                Keyword
-hi def link plsqlBEGIN              Keyword
-hi def link plsqlISAS               Statement
+hi def link plsqlEND                Statement
+hi def link plsqlBEGIN              Statement
+hi def link plsqlISAS               Keyword
 hi def link plsqlReserved           Statement
 hi def link plsqlRepeat	            Repeat
-hi def link plsqlStorage	        StorageClass
+hi def link plsqlStorage	        Type
 hi def link plsqlFunction  	        Function
 hi def link plsqlStringError	    Error
 hi def link plsqlStringLiteral      String
 hi def link plsqlCommentString      String
 hi def link plsqlComment2String     String
 hi def link plsqlTrigger	        Function
-hi def link plsqlTypeAttribute      StorageClass
+hi def link plsqlTypeAttribute      Type
 hi def link plsqlTodo		        Todo
 
 hi def link plsqlIllegalSpace       Error
-hi def link plsqlSqlPlusDefine      PreProc
+hi def link plsqlSqlPlusDefine      Define
 hi def link plsqlSqlPlusCommand     PreProc
 hi def link plsqlSqlPlusRunFile     Include
 hi def link plsqlSqlPlusCommentL    Comment
@@ -849,8 +849,8 @@ if get(g:,"plsql_legacy_sql_keywords",0) == 1
     hi link plsqlSymbol	            Normal
     hi link plsqlParen	            Normal
 else
-    hi link plsqlSymbol	            Special
-    hi link plsqlParen	            Special
+    hi link plsqlSymbol	            Delimiter
+    hi link plsqlParen	            Delimiter
 endif
 
 let b:current_syntax = "plsql"

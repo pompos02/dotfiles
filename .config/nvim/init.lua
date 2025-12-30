@@ -82,9 +82,20 @@ do
         "bash", "sql", "c", "go", "cpp", "gitcommit",
         "html", "javascript", "jsdoc", "json", "jsonc", "lua", "luadoc", "luap",
         "markdown", "markdown_inline", "printf", "python", "query", "regex", "toml",
-        "tsx", "typescript", "vim", "vimdoc", "xml", "yaml", "ron",
+        "tsx", "typescript", "vim", "vimdoc", "xml", "yaml", "ron","diff", "git_rebase"
     }
 
     -- Ensure parsers/queries go to the standard data dir (prepends to runtimepath).
-    ts.setup({ install_dir = vim.fn.stdpath("data") .. "/site" })
+    ts.setup({
+        install_dir = vim.fn.stdpath("data") .. "/site",
+        highlight = { enable = true },
+    })
 end
+
+-- Enable Tree-sitter highlighting for gitcommit buffers
+-- vim.api.nvim_create_autocmd("FileType", {
+--     pattern = { "gitcommit" },
+--     callback = function()
+--         pcall(vim.treesitter.start)
+--     end,
+-- })
