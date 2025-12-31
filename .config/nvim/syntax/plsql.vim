@@ -630,24 +630,24 @@ syn match   plsqlFloatLiteral contained "\d\+\.[fd]\?"
 
 " double quoted strings in SQL are database object names. Should be a subgroup of Normal.
 " We will use Character group as a proxy for that so color can be chosen close to Normal
-syn region plsqlQuotedIdentifier	matchgroup=plsqlOperator start=+n\?"+ skip=+""+ end=+"+ keepend extend
+syn region plsqlQuotedIdentifier	matchgroup=plsqlQuotedIdentifier start=+n\?"+ skip=+""+ end=+"+ keepend extend
 syn cluster plsqlIdentifiers contains=plsqlIdentifier,plsqlQuotedIdentifier,plsqlSqlPlusDefine
 
 " quoted string literals
 if get(g:,"plsql_fold",0) == 1
-    syn region plsqlStringLiteral	matchgroup=plsqlOperator start=+n\?'+  skip=+''+    end=+'+ contains=plsqlSqlPlusDefine fold keepend extend
-    syn region plsqlStringLiteral	matchgroup=plsqlOperator start=+n\?q'\z([^[(<{]\)+    end=+\z1'+ contains=plsqlSqlPlusDefine fold keepend extend
-    syn region plsqlStringLiteral	matchgroup=plsqlOperator start=+n\?q'<+   end=+>'+ contains=plsqlSqlPlusDefine fold keepend extend
-    syn region plsqlStringLiteral	matchgroup=plsqlOperator start=+n\?q'{+   end=+}'+ contains=plsqlSqlPlusDefine fold keepend extend
-    syn region plsqlStringLiteral	matchgroup=plsqlOperator start=+n\?q'(+   end=+)'+ contains=plsqlSqlPlusDefine fold keepend extend
-    syn region plsqlStringLiteral	matchgroup=plsqlOperator start=+n\?q'\[+  end=+]'+ contains=plsqlSqlPlusDefine fold keepend extend
+    syn region plsqlStringLiteral	matchgroup=plsqlStringLiteral start=+n\?'+  skip=+''+    end=+'+ contains=plsqlSqlPlusDefine fold keepend extend
+    syn region plsqlStringLiteral	matchgroup=plsqlStringLiteral start=+n\?q'\z([^[(<{]\)+    end=+\z1'+ contains=plsqlSqlPlusDefine fold keepend extend
+    syn region plsqlStringLiteral	matchgroup=plsqlStringLiteral start=+n\?q'<+   end=+>'+ contains=plsqlSqlPlusDefine fold keepend extend
+    syn region plsqlStringLiteral	matchgroup=plsqlStringLiteral start=+n\?q'{+   end=+}'+ contains=plsqlSqlPlusDefine fold keepend extend
+    syn region plsqlStringLiteral	matchgroup=plsqlStringLiteral start=+n\?q'(+   end=+)'+ contains=plsqlSqlPlusDefine fold keepend extend
+    syn region plsqlStringLiteral	matchgroup=plsqlStringLiteral start=+n\?q'\[+  end=+]'+ contains=plsqlSqlPlusDefine fold keepend extend
 else
-    syn region plsqlStringLiteral	matchgroup=plsqlOperator start=+n\?'+  skip=+''+    end=+'+ contains=plsqlSqlPlusDefine
-    syn region plsqlStringLiteral	matchgroup=plsqlOperator start=+n\?q'\z([^[(<{]\)+    end=+\z1'+ contains=plsqlSqlPlusDefine
-    syn region plsqlStringLiteral	matchgroup=plsqlOperator start=+n\?q'<+   end=+>'+ contains=plsqlSqlPlusDefine
-    syn region plsqlStringLiteral	matchgroup=plsqlOperator start=+n\?q'{+   end=+}'+ contains=plsqlSqlPlusDefine
-    syn region plsqlStringLiteral	matchgroup=plsqlOperator start=+n\?q'(+   end=+)'+ contains=plsqlSqlPlusDefine
-    syn region plsqlStringLiteral	matchgroup=plsqlOperator start=+n\?q'\[+  end=+]'+ contains=plsqlSqlPlusDefine
+    syn region plsqlStringLiteral	matchgroup=plsqlStringLiteral start=+n\?'+  skip=+''+    end=+'+ contains=plsqlSqlPlusDefine
+    syn region plsqlStringLiteral	matchgroup=plsqlStringLiteral start=+n\?q'\z([^[(<{]\)+    end=+\z1'+ contains=plsqlSqlPlusDefine
+    syn region plsqlStringLiteral	matchgroup=plsqlStringLiteral start=+n\?q'<+   end=+>'+ contains=plsqlSqlPlusDefine
+    syn region plsqlStringLiteral	matchgroup=plsqlStringLiteral start=+n\?q'{+   end=+}'+ contains=plsqlSqlPlusDefine
+    syn region plsqlStringLiteral	matchgroup=plsqlStringLiteral start=+n\?q'(+   end=+)'+ contains=plsqlSqlPlusDefine
+    syn region plsqlStringLiteral	matchgroup=plsqlStringLiteral start=+n\?q'\[+  end=+]'+ contains=plsqlSqlPlusDefine
 endif
 
 syn keyword plsqlBooleanLiteral TRUE FALSE 
