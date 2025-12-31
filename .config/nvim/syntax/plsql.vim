@@ -463,6 +463,7 @@ syn keyword plsqlKeyword XPATHTABLE XS XS_SYS_CONTEXT X_DYN_PRUNE YEARS YES ZONE
 
 syn match   plsqlBuiltinPackage "\<\(DBMS\|UTL\|OWA\|APEX\|CTX\|ORD\|SDO\|XDB\)_[A-Z0-9_]*\>"
 syn keyword plsqlBuiltinPackage HTP HTF
+syn match   plsqlBuiltinRoutine "\%(\<\([A-Z0-9_]\+\.\)\?\(DBMS\|UTL\|OWA\|APEX\|CTX\|ORD\|SDO\|XDB\)_[A-Z0-9_]*\.\)\@<=[A-Z0-9_]\+"
 
 " Some of Oracle's Reserved keywords.
 syn keyword plsqlReserved ACCESSIBLE AGENT ALL ALTER ANY ASC BFILE_BASE BLOB_BASE BY
@@ -809,6 +810,7 @@ hi def link plsqlAttribute	        Special
 hi def link plsqlBlockError	        Error
 hi def link plsqlBooleanLiteral     Boolean
 hi def link plsqlBuiltinPackage     Function
+hi def link plsqlBuiltinRoutine     Function
 hi def link plsqlQuotedIdentifier	Identifier
 hi def link plsqlComment	        Comment
 hi def link plsqlCommentL	        Comment
