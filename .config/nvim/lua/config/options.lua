@@ -18,12 +18,12 @@ opt.list = true                                         -- Show some invisible c
 opt.mouse = "a"                                         -- Enable mouse mode
 opt.pumblend = 0                                        -- Popup blend
 opt.pumheight = 10                                      -- Maximum number of entries in a popup
-opt.relativenumber = true                               -- Relative line numbers
 opt.ruler = false                                       -- Disable the default ruler
 opt.scrolloff = 10                                       -- Lines of context
 opt.sessionoptions = { "buffers", "curdir", "tabpages", "winsize", "help", "globals", "skiprtp", "folds" }
 opt.sidescrolloff = 8                                   -- Columns of context
-opt.signcolumn = "yes"                                  -- Always show the signcolumn, otherwise it would shift the text each time
+opt.signcolumn = "yes"
+-- vim.opt.statuscolumn = "%=%l %s"
 opt.smartcase = true                                    -- Don't ignore case with capitals
 opt.ignorecase = true                                   -- Case insesive search
 opt.smartindent = true                                  -- Insert indents automatically
@@ -48,6 +48,5 @@ opt.cursorline = true                                                           
 opt.showtabline = 1                                                                             -- Never show tabline
 opt.guicursor =
 "n-v-c-sm:block,i-ci-ve:block-blinkwait500-blinkoff200-blinkon200,r-cr-o:hor20"                 -- Use blinking block cursor in insert mode
-vim.opt.colorcolumn = "80"
-vim.opt.grepprg = "rg --vimgrep -uu"
-
+opt.colorcolumn = "80"
+opt.grepprg = "rg --vimgrep -uu"

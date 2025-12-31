@@ -288,7 +288,6 @@ M.setup = function()
     setup_autocmds()
     setup_statusline_colors()
     vim.o.statusline = "%!v:lua.require('custom.statusline').build_statusline()"
-    vim.o.laststatus = 3
 
     -- Reapply colors when colorscheme changes
     vim.api.nvim_create_autocmd("ColorScheme", {

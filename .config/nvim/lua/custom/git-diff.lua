@@ -34,7 +34,6 @@ MiniDiff.config = {
     -- signs = { add = '▉', change = '▉', delete = '▉' },
     signs = { add = '+', change = '~', delete = '-' },
 
-    
     -- Priority of used visualization extmarks (lower than diagnostics)
     priority = 50,
   },
