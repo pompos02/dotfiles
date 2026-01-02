@@ -91,7 +91,7 @@ do
     })
 end
 
--- Enable Tree-sitter highlighting for gitcommit buffers
+-- Enable Tree-sitter r@ highlighting for gitcommit buffers
 -- vim.api.nvim_create_autocmd("FileType", {
 --     pattern = { "gitcommit" },
 --     callback = function()
