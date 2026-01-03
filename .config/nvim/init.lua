@@ -74,25 +74,17 @@ do
         vim.notify("nvim-treesitter not found in runtimepath", vim.log.levels.WARN)
         return
     end
-    -- these table is unusded, we just showcase possible grammars
-    local languages = {
-        "bash", "sql", "c", "go", "cpp", "gitcommit",
-        "html", "javascript", "jsdoc", "json", "jsonc", "lua", "luadoc", "luap",
-        "markdown", "markdown_inline", "printf", "python", "query", "regex", "toml",
-        "tsx", "typescript", "vim", "vimdoc", "xml", "yaml", "ron","diff", "git_rebase"
-    }
 
     -- Ensure parsers/queries go to the standard data dir (prepends to runtimepath).
-    ts.setup({
-        install_dir = vim.fn.stdpath("data") .. "/site",
-        highlight = { enable = true },
-    })
-end
+    ts.setup({ install_dir = vim.fn.stdpath("data") .. "/site", })
 
--- Enable Tree-sitter r@ highlighting for gitcommit buffers
--- vim.api.nvim_create_autocmd("FileType", {
---     pattern = { "gitcommit" },
---     callback = function()
---         pcall(vim.treesitter.start)
---     end,
--- })
+    -- Enable treesitter highlight when entering a buffer.
+    vim.api.nvim_create_autocmd("FileType", {
+        desc = "Enable Treesitter features",
+        group = vim.api.nvim_create_augroup("treesitter_enable", { clear = true }),
+        callback = function(args)
+            pcall(vim.treesitter.start, args.buf)
+        end,
+    })
+
+end

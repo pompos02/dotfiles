@@ -1,4 +1,3 @@
-vim.treesitter.start()
 -- Run Python file or selection in new window below with <leader>rr
 vim.keymap.set("n", "<leader>rr", function()
     vim.cmd("15split") -- Creates a 15-line high split
