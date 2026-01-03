@@ -19,6 +19,7 @@ require("custom.surround").setup()
 require("local-highlight").setup()
 require("treesitter-context").setup()
 require("custom.git-diff")
+require("custom.git-blame")
 require("diffview").setup({
     use_icons = false,
     signs = {
