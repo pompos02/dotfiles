@@ -11,6 +11,10 @@ local function open_scratch(lines)
   vim.api.nvim_buf_set_lines(buf, 0, -1, false, lines)
   vim.bo[buf].modifiable = false
   vim.bo[buf].filetype = "git"
+  vim.api.nvim_set_hl(0, "GitBlameLabel", { link = "Function" })
+  vim.api.nvim_buf_call(buf, function()
+    vim.cmd("syntax match GitBlameLabel /^\\(SHA\\|Author\\|Date\\|Message\\):/")
+  end)
   vim.api.nvim_win_set_cursor(0, { 1, 0 })
 end
 
@@ -82,7 +86,8 @@ M.show = function()
     dir,
     "show",
     "-s",
-    "--format=%H%n%an%n%ae%n%ar%n%B",
+    "--format=%H%n%an%n%ae%n%ad (%ar)%n%B",
+    "--date=format:%m/%d/%y %H:%M",
     sha,
   }
 
