@@ -54,6 +54,27 @@ local function preview_command(target_expr, lnum_expr)
     return "cat -n " .. target_expr
 end
 
+local function fzf_theme_opts()
+    if vim.o.background == "light" then
+        return {
+            "--color=fg:#000000,bg:#FFFFFF",
+            "--color=hl:#A5D6FF:reverse:bold,hl+:#79C0FF:reverse:bold",
+            "--color=info:#000000,separator:#000000,scrollbar:#000000",
+            "--color=border:black,list-border:black,preview-border:black,input-border:black,header-border:black,footer-border:black",
+            "--color=fg+:#000000",
+            "--color=bg+:#F2F2F2",
+        }
+    end
+
+    return {
+        "--color=hl:#A5D6FF:reverse:bold,hl+:#79C0FF:reverse:bold",
+        "--color=info:white",
+        "--color=border:white,list-border:white,preview-border:white,input-border:white,header-border:white,footer-border:white",
+        "--color=fg+:#FFFFFF",
+        "--color=bg+:#404040",
+    }
+end
+
 local window_opts = {
     height = 0.60,
     width = 0.90,
@@ -113,37 +134,15 @@ function M.find_files()
     local cmd = vim.fn.executable("fd") == 1
         and "fd --type f --hidden --exclude .git"
         or "find . -type f -not -path '*/.git/*' 2>/dev/null"
-    local opts
-    if vim.o.background == "light" then
-        opts = {
-            "--prompt=Files> ",
-            "--ansi",
-            "--color=fg:#000000,bg:#FFFFFF",
-            "--color=hl:#A5D6FF:reverse:bold,hl+:#79C0FF:reverse:bold",
-            "--color=info:#000000,separator:#000000,scrollbar:#000000",
-            "--color=border:black,list-border:black,preview-border:black,input-border:black,header-border:black,footer-border:black",
-            "--keep-right",
-            "--preview", preview_command("{1}"),
-            "--preview-window=right:50%:wrap:hidden",
-            "--bind=ctrl-s:toggle-preview",
-            "--color=fg+:#000000",
-            "--color=bg+:#F2F2F2",
-        }
-    else
-        opts = {
-            "--prompt=Files> ",
-            "--ansi",
-            "--color=hl:#A5D6FF:reverse:bold,hl+:#79C0FF:reverse:bold",
-            "--color=info:white",
-            "--color=border:white,list-border:white,preview-border:white,input-border:white,header-border:white,footer-border:white",
-            "--keep-right",
-            "--preview", preview_command("{1}"),
-            "--preview-window=right:50%:wrap:hidden",
-            "--bind=ctrl-s:toggle-preview",
-            "--color=fg+:#FFFFFF",
-            "--color=bg+:#404040",
-        }
-    end
+    local opts = {
+        "--prompt=Files> ",
+        "--ansi",
+        "--keep-right",
+        "--preview", preview_command("{1}"),
+        "--preview-window=right:50%:wrap:hidden",
+        "--bind=ctrl-s:toggle-preview",
+    }
+    vim.list_extend(opts, fzf_theme_opts())
     run_fzf({
         source = cmd,
         sink = "edit",
@@ -173,6 +172,21 @@ function M.live_grep(initial_query)
     end
 
     local initial_source = query ~= "" and reload_cmd(query) or "printf ''"
+
+    local opts = {
+        "--ansi",
+        "--prompt=Grep> ",
+        "--delimiter=:",
+        "--preview", preview_command("{1}", "{2}"),
+        "--preview-window=up:80%:wrap:+{2}-10",
+        "--bind", string.format("change:reload:%s", reload_cmd("{q}")),
+        "--phony",
+        "--expect=ctrl-q",
+        "--multi",
+        "--bind=ctrl-a:select-all,ctrl-d:deselect-all,ctrl-s:toggle-preview",
+        query ~= "" and ("--query=" .. query) or nil,
+    }
+    vim.list_extend(opts, fzf_theme_opts())
 
     run_fzf({
         source = initial_source,
@@ -206,19 +220,7 @@ function M.live_grep(initial_query)
                 jump_to_file_line(string.format("%s:%d", items[1].filename, items[1].lnum))
             end
         end,
-        options = {
-            "--ansi",
-            "--prompt=Grep> ",
-            "--delimiter=:",
-            "--preview", preview_command("{1}", "{2}"),
-            "--preview-window=up:80%:wrap:+{2}-10",
-            "--bind", string.format("change:reload:%s", reload_cmd("{q}")),
-            "--phony",
-            "--expect=ctrl-q",
-            "--multi",
-            "--bind=ctrl-a:select-all,ctrl-d:deselect-all,ctrl-s:toggle-preview",
-            query ~= "" and ("--query=" .. query) or nil,
-        },
+        options = opts,
         window = live_grep_window_opts,
     }, "live_grep_live")
 end
