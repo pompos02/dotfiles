@@ -88,3 +88,9 @@ alias yayl="yay -Slq | fzf --preview 'yay -Si {}' --layout=reverse --height=80% 
 open() {
     explorer.exe "$@" >/dev/null 2>&1 &
 }
+
+# Auto-start tmux on WSL login
+if [[ -z "$TMUX" ]] && [[ -n "$WSL_DISTRO_NAME" ]] && [[ -t 1 ]]; then
+    tmux attach -t main || tmux new -s main
+fi
+
