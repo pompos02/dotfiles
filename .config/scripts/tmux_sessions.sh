@@ -41,10 +41,9 @@ fi
 # Use the provided arg if present, otherwise open fzf-tmux for selection.
 selected=$(echo "$final_list" | fzf\
     --border=rounded --info=right \
-    --color=hl:#A5D6FF:reverse:bold,hl+:#79C0FF:reverse:bold,
+    --color=hl:#A5D6FF:reverse:bold,hl+:#79C0FF:reverse:bold \
     --color=info:white \
-    --color=border:white,list-border:white,preview-border:white,input-border:white,header-border:white,footer-border:white \
-    --color=pointer:white)
+    --color=border:white,list-border:white,preview-border:white,input-border:white,header-border:white,footer-border:white)
 [[ -z $selected ]] && exit 0
 selected="${selected%/}"
 

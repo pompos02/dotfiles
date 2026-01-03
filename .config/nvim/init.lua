@@ -12,7 +12,7 @@ vim.g.fzf_history_dir = ""
 require("config.options")
 require("config.keymaps")
 require("config.lsp")
-require("config.markdown").setup()
+-- require("config.markdown").setup()
 --testing
 
 -- Load custom plugins (pure Lua, no external dependencies)
@@ -37,7 +37,7 @@ vim.o.winborder = "rounded"
 
 -- Set colorscheme
 vim.cmd.colorscheme("modus")
-
+vim.opt.background = "light"
 -- Put the fzf plugin root in the runtime path when built from source
 local home = vim.fn.expand("~/.fzf")
 

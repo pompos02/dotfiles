@@ -16,3 +16,20 @@ set it up
     }
   ]
 ```
+
+This above doesnt always work depending on the screen you are in, if you want 
+universal support use this:
+
+```json
+  "keybindings": [
+    {
+      "command": {
+        "action": "newTab",
+        "commandline": "wsl.exe -e bash -lc \"~/.config/scripts/theme-toggle.sh\""
+      },
+      "keys": "f12"
+    }
+  ]
+```
+
+But this always creates a new window
