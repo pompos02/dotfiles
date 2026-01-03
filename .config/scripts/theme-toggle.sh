@@ -1,33 +1,47 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-DARK_THEME="CGA (Copy)"
-LIGHT_THEME="Tango Light (Copy)"
-
-SETTINGS_PATH="/mnt/c/Users/yiann/AppData/Local/Packages/Microsoft.WindowsTerminal_8wekyb3d8bbwe/LocalState/settings.json"
-NVIM_INIT="$HOME/.config/nvim/init.lua"
-
-if [[ ! -f "$SETTINGS_PATH" ]]; then
-    echo "settings.json not found at: $SETTINGS_PATH"
+# Get the system theme
+THEME_FILE="$HOME/.config/system-theme"
+if [[ ! -f "$THEME_FILE" ]]; then
+    echo "ERROR: system theme file not found: $THEME_FILE" >&2
     exit 1
 fi
+SYSTEM_THEME=$(<"$THEME_FILE")
 
-if grep -q "\"colorScheme\": \"$DARK_THEME\"" "$SETTINGS_PATH"; then
-    #change the colorscheme entry inline
-    sed -i "s/\"colorScheme\": \"$DARK_THEME\"/\"colorScheme\": \"$LIGHT_THEME\"/" "$SETTINGS_PATH"
-    sed -i "s/\"theme\": \"dark\"/\"theme\": \"light\"/" "$SETTINGS_PATH"
+change_nvim_theme(){
+    for s in "$XDG_RUNTIME_DIR"/nvim.*; do
+        nvim --server "$s" --remote-send ":set background=$1<CR>" 2>/dev/null || true
+    done
+}
+
+# Windows terminal themes
+WINDOWS_DARK_THEME="CGA (Copy)"
+WINDOWS_LIGHT_THEME="Tango Light (Copy)"
+
+WINDOWS_TERMINAL_SETTINGS_PATH="/mnt/c/Users/yiann/AppData/Local/Packages/Microsoft.WindowsTerminal_8wekyb3d8bbwe/LocalState/settings.json"
+NVIM_INIT="$HOME/.config/nvim/init.lua"
+TMUX_SESSIONS_PATH="$HOME/.config/scripts/tmux_sessions.sh"
+
+if [[ "$SYSTEM_THEME" = "dark" ]]; then
+    echo "light" > "$THEME_FILE"
+    sed -i "s/\"colorScheme\": \"$WINDOWS_DARK_THEME\"/\"colorScheme\": \"$WINDOWS_LIGHT_THEME\"/" "$WINDOWS_TERMINAL_SETTINGS_PATH"
+    sed -i "s/\"theme\": \"dark\"/\"theme\": \"light\"/" "$WINDOWS_TERMINAL_SETTINGS_PATH"
     sed -i "s/vim.opt.background = \"dark\"/vim.opt.background = \"light\"/" "$NVIM_INIT"
+    sed -i "s/THEME=\"dark\"/THEME=\"light\"/" "$TMUX_SESSIONS_PATH"
+    change_nvim_theme light
     exit 0
 fi
 
-if grep -q "\"colorScheme\": \"$LIGHT_THEME\"" "$SETTINGS_PATH"; then
-    #change the colorscheme entry inline
-    sed -i "s/\"colorScheme\": \"$LIGHT_THEME\"/\"colorScheme\": \"$DARK_THEME\"/" "$SETTINGS_PATH"
-    sed -i "s/\"theme\": \"light\"/\"theme\": \"dark\"/" "$SETTINGS_PATH"
+if [[ "$SYSTEM_THEME" = "light" ]]; then
+    echo "dark" > "$THEME_FILE"
+    sed -i "s/\"colorScheme\": \"$WINDOWS_LIGHT_THEME\"/\"colorScheme\": \"$WINDOWS_DARK_THEME\"/" "$WINDOWS_TERMINAL_SETTINGS_PATH"
+    sed -i "s/\"theme\": \"light\"/\"theme\": \"dark\"/" "$WINDOWS_TERMINAL_SETTINGS_PATH"
     sed -i "s/vim.opt.background = \"light\"/vim.opt.background = \"dark\"/" "$NVIM_INIT"
+    sed -i "s/THEME=\"light\"/THEME=\"dark\"/" "$TMUX_SESSIONS_PATH"
+    change_nvim_theme dark
     exit 0
 fi
 
 echo "colorScheme not found in settings.json"
 exit 1
-

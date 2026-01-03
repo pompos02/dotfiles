@@ -8,6 +8,7 @@ DIRS=(
     # "/mnt/c/Users/yiann"
 )
 
+THEME="dark"
 # State file that stores the last session's directory so it can be prioritized next run.
 STATE_FILE="${XDG_STATE_HOME:-$HOME/.local/state}/tmux/last_session"
 mkdir -p "$(dirname "$STATE_FILE")"
@@ -38,13 +39,30 @@ else
     final_list="$all_dirs"
 fi
 
-# Use the provided arg if present, otherwise open fzf-tmux for selection.
-selected=$(echo "$final_list" | fzf\
-    --border=rounded --info=right \
-    --color=hl:#A5D6FF:reverse:bold,hl+:#79C0FF:reverse:bold \
-    --color=info:white \
-    --color=border:white,list-border:white,preview-border:white,input-border:white,header-border:white,footer-border:white)
-[[ -z $selected ]] && exit 0
+if [[ "$THEME" = "dark" ]]; then
+    selected=$(
+        echo "$final_list" | fzf \
+            --border=rounded --info=right \
+            --color=hl:#A5D6FF:reverse:bold,hl+:#79C0FF:reverse:bold \
+            --color=info:white \
+            --color=border:white,list-border:white,preview-border:white,input-border:white,header-border:white,footer-border:white \
+            --color=fg+:#FFFFFF \
+            --color=bg+:#404040
+    )
+else
+    selected=$(
+        echo "$final_list" | fzf \
+            --border=rounded --info=right \
+            --color=fg:#000000,bg:#FFFFFF \
+            --color=hl:#A5D6FF:reverse:bold,hl+:#79C0FF:reverse:bold \
+            --color=info:#000000,separator:#000000,scrollbar:#000000 \
+            --color=border:black,list-border:black,preview-border:black,input-border:black,header-border:black,footer-border:black \
+            --color=fg+:#000000 \
+            --color=bg+:#F2F2F2
+    )
+fi
+
+[[ -z "$selected" ]] && exit 0
 selected="${selected%/}"
 
 # tmux session names cannot contain dots reliably; replace with underscores.
