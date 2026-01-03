@@ -73,6 +73,17 @@ local window_opts = {
     },
 }
 
+local live_grep_window_opts = vim.tbl_deep_extend("force", window_opts, {
+    height = 0.9,
+    width = 0.95,
+    row = 0.0,
+    col = 0.0,
+    border = "rounded",
+    preview = {
+        border = "rounded",
+    },
+})
+
 local function jump_to_file_line(line)
     -- strip ANSI color codes so file:line parsing remains valid when sources are colored
     line = line:gsub("\27%[[0-9;]*m", "")
@@ -102,21 +113,41 @@ function M.find_files()
     local cmd = vim.fn.executable("fd") == 1
         and "fd --type f --hidden --exclude .git"
         or "find . -type f -not -path '*/.git/*' 2>/dev/null"
-    run_fzf({
-        source = cmd,
-        sink = "edit",
-        options = {
+    local opts
+    if vim.o.background == "light" then
+        opts = {
+            "--prompt=Files> ",
+            "--ansi",
+            "--color=fg:#000000,bg:#FFFFFF",
+            "--color=hl:#A5D6FF:reverse:bold,hl+:#79C0FF:reverse:bold",
+            "--color=info:#000000,separator:#000000,scrollbar:#000000",
+            "--color=border:black,list-border:black,preview-border:black,input-border:black,header-border:black,footer-border:black",
+            "--keep-right",
+            "--preview", preview_command("{1}"),
+            "--preview-window=right:50%:wrap:hidden",
+            "--bind=ctrl-s:toggle-preview",
+            "--color=fg+:#000000",
+            "--color=bg+:#F2F2F2",
+        }
+    else
+        opts = {
             "--prompt=Files> ",
             "--ansi",
             "--color=hl:#A5D6FF:reverse:bold,hl+:#79C0FF:reverse:bold",
             "--color=info:white",
             "--color=border:white,list-border:white,preview-border:white,input-border:white,header-border:white,footer-border:white",
-            -- "--color=pointer:white",
             "--keep-right",
             "--preview", preview_command("{1}"),
             "--preview-window=right:50%:wrap:hidden",
             "--bind=ctrl-s:toggle-preview",
-        },
+            "--color=fg+:#FFFFFF",
+            "--color=bg+:#404040",
+        }
+    end
+    run_fzf({
+        source = cmd,
+        sink = "edit",
+        options = opts,
         window = window_opts,
     }, "files")
 end
@@ -180,7 +211,7 @@ function M.live_grep(initial_query)
             "--prompt=Grep> ",
             "--delimiter=:",
             "--preview", preview_command("{1}", "{2}"),
-            "--preview-window=right:50%:wrap:+{2}-10",
+            "--preview-window=up:80%:wrap:+{2}-10",
             "--bind", string.format("change:reload:%s", reload_cmd("{q}")),
             "--phony",
             "--expect=ctrl-q",
@@ -188,7 +219,7 @@ function M.live_grep(initial_query)
             "--bind=ctrl-a:select-all,ctrl-d:deselect-all,ctrl-s:toggle-preview",
             query ~= "" and ("--query=" .. query) or nil,
         },
-        window = window_opts,
+        window = live_grep_window_opts,
     }, "live_grep_live")
 end
 
