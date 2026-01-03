@@ -57,10 +57,8 @@ end
 local function fzf_theme_opts()
     if vim.o.background == "light" then
         return {
-            "--color=fg:#000000,bg:#FFFFFF",
+            "--color=light",
             "--color=hl:#A5D6FF:reverse:bold,hl+:#79C0FF:reverse:bold",
-            "--color=info:#000000,separator:#000000,scrollbar:#000000",
-            "--color=border:black,list-border:black,preview-border:black,input-border:black,header-border:black,footer-border:black",
             "--color=fg+:#000000",
             "--color=bg+:#F2F2F2",
         }
