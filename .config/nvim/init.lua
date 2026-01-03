@@ -12,14 +12,12 @@ vim.g.fzf_history_dir = ""
 require("config.options")
 require("config.keymaps")
 require("config.lsp")
--- require("config.markdown").setup()
---testing
 
 -- Load custom plugins (pure Lua, no external dependencies)
 require("custom.statusline").setup()
 require("custom.surround").setup()
 require("local-highlight").setup()
-require'treesitter-context'.setup()
+require("treesitter-context").setup()
 require("custom.git-diff")
 require("diffview").setup({
     use_icons = false,
