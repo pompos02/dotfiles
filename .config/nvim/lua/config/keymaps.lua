@@ -63,6 +63,15 @@ map("n", "<leader>xx", function()
     vim.cmd.copen()
 end, { desc = "Open diagnostics in quickfix" })
 
+map("n", "<leader>dd", function()
+    vim.diagnostic.enable(false)
+end, { desc = "Disable diagnostics for buffer" })
+
+map("n", "<leader>de", function()
+    vim.diagnostic.enable(true)
+end, { desc = "Enable diagnostics for buffer" })
+
+
 -- Quickfix navigation
 map("n", "[q", function()
     local ok, err = pcall(vim.cmd.cprev)

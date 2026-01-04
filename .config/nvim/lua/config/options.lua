@@ -22,7 +22,7 @@ opt.ruler = false                                       -- Disable the default r
 opt.scrolloff = 10                                       -- Lines of context
 opt.sessionoptions = { "buffers", "curdir", "tabpages", "winsize", "help", "globals", "skiprtp", "folds" }
 opt.sidescrolloff = 8                                   -- Columns of context
-opt.signcolumn = "auto:1"
+opt.signcolumn = "yes:1"
 -- vim.opt.statuscolumn = "%=%l %s"
 opt.smartcase = true                                    -- Don't ignore case with capitals
 opt.ignorecase = true                                   -- Case insesive search

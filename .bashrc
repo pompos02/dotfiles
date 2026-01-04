@@ -45,7 +45,7 @@ alias ls='ls --color=auto'
 alias python='python3'
 alias grep='grep --color=auto'
 alias vim='nvim'
-alias ..="cd .."
+# alias ..="cd .."
 
 
 eval "$(fzf --bash)"
@@ -91,3 +91,7 @@ if [[ -z "$TMUX" ]] && [[ -n "$WSL_DISTRO_NAME" ]] && [[ -t 1 ]]; then
     tmux attach -t main || tmux new -s main
 fi
 
+
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
