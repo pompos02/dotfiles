@@ -30,7 +30,7 @@ MiniDiff.config = {
   -- Options for how hunks are visualized
   view = {
     -- Signs used for hunks in the sign column
-    signs = { add = '▒', change = '▒', delete = '▒' },
+    signs = { add = '▒+', change = '▒~', delete = '▒-' },
     -- signs = { add = '▉', change = '▉', delete = '▉' },
     -- signs = { add = '+', change = '~', delete = '-' },
 

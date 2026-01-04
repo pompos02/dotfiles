@@ -8,7 +8,7 @@ DIRS=(
     # "/mnt/c/Users/yiann"
 )
 
-THEME="light"
+THEME="dark"
 # State file that stores the last session's directory so it can be prioritized next run.
 STATE_FILE="${XDG_STATE_HOME:-$HOME/.local/state}/tmux/last_session"
 mkdir -p "$(dirname "$STATE_FILE")"
