@@ -1,9 +1,0 @@
-set editing-mode vi
-
-# Bind for vi command mode
-set keymap vi-command
-"\C-l": clear-screen
-
-# Bind for vi insert mode
-set keymap vi-insert
-"\C-l": clear-screen

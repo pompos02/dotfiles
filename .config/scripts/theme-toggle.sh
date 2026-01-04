@@ -16,8 +16,8 @@ change_nvim_theme(){
 }
 
 # Windows terminal themes
-WINDOWS_DARK_THEME="CGA (Copy)"
-WINDOWS_LIGHT_THEME="Tango Light (Copy)"
+WINDOWS_DARK_THEME="Custom Dark"
+WINDOWS_LIGHT_THEME="Custom Light"
 
 WINDOWS_TERMINAL_SETTINGS_PATH="/mnt/c/Users/yiann/AppData/Local/Packages/Microsoft.WindowsTerminal_8wekyb3d8bbwe/LocalState/settings.json"
 NVIM_INIT="$HOME/.config/nvim/init.lua"
@@ -25,20 +25,20 @@ TMUX_SESSIONS_PATH="$HOME/.config/scripts/tmux_sessions.sh"
 
 if [[ "$SYSTEM_THEME" = "dark" ]]; then
     echo "light" > "$THEME_FILE"
-    sed -i "s/\"colorScheme\": \"$WINDOWS_DARK_THEME\"/\"colorScheme\": \"$WINDOWS_LIGHT_THEME\"/" "$WINDOWS_TERMINAL_SETTINGS_PATH"
-    sed -i "s/\"theme\": \"dark\"/\"theme\": \"light\"/" "$WINDOWS_TERMINAL_SETTINGS_PATH"
-    sed -i "s/vim.opt.background = \"dark\"/vim.opt.background = \"light\"/" "$NVIM_INIT"
-    sed -i "s/THEME=\"dark\"/THEME=\"light\"/" "$TMUX_SESSIONS_PATH"
+    sed -i 's/^\([[:space:]]*\)"colorScheme":.*/\1"colorScheme": "'"$WINDOWS_LIGHT_THEME"'",/' "$WINDOWS_TERMINAL_SETTINGS_PATH"
+    sed -i 's/^\([[:space:]]*\)"theme":.*/\1"theme": "light",/' "$WINDOWS_TERMINAL_SETTINGS_PATH"
+    sed -i 's/^\([[:space:]]*\)vim\.opt\.background[[:space:]]*=.*/\1vim.opt.background = "light"/' "$NVIM_INIT"
+    sed -i 's/^\([[:space:]]*\)THEME[[:space:]]*=.*/\1THEME="light"/' "$TMUX_SESSIONS_PATH"
     change_nvim_theme light
     exit 0
 fi
 
 if [[ "$SYSTEM_THEME" = "light" ]]; then
     echo "dark" > "$THEME_FILE"
-    sed -i "s/\"colorScheme\": \"$WINDOWS_LIGHT_THEME\"/\"colorScheme\": \"$WINDOWS_DARK_THEME\"/" "$WINDOWS_TERMINAL_SETTINGS_PATH"
-    sed -i "s/\"theme\": \"light\"/\"theme\": \"dark\"/" "$WINDOWS_TERMINAL_SETTINGS_PATH"
-    sed -i "s/vim.opt.background = \"light\"/vim.opt.background = \"dark\"/" "$NVIM_INIT"
-    sed -i "s/THEME=\"light\"/THEME=\"dark\"/" "$TMUX_SESSIONS_PATH"
+    sed -i 's/^\([[:space:]]*\)"colorScheme":.*/\1"colorScheme": "'"$WINDOWS_DARK_THEME"'",/' "$WINDOWS_TERMINAL_SETTINGS_PATH"
+    sed -i 's/^\([[:space:]]*\)"theme":.*/\1"theme": "dark",/' "$WINDOWS_TERMINAL_SETTINGS_PATH"
+    sed -i 's/^\([[:space:]]*\)vim\.opt\.background[[:space:]]*=.*/\1vim.opt.background = "dark"/' "$NVIM_INIT"
+    sed -i 's/^\([[:space:]]*\)THEME[[:space:]]*=.*/\1THEME="dark"/' "$TMUX_SESSIONS_PATH"
     change_nvim_theme dark
     exit 0
 fi

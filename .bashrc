@@ -55,9 +55,6 @@ eval "$(fzf --bash)"
 
 export EDITOR=nvim
 
-# vim motions
-set -o vi
-
 pkillf() {
     ps -ef | fzf --height 40% --layout=reverse | awk '{print $2}' | xargs kill
 }

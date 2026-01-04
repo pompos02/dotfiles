@@ -36,7 +36,7 @@ vim.o.winborder = "rounded"
 
 -- Set colorscheme
 vim.cmd.colorscheme("modus")
-vim.opt.background = "dark"
+vim.opt.background = "light"
 -- Put the fzf plugin root in the runtime path when built from source
 local home = vim.fn.expand("~/.fzf")
 
@@ -89,3 +89,12 @@ do
     })
 
 end
+
+vim.opt.termguicolors = true
+
+vim.api.nvim_create_autocmd({"CursorMoved", "InsertEnter"}, {
+  callback = function()
+    vim.cmd("hi Cursor guifg=NONE guibg=NONE")
+  end
+})
+

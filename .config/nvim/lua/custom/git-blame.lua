@@ -7,10 +7,9 @@ local function open_scratch(lines)
   vim.bo[buf].bufhidden = "wipe"
   vim.bo[buf].swapfile = false
   vim.bo[buf].buflisted = false
-  vim.bo[buf].modifiable = true
   vim.api.nvim_buf_set_lines(buf, 0, -1, false, lines)
   vim.bo[buf].modifiable = false
-  vim.bo[buf].filetype = "git"
+  vim.bo[buf].filetype = "gitcommit"
   vim.api.nvim_set_hl(0, "GitBlameLabel", { link = "Function" })
   vim.api.nvim_buf_call(buf, function()
     vim.cmd("syntax match GitBlameLabel /^\\(SHA\\|Author\\|Date\\|Message\\):/")
