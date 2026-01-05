@@ -22,6 +22,8 @@ WINDOWS_LIGHT_THEME="Custom Light"
 WINDOWS_TERMINAL_SETTINGS_PATH="/mnt/c/Users/yiann/AppData/Local/Packages/Microsoft.WindowsTerminal_8wekyb3d8bbwe/LocalState/settings.json"
 NVIM_INIT="$HOME/.config/nvim/init.lua"
 TMUX_SESSIONS_PATH="$HOME/.config/scripts/tmux_sessions.sh"
+ALACRITY_CONFIG_PATH="/mnt/c/Users/yiann/AppData/Roaming/alacritty/alacritty.toml"
+
 
 if [[ "$SYSTEM_THEME" = "dark" ]]; then
     echo "light" > "$THEME_FILE"
@@ -29,6 +31,10 @@ if [[ "$SYSTEM_THEME" = "dark" ]]; then
     sed -i 's/^\([[:space:]]*\)"theme":.*/\1"theme": "light",/' "$WINDOWS_TERMINAL_SETTINGS_PATH"
     sed -i 's/^\([[:space:]]*\)vim\.opt\.background[[:space:]]*=.*/\1vim.opt.background = "light"/' "$NVIM_INIT"
     sed -i 's/^\([[:space:]]*\)THEME[[:space:]]*=.*/\1THEME="light"/' "$TMUX_SESSIONS_PATH"
+    
+    sed -i 's/^\([[:space:]]*\)background[[:space:]]*=.*/\1background = "#ffffff"/' "$ALACRITY_CONFIG_PATH"
+    sed -i 's/^\([[:space:]]*\)foreground[[:space:]]*=.*/\1foreground = "#000000"/' "$ALACRITY_CONFIG_PATH"
+
     change_nvim_theme light
     exit 0
 fi
@@ -39,6 +45,10 @@ if [[ "$SYSTEM_THEME" = "light" ]]; then
     sed -i 's/^\([[:space:]]*\)"theme":.*/\1"theme": "dark",/' "$WINDOWS_TERMINAL_SETTINGS_PATH"
     sed -i 's/^\([[:space:]]*\)vim\.opt\.background[[:space:]]*=.*/\1vim.opt.background = "dark"/' "$NVIM_INIT"
     sed -i 's/^\([[:space:]]*\)THEME[[:space:]]*=.*/\1THEME="dark"/' "$TMUX_SESSIONS_PATH"
+
+    sed -i 's/^\([[:space:]]*\)background[[:space:]]*=.*/\1background = "#000000"/' "$ALACRITY_CONFIG_PATH"
+    sed -i 's/^\([[:space:]]*\)foreground[[:space:]]*=.*/\1foreground = "#ffffff"/' "$ALACRITY_CONFIG_PATH"
+
     change_nvim_theme dark
     exit 0
 fi
