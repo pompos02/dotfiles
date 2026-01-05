@@ -32,6 +32,9 @@ MiniDiff.config = {
     -- Signs used for hunks in the sign column
     signs = { add = '▒+', change = '▒~', delete = '▒-' },
     -- signs = { add = '▉', change = '▉', delete = '▉' },
+    -- signs = { add = ' +', change = ' ~', delete = ' -' },
+    -- signs = { add = '░', change = '░', delete = '░' },
+    -- 
     -- signs = { add = '+', change = '~', delete = '-' },
 
     -- Priority of used visualization extmarks (lower than diagnostics)

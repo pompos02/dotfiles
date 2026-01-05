@@ -91,7 +91,10 @@ if [[ -z "$TMUX" ]] && [[ -n "$WSL_DISTRO_NAME" ]] && [[ -t 1 ]]; then
     tmux attach -t main || tmux new -s main
 fi
 
+# uncomment this to be able to use nvm
+# export NVM_DIR="$HOME/.nvm"
+# [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+# [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 
-export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+# fix the ls colros in the windows mount
+eval "$(dircolors ~/.dircolors)"
