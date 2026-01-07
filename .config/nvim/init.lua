@@ -89,12 +89,3 @@ do
     })
 
 end
-
-vim.opt.termguicolors = true
-
-vim.api.nvim_create_autocmd({"CursorMoved", "InsertEnter"}, {
-  callback = function()
-    vim.cmd("hi Cursor guifg=NONE guibg=NONE")
-  end
-})
-

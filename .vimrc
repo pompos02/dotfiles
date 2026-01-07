@@ -2,11 +2,8 @@
 let mapleader = " "
 let maplocalleader = "\\"
 
-colorscheme lunaperche
 set background=dark
-" colorscheme delek
-
-
+"
 " Disable fzf history files
 let g:fzf_history_dir = ""
 " add something like this

@@ -45,6 +45,7 @@ alias ls='ls --color=auto'
 alias python='python3'
 alias grep='grep --color=auto'
 alias vim='nvim'
+alias bat='batcat'
 # alias ..="cd .."
 
 
@@ -88,7 +89,7 @@ open() {
 
 # Auto-start tmux on WSL login
 if [[ -z "$TMUX" ]] && [[ -n "$WSL_DISTRO_NAME" ]] && [[ -t 1 ]]; then
-    tmux attach -t main || tmux new -s main
+    tmux attach -t karavellas || tmux new -s karavellas
 fi
 
 # uncomment this to be able to use nvm
