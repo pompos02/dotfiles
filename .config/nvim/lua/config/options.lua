@@ -50,3 +50,4 @@ opt.guicursor =
 "n-v-c-sm:block,i-ci-ve:block-blinkwait500-blinkoff200-blinkon200,r-cr-o:hor20"                 -- Use blinking block cursor in insert mode
 opt.colorcolumn = "80"
 opt.grepprg = "rg --vimgrep -uu --glob '!.git/**' --glob '!**/.git/**'"
+vim.opt.showbreak = "↳ "

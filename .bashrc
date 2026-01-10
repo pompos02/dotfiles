@@ -13,7 +13,7 @@ export PATH="$HOME/.config/scripts:$PATH"
 export PATH="$HOME/.opencode/bin:$PATH"
 export PATH="$PATH:/opt/nvim-linux-x86_64/bin:"
 export PATH="${PATH:+${PATH}:}/home/karavellas/.fzf/bin"
-export PATH="$HOME/.config/emacs/bin:$PATH"
+export PATH="$PATH:/opt/sqlcl/bin"
 
 # oracle environment variables
 export ORACLE_HOME=/opt/oracle/instantclient_23_26
@@ -99,3 +99,7 @@ fi
 
 # fix the ls colros in the windows mount
 eval "$(dircolors ~/.dircolors)"
+
+# bun
+export BUN_INSTALL="$HOME/.bun"
+export PATH="$BUN_INSTALL/bin:$PATH"
