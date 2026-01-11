@@ -10,9 +10,14 @@ DIRS=(
 )
 
 THEME="dark"
-# State file that stores the last session's directory so it can be prioritized next run.
-STATE_FILE="${XDG_STATE_HOME:-$HOME/.local/state}/tmux/last_session"
-mkdir -p "$(dirname "$STATE_FILE")"
+
+# Find the most recently attached tmux session and its path (if any).
+prev_session="$(tmux list-sessions -F '#{session_last_attached} #{session_name}' 2>/dev/null | sort -nr | sed -n '2p' | cut -d' ' -f2-)"
+prev=""
+if [[ -n $prev_session ]]; then
+    prev="$(tmux display-message -p -t "$prev_session" '#{session_path}' 2>/dev/null)"
+    [[ -d $prev ]] || prev=""
+fi
 
 # Gather one-level-deep, non-hidden directories from each root in DIRS.
 list_dirs() {
@@ -25,10 +30,6 @@ list_dirs() {
         done
     done
 }
-
-# Read previous session directory if the state file exists.
-prev=""
-[[ -r $STATE_FILE ]] && prev="$(<"$STATE_FILE")"
 
 # Build the directory list shown to fzf.
 all_dirs="$(list_dirs)"
@@ -71,12 +72,6 @@ name="$(basename "$selected" | tr . _)"
 
 # Create the session if missing, with its working directory set to the selected path.
 tmux has-session -t "$name" 2>/dev/null || tmux new-session -ds "$name" -c "$selected"
-
-# Persist the current session directory so it becomes "previous" on the next run.
-current_name="$(tmux display-message -p '#S')"
-if [[ $current_name != "$name" ]]; then
-    tmux display-message -p '#{session_path}' > "$STATE_FILE"
-fi
 
 # Switch to the selected session inside the current tmux client.
 tmux switch-client -t "$name"
