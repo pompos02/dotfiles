@@ -46,8 +46,7 @@ opt.wrap = false                                                                
 opt.cursorline = true                                                                           -- Highlight the line where the cursor is located
 -- opt.fillchars:append({ eob = " " })                                                             -- Remove ~ from empty lines
 opt.showtabline = 1                                                                             -- Never show tabline
-opt.guicursor =
-"n-v-c-sm:block,i-ci-ve:block-blinkwait500-blinkoff200-blinkon200,r-cr-o:hor20"                 -- Use blinking block cursor in insert mode
+opt.guicursor = "n-v-c-sm:block,i-ci-ve:block-blinkwait500-blinkoff200-blinkon200,r-cr-o:hor20"                 -- Use blinking block cursor in insert mode
 opt.colorcolumn = "80"
 opt.grepprg = "rg --vimgrep -uu --glob '!.git/**' --glob '!**/.git/**'"
 vim.opt.showbreak = "↳ "
