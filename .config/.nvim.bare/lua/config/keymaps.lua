@@ -1,0 +1,117 @@
+local map = vim.keymap.set
+
+-- clear search highlight
+map("n", "<C-c>", ":nohl<CR>", { desc = "Clear search hl", silent = true })
+map("n", "<Esc>", function()
+    if vim.opt.hlsearch:get() then
+        vim.cmd.nohlsearch()
+    else
+        return "<Esc>"
+    end
+end, { desc = "Clear search hl", silent = true, expr = true })
+
+-- moving lines up and down
+map("v", "K", ":m '<-2<CR>gv=gv")
+map("v", "J", ":m '>+1<CR>gv=gv")
+-- delete but not yank
+map({ "n", "v" }, "<leader>d", [["_d]])
+-- Paste without overwriting the default register
+map("v", "<Leader>p", '"_dP')
+
+-- horizontall movements
+map("n", "<C-d>", "<C-d>zz", { desc = "Half page down and center" })
+map("n", "<C-u>", "<C-u>zz", { desc = "Half page up and center" })
+map("n", "}", "}zz", { desc = "Next paragraph and center" })
+map("n", "{", "{zz", { desc = "Previous paragraph and center" })
+-- better up/down
+map({ "n", "x" }, "j", "v:count == 0 ? 'gj' : 'j'", {
+    desc = "Down",
+    expr = true,
+    silent = true,
+})
+
+map({ "n", "x" }, "<Down>", "v:count == 0 ? 'gj' : 'j'", {
+    desc = "Down",
+    expr = true,
+    silent = true,
+})
+map({ "n", "x" }, "k", "v:count == 0 ? 'gk' : 'k'", {
+    desc = "Up",
+    expr = true,
+    silent = true,
+})
+map({ "n", "x" }, "<Up>", "v:count == 0 ? 'gk' : 'k'", {
+    desc = "Up",
+    expr = true,
+    silent = true,
+})
+
+-- Add undo break-points
+map("i", ",", ",<c-g>u")
+map("i", ".", ".<c-g>u")
+map("i", ";", ";<c-g>u")
+-- better indenting
+map("v", "<", "<gv")
+map("v", ">", ">gv")
+
+-- foramatting
+map("n", "<leader>lf", vim.lsp.buf.format, { desc = "Format the current buffer" })
+
+-- Diagnostics and Quickfix
+map("n", "<leader>xx", function()
+    vim.diagnostic.setqflist()
+    vim.cmd.copen()
+end, { desc = "Open diagnostics in quickfix" })
+
+map("n", "<leader>dd", function()
+    local cfg = vim.diagnostic.config()
+    vim.diagnostic.config({ virtual_text = not cfg.virtual_text })
+end, { desc = "Disable diagnostics for buffer" })
+
+map("n", "<leader>de", function()
+    vim.diagnostic.enable(true)
+end, { desc = "Enable diagnostics for buffer" })
+
+
+-- Quickfix navigation
+map("n", "[q", function()
+    local ok, err = pcall(vim.cmd.cprev)
+    if not ok then
+        vim.notify(err, vim.log.levels.ERROR)
+    end
+end, { desc = "Previous quickfix item" })
+
+map("n", "]q", function()
+    local ok, err = pcall(vim.cmd.cnext)
+    if not ok then
+        vim.notify(err, vim.log.levels.ERROR)
+    end
+end, { desc = "Next quickfix item" })
+
+-- Custom picker (pure Lua, no dependencies)
+map("n", "<leader><leader>", function() require("custom.picker").find_files() end, { desc = "Find files" })
+map("n", "<leader>fg", function() require("custom.picker").live_grep() end, { desc = "Live grep" })
+map("n", "<leader>fb", function() require("custom.picker").buffers() end, { desc = "Switch buffer" })
+map("n", "<leader>fh", function() require("custom.picker").help_tags() end, { desc = "Help tags" })
+map("n", "<leader>fk", function() require("custom.picker").keymaps() end, { desc = "Find keymaps" })
+
+
+
+
+
+-- File explorer (native netrw)
+map("n", "<leader>e", ":Explore<CR>", { desc = "Explorer (netrw)" })
+map("n", "<leader>E", ":Explore " .. vim.fn.getcwd() .. "<CR>", { desc = "Explorer - Project Root" })
+
+-- Grep visual selection (populate command, don't execute)
+map("v", "gs", function()
+    vim.cmd('noau normal! "vy"')
+    local text = vim.fn.getreg('v')
+    vim.fn.feedkeys(":grep " .. vim.fn.shellescape(text) .. " .", 'n')
+end, { desc = "Grep selection in codebase" })
+
+-- Grep word under cursor (normal mode)
+map("n", "gw", function()
+    local word = vim.fn.expand("<cword>")
+    vim.fn.feedkeys(":grep " .. vim.fn.shellescape(word) .. " .", 'n')
+end, { desc = "Grep word under cursor" })

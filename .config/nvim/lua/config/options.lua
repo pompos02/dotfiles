@@ -52,3 +52,26 @@ opt.grepprg = "rg --vimgrep -uu --glob '!.git/**' --glob '!**/.git/**'"
 opt.showbreak = "↳ "
 opt.wildmenu = true
 
+-- force syntax native syntax hilighting in markdown
+vim.g.markdown_fenced_languages = {
+    "bash=sh",
+    "c",
+    "css",
+    "diff",
+    "go",
+    "html",
+    "javascript",
+    "json",
+    "lua",
+    "python",
+    "rust",
+    "sh",
+    "sql=plsql",
+    "plsql=plsql",
+    "toml",
+    "typescript",
+    "vim",
+    "xml",
+    "yaml",
+}
+

@@ -1,5 +1,4 @@
 return {
-    -- Main blink.cmp configuration
     {
         "saghen/blink.cmp",
         version = "*",
@@ -54,13 +53,10 @@ return {
                                         if dev_icon then
                                             icon = dev_icon
                                         end
-                                    else
-                                        icon = require("lspkind").symbolic(ctx.kind, {
-                                            mode = "symbol",
-                                        })
                                     end
 
                                     return icon .. ctx.icon_gap
+
                                 end,
 
                                 -- Optionally, use the highlight groups from nvim-web-devicons
@@ -79,6 +75,7 @@ return {
                             },
                         },
                     },
+                    auto_show = false
                 },
 
                 documentation = {
@@ -103,11 +100,11 @@ return {
             -- Sources configuration
             sources = {
                 default = { "lsp", "buffer", "snippets", "path" },
-                per_filetype = {
-                    sql = { "dadbod" },
-                },
+                -- per_filetype = {
+                --     sql = { "dadbod" },
+                -- },
                 providers = {
-                    dadbod = { module = "vim_dadbod_completion.blink" },
+                    -- dadbod = { module = "vim_dadbod_completion.blink" },
                     lsp = {
                         name = "LSP",
                         module = "blink.cmp.sources.lsp",

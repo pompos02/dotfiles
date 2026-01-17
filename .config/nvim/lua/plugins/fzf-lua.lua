@@ -58,6 +58,12 @@ return {
 
         fzf_colors = {
             ["pointer"] = { "fg", "markdownH1" },
+            ["hl"] = { "fg", "PmenuMatch", "bold", "reverse" },
+            ["hl+"] = { "fg", "PmenuMatch", "bold", "reverse" },
+            ["fg"] = { "fg", "Normal" },
+            ["bg"] = { "bg", "Normal" },
+            ["fg+"] = { "fg", "Normal", "bold" },
+            ["bg+"] = { "bg", "CursorLine" },
         },
         winopts = {
             height = 0.85,
@@ -111,8 +117,8 @@ return {
         files = {
             prompt = "Files❯ ",
             multiprocess = true,
-            git_icons = false,
-            file_icons = false,
+            git_icons = true,
+            file_icons = true,
             color_icons = true,
             find_opts = [[-type f \! -path '*/.git/*']],
             rg_opts = [[--color=never --files --hidden --follow -g "!.git"]],

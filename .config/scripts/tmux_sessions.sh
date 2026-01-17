@@ -9,7 +9,7 @@ DIRS=(
     # "/mnt/c/Users/yiann"
 )
 
-THEME="light"
+THEME="dark"
 
 # Find the most recently attached tmux session and its path (if any).
 prev_session="$(tmux list-sessions -F '#{session_last_attached} #{session_name}' 2>/dev/null | sort -nr | sed -n '2p' | cut -d' ' -f2-)"

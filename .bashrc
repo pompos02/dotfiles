@@ -22,10 +22,10 @@ export PATH=$PATH:$ORACLE_HOME
 export TNS_ADMIN=/opt/oracle/wallet
 
 
-#  # tmux can start bash with empty/invalid PWD; \W then prints nothing
-  if [[ -z $PWD || ! -d $PWD ]]; then
-    PWD="$(pwd)"
-  fi
+# #  # tmux can start bash with empty/invalid PWD; \W then prints nothing
+#   if [[ -z $PWD || ! -d $PWD ]]; then
+#     PWD="$(pwd)"
+#   fi
 
 # Prompt
 PS1='$(ret=$?;(($ret!=0)) && echo "\[\033[38;5;1m\]($ret)\[\033[0m\] ")'  # exit code (red)
