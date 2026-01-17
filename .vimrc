@@ -43,7 +43,7 @@ if exists('+splitkeep')
 endif
 set splitright
 
-set termguicolors
+"set termguicolors
 
 set undofile
 set undolevels=10000

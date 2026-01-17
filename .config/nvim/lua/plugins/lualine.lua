@@ -39,12 +39,16 @@ return {
                 lualine_a = {},
                 lualine_b = {},
                 lualine_c = {
-                    { 'branch', fmt = function (str)
-                        return "[" .. str .. "]"
+                    { 'branch', fmt = function(str)
+                        if not str or str == "" then
+                            return ""
+                        else
+                            return "[" .. str .. "]"
+                        end
                     end
-                },
-                'filename', 'diff', 'diagnostics'  },
-                lualine_x = {{
+                    },
+                    'filename', 'diff', 'diagnostics' },
+                lualine_x = { {
                     'lsp_status',
                     icon = '', -- f013
                     symbols = {
@@ -60,7 +64,7 @@ return {
                     -- Display the LSP name
                     show_name = true,
                 }, 'location'
-            },
+                },
                 lualine_y = {},
                 lualine_z = {},
             },
