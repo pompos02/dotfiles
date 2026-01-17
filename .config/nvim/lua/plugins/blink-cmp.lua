@@ -150,7 +150,7 @@ return {
 
             -- Signature help
             signature = {
-                enabled = true,
+                enabled = false,
                 window = { border = "single" },
             },
         },

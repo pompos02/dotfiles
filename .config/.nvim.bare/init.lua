@@ -36,6 +36,7 @@ vim.o.winborder = "rounded"
 
 -- Set colorscheme
 vim.cmd.colorscheme("modus")
+
 vim.opt.background = "light"
 -- Put the fzf plugin root in the runtime path when built from source
 local home = vim.fn.expand("~/.fzf")
@@ -57,7 +58,6 @@ vim.ui.open = function(path)
     local job = vim.fn.jobstart({ "explorer.exe", path }, { detach = true })
     return job > 0
 end
-
 
 -- Highlight on yank
 vim.api.nvim_create_autocmd("TextYankPost", {

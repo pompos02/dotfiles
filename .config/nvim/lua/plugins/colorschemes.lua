@@ -4,5 +4,6 @@ return {
     "pompos02/modus-themes.nvim",
     "folke/tokyonight.nvim",
     "craftzdog/solarized-osaka.nvim",
+    "rebelot/kanagawa.nvim",
 }
 
