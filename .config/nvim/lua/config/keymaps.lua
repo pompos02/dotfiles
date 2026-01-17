@@ -1,7 +1,6 @@
 local map = vim.keymap.set
 
 -- clear search highlight
-map("n", "<C-c>", ":nohl<CR>", { desc = "Clear search hl", silent = true })
 map("n", "<Esc>", function()
     if vim.opt.hlsearch:get() then
         vim.cmd.nohlsearch()
@@ -55,23 +54,13 @@ map("v", "<", "<gv")
 map("v", ">", ">gv")
 
 -- foramatting
-map("n", "<leader>lf", vim.lsp.buf.format, { desc = "Format the current buffer" })
+map("n", "<leader>bf", vim.lsp.buf.format, { desc = "Format the current buffer" })
 
--- Diagnostics and Quickfix
-map("n", "<leader>xx", function()
-    vim.diagnostic.setqflist()
-    vim.cmd.copen()
-end, { desc = "Open diagnostics in quickfix" })
 
 map("n", "<leader>dd", function()
     local cfg = vim.diagnostic.config()
     vim.diagnostic.config({ virtual_text = not cfg.virtual_text })
 end, { desc = "Disable diagnostics for buffer" })
-
-map("n", "<leader>de", function()
-    vim.diagnostic.enable(true)
-end, { desc = "Enable diagnostics for buffer" })
-
 
 -- Quickfix navigation
 map("n", "[q", function()
@@ -88,20 +77,17 @@ map("n", "]q", function()
     end
 end, { desc = "Next quickfix item" })
 
--- Custom picker (pure Lua, no dependencies)
-map("n", "<leader><leader>", function() require("custom.picker").find_files() end, { desc = "Find files" })
-map("n", "<leader>fg", function() require("custom.picker").live_grep() end, { desc = "Live grep" })
-map("n", "<leader>fb", function() require("custom.picker").buffers() end, { desc = "Switch buffer" })
-map("n", "<leader>fh", function() require("custom.picker").help_tags() end, { desc = "Help tags" })
-map("n", "<leader>fk", function() require("custom.picker").keymaps() end, { desc = "Find keymaps" })
+-- -- Custom picker (pure Lua, no dependencies)
+-- map("n", "<leader><leader>", function() require("custom.picker").find_files() end, { desc = "Find files" })
+-- map("n", "<leader>fg", function() require("custom.picker").live_grep() end, { desc = "Live grep" })
+-- map("n", "<leader>fb", function() require("custom.picker").buffers() end, { desc = "Switch buffer" })
+-- map("n", "<leader>fh", function() require("custom.picker").help_tags() end, { desc = "Help tags" })
+-- map("n", "<leader>fk", function() require("custom.picker").keymaps() end, { desc = "Find keymaps" })
 
 
-
-
-
--- File explorer (native netrw)
-map("n", "<leader>e", ":Explore<CR>", { desc = "Explorer (netrw)" })
-map("n", "<leader>E", ":Explore " .. vim.fn.getcwd() .. "<CR>", { desc = "Explorer - Project Root" })
+-- -- File explorer (native netrw)
+-- map("n", "<leader>e", ":Explore<CR>", { desc = "Explorer (netrw)" })
+-- map("n", "<leader>E", ":Explore " .. vim.fn.getcwd() .. "<CR>", { desc = "Explorer - Project Root" })
 
 -- Grep visual selection (populate command, don't execute)
 map("v", "gs", function()

@@ -1,63 +1,15 @@
--- Minimal Neovim configuration without plugin managers
--- Plugins are loaded from pack/vendor/start/ (Vim's native plugin system)
-
--- Set leader keys FIRST before any mappings
-vim.g.mapleader = " "
-vim.g.maplocalleader = "\\"
-
--- Disable fzf history; we don't want per-command files created
-vim.g.fzf_history_dir = ""
-
--- Load core configuration modules
+require("config.lazy")
 require("config.options")
 require("config.keymaps")
 require("config.lsp")
 
--- Load custom plugins (pure Lua, no external dependencies)
-require("custom.statusline").setup()
-require("custom.surround").setup()
-require("local-highlight").setup()
-require("treesitter-context").setup()
-require("custom.git-diff")
-require("custom.git-blame")
-require("diffview").setup({
-    use_icons = false,
-    signs = {
-        fold_closed = ">",
-        fold_open = "v",
-        done = "x",
-    },
-
-})
-
--- Set shiftwidth and window borders
+vim.cmd("colorscheme vague")
 vim.opt.shiftwidth = 4
 vim.o.winborder = "rounded"
 
--- Set colorscheme
-vim.cmd.colorscheme("modus")
-vim.opt.background = "light"
--- Put the fzf plugin root in the runtime path when built from source
-local home = vim.fn.expand("~/.fzf")
 
-vim.opt.rtp:prepend(home)
-
--- Recognize common PL/SQL package file extensions
-vim.filetype.add({
-    extension = {
-        pkb = "plsql",
-        pks = "plsql",
-        pls = "plsql",
-        sql = "plsql",
-    },
-})
--- vim.filetype.add({ extension = { sql = "plsql", }, })
--- Use Windows explorer.exe for vim.ui.open (WSL/Windows friendly)
-vim.ui.open = function(path)
-    local job = vim.fn.jobstart({ "explorer.exe", path }, { detach = true })
-    return job > 0
-end
-
+vim.cmd.colorscheme("solarized-osaka")
+vim.opt.background = "dark"
 
 -- Highlight on yank
 vim.api.nvim_create_autocmd("TextYankPost", {
@@ -68,24 +20,17 @@ vim.api.nvim_create_autocmd("TextYankPost", {
     end,
 })
 
--- Treesitter setup
-do
-    local ok, ts = pcall(require, "nvim-treesitter")
-    if not ok then
-        vim.notify("nvim-treesitter not found in runtimepath", vim.log.levels.WARN)
-        return
-    end
+vim.filetype.add({
+    extension = {
+        pkb = "plsql",
+        pks = "plsql",
+        pls = "plsql",
+        sql = "plsql",
+    },
+})
 
-    -- Ensure parsers/queries go to the standard data dir (prepends to runtimepath).
-    ts.setup({ install_dir = vim.fn.stdpath("data") .. "/site", })
-
-    -- Enable treesitter highlight when entering a buffer.
-    vim.api.nvim_create_autocmd("FileType", {
-        desc = "Enable Treesitter features",
-        group = vim.api.nvim_create_augroup("treesitter_enable", { clear = true }),
-        callback = function(args)
-            pcall(vim.treesitter.start, args.buf)
-        end,
-    })
-
+-- Use Windows explorer.exe for vim.ui.open (WSL/Windows friendly)
+vim.ui.open = function(path)
+    local job = vim.fn.jobstart({ "explorer.exe", path }, { detach = true })
+    return job > 0
 end
