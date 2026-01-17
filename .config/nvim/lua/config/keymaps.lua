@@ -64,7 +64,8 @@ map("n", "<leader>xx", function()
 end, { desc = "Open diagnostics in quickfix" })
 
 map("n", "<leader>dd", function()
-    vim.diagnostic.enable(false)
+    local cfg = vim.diagnostic.config()
+    vim.diagnostic.config({ virtual_text = not cfg.virtual_text })
 end, { desc = "Disable diagnostics for buffer" })
 
 map("n", "<leader>de", function()

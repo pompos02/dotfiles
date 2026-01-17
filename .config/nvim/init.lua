@@ -36,7 +36,7 @@ vim.o.winborder = "rounded"
 
 -- Set colorscheme
 vim.cmd.colorscheme("modus")
-vim.opt.background = "dark"
+vim.opt.background = "light"
 -- Put the fzf plugin root in the runtime path when built from source
 local home = vim.fn.expand("~/.fzf")
 

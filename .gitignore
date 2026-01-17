@@ -3,3 +3,10 @@ squibg.jpg
 oracle_clinet_wsl.md
 **.png
 **.dockerfile
+
+.config/nvim/pack/vendor/start/mellifluous.nvim/
+.config/nvim/pack/vendor/start/rose-pine.nvim/
+.config/nvim/pack/vendor/start/solarized-osaka.nvim/
+.config/nvim/pack/vendor/start/vim-dadbod-ui/
+.config/nvim/pack/vendor/start/vim-dadbod/
+

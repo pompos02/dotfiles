@@ -42,7 +42,7 @@
 
 
 if exists("b:current_syntax")
-  finish
+    finish
 endif
 
 " this file uses line continuations
@@ -66,13 +66,13 @@ syn match   plsqlIllegalSpace "[\xa0]"
 
 " When wanted, highlight the trailing whitespace.
 if get(g:,"plsql_space_errors",0) == 1
-  if get(g:,"plsql_no_trail_space_error",0) == 0
-    syn match plsqlSpaceError "\s\+$"
-  endif
+    if get(g:,"plsql_no_trail_space_error",0) == 0
+        syn match plsqlSpaceError "\s\+$"
+    endif
 
-  if get(g:,"plsql_no_tab_space_error",0) == 0
-    syn match plsqlSpaceError " \+\t"me=e-1
-  endif
+    if get(g:,"plsql_no_tab_space_error",0) == 0
+        syn match plsqlSpaceError " \+\t"me=e-1
+    endif
 endif
 
 " Symbols.
@@ -80,8 +80,9 @@ syn match   plsqlSymbol "[;,.()]"
 
 " Operators. and words that would be something else if not in operator mode
 syn match   plsqlOperator "[-+*/=<>@"]"
-syn match   plsqlOperator "\(\^=\|<=\|>=\|:=\|=>\|\.\.\|||\|<<\|>>\|\*\*\|!=\|\~=\)"
+syn match   plsqlOperator "\(\^=\|<=\|>=\|:=\|\.\.\|||\|<<\|>>\|\*\*\|!=\|\~=\)"
 syn match   plsqlOperator "\<\(NOT\|AND\|OR\|LIKE\|BETWEEN\|IN\)\>"
+syn match   plsqlArrow "=>"
 syn match   plsqlBooleanLiteral "\<NULL\>"
 syn match   plsqlOperator "\<IS\\_s\+\(NOT\_s\+\)\?NULL\>"
 "
@@ -91,10 +92,10 @@ syn match plsqlPseudo "$[$a-z][a-z0-9$_#]*"
 syn match plsqlReserved "\<\(CREATE\|THEN\|UPDATE\|INSERT\|SET\)\>"
 syn match plsqlKeyword "\<\(REPLACE\|PACKAGE\|FUNCTION\|PROCEDURE\|TYPE|BODY\|WHEN\|MATCHED\)\>"
 syn region plsqlUpdate 
-    \ matchgroup=plsqlReserved 
-    \ start="\<UPDATE\>"
-    \ end="\<SET\>"
-    \ contains=@plsqlIdentifiers
+            \ matchgroup=plsqlReserved 
+            \ start="\<UPDATE\>"
+            \ end="\<SET\>"
+            \ contains=@plsqlIdentifiers
 syn match plsqlReserved "\<WHEN\_s\+\(NOT\_s\+\)\?MATCHED\_s\+THEN\_s\+\(UPDATE\|INSERT\)\(\_s\+SET\)\?"
 
 "
@@ -598,15 +599,15 @@ syn match plsqlISAS "\<\(IS\|AS\)\>"
 syntax region plsqlCommentL start="--" skip="\\$" end="$" keepend extend contains=@plsqlCommentGroup,plsqlSpaceError,plsqlIllegalSpace,plsqlSqlPlusDefine
 if get(g:,"plsql_fold",0) == 1
     syntax region plsqlComment
-        \ start="/\*" end="\*/"
-        \ extend
-        \ contains=@plsqlCommentGroup,plsqlSpaceError,plsqlIllegalSpace,plsqlSqlPlusDefine
-        \ fold
+                \ start="/\*" end="\*/"
+                \ extend
+                \ contains=@plsqlCommentGroup,plsqlSpaceError,plsqlIllegalSpace,plsqlSqlPlusDefine
+                \ fold
 else
     syntax region plsqlComment
-        \ start="/\*" end="\*/"
-        \ extend
-        \ contains=@plsqlCommentGroup,plsqlSpaceError,plsqlIllegalSpace,plsqlSqlPlusDefine
+                \ start="/\*" end="\*/"
+                \ extend
+                \ contains=@plsqlCommentGroup,plsqlSpaceError,plsqlIllegalSpace,plsqlSqlPlusDefine
 endif
 syn cluster plsqlCommentAll contains=plsqlCommentL,plsqlComment
 
@@ -708,22 +709,22 @@ if get(g:,"plsql_fold",0) == 1
     syn cluster plsqlOnlyGroup contains=@plsqlProcedure,plsqlConditionalBlock,plsqlLoopBlock,plsqlBlock,plsqlCursor
 
     syntax region plsqlUpdateSet
-        \ start="\(\<update\>\_s\+\(\<set\>\)\@![a-z][a-z0-9$_#]*\_s\+\(\(\<set\>\)\@![a-z][a-z0-9$_#]*\_s\+\)\?\)\|\(\<when\>\_s\+\<matched\>\_s\+\<then\>\_s\+\<update\>\_s\+\)\<set\>"
-        \ end="\(\_s*\(;\|\<from\>\|\<where\>\|\<when\>\)\)\@="
-        \ fold
-        \ keepend 
-        \ extend
-        \ transparent
-        \ contains=ALLBUT,@plsqlOnlyGroup,plsqlSelect
+                \ start="\(\<update\>\_s\+\(\<set\>\)\@![a-z][a-z0-9$_#]*\_s\+\(\(\<set\>\)\@![a-z][a-z0-9$_#]*\_s\+\)\?\)\|\(\<when\>\_s\+\<matched\>\_s\+\<then\>\_s\+\<update\>\_s\+\)\<set\>"
+                \ end="\(\_s*\(;\|\<from\>\|\<where\>\|\<when\>\)\)\@="
+                \ fold
+                \ keepend 
+                \ extend
+                \ transparent
+                \ contains=ALLBUT,@plsqlOnlyGroup,plsqlSelect
 
     syntax region plsqlSelect
-        \ start="\<select\>"
-        \ end="\(\_s*\<from\>\)\@="
-        \ fold
-        \ keepend 
-        \ extend
-        \ transparent
-        \ contains=ALLBUT,@plsqlOnlyGroup,plsqlUpdateSet
+                \ start="\<select\>"
+                \ end="\(\_s*\<from\>\)\@="
+                \ fold
+                \ keepend 
+                \ extend
+                \ transparent
+                \ contains=ALLBUT,@plsqlOnlyGroup,plsqlUpdateSet
 
     if get(g:,"plsql_disable_procedure_fold",0) == 0
         " this is brute force and requires you have the procedure/function name in the END
@@ -740,64 +741,64 @@ if get(g:,"plsql_fold",0) == 1
         " this can be expensive because it searches to end of file on every
         " procedure/function declaration
         "
-            "\ start="\(create\(\_s\+or\_s\+replace\)\?\_s\+\)\?\<\(procedure\|function\)\>\_s\+\z([a-z][a-z0-9$_#]*\)"
+                    "\ start="\(create\(\_s\+or\_s\+replace\)\?\_s\+\)\?\<\(procedure\|function\)\>\_s\+\z([a-z][a-z0-9$_#]*\)"
         syntax region plsqlProcedure
-            \ start="\<\(procedure\|function\)\>\_s\+\(\z([a-z][a-z0-9$_#]*\)\)\([^;]\|\n\)\{-}\<\(is\|as\)\>\_.\{-}\(\<end\>\_s\+\2\_s*;\)\@="
-            \ end="\<end\>\_s\+\z1\_s*;"
-            \ fold
-            \ keepend 
-            \ extend
-            \ transparent
-            \ contains=ALLBUT,plsqlBlock
+                    \ start="\<\(procedure\|function\)\>\_s\+\(\z([a-z][a-z0-9$_#]*\)\)\([^;]\|\n\)\{-}\<\(is\|as\)\>\_.\{-}\(\<end\>\_s\+\2\_s*;\)\@="
+                    \ end="\<end\>\_s\+\z1\_s*;"
+                    \ fold
+                    \ keepend 
+                    \ extend
+                    \ transparent
+                    \ contains=ALLBUT,plsqlBlock
     endif
 
     syntax region plsqlCursor
-        \ start="\<cursor\>\_s\+[a-z][a-z0-9$_#]*\(\_s*([^)]\+)\)\?\(\_s\+return\_s\+\S\+\)\?\_s\+is"
-        \ end=";"
-        \ fold
-        \ keepend 
-        \ extend
-        \ transparent
-        \ contains=ALLBUT,@plsqlOnlyGroup
+                \ start="\<cursor\>\_s\+[a-z][a-z0-9$_#]*\(\_s*([^)]\+)\)\?\(\_s\+return\_s\+\S\+\)\?\_s\+is"
+                \ end=";"
+                \ fold
+                \ keepend 
+                \ extend
+                \ transparent
+                \ contains=ALLBUT,@plsqlOnlyGroup
 
     syntax region plsqlBlock
-        \ start="\<begin\>"
-        "\ end="\<end\>\_s*\;"
-        \ end="\<end\>\(\_s\+\(if\|loop\|case\)\@![a-z][a-z0-9$_#]*\)\?\_s*;"
-        \ fold
-        \ transparent
-        \ contains=ALLBUT,@plsqlProcedureGroup,plsqlPackage,plsqlErrInBracket,PlsqlProcedureJava
-        \ keepend 
-        \ extend
+                \ start="\<begin\>"
+                "\ end="\<end\>\_s*\;"
+                \ end="\<end\>\(\_s\+\(if\|loop\|case\)\@![a-z][a-z0-9$_#]*\)\?\_s*;"
+                \ fold
+                \ transparent
+                \ contains=ALLBUT,@plsqlProcedureGroup,plsqlPackage,plsqlErrInBracket,PlsqlProcedureJava
+                \ keepend 
+                \ extend
 
     syn region plsqlCaseBlock
-        \ transparent
-        \ start="\<case\>\(\_s*;\)\@!"
-        \ end="\<end\>\(\_s\+case\_s*;\)\?"
-        \ fold
-        \ contains=ALLBUT,@plsqlProcedureGroup,plsqlPackage,plsqlErrInBracket,PlsqlProcedureJava
-        \ keepend 
-        \ extend
-        "\ contained
+                \ transparent
+                \ start="\<case\>\(\_s*;\)\@!"
+                \ end="\<end\>\(\_s\+case\_s*;\)\?"
+                \ fold
+                \ contains=ALLBUT,@plsqlProcedureGroup,plsqlPackage,plsqlErrInBracket,PlsqlProcedureJava
+                \ keepend 
+                \ extend
+                "\ contained
 
     syntax region plsqlLoopBlock
-        \ transparent
-        \ start="\<loop\>\(\_s*;\)\@!"
-        \ end="\<end\>\(\_s\+\<loop\>\)\?\_s*;"
-        \ fold
-        \ keepend extend
-        \ contained
-        \ contains=ALLBUT,@plsqlProcedureGroup,plsqlPackage,plsqlErrInBracket,PlsqlProcedureJava
-    
+                \ transparent
+                \ start="\<loop\>\(\_s*;\)\@!"
+                \ end="\<end\>\(\_s\+\<loop\>\)\?\_s*;"
+                \ fold
+                \ keepend extend
+                \ contained
+                \ contains=ALLBUT,@plsqlProcedureGroup,plsqlPackage,plsqlErrInBracket,PlsqlProcedureJava
+
     syn region plsqlConditionalBlock
-        \ transparent
-        \ start="\<if\>\(\_s*;\)\@!"
-        \ end="\<end\>\_s\+\<if\>\_s*;"
-        \ fold
-        \ keepend extend
-        \ contained
-        \ contains=ALLBUT,@plsqlProcedureGroup,plsqlPackage,plsqlErrInBracket,PlsqlProcedureJava
-    
+                \ transparent
+                \ start="\<if\>\(\_s*;\)\@!"
+                \ end="\<end\>\_s\+\<if\>\_s*;"
+                \ fold
+                \ keepend extend
+                \ contained
+                \ contains=ALLBUT,@plsqlProcedureGroup,plsqlPackage,plsqlErrInBracket,PlsqlProcedureJava
+
 else
     " Syntax Synchronizing
     syn sync minlines=1000 maxlines=2000
@@ -828,6 +829,7 @@ hi def link plsqlHostIdentifier     Label
 hi def link plsqlLabel              Label
 hi def link plsqlIdentifier	        Identifier
 hi def link plsqlIntLiteral	        Number
+hi def link plsqlArrow              Special
 hi def link plsqlOperator	        Operator
 hi def link plsqlParenError	        Error
 hi def link plsqlSpaceError	        Error
