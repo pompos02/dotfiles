@@ -1,13 +1,13 @@
 require("config.lazy")
-vim.cmd.colorscheme("kanagawa")
-vim.opt.background = "dark"
 require("config.options")
 require("config.keymaps")
 require("config.lsp")
 
+vim.opt.background = "dark"
+vim.cmd.colorscheme("kanagawa")
+
 vim.opt.shiftwidth = 4
 vim.o.winborder = "rounded"
-
 
 -- Highlight on yank
 vim.api.nvim_create_autocmd("TextYankPost", {
