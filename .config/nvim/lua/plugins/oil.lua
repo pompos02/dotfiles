@@ -15,7 +15,7 @@ return {
       show_hidden = true,
     },
     float = {
-      padding = 5,
+      padding = 8,
     },
     default_file_explorer = true,
   },

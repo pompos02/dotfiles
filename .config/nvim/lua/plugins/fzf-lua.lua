@@ -106,18 +106,22 @@ return {
             ["--ansi"] = true,
             ["--info"] = "inline-right",
             ["--height"] = "100%",
-            ["--layout"] = "reverse",
+            ["--layout"] = "default",
             ["--border"] = "none",
         },
         files = {
             prompt = "Files❯ ",
             multiprocess = true,
-            git_icons = true,
+            formatter = "path.filename_first",
+            git_icons = false,
             file_icons = true,
             color_icons = true,
             find_opts = [[-type f \! -path '*/.git/*']],
             rg_opts = [[--color=never --files --hidden --follow -g "!.git"]],
             fd_opts = [[--color=never --type f --hidden --follow --exclude .git]],
+            fzf_opts = {
+                ["--layout"] = "default",
+            },
         },
         grep = {
             prompt = "Rg❯ ",
@@ -130,6 +134,16 @@ return {
             rg_glob = true,
             glob_flag = "--iglob",
             glob_separator = "%s%-%-",
+            fzf_opts = {
+
+                ["--layout"] = "default",
+            },
+            winopts = {
+                preview = {
+                    layout = "vertical",
+                    vertical = "up:75%",
+                },
+            },
         },
         git = {
             status = {

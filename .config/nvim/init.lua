@@ -1,6 +1,6 @@
 
 require("config.lazy")
-vim.cmd.colorscheme("modus")
+vim.cmd.colorscheme("kanagawa")
 vim.opt.background = "dark"
 require("config.options")
 require("config.keymaps")

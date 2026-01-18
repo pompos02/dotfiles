@@ -62,6 +62,19 @@ map("n", "<leader>dd", function()
     vim.diagnostic.config({ virtual_text = not cfg.virtual_text })
 end, { desc = "Disable diagnostics for buffer" })
 
+-- keymap to toggle completions on/off
+map("n", "<leader>ct", function()
+    local _, config = pcall(require, "blink.cmp.config")
+    local menu = require("blink.cmp.completion.windows.menu")
+    local current = config.completion.menu.auto_show
+
+    config.completion.menu.auto_show = not current
+    if menu and menu.reset_auto_show then
+        menu.reset_auto_show()
+    end
+    vim.notify("blink.cmp auto-show: " .. (config.completion.menu.auto_show and "on" or "off"))
+end, { desc = "Toggle blink.cmp auto-show" })
+
 -- Quickfix navigation
 map("n", "[q", function()
     local ok, err = pcall(vim.cmd.cprev)

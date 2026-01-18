@@ -5,5 +5,6 @@ return {
     "folke/tokyonight.nvim",
     "craftzdog/solarized-osaka.nvim",
     "rebelot/kanagawa.nvim",
+    "navarasu/onedark.nvim",
 }
 
