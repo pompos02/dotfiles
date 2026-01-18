@@ -1,4 +1,3 @@
-
 require("config.lazy")
 vim.cmd.colorscheme("kanagawa")
 vim.opt.background = "dark"
@@ -8,7 +7,6 @@ require("config.lsp")
 
 vim.opt.shiftwidth = 4
 vim.o.winborder = "rounded"
-
 
 
 -- Highlight on yank

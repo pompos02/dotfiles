@@ -34,7 +34,7 @@ return {
         { "<leader>gS",       "<cmd>FzfLua git_stash<cr>",                      desc = "Git Stash" },
 
         { "<leader>lr",       "<cmd>FzfLua lsp_references<cr>",                 desc = "LSP References" },
-        { "gd",               "<cmd>FzfLua lsp_definitions<cr>",                desc = "LSP Definitions" },
+        -- { "gd",               "<cmd>FzfLua lsp_definitions<cr>",                desc = "LSP Definitions" },
         { "<leader>lD",       "<cmd>FzfLua lsp_declarations<cr>",               desc = "LSP Declarations" },
         { "<leader>lt",       "<cmd>FzfLua lsp_typedefs<cr>",                   desc = "LSP Type Definitions" },
         { "<leader>li",       "<cmd>FzfLua lsp_implementations<cr>",            desc = "LSP Implementations" },

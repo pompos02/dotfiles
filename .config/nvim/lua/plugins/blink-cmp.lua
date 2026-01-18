@@ -10,7 +10,6 @@ return {
                 opts = {},
                 version = "*",
             },
-            { "onsails/lspkind.nvim" },
             { "nvim-tree/nvim-web-devicons" },
         },
         event = "InsertEnter",
