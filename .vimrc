@@ -3,8 +3,8 @@ let mapleader = " "
 let maplocalleader = "\\"
 
 set background=dark
-set colorscheme default
-"
+"colorscheme elflord
+set t_Co=16
 " Enable syntax and filetype detection/plugins/indent
 syntax enable
 filetype plugin indent on
@@ -16,23 +16,16 @@ set hlsearch
 set incsearch
 set noswapfile
 set number
-set relativenumber
 set shiftround
 set completeopt=menu,menuone,noselect
 set path+=**
-set conceallevel=2
 set confirm
 set expandtab
-if exists('+inccommand')
-    set inccommand=nosplit
-endif
-set linebreak
 set mouse=a
-set noruler
+set ruler
 set scrolloff=10
 set sessionoptions=buffers,curdir,tabpages,winsize,help,folds
 set sidescrolloff=8
-set signcolumn=yes
 set smartcase
 set ignorecase
 set smartindent
@@ -43,18 +36,16 @@ if exists('+splitkeep')
 endif
 set splitright
 
-"set termguicolors
-
 set undofile
 set undolevels=10000
 set updatetime=200
 set virtualedit=block
 set wildmode=longest:full,full
+set wildmenu
 set winminwidth=5
 set nowrap
 set cursorline
 set showtabline=1
-set guicursor=n-v-c-sm:block,i-ci-ve:block-blinkwait500-blinkoff200-blinkon200,r-cr-o:hor20
 let &colorcolumn = '80'
 set shiftwidth=4
 set laststatus=2
@@ -93,41 +84,6 @@ nnoremap <silent> ]q :cnext<CR>
 " File explorer (netrw)
 nnoremap <silent> <leader>e :Explore<CR>
 nnoremap <silent> <leader>E :execute 'Explore ' . getcwd()<CR>
-
-" Statusline ---------------------------------------------------------
-function! s:GitBranch() abort
-    let l:out = systemlist('git branch --show-current 2>/dev/null')
-    if len(l:out) > 0 && !empty(l:out[0])
-        return '[' . l:out[0] . '] '
-    endif
-    return ''
-endfunction
-
-function! Statusline() abort
-    let l:fname = expand('%:.')
-    if empty(l:fname)
-        let l:fname = '[No Name]'
-    endif
-    let l:mod = &modified ? '[+]' : ''
-    return s:GitBranch() . l:fname . l:mod . '%=' . strftime('%H:%M')
-endfunction
-set statusline=%!Statusline()
-
-function! s:StatuslineColors() abort
-    let l:n_fg = synIDattr(hlID('Normal'), 'fg#')
-    let l:n_bg = synIDattr(hlID('Normal'), 'bg#')
-    let l:cl_bg = hlexists('CursorLine') ? synIDattr(hlID('CursorLine'), 'bg#') : ''
-    let l:bg = empty(l:cl_bg) ? (empty(l:n_bg) ? 'NONE' : l:n_bg) : l:cl_bg
-    let l:fg = empty(l:n_fg) ? 'NONE' : l:n_fg
-    execute 'hi StatusLine guibg=' . l:bg . ' guifg=' . l:fg
-    execute 'hi StatusLineNC guibg=' . l:bg . ' guifg=' . l:fg
-endfunction
-
-augroup CustomStatusline
-    autocmd!
-    autocmd BufEnter,BufWritePost,WinEnter,ColorScheme * redrawstatus | call s:StatuslineColors()
-augroup END
-call s:StatuslineColors()
 
 " Filetype-specific settings ----------------------------------------
 augroup FiletypeSettings
