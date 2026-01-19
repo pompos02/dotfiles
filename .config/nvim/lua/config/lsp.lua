@@ -58,5 +58,6 @@ vim.lsp.enable({
     "lua_ls",
     "marksman",
     "ts_ls",
+    "sqls",
 })
 

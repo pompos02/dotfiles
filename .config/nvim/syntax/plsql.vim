@@ -827,7 +827,7 @@ hi def link plsqlFunction	        Function
 hi def link plsqlGarbage	        Error
 hi def link plsqlHostIdentifier     Label
 hi def link plsqlLabel              Label
-hi def link plsqlIdentifier	        Identifier
+hi def link plsqlIdentifier	        Variable
 hi def link plsqlIntLiteral	        Number
 hi def link plsqlArrow              Special
 hi def link plsqlOperator	        Operator

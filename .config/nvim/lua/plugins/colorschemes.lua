@@ -7,6 +7,6 @@ return {
     "folke/tokyonight.nvim",
     "craftzdog/solarized-osaka.nvim",
     "navarasu/onedark.nvim",
-    { import = "plugins.kanagawa" },
+    "rebelot/kanagawa.nvim",
 }
 
