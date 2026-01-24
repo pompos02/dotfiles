@@ -16,10 +16,11 @@ export PATH="${PATH:+${PATH}:}/home/karavellas/.fzf/bin"
 export PATH="$PATH:/opt/sqlcl/bin"
 
 # oracle environment variables
-export ORACLE_HOME=/opt/oracle/instantclient_23_26
+export ORACLE_HOME=/opt/oracle/instantclient_19_29
 export LD_LIBRARY_PATH=$ORACLE_HOME
 export PATH=$PATH:$ORACLE_HOME
 export TNS_ADMIN=/opt/oracle/wallet
+export PATH=/opt/oracle/instantclient_19_29/sdk:$PATH
 
 
 # #  # tmux can start bash with empty/invalid PWD; \W then prints nothing

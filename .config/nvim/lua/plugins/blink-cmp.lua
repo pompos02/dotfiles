@@ -46,6 +46,7 @@ return {
 
                 menu = {
                     draw = {
+                        columns = { { "kind_icon" }, { "label", "label_description", gap = 1 }, { "kind" } },
                         components = {
                             kind_icon = {
                                 text = function(ctx)
@@ -58,7 +59,6 @@ return {
                                     end
 
                                     return icon .. ctx.icon_gap
-
                                 end,
 
                                 -- Optionally, use the highlight groups from nvim-web-devicons
@@ -77,7 +77,7 @@ return {
                             },
                         },
                     },
-                    auto_show = false
+                    auto_show = true
                 },
 
                 documentation = {
@@ -102,11 +102,18 @@ return {
             -- Sources configuration
             sources = {
                 default = { "lsp", "buffer", "snippets", "path" },
-                -- per_filetype = {
-                --     sql = { "dadbod" },
-                -- },
+                per_filetype = {
+                    sql = { "oravim" },
+                    plsql = { "oravim", "buffer" }, -- or swap to { "oravim" } if you want it there
+                },
                 providers = {
                     -- dadbod = { module = "vim_dadbod_completion.blink" },
+                    oravim = {
+                        name = "Oravim",
+                        module = "oravim.blink",
+                        score_offset = 100,
+                    },
+
                     lsp = {
                         name = "LSP",
                         module = "blink.cmp.sources.lsp",
@@ -155,17 +162,16 @@ return {
         },
 
         -- config = function(_, opts)
-            --     -- Setup Tab key behavior
-            --     if not opts.keymap["<Tab>"] then
-            --         opts.keymap["<Tab>"] = { "select_and_accept", "fallback" }
-            --     end
-            --
-            --     if not opts.keymap["<S-Tab>"] then
-            --         opts.keymap["<S-Tab>"] = { "select_prev", "fallback" }
-            --     end
-            --
-            --     require("blink.cmp").setup(opts)
-            -- end,
-        },
-    }
-
+        --     -- Setup Tab key behavior
+        --     if not opts.keymap["<Tab>"] then
+        --         opts.keymap["<Tab>"] = { "select_and_accept", "fallback" }
+        --     end
+        --
+        --     if not opts.keymap["<S-Tab>"] then
+        --         opts.keymap["<S-Tab>"] = { "select_prev", "fallback" }
+        --     end
+        --
+        --     require("blink.cmp").setup(opts)
+        -- end,
+    },
+}

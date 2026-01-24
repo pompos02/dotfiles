@@ -6,6 +6,7 @@ require("config.lsp")
 vim.opt.background = "dark"
 vim.cmd.colorscheme("kanagawa")
 
+
 vim.opt.shiftwidth = 4
 vim.o.winborder = "rounded"
 
@@ -18,6 +19,7 @@ vim.api.nvim_create_autocmd("TextYankPost", {
     end,
 })
 
+vim.filetype.add({ extension = { pc = "cpp", }, })
 vim.filetype.add({
     extension = {
         pkb = "plsql",

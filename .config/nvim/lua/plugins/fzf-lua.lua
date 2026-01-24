@@ -34,7 +34,7 @@ return {
         { "<leader>gS",       "<cmd>FzfLua git_stash<cr>",                      desc = "Git Stash" },
 
         { "<leader>lr",       "<cmd>FzfLua lsp_references<cr>",                 desc = "LSP References" },
-        -- { "gd",               "<cmd>FzfLua lsp_definitions<cr>",                desc = "LSP Definitions" },
+        { "gd",               "<cmd>FzfLua lsp_definitions<cr>",                desc = "LSP Definitions" },
         { "<leader>lD",       "<cmd>FzfLua lsp_declarations<cr>",               desc = "LSP Declarations" },
         { "<leader>lt",       "<cmd>FzfLua lsp_typedefs<cr>",                   desc = "LSP Type Definitions" },
         { "<leader>li",       "<cmd>FzfLua lsp_implementations<cr>",            desc = "LSP Implementations" },
@@ -118,7 +118,7 @@ return {
             color_icons = true,
             find_opts = [[-type f \! -path '*/.git/*']],
             rg_opts = [[--color=never --files --hidden --follow -g "!.git"]],
-            fd_opts = [[--color=never --type f --hidden --follow --exclude .git]],
+            fd_opts = [[--color=never --type f --hidden --follow --exclude .git --exclude *.c --exclude .cache]],
             fzf_opts = {
                 ["--layout"] = "default",
             },
@@ -158,6 +158,12 @@ return {
             async_or_timeout = 5000,
             file_icons = true,
             git_icons = false,
+            winopts = {
+                preview = {
+                    layout = "vertical",
+                    vertical = "up:75%",
+                },
+            },
             symbols = {
                 symbol_style = 1,
                 symbol_icons = {
