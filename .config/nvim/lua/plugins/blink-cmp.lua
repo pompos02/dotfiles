@@ -18,8 +18,6 @@ return {
             -- Keymap presets and customizations
             keymap = {
                 preset = "enter",
-                ["<C-j>"] = { "select_next", "fallback" },
-                ["<C-k>"] = { "select_prev", "fallback" },
                 ["<C-l>"] = { "snippet_forward", "fallback" },
                 ["<C-h>"] = { "snippet_backward", "fallback" },
                 ["<C-e>"] = { "cancel", "fallback" },
@@ -111,7 +109,7 @@ return {
                     plsql = {
                         name = 'plsql',
                         module = 'blink-cmp-plsql',
-                        score_offset = 80,
+                        score_offset = 81,
                     },
                     oravim = {
                         name = "Oravim",
@@ -166,17 +164,47 @@ return {
             },
         },
 
-        -- config = function(_, opts)
-        --     -- Setup Tab key behavior
-        --     if not opts.keymap["<Tab>"] then
-        --         opts.keymap["<Tab>"] = { "select_and_accept", "fallback" }
-        --     end
-        --
-        --     if not opts.keymap["<S-Tab>"] then
-        --         opts.keymap["<S-Tab>"] = { "select_prev", "fallback" }
-        --     end
-        --
-        --     require("blink.cmp").setup(opts)
-        -- end,
+        -- remove duplicates from the sources
+        config = function(_, opts)
+
+            require("blink.cmp").setup(opts)
+
+            local list = require("blink.cmp.completion.list")
+            local original_fuzzy = list.fuzzy
+            local priority = {
+                lsp = 1,
+                oravim = 2,
+                plsql = 3,
+                snippets = 4,
+                buffer = 5,
+                path = 6,
+            }
+
+            list.fuzzy = function(context, items_by_source)
+                local items = original_fuzzy(context, items_by_source)
+                local best_by_label = {}
+
+                for _, item in ipairs(items) do
+                    local label = item.label or ""
+                    local source_id = item.source_id or ""
+                    local score = priority[source_id] or 100
+                    local current = best_by_label[label]
+                    if not current or score < current.score then
+                        best_by_label[label] = { item = item, score = score }
+                    end
+                end
+
+                local deduped = {}
+                for _, item in ipairs(items) do
+                    local label = item.label or ""
+                    local best = best_by_label[label]
+                    if best and best.item == item then
+                        table.insert(deduped, item)
+                    end
+                end
+
+                return deduped
+            end
+        end,
     },
 }
