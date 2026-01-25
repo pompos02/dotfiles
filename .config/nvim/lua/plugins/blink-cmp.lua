@@ -11,6 +11,7 @@ return {
                 version = "*",
             },
             { "nvim-tree/nvim-web-devicons" },
+            { "pompos02/blink-cmp-plsql.nvim" },
         },
         event = "InsertEnter",
         opts = {
@@ -103,14 +104,14 @@ return {
             sources = {
                 default = { "lsp", "buffer", "snippets", "path" },
                 per_filetype = {
-                    plsql = { "oravim", "buffer", "plsql"},
+                    plsql = { "oravim", "buffer", "plsql" },
                 },
                 providers = {
                     -- dadbod = { module = "vim_dadbod_completion.blink" },
                     plsql = {
                         name = 'plsql',
                         module = 'blink-cmp-plsql',
-                        score_offset = 10,
+                        score_offset = 80,
                     },
                     oravim = {
                         name = "Oravim",
@@ -143,7 +144,7 @@ return {
                     buffer = {
                         name = "Buffer",
                         module = "blink.cmp.sources.buffer",
-                        score_offset = 20,
+                        score_offset = 80,
                     },
                 },
             },
