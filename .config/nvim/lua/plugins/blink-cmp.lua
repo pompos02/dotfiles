@@ -103,11 +103,15 @@ return {
             sources = {
                 default = { "lsp", "buffer", "snippets", "path" },
                 per_filetype = {
-                    sql = { "oravim" },
-                    plsql = { "oravim", "buffer" }, -- or swap to { "oravim" } if you want it there
+                    plsql = { "oravim", "buffer", "plsql"},
                 },
                 providers = {
                     -- dadbod = { module = "vim_dadbod_completion.blink" },
+                    plsql = {
+                        name = 'plsql',
+                        module = 'blink-cmp-plsql',
+                        score_offset = 10,
+                    },
                     oravim = {
                         name = "Oravim",
                         module = "oravim.blink",
@@ -139,7 +143,7 @@ return {
                     buffer = {
                         name = "Buffer",
                         module = "blink.cmp.sources.buffer",
-                        score_offset = 10,
+                        score_offset = 20,
                     },
                 },
             },
