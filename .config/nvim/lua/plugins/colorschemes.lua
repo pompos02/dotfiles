@@ -8,5 +8,5 @@ return {
     "craftzdog/solarized-osaka.nvim",
     "navarasu/onedark.nvim",
     "rebelot/kanagawa.nvim",
+    "scottmckendry/cyberdream.nvim",
 }
-

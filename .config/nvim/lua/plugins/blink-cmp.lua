@@ -126,13 +126,13 @@ return {
                     path = {
                         name = "Path",
                         module = "blink.cmp.sources.path",
-                        score_offset = 30,
+                        score_offset = 55,
                     },
 
                     snippets = {
                         name = "Snippets",
                         module = "blink.cmp.sources.snippets",
-                        score_offset = 80,
+                        score_offset = 50,
                         opts = {
                             friendly_snippets = true,
                             search_paths = { vim.fn.stdpath("config") .. "/snippets" },

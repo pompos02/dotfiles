@@ -1,2 +1,2 @@
-vim.b.completion = false
+-- vim.b.completion = false
 vim.opt.wrap = true
