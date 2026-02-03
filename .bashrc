@@ -47,7 +47,7 @@ alias python='python3'
 alias grep='grep --color=auto'
 alias vim='nvim'
 alias bat='batcat'
-# alias ..="cd .."
+alias lazy='NVIM_APPNAME=lazy nvim'
 
 
 eval "$(fzf --bash)"
@@ -93,8 +93,15 @@ if [[ -z "$TMUX" ]] && [[ -n "$WSL_DISTRO_NAME" ]] && [[ -t 1 ]]; then
     tmux attach -t karavellas || tmux new -s karavellas
 fi
 
+export NVM_DIR="$HOME/.nvm"
+
+nvm() {
+  unset -f nvm
+  [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
+  [ -s "$NVM_DIR/bash_completion" ] && . "$NVM_DIR/bash_completion"
+  nvm "$@"
+}
 # uncomment this to be able to use nvm
-# export NVM_DIR="$HOME/.nvm"
 # [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
 # [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 

@@ -16,7 +16,8 @@ return {
         { "<leader>fv",       "<cmd>FzfLua grep_visual<cr>",                    desc = "Grep Visual Selection",       mode = "v", },
         { "<leader>fl",       "<cmd>FzfLua blines<cr>",                         desc = "Buffer Lines" },
         { "<leader>fL",       "<cmd>FzfLua lines<cr>",                          desc = "All Lines" },
-        { "<leader>ft",       "<cmd>FzfLua treesitter<cr>",                     desc = "Treesitter Symbols" },
+        { "<leader>fT",       "<cmd>FzfLua treesitter<cr>",                     desc = "Treesitter Symbols" },
+        { "<leader>ft",       "<cmd>FzfLua tabs<cr>",                           desc = "All Tabs" },
         { "<leader>fq",       "<cmd>FzfLua quickfix<cr>",                       desc = "Quickfix List" },
         { "<leader>fj",       "<cmd>FzfLua jumps<cr>",                          desc = "Jump List" },
         { "<leader>fR",       "<cmd>FzfLua registers<cr>",                      desc = "Registers" },
@@ -118,7 +119,7 @@ return {
             color_icons = true,
             find_opts = [[-type f \! -path '*/.git/*']],
             rg_opts = [[--color=never --files --hidden --follow -g "!.git"]],
-            fd_opts = [[--color=never --type f --hidden --follow --exclude .git --exclude *.c --exclude .cache]],
+            fd_opts = [[--color=never --type f --hidden --follow --exclude .git --exclude .cache]],
             fzf_opts = {
                 ["--layout"] = "default",
             },

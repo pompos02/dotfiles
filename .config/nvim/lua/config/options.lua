@@ -2,6 +2,7 @@ local opt = vim.opt
 opt.number = true
 opt.relativenumber = true
 opt.shiftround = true -- Round indent
+vim.opt.swapfile = false
 -- only set clipboard if not in ssh, to make sure the OSC 52
 -- integration works automatically. Requires Neovim >= 0.10.0
 opt.clipboard = vim.env.SSH_TTY and "" or "unnamedplus" -- Sync with system clipboard
@@ -37,6 +38,8 @@ opt.tabstop = 2                                         -- Number of spaces tabs
 opt.termguicolors = true                                -- True color support
 opt.undofile = true
 opt.undolevels = 10000
+opt.foldlevel = 99
+opt.foldlevelstart = 99
 
 opt.updatetime = 750                                                                            -- Save swap file and trigger CursorHold
 opt.virtualedit = "block"                                                                       -- Allow cursor to move where there is no text in visual block mode
@@ -51,6 +54,26 @@ opt.colorcolumn = "80"
 opt.grepprg = "rg --vimgrep -uu --glob '!.git/**' --glob '!**/.git/**'"
 opt.showbreak = "↳ "
 opt.wildmenu = true
+
+-- Setup folding
+vim.api.nvim_create_autocmd("FileType", {
+    group = vim.api.nvim_create_augroup("folding_defaults", { clear = true }),
+    callback = function()
+        local ft = vim.bo.filetype
+        if ft == "" then
+            return
+        end
+
+        local ok = pcall(vim.treesitter.get_parser, 0, ft)
+        local has_folds = ok and pcall(vim.treesitter.query.get, ft, "folds")
+        if has_folds then
+            vim.opt_local.foldmethod = "expr"
+            vim.opt_local.foldexpr = "v:lua.vim.treesitter.foldexpr()"
+        else
+            vim.opt_local.foldmethod = "indent"
+        end
+    end,
+})
 
 -- force syntax native syntax hilighting in markdown
 vim.g.markdown_fenced_languages = {
@@ -74,4 +97,3 @@ vim.g.markdown_fenced_languages = {
     "xml",
     "yaml",
 }
-
