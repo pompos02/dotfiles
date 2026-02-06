@@ -65,15 +65,17 @@ short_pwd() {
 }
 
 # Prompt (Kanagawa)
-PS1='$(ret=$?;(($ret!=0)) && echo "\[\033[38;2;192;64;67m\]($ret)\[\033[0m\] ")'  # exit code (red)
-PS1+='\[\033[38;2;200;192;147m\]['  # opening bracket (white)
+PROMPT_COMMAND='__ret=$?'
+PS1='┌\[\033[38;2;200;192;147m\]['  # opening bracket (white)
 PS1+='$(((UID==0)) && echo "\[\033[38;2;192;64;67m\]")\u@\h\[\033[0m\]'  # user@host (red for root)
 PS1+='\[\033[38;2;200;192;147m\]]'  # closing bracket (white)
 PS1+='\[\033[38;2;200;192;147m\]-('  # separator (white)
 PS1+='\[\033[38;2;152;187;108m\]$(short_pwd)\[\033[0m\]'  # shortened path (green)
 PS1+='\[\033[38;2;200;192;147m\])'  # separator (white)
 PS1+='$(branch=$(git rev-parse --abbrev-ref HEAD 2>/dev/null); [[ -n $branch ]] && echo "\[\033[38;2;200;192;147m\]-[\[\033[38;2;149;127;184m\]git://$branch\[\033[0m\]\[\033[38;2;200;192;147m\]]\[\033[0m\]")'  # git branch (magenta)
-PS1+='\[\033[38;2;200;192;147m\] \$ \[\033[0m\]'  # prompt character (white)
+PS1+='\[\033[38;2;200;192;147m\]\[\033[0m\]'  # right-angle corner (white)
+PS1+='$(ret=$__ret;(($ret!=0)) && echo " \[\033[38;2;192;64;67m\]($ret)\[\033[0m\]")'  # exit code (red)
+PS1+='\n\[\033[38;2;200;192;147m\]└─ \$ \[\033[0m\]'  # second line + prompt (white)
 
 export HISTSIZE=5000
 export HISTFILESIZE=20000
