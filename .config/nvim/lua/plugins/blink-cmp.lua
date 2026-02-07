@@ -102,7 +102,7 @@ return {
             sources = {
                 default = { "lsp", "buffer", "snippets", "path" },
                 per_filetype = {
-                    plsql = { "oravim", "buffer", "plsql" },
+                    plsql = { "oravim", "buffer", "plsql", "snippets" },
                 },
                 providers = {
                     -- dadbod = { module = "vim_dadbod_completion.blink" },
@@ -126,13 +126,13 @@ return {
                     path = {
                         name = "Path",
                         module = "blink.cmp.sources.path",
-                        score_offset = 55,
+                        score_offset = 80,
                     },
 
                     snippets = {
                         name = "Snippets",
                         module = "blink.cmp.sources.snippets",
-                        score_offset = 50,
+                        score_offset = 79,
                         opts = {
                             friendly_snippets = true,
                             search_paths = { vim.fn.stdpath("config") .. "/snippets" },
