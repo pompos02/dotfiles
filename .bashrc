@@ -37,7 +37,7 @@ short_pwd() {
 
   if [[ "$path" == "$HOME"* ]]; then
     prefix="~"
-    path="${path#$HOME}"
+    path="${path#"$HOME"}"
   fi
 
   local IFS=/
@@ -64,12 +64,11 @@ short_pwd() {
   echo "$out"
 }
 
-# Prompt (standard ANSI colors)
-PS1='┌\[\033[39m\]'  # opening bracket (terminal fg)
+PS1='┌\[\033[39m\]'
 PS1+='[\u@\h]-('
-PS1+='\[\033[38;5;226m\]$(short_pwd)\[\033[0m\])'  # Now ANSI 226 Yellow
-PS1+='$(branch=$(git rev-parse --abbrev-ref HEAD 2>/dev/null); [[ -n $branch ]] && echo "\[\033[39m\]-[\[\033[96m\]git://$branch\[\033[0m\]\[\033[39m\]]\[\033[0m\]")'  # git branch (bright cyan)
-PS1+='\n└> '  # second line + prompt (bright green)
+PS1+='\[\033[38;5;226m\]$(short_pwd)\[\033[0m\])'
+PS1+='$(branch=$(git branch --show-current 2>/dev/null); if [[ -n $branch ]]; then upstream=$(git rev-parse --abbrev-ref --symbolic-full-name @{u} 2>/dev/null || echo "no upstream"); echo "\[\033[39m\]-[\[\033[92m\]$branch->$upstream\[\033[0m\]\[\033[39m\]]\[\033[0m\]"; fi)'  # git branch + upstream (bright green)
+PS1+='\n└> '
 
 
 export HISTSIZE=5000
@@ -101,12 +100,6 @@ my_ip() {
     ip address | grep -o "inet 192.*/" | awk '{ print $2 }' | tr / ' ' | xargs
 }
 
-
-conda() {
-    unset -f conda
-    . "/opt/miniconda3/etc/profile.d/conda.sh"
-    conda "$@"
-}
 
 man() {
     nvim -c "Man $* | only"

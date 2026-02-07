@@ -3,6 +3,8 @@ require("config.options")
 require("config.keymaps")
 require("config.lsp")
 
+vim.g.plsql_fold = 1
+
 vim.opt.background = "dark"
 vim.cmd.colorscheme("yara")
 
