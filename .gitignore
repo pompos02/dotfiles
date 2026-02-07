@@ -9,4 +9,6 @@ oracle_clinet_wsl.md
 .config/nvim/pack/vendor/start/solarized-osaka.nvim/
 .config/nvim/pack/vendor/start/vim-dadbod-ui/
 .config/nvim/pack/vendor/start/vim-dadbod/
+misirlou.lua
+yara.lua
 

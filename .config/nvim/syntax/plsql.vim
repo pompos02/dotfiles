@@ -851,9 +851,9 @@ hi def link plsqlTypeAttribute      Type
 hi def link plsqlTodo		        Todo
 
 hi def link plsqlIllegalSpace       Error
-hi def link plsqlSqlPlusDefine      Define
-hi def link plsqlSqlPlusCommand     PreProc
-hi def link plsqlSqlPlusRunFile     Include
+hi def link plsqlSqlPlusDefine      Special
+hi def link plsqlSqlPlusCommand     Special
+hi def link plsqlSqlPlusRunFile     Special
 hi def link plsqlSqlPlusCommentL    Comment
 
 " to be able to change them after loading, need override whether defined or not

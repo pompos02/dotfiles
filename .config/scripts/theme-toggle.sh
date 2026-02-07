@@ -16,7 +16,7 @@ change_nvim_theme(){
 }
 
 # Windows terminal themes
-WINDOWS_DARK_THEME="Kanagawa"
+WINDOWS_DARK_THEME="Custom Dark"
 WINDOWS_LIGHT_THEME="Custom Light"
 
 WINDOWS_TERMINAL_SETTINGS_PATH="/mnt/c/Users/yiann/AppData/Local/Packages/Microsoft.WindowsTerminal_8wekyb3d8bbwe/LocalState/settings.json"

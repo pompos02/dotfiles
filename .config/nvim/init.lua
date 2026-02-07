@@ -4,7 +4,7 @@ require("config.keymaps")
 require("config.lsp")
 
 vim.opt.background = "dark"
-vim.cmd.colorscheme("kanagawa")
+vim.cmd.colorscheme("yara")
 
 
 vim.opt.shiftwidth = 4
@@ -34,3 +34,5 @@ vim.ui.open = function(path)
     local job = vim.fn.jobstart({ "explorer.exe", path }, { detach = true })
     return job > 0
 end
+
+require'colorizer'.setup()

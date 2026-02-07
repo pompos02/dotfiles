@@ -21,10 +21,10 @@ return {
         mode = "cursor",
         max_lines = 3,
     },
-    config = function(_, opts)
-        require("treesitter-context").setup(opts)
-        vim.cmd([[highlight TreesitterContext guibg=NONE]])
-        vim.cmd([[highlight TreesitterContextBottom gui=underline guisp=overlay]])
-    end,
+    -- config = function(_, opts)
+    --     require("treesitter-context").setup(opts)
+    --     vim.cmd([[highlight TreesitterContext guibg=NONE]])
+    --     vim.cmd([[highlight TreesitterContextBottom gui=underline guisp=overlay]])
+    -- end,
 }
 
