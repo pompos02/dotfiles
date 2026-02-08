@@ -24,8 +24,9 @@ if vim.g.plsql_fold == 1 then
     end
 end
 
---- comments format function
-
+-------------------------------
+--- START OF COMMENT FORMATTING
+-------------------------------
 local BANNER_WIDTH = 80
 
 local function trim(s)
@@ -76,3 +77,25 @@ if undo == "" then
 else
     vim.b.undo_ftplugin = undo .. " | " .. reset_comment_formatter_maps
 end
+-----------------------------
+--- END OF COMMENT FORMATTING
+-----------------------------
+
+--------------------------------
+--- START OF PLSQL CONTEXT Setup
+--------------------------------
+require("plsql_context").attach(0, {
+    max_lines = 30,
+    mode = "cursor",
+})
+
+undo = vim.b.undo_ftplugin or ""
+local detach_plsql_context = "lua pcall(require, 'plsql_context'); pcall(function() require('plsql_context').detach(vim.api.nvim_get_current_buf()) end)"
+if undo == "" then
+    vim.b.undo_ftplugin = detach_plsql_context
+else
+    vim.b.undo_ftplugin = undo .. " | " .. detach_plsql_context
+end
+------------------------------
+--- END OF PLSQL CONTEXT Setup
+------------------------------

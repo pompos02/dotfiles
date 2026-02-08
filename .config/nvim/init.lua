@@ -21,7 +21,7 @@ vim.api.nvim_create_autocmd("TextYankPost", {
     end,
 })
 
-vim.filetype.add({ extension = { pc = "cpp", }, })
+vim.filetype.add({ extension = { pc = "cpp", } })
 vim.filetype.add({
     extension = {
         pkb = "plsql",
@@ -37,4 +37,4 @@ vim.ui.open = function(path)
     return job > 0
 end
 
-require'colorizer'.setup()
+require 'colorizer'.setup()

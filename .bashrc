@@ -26,48 +26,45 @@ export TNS_ADMIN=/opt/oracle/wallet
 export PATH=/opt/oracle/instantclient_19_29/sdk:$PATH
 
 
-# #  # tmux can start bash with empty/invalid PWD; \W then prints nothing
-#   if [[ -z $PWD || ! -d $PWD ]]; then
-#     PWD="$(pwd)"
-#   fi
-
 short_pwd() {
-  local path="$PWD"
-  local prefix=""
+    local path="$PWD"
+    local prefix=""
 
-  if [[ "$path" == "$HOME"* ]]; then
-    prefix="~"
-    path="${path#"$HOME"}"
-  fi
-
-  local IFS=/
-  local -a parts
-  read -ra parts <<< "${path#/}"
-
-  local out="$prefix"
-  local last_index=$((${#parts[@]}-1))
-
-  for i in "${!parts[@]}"; do
-    local part="${parts[$i]}"
-    if [[ -z "$part" ]]; then
-      continue
+    if [[ "$path" == "$HOME"* ]]; then
+        prefix="~"
+        path="${path#"$HOME"}"
     fi
 
-    if [[ $i -eq $last_index ]]; then
-      out+="/$part"
-    else
-      out+="/${part:0:1}"
-    fi
-  done
+    local IFS=/
+    local -a parts
+    read -ra parts <<< "${path#/}"
 
-  [[ -z "$out" ]] && out="/"
-  echo "$out"
-}
+    local out="$prefix"
+    local last_index=$((${#parts[@]}-1))
+
+        for i in "${!parts[@]}"; do
+            local part="${parts[$i]}"
+            if [[ -z "$part" ]]; then
+                continue
+            fi
+
+            if [[ $i -eq $last_index ]]; then
+                out+="/$part"
+            elif [[ $part == .* ]]; then
+                out+="/${part:0:2}"
+            else
+                out+="/${part:0:1}"
+            fi
+        done
+
+        [[ -z "$out" ]] && out="/"
+        echo "$out"
+    }
 
 PS1='┌\[\033[39m\]'
 PS1+='[\u@\h]-('
 PS1+='\[\033[38;5;226m\]$(short_pwd)\[\033[0m\])'
-PS1+='$(branch=$(git branch --show-current 2>/dev/null); if [[ -n $branch ]]; then upstream=$(git rev-parse --abbrev-ref --symbolic-full-name @{u} 2>/dev/null || echo "no upstream"); echo "\[\033[39m\]-[\[\033[92m\]$branch->$upstream\[\033[0m\]\[\033[39m\]]\[\033[0m\]"; fi)'  # git branch + upstream (bright green)
+PS1+='$(branch=$(git branch --show-current 2>/dev/null); if [[ -n $branch ]]; then  echo "\[\033[39m\]-[\[\033[92m\]$branch\[\033[0m\]\[\033[39m\]]\[\033[0m\]"; fi)'  # git branch + upstream (bright green)
 PS1+='\n└> '
 
 
@@ -125,14 +122,8 @@ fi
 export NVM_DIR="$HOME/.nvm"
 
 nvm() {
-  unset -f nvm
-  [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
-  [ -s "$NVM_DIR/bash_completion" ] && . "$NVM_DIR/bash_completion"
-  nvm "$@"
+    unset -f nvm
+    [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
+    [ -s "$NVM_DIR/bash_completion" ] && . "$NVM_DIR/bash_completion"
+    nvm "$@"
 }
-# uncomment this to be able to use nvm
-# [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-# [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
-
-# fix the ls colros in the windows mount
-eval "$(dircolors ~/.dircolors)"
