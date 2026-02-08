@@ -4,11 +4,34 @@ return {
     dependencies = { 'nvim-treesitter/nvim-treesitter', 'nvim-tree/nvim-web-devicons' },
     opts = {
         heading = { enabled = false },
+        bullet = {
+            enabled = true,
+            -- Use the same icon for every level
+            icons = { '-', '-', '-', '-' },
+            -- Assign a unique highlight group to each level
+            highlight = {
+                'DiagnosticWarn',
+                'String',
+                'DiagnosticInfo',
+                'DiagnosticError',
+            },
+            -- Keep your existing ordered icon logic
+            ordered_icons = function(ctx)
+                local value = vim.trim(ctx.value)
+                local index = tonumber(value:sub(1, #value - 1))
+                return ('%d.'):format(index > 1 and index or ctx.index)
+            end,
+        },
         code = {
+            enabled = true,
             position = 'left',
+            sign = false,
+            language_icon = false,
+            language_name = false,
+            disable_background = true,
+            language_info = false,
             width = 'block',
             right_pad = 10,
-            sign = false,
         },
         quote = { enabled = false },
         checkbox = {
