@@ -59,13 +59,21 @@ short_pwd() {
 
         [[ -z "$out" ]] && out="/"
         echo "$out"
-    }
+}
 
-PS1='┌\[\033[39m\]'
-PS1+='[\u@\h]-('
-PS1+='\[\033[38;5;226m\]$(short_pwd)\[\033[0m\])'
-PS1+='$(branch=$(git branch --show-current 2>/dev/null); if [[ -n $branch ]]; then  echo "\[\033[39m\]-[\[\033[92m\]$branch\[\033[0m\]\[\033[39m\]]\[\033[0m\]"; fi)'  # git branch + upstream (bright green)
-PS1+='\n└> '
+
+PS1='[\u${SSH_CONNECTION:+@\h}:'
+PS1+='\[\033[38;5;226m\]$(short_pwd)\[\033[0m\]]'
+PS1+='\$ '
+
+
+
+
+# PS1='┌\[\033[39m\]'
+# PS1+='[\u@\h]-('
+# PS1+='\[\033[38;5;226m\]$(short_pwd)\[\033[0m\])'
+# PS1+='$(branch=$(git branch --show-current 2>/dev/null); if [[ -n $branch ]]; then  echo "\[\033[39m\]-[\[\033[92m\]$branch\[\033[0m\]\[\033[39m\]]\[\033[0m\]"; fi)'  # git branch + upstream (bright green)
+# PS1+='\n└> '
 
 
 export HISTSIZE=5000
