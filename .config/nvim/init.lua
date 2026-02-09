@@ -10,7 +10,7 @@ vim.cmd.colorscheme("yara")
 
 
 vim.opt.shiftwidth = 4
--- vim.o.winborder = "rounded"
+vim.o.winborder = "rounded"
 
 -- Highlight on yank
 vim.api.nvim_create_autocmd("TextYankPost", {
