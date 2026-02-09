@@ -6,7 +6,7 @@ return {
     "pompos02/modus-themes.nvim",
     "folke/tokyonight.nvim",
     "craftzdog/solarized-osaka.nvim",
-    "pompos02/yara.nvim",
+    --"pompos02/yara.nvim",
     "navarasu/onedark.nvim",
     "rebelot/kanagawa.nvim",
     "scottmckendry/cyberdream.nvim",
