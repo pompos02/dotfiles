@@ -526,7 +526,7 @@ syn keyword plsqlFunction VALUE VARIANCE VAR_POP VAR_SAMP VSIZE WIDTH_BUCKET XML
 syn keyword plsqlFunction XMLCOLATTVAL XMLCOMMENT XMLCONCAT XMLDIFF XMLELEMENT XMLEXISTS XMLFOREST XMLISVALID
 syn keyword plsqlFunction XMLPARSE XMLPATCH XMLPI XMLQUERY XMLROOT XMLSEQUENCE XMLSERIALIZE XMLTABLE
 syn keyword plsqlFunction XMLTRANSFORM
-syn keyword plsqlFunction CURRVAL NEXTVAL
+syn keyword plsqlFunction CURRVAL NEXTVAL EXCEPTION_INIT
 syn match   plsqlFunction "\<SYS\$LOB_REPLICATION\>"
 syn match   plsqlFunction "\.COUNT\>"hs=s+1
 syn match   plsqlFunction "\.EXISTS\>"hs=s+1
@@ -585,6 +585,7 @@ syn keyword plsqlException SELF_IS_NULL STORAGE_ERROR SUBSCRIPT_BEYOND_COUNT
 syn keyword plsqlException SUBSCRIPT_OUTSIDE_LIMIT SYS_INVALID_ROWID
 syn keyword plsqlException TIMEOUT_ON_RESOURCE TOO_MANY_ROWS VALUE_ERROR
 syn keyword plsqlException ZERO_DIVIDE OTHERS
+syn match   plsqlWhenException "\%(\<WHEN\>\_s\+\)\@<=\zs[a-z][a-z0-9$_#]*\%(\.[a-z][a-z0-9$_#]*\)\?\ze\%(\_s\+OR\_s\+\|\_s\+THEN\>\)"
 
 if get(g:,"plsql_highlight_triggers",0) == 1
     syn keyword plsqlTrigger INSERTING UPDATING DELETING
@@ -697,8 +698,10 @@ syn match plsqlCase "\<END\>\_s\+\<CASE\>"
 syn match plsqlCase "\<CASE\>"
 
 syn region plsqlSqlPlusCommentL start="^\s*\(REM\)\(\s\|$\)" skip="\\$" end="$" keepend extend contains=@plsqlCommentGroup,plsqlSpaceError,plsqlIllegalSpace
-syn region plsqlSqlPlusCommand  matchgroup=plsqlSqlPlusCommand start="^\s*\(!\|\(SET\|DEFINE\|UNDEFINE\|PROMPT\|ACCEPT\|EXEC\|HOST\|SHOW\|VAR\|VARIABLE\|COL\|COLUMN\|WHENEVER\|TIMING\|SPOOL\|START\|EDIT\|LIST\|RUN\|DESC\|DESCRIBE\|CONNECT\|DISCONNECT\|EXIT\|QUIT\|CLEAR\|BREAK\|BTITLE\|TTITLE\|PAUSE\)\>\)\(\s\|$\)" skip="\\$" end="$" keepend extend transparent
+syn region plsqlSqlPlusCommand  matchgroup=plsqlSqlPlusCommand start="^\s*\(!\|\(SET\|DEFINE\|UNDEFINE\|ACCEPT\|EXEC\|HOST\|SHOW\|VAR\|VARIABLE\|COL\|COLUMN\|WHENEVER\|TIMING\|SPOOL\|START\|EDIT\|LIST\|RUN\|DESC\|DESCRIBE\|CONNECT\|DISCONNECT\|EXIT\|QUIT\|CLEAR\|BREAK\|BTITLE\|TTITLE\|PAUSE\)\>\)\(\s\|$\)" skip="\\$" end="$" keepend extend transparent
 syn region plsqlSqlPlusRunFile  start="^\s*\(@\|@@\)" skip="\\$" end="$" keepend extend
+syn region plsqlSqlPlusPrompt  matchgroup=plsqlSqlPlusPromptText start="^\s*PROMPT\>\(\s\|$\)" skip="\\$" end="$" keepend extend transparent contains=plsqlSqlPlusPromptText
+syn match  plsqlSqlPlusPromptText contained "\%(^\s*PROMPT\>\s*\)\@<=.*$"
 
 syn match plsqlLabel "<<[a-z][a-z0-9$_#]*>>"
 
@@ -822,6 +825,7 @@ hi def link plsqlErrInBracket	    Error
 hi def link plsqlErrInBlock	        Error
 hi def link plsqlErrInParen	        Error
 hi def link plsqlException	        Exception
+hi def link plsqlWhenException     Exception
 hi def link plsqlFloatLiteral	    Float
 hi def link plsqlFunction	        Function
 hi def link plsqlGarbage	        Error
@@ -855,6 +859,7 @@ hi def link plsqlSqlPlusDefine      Special
 hi def link plsqlSqlPlusCommand     Special
 hi def link plsqlSqlPlusRunFile     Special
 hi def link plsqlSqlPlusCommentL    Comment
+hi def link plsqlSqlPlusPromptText  Comment
 
 " to be able to change them after loading, need override whether defined or not
 if get(g:,"plsql_legacy_sql_keywords",0) == 1
