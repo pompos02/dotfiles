@@ -61,10 +61,29 @@ short_pwd() {
         echo "$out"
 }
 
+get_git_branch() {
+  local branch
+  branch=$(git branch --show-current 2>/dev/null)
+  if [ -n "$branch" ]; then
+    echo -e "\033[38;5;46m($branch)\033[0m "
+    return
+  fi
+  # Detached HEAD fallback
+  local sha
+  sha=$(git rev-parse --short HEAD 2>/dev/null) || return
+  echo -e "\033[38;5;208m($sha)\033[0m "
+}
 
-PS1='[\u${SSH_CONNECTION:+@\h}:'
-PS1+='\[\033[38;5;226m\]$(short_pwd)\[\033[0m\]]'
-PS1+='\$ '
+
+# PS1='[\u${SSH_CONNECTION:+@\h}:'
+# PS1+='\[\033[38;5;226m\]$(short_pwd)\[\033[0m\]]'
+# PS1+='\$ '
+
+
+PS1='$(get_git_branch)'
+# PS1+='[\u${SSH_CONNECTION:+@\h}:'
+PS1+='$(short_pwd)'
+PS1+=' \$ '
 
 
 

@@ -13,6 +13,7 @@
   "lazy.nvim": { "branch": "main", "commit": "306a05526ada86a7b30af95c5cc81ffba93fef97" },
   "local-highlight.nvim": { "branch": "master", "commit": "bdf0e15df9164b507cb9e9ba781ba29f2dd3f4a6" },
   "lualine.nvim": { "branch": "master", "commit": "47f91c416daef12db467145e16bed5bbfe00add8" },
+  "misirlou.nvim": { "branch": "master", "commit": "0b43c6c61303f5b23d0bd5c5db778dcf9962f85c" },
   "modus-themes.nvim": { "branch": "master", "commit": "6331c004be4ce584e94c37fd763196f0b9011546" },
   "monokai-nightasty.nvim": { "branch": "main", "commit": "8be5e1c6e1d59873505e81b161e923264dfa5c1a" },
   "monokai-pro.nvim": { "branch": "master", "commit": "d8884d4473667c48bd17a68d08383d38839136a3" },
@@ -25,9 +26,9 @@
   "oil.nvim": { "branch": "master", "commit": "f55b25e493a7df76371cfadd0ded5004cb9cd48a" },
   "onedark.nvim": { "branch": "master", "commit": "213c23ae45a04797572242568d5d51937181792d" },
   "render-markdown.nvim": { "branch": "main", "commit": "48b4175dbca8439d30c1f52231cbe5a712c8f9d9" },
+  "rustaceanvim": { "branch": "master", "commit": "3ace64feb1ce3cf3c63e6297e1378a82fe548618" },
   "solarized-osaka.nvim": { "branch": "main", "commit": "f0c2f0ba0bd56108d53c9bfae4bb28ff6c67bbdb" },
   "tokyonight.nvim": { "branch": "main", "commit": "5da1b76e64daf4c5d410f06bcb6b9cb640da7dfd" },
   "vague.nvim": { "branch": "main", "commit": "c1ab4d4891ff3a27deba6a80222d895ac8ffb2e5" },
-  "vim-moonfly-colors": { "branch": "master", "commit": "d11b3d04cc1cb71a778d67a4df73283a5a6d66f4" },
-  "yara.nvim": { "branch": "master", "commit": "e71363a4cab2b0b44c47403e8ffd8f5b2af7a924" }
+  "vim-moonfly-colors": { "branch": "master", "commit": "d11b3d04cc1cb71a778d67a4df73283a5a6d66f4" }
 }

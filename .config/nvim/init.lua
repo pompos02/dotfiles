@@ -38,3 +38,5 @@ vim.ui.open = function(path)
 end
 
 require 'colorizer'.setup()
+
+vim.g.go_live_markdown_host_prog = "/home/karavellas/projects/opensource/go-live-markdown.nvim/bin/go-live-markdown-nvim"

@@ -21,6 +21,17 @@ vim.diagnostic.config({
     },
 })
 
+local function reset_diagnostic_unnecessary_highlight()
+    vim.api.nvim_set_hl(0, "DiagnosticUnnecessary", {})
+end
+
+reset_diagnostic_unnecessary_highlight()
+
+vim.api.nvim_create_autocmd("ColorScheme", {
+    group = vim.api.nvim_create_augroup("diagnostic-unnecessary-highlight", { clear = true }),
+    callback = reset_diagnostic_unnecessary_highlight,
+})
+
 -- Global LspAttach handler for gopls semantic tokens workaround
 vim.api.nvim_create_autocmd("LspAttach", {
     group = vim.api.nvim_create_augroup("lsp-attach-custom", { clear = true }),
@@ -60,4 +71,3 @@ vim.lsp.enable({
     "ts_ls",
     "sqls",
 })
-
