@@ -74,7 +74,7 @@ return {
                 vertical = "down:45%",
                 horizontal = "right:40%",
                 layout = "flex",
-                flip_columns = 120,
+                flip_columns = 90,
                 title = true,
                 scrollbar = "float",
             },
