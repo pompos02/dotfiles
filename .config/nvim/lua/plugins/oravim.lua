@@ -1,6 +1,6 @@
 return {
-    dir = "/home/karavellas/projects/opensource/oravim.nvim",
-    -- "pompos02/oravim.nvim",
+    -- dir = "/home/karavellas/projects/opensource/oravim.nvim",
+    "pompos02/oravim.nvim",
     config = function()
         require("oravim").setup({
             cli = "sqlplus",

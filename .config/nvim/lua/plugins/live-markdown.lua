@@ -1,7 +1,7 @@
 return {
 
-    dir = "/home/karavellas/projects/opensource/live-markdown.nvim",
-    -- "pompos02/live-markdown.nvim",
+    -- dir = "/home/karavellas/projects/opensource/live-markdown.nvim",
+    "pompos02/live-markdown.nvim",
     --build = "./scripts/build-nvim-module.sh release",
     config = function()
         require("live_markdown").setup({
