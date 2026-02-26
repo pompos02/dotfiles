@@ -17,6 +17,7 @@ export PATH="$PATH:/opt/sqlcl/bin"
 export PATH="$HOME/.cargo/bin:$PATH"
 export BUN_INSTALL="$HOME/.bun"
 export PATH="$BUN_INSTALL/bin:$PATH"
+export PKG_CONFIG_PATH=/usr/local/lib/pkgconfig:$PKG_CONFIG_PATH
 
 # oracle environment variables
 export ORACLE_HOME=/opt/oracle/instantclient_19_29
@@ -128,7 +129,7 @@ open() {
 
 # Auto-start tmux on WSL login
 if [[ -z "$TMUX" ]] && [[ -t 1 ]]; then
-    tmux attach -t karavellas || tmux new -s karavellas
+    tmux attach -t main || tmux new -s main
 fi
 
 export NVM_DIR="$HOME/.nvm"
