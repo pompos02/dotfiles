@@ -4,11 +4,14 @@
 pane_pid="$1"
 pane_cmd="$2"
 
-# Continue only if the command is ssh
-[ "$pane_cmd" = "ssh" ] || exit 0
+# Continue only if pane is ssh or has an ssh child process
+if [ "$pane_cmd" = "ssh" ]; then
+  ssh_pid="$pane_pid"
+else
+  ssh_pid=$(pgrep -P "$pane_pid" ssh | head -n1)
+fi
 
-# Find ssh child process for the hostname extraction
-ssh_pid=$(pgrep -P "$pane_pid" | head -n1)
+# Stop if no ssh process was found
 [ -n "$ssh_pid" ] || exit 0
 
 # Extract the full command from the pid
@@ -20,5 +23,5 @@ host="${cmd[-1]}"
 # Strip the user@ if present
 host="${host##*@}"
 
-# Print the resutls
+# Print the results
 [ -n "$host" ] && printf "@%s" "$host"
