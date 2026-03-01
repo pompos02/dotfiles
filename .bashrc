@@ -130,7 +130,7 @@ open() {
 
 # Auto-start tmux on WSL login
 if [[ -z "$TMUX" ]] && [[ -t 1 ]]; then
-    tmux attach -t main || tmux new -s main
+    tmux attach -t karavellas || tmux new -s karavellas
 fi
 
 export NVM_DIR="$HOME/.nvm"
