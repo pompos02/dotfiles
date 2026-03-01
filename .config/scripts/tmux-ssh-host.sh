@@ -3,12 +3,13 @@
 # Get pane info for tmux
 pane_pid="$1"
 pane_cmd="$2"
-
-# Continue only if pane is ssh or has an ssh child process
+# If tmux says current command is ssh, pane_pid may still be bash.
+# Try child ssh first, then fall back to pane_pid.
 if [ "$pane_cmd" = "ssh" ]; then
-  ssh_pid="$pane_pid"
+	ssh_pid="$(pgrep -P "$pane_pid" ssh | head -n1)"
+	[ -n "$ssh_pid" ] || ssh_pid="$pane_pid"
 else
-  ssh_pid=$(pgrep -P "$pane_pid" ssh | head -n1)
+	ssh_pid="$(pgrep -P "$pane_pid" ssh | head -n1)"
 fi
 
 # Stop if no ssh process was found
@@ -17,11 +18,14 @@ fi
 # Extract the full command from the pid
 read -ra cmd <<< "$(ps -o args= -p "$ssh_pid")"
 
-# Extract the hostname (i suppose is the last element) from the ssh command
+# Extract hostname (last arg), strip user@
 host="${cmd[-1]}"
-
-# Strip the user@ if present
 host="${host##*@}"
 
-# Print the results
+# Avoid showing @-bash / @bash in weird fallback cases
+case "$host" in
+	bash|-bash|sh|-sh|zsh|-zsh) exit 0 ;;
+esac
+
+# Print result
 [ -n "$host" ] && printf "@%s" "$host"
