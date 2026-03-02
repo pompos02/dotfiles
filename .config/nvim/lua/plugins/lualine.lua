@@ -5,7 +5,7 @@ return {
         require('lualine').setup {
             options = {
                 icons_enabled = false,
-                theme = 'auto',
+                theme = 'yara',
                 component_separators = { left = '', right = '' },
                 section_separators = { left = '', right = '' },
                 disabled_filetypes = {
@@ -47,7 +47,7 @@ return {
                         end
                     end
                     },
-                    'filename', 'diff', 'diagnostics' },
+                    { 'filename', path = 1 }, 'diff', 'diagnostics' },
                 lualine_x = { {
                     'lsp_status',
                     icon = '', -- f013

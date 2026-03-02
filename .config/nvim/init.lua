@@ -6,12 +6,12 @@ require("config.lsp")
 vim.g.plsql_fold = 1
 
 vim.opt.background = "dark"
-vim.cmd.colorscheme("yara")
+vim.cmd.colorscheme("yara-grey")
 
 
 vim.o.winborder = "rounded"
 
-vim.opt.expandtab = false   -- use tabs, not spaces
+vim.opt.expandtab = true   -- use tabs, not spaces
 vim.opt.tabstop = 4         -- a tab displays as 4 columns
 vim.opt.shiftwidth = 4      -- >> << and autoindent use 4
 vim.opt.softtabstop = 4     -- <Tab>/<BS> behave as 4 columns
