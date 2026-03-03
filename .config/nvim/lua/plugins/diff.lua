@@ -1,4 +1,4 @@
 -- Packer
 return {
-    "sindrets/diffview.nvim"
+    "pompos02/codediff.nvim"
 }
