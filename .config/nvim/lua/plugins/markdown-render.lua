@@ -7,7 +7,7 @@ return {
         bullet = {
             enabled = true,
             -- Use the same icon for every level
-            icons = { '-', '-', '-', '-' },
+            icons = { '*', '*', '*', '*' },
             -- Assign a unique highlight group to each level
             highlight = {
                 'DiagnosticWarn',
