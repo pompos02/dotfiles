@@ -5,7 +5,7 @@ pane_pid="$2"
 pane_current_path="$3"
 
 if [ "$pane_cmd" != "ssh" ]; then
-    tmux new-window -c "$pane_current_path"
+    tmux new-window
     exit 0
 fi
 

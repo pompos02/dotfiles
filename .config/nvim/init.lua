@@ -9,7 +9,7 @@ vim.opt.background = "dark"
 vim.cmd.colorscheme("yara-grey")
 
 
-vim.o.winborder = "rounded"
+vim.o.winborder = "single"
 
 vim.opt.expandtab = true -- use tabs, not spaces
 vim.opt.tabstop = 4      -- a tab displays as 4 columns
