@@ -9,12 +9,12 @@
 }
 
 window#waybar {
-  background: #000000;
+  background: #181818;
   color: #ffffff;
 }
 
 tooltip {
-  background-color: #000000;
+  background-color: #181818;
 }
 
 #custom-uptime,
@@ -49,5 +49,5 @@ tooltip {
 #network:hover,
 #pulseaudio:hover {
   background-color: #ffffff;
-  color: #000000;
+  color: #181818;
 }

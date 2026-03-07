@@ -62,6 +62,7 @@ vim.api.nvim_create_autocmd("LspAttach", {
 -- These configs are automatically loaded from ~/.config/nvim/lsp/*.lua
 vim.lsp.enable({
     "basedpyright",
+    "neocmake",
     "bashls",
     "clangd",
     "elixirls",

@@ -11,10 +11,10 @@ vim.cmd.colorscheme("yara-grey")
 
 vim.o.winborder = "rounded"
 
-vim.opt.expandtab = true   -- use tabs, not spaces
-vim.opt.tabstop = 4         -- a tab displays as 4 columns
-vim.opt.shiftwidth = 4      -- >> << and autoindent use 4
-vim.opt.softtabstop = 4     -- <Tab>/<BS> behave as 4 columns
+vim.opt.expandtab = true -- use tabs, not spaces
+vim.opt.tabstop = 4      -- a tab displays as 4 columns
+vim.opt.shiftwidth = 4   -- >> << and autoindent use 4
+vim.opt.softtabstop = 4  -- <Tab>/<BS> behave as 4 columns
 
 -- Highlight on yank
 vim.api.nvim_create_autocmd("TextYankPost", {
@@ -35,10 +35,9 @@ vim.filetype.add({
     },
 })
 
--- Use Windows explorer.exe for vim.ui.open (WSL/Windows friendly)
+-- Use explorer.exe in WSL, otherwise xdg-open
+local is_wsl = vim.env.WSL_DISTRO_NAME ~= nil
 vim.ui.open = function(path)
-    local job = vim.fn.jobstart({ "explorer.exe", path }, { detach = true })
-    return job > 0
+    local cmd = is_wsl and "explorer.exe" or "xdg-open"
+    return vim.fn.jobstart({ cmd, path }, { detach = true }) > 0
 end
-
-require 'colorizer'.setup()
