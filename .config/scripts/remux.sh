@@ -324,24 +324,14 @@ copy_hostname() {
 }
 
 prompt_custom_user() {
-	local output value
+	local value
 
-	# Avoid raw `read` after fzf in popup mode. Reuse fzf for the prompt so input
-	# handling stays within one tool and remains popup-safe.
-	if ! output="$(printf '' | fzf \
-		--print-query \
-		--prompt='User> ' \
-		--header="Select the user to connect to <$1>" \
-		--height=100% \
-		--layout=reverse \
-		--border \
-		--disabled \
-		--no-info \
-		--no-multi)"; then
+	if ! read -r -p "User for @$1: " value </dev/tty; then
 		return 1
 	fi
 
-	IFS=$'\n' read -r value _ <<<"$output"
+	value="${value#"${value%%[![:space:]]*}"}"
+	value="${value%"${value##*[![:space:]]}"}"
 	[[ -n "$value" ]] || return 1
 	printf '%s\n' "$value"
 }
@@ -836,7 +826,7 @@ main() {
 			;;
 		ctrl-x)
 			local custom_user
-			custom_user="$(prompt_custom_user $alias)" || continue
+			custom_user="$(prompt_custom_user "$alias")" || continue
 			launch_custom_user_session "$alias" "$custom_user"
 			;;
 		'' | enter)
