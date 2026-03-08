@@ -1,7 +1,7 @@
 term = xterm-256color
 
 # Font Configuration
-font-family = "ComicShannsMono Nerd Font"
+font-family = "TX02"
 # font-style = Light
 font-style-bold = Bold
 # font-style-italic = "Light Oblique"
@@ -9,6 +9,7 @@ font-style-bold = Bold
 font-size = 15.0
 
 # Previous font options (commented out)
+#MonaspiceKr Nerd Font Mono
 # font-family = "TX02"
 # font-family = "JetBrains Mono"
 # font-family = "ComicShannsMono Nerd Font"
