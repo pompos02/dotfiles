@@ -276,6 +276,14 @@ launch_custom_user_session() {
 copy_hostname() {
 	local hostname="$1"
 
+	# In tmux, prefer the native clipboard path. It is generally more reliable in
+	# popup contexts and still reaches the system clipboard when set-clipboard is on.
+	if [[ -n "${TMUX:-}" ]]; then
+		if printf '%s' "$hostname" | tmux load-buffer -w - 2>/dev/null; then
+			return 0
+		fi
+	fi
+
 	# Support the common clipboard commands across WSL, macOS, Wayland, and X11.
 	# The first available command wins so callers can treat this as best effort.
 	if command -v clip.exe >/dev/null 2>&1; then
@@ -305,6 +313,29 @@ copy_hostname() {
 
 	printf 'No clipboard command found; cannot copy hostname\n' >&2
 	return 1
+}
+
+prompt_custom_user() {
+	local output value
+
+	# Avoid raw `read` after fzf in popup mode. Reuse fzf for the prompt so input
+	# handling stays within one tool and remains popup-safe.
+	if ! output="$(printf '' | fzf \
+		--print-query \
+		--prompt='User> ' \
+		--header="Select the user to connect to <$1>" \
+		--height=100% \
+		--layout=reverse \
+		--border \
+		--disabled \
+		--no-info \
+		--no-multi)"; then
+		return 1
+	fi
+
+	IFS=$'\n' read -r value _ <<<"$output"
+	[[ -n "$value" ]] || return 1
+	printf '%s\n' "$value"
 }
 
 list_host_entries() {
@@ -337,7 +368,11 @@ print_picker_row() {
 	local max_host_width="${5:-0}"
 	local display env_color marker prefix_len pad_width
 
-	env_color="${LISTING_COLOR_BY_ENV_TYPE[$env]:-}"
+	if [[ -n "$env" ]]; then
+		env_color="${LISTING_COLOR_BY_ENV_TYPE[$env]-}"
+	else
+		env_color=''
+	fi
 
 	# Column 1 is a human-friendly display string for fzf, while later columns keep
 	# raw machine-readable values. Padding is computed from the plain hostname length
@@ -420,7 +455,7 @@ pick_host() {
 	build_picker_rows "$@" | fzf \
 		--ansi \
 		--style=full \
-        --height=100% \
+		--height=100% \
 		--layout=reverse \
 		--preview-label=' details ' \
 		--prompt='> ' \
@@ -796,8 +831,7 @@ main() {
 			;;
 		ctrl-x)
 			local custom_user
-			read -rp 'User: ' custom_user
-			[[ -z "$custom_user" ]] && continue
+			custom_user="$(prompt_custom_user $alias)" || continue
 			launch_custom_user_session "$alias" "$custom_user"
 			;;
 		'' | enter)
