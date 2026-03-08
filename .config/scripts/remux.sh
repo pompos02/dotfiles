@@ -27,7 +27,8 @@ declare -Ar LISTING_COLOR_BY_ENV_TYPE=(
 	[comp]="$COLOR_YELLOW"
 	[app]="$COLOR_BLUE"
 	[db]="$COLOR_ORANGE"
-	["$ENV_TYPE_EMPTY"]="$COLOR_GREEN"
+	[default]="$COLOR_DEFAULT"
+	["$ENV_TYPE_EMPTY"]="$COLOR_DEFAULT"
 )
 
 if ! [[ "$PREVIEW_CACHE_TTL" =~ ^[0-9]+$ ]]; then
@@ -366,13 +367,10 @@ print_picker_row() {
 	local env="${3-}"
 	local hostname="${4-}"
 	local max_host_width="${5:-0}"
-	local display env_color marker prefix_len pad_width
+	local display env_color env_key marker prefix_len pad_width
 
-	if [[ -n "$env" ]]; then
-		env_color="${LISTING_COLOR_BY_ENV_TYPE[$env]-}"
-	else
-		env_color=''
-	fi
+	env_key="${env:-$ENV_TYPE_EMPTY}"
+	env_color="${LISTING_COLOR_BY_ENV_TYPE[$env_key]:-${LISTING_COLOR_BY_ENV_TYPE[default]}}"
 
 	# Column 1 is a human-friendly display string for fzf, while later columns keep
 	# raw machine-readable values. Padding is computed from the plain hostname length
