@@ -251,14 +251,40 @@ activate_session() {
 	fi
 }
 
+build_ssh_command() {
+	local alias="$1"
+	local user="${2-}"
+	local command_string
+	local -a command=(ssh)
+
+	if [[ -n "$user" ]]; then
+		command+=(-l "$user")
+	fi
+
+	command+=("$alias")
+	printf -v command_string '%q ' "${command[@]}"
+	printf '%s\n' "${command_string% }"
+}
+
+send_ssh_command_to_pane() {
+	local pane_target="$1"
+	local alias="$2"
+	local user="${3-}"
+	local ssh_command
+
+	ssh_command="$(build_ssh_command "$alias" "$user")"
+	tmux send-keys -t "$pane_target" "$ssh_command" C-m
+}
+
 launch_default_session() {
 	local alias="$1"
 
 	# The default path is one persistent tmux session per SSH alias. Re-selecting the
 	# same host reuses the existing session instead of starting a second SSH login.
 	if ! tmux_has_session "$alias"; then
-		tmux new-session -d -s "$alias" -c "$HOME"
-		tmux send-keys -t "$alias:1.1" "ssh $alias" C-m
+		local pane_target
+		pane_target="$(tmux new-session -d -P -F '#{session_name}:#{window_index}.#{pane_index}' -s "$alias" -c "$HOME")"
+		send_ssh_command_to_pane "$pane_target" "$alias"
 	fi
 
 	activate_session "$alias"
@@ -267,16 +293,19 @@ launch_default_session() {
 launch_custom_user_session() {
 	local alias="$1"
 	local user="$2"
-	local target="ssh ${user}@${alias}"
+	local pane_target
 
 	# Custom-user launches are intentionally additive: if the base session already
 	# exists we open a new window inside it so the original alias session remains
-	# available.
+	# available. The SSH command is sent after tmux creates the pane so the session
+	# stays attachable even if SSH exits immediately on this machine.
 	if tmux_has_session "$alias"; then
-		tmux new-window -t "$alias" -c "$HOME" "$target"
+		pane_target="$(tmux new-window -P -F '#{session_name}:#{window_index}.#{pane_index}' -t "$alias" -c "$HOME")"
 	else
-		tmux new-session -d -s "$alias" -c "$HOME" "$target"
+		pane_target="$(tmux new-session -d -P -F '#{session_name}:#{window_index}.#{pane_index}' -s "$alias" -c "$HOME")"
 	fi
+
+	send_ssh_command_to_pane "$pane_target" "$alias" "$user"
 
 	activate_session "$alias"
 }
@@ -437,6 +466,14 @@ build_picker_rows() {
 	done < <(list_host_entries "$@")
 
 	for i in "${!row_hosts[@]}"; do
+		[[ "${row_actives[$i]}" == '1' ]] || continue
+		print_picker_row "${row_hosts[$i]}" "${row_actives[$i]}" "${row_envs[$i]}" "${row_hostnames[$i]}" "$max_host_width"
+	done
+
+	# Keep the SSH-config parse order intact within each bucket while moving active
+	# sessions ahead of inactive ones.
+	for i in "${!row_hosts[@]}"; do
+		[[ "${row_actives[$i]}" == '0' ]] || continue
 		print_picker_row "${row_hosts[$i]}" "${row_actives[$i]}" "${row_envs[$i]}" "${row_hostnames[$i]}" "$max_host_width"
 	done
 }
