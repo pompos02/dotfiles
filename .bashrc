@@ -27,7 +27,6 @@ export PATH=$PATH:$ORACLE_HOME
 export TNS_ADMIN=/opt/oracle/wallet
 export PATH=/opt/oracle/instantclient_19_29/sdk:$PATH
 
-
 short_pwd() {
     local path="$PWD"
     local prefix=""
@@ -39,47 +38,56 @@ short_pwd() {
 
     local IFS=/
     local -a parts
-    read -ra parts <<< "${path#/}"
+    read -ra parts <<<"${path#/}"
 
     local out="$prefix"
-    local last_index=$((${#parts[@]}-1))
+    local last_index=$((${#parts[@]} - 1))
 
-        for i in "${!parts[@]}"; do
-            local part="${parts[$i]}"
-            if [[ -z "$part" ]]; then
-                continue
-            fi
+    for i in "${!parts[@]}"; do
+        local part="${parts[$i]}"
+        if [[ -z "$part" ]]; then
+            continue
+        fi
 
-            if [[ $i -eq $last_index ]]; then
-                out+="/$part"
-            elif [[ $part == .* ]]; then
-                out+="/${part:0:2}"
-            else
-                out+="/${part:0:1}"
-            fi
-        done
+        if [[ $i -eq $last_index ]]; then
+            out+="/$part"
+        elif [[ $part == .* ]]; then
+            out+="/${part:0:2}"
+        else
+            out+="/${part:0:1}"
+        fi
+    done
 
-        [[ -z "$out" ]] && out="/"
-        echo "$out"
+    [[ -z "$out" ]] && out="/"
+    echo "$out"
 }
 
 get_git_branch() {
-  local branch
-  branch=$(git branch --show-current 2>/dev/null)
-  if [ -n "$branch" ]; then
-    echo -e "\033[38;5;46m($branch)\033[0m "
-    return
-  fi
-  # Detached HEAD fallback
-  local sha
-  sha=$(git rev-parse --short HEAD 2>/dev/null) || return
-  echo -e "\033[38;5;208m($sha)\033[0m "
+    local branch
+
+    git rev-parse --is-inside-work-tree >/dev/null 2>&1 || return
+
+    branch=$(git branch --show-current 2>/dev/null)
+    if [[ -n "$branch" ]]; then
+        printf '\[\033[39m\]-[\[\033[92m\]%s\[\033[0m\]\[\033[39m\]]\[\033[0m\]' "$branch"
+        return
+    fi
+
+    local sha
+    sha=$(git rev-parse --short HEAD 2>/dev/null) || return
+    printf '\[\033[39m\]-[\[\033[38;5;208m\]%s\[\033[0m\]\[\033[39m\]]\[\033[0m\]' "$sha"
 }
 
-PS1='$(get_git_branch)'
-# PS1+='[\u${SSH_CONNECTION:+@\h}:'
-PS1+='$(short_pwd)'
-PS1+=' \$ '
+build_prompt() {
+    local cwd git_part
+
+    cwd=$(short_pwd)
+    git_part=$(get_git_branch)
+
+    PS1="┌\[\033[39m\][\u@\h]-(\[\033[38;5;226m\]${cwd}\[\033[0m\])${git_part}\n└> "
+}
+
+PROMPT_COMMAND=build_prompt
 
 export HISTSIZE=5000
 export HISTFILESIZE=20000
@@ -95,7 +103,6 @@ alias vim='nvim'
 alias bat='batcat'
 alias lazy='NVIM_APPNAME=lazy nvim'
 
-
 eval "$(fzf --bash)"
 
 # this is the node version manager
@@ -110,7 +117,6 @@ pkillf() {
 my_ip() {
     ip address | grep -o "inet 192.*/" | awk '{ print $2 }' | tr / ' ' | xargs
 }
-
 
 man() {
     nvim -c "Man $* | only"
@@ -142,3 +148,5 @@ nvm() {
     [ -s "$NVM_DIR/bash_completion" ] && . "$NVM_DIR/bash_completion"
     nvm "$@"
 }
+
+eval "$(starship init bash)"

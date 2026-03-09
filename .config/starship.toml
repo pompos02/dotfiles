@@ -1,4 +1,8 @@
 "$schema" = 'https://starship.rs/config-schema.json'
+add_newline = false
+format = '''
+[┌\[](white)$username[@](white)$hostname[\]-\(](white)$custom[\)](white)$git_branch$git_commit
+[└> ](white)'''
 
 [aws]
 format = '\[[$symbol($profile)(\($region\))(\[$duration\])]($style)\]'
@@ -48,6 +52,41 @@ format = '\[[$symbol($version)]($style)\]'
 [deno]
 format = '\[[$symbol($version)]($style)\]'
 
+[custom.short_pwd]
+command = '''
+path="$PWD"
+prefix=""
+
+if [[ "$path" == "$HOME"* ]]; then
+    prefix="~"
+    path="${path#"$HOME"}"
+fi
+
+IFS=/ read -r -a parts <<< "${path#/}"
+out="$prefix"
+last_index=$((${#parts[@]} - 1))
+
+for i in "${!parts[@]}"; do
+    part="${parts[$i]}"
+    [[ -z "$part" ]] && continue
+
+    if [[ $i -eq $last_index ]]; then
+        out+="/$part"
+    elif [[ $part == .* ]]; then
+        out+="/${part:0:2}"
+    else
+        out+="/${part:0:1}"
+    fi
+done
+
+[[ -z "$out" ]] && out="/"
+printf '%s' "$out"
+'''
+format = '[$output]($style)'
+shell = ['bash', '--noprofile', '--norc']
+style = 'bold #ffff00'
+when = 'true'
+
 [direnv]
 format = '\[[$symbol$loaded/$allowed]($style)\]'
 
@@ -82,10 +121,16 @@ format = '\[[+$added]($added_style)\]\[[-$deleted]($deleted_style)\]'
 format = '\[[$symbol$account(@$domain)(\($region\))]($style)\]'
 
 [git_branch]
-format = '\[[$symbol$branch]($style)\]'
+format = '-[\[](white)[$branch]($style)[\]](white)'
+style = 'bold green'
+symbol = ''
 
 [git_commit]
-format = '\[[\($hash$tag\)]($style)\]'
+commit_hash_length = 7
+format = '-[\[](white)[$hash]($style)[\]](white)'
+only_detached = true
+style = 'bold #ff8700'
+tag_disabled = true
 
 [git_metrics]
 format = '\[[+$added]($added_style)\]\[[-$deleted]($deleted_style)\]'
@@ -121,7 +166,9 @@ format = '\[[$symbol($version)]($style)\]'
 format = '\[[$symbol$branch]($style)\]'
 
 [hostname]
-format = '\[[$ssh_symbol($hostname)]($style)\] '
+format = '[$ssh_symbol$hostname]($style)'
+ssh_only = false
+style = 'white'
 
 [java]
 format = '\[[$symbol($version)]($style)\]'
@@ -262,7 +309,10 @@ format = '\[[$time]($style)\]'
 format = '\[[$symbol($version)]($style)\]'
 
 [username]
-format = '\[[$user]($style)\]'
+format = '[$user]($style)'
+show_always = true
+style_root = 'white'
+style_user = 'white'
 
 [vagrant]
 format = '\[[$symbol($version)]($style)\]'
