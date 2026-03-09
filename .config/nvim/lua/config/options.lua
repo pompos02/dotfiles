@@ -16,7 +16,7 @@ opt.jumpoptions = "view"
 opt.laststatus = 3                                      -- global statusline
 opt.linebreak = true                                    -- Wrap lines at convenient points
 opt.list = true                                         -- Show some invisible characters (tabs...
-vim.opt.listchars = { tab = ">-", trail = "·", space = "·" }
+vim.opt.listchars = "tab:> ,trail:·,space:·"
 opt.mouse = "a"                                         -- Enable mouse mode
 opt.pumblend = 0                                        -- Popup blend
 opt.pumheight = 10                                      -- Maximum number of entries in a popup

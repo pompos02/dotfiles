@@ -11,7 +11,7 @@ vim.cmd.colorscheme("yara-grey")
 
 vim.o.winborder = "single"
 
-vim.opt.expandtab = true -- use tabs, not spaces
+vim.opt.expandtab = true
 vim.opt.tabstop = 4      -- a tab displays as 4 columns
 vim.opt.shiftwidth = 4   -- >> << and autoindent use 4
 vim.opt.softtabstop = 4  -- <Tab>/<BS> behave as 4 columns
