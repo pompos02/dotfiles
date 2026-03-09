@@ -1,9 +1,8 @@
 "$schema" = 'https://starship.rs/config-schema.json'
 add_newline = false
 format = '''
-\[$username@$hostname\]-\($custom\)(-[\[](white)$git_branch$git_commit$git_status[\]](white))
-└> '''
-
+[┌\[](fg:default)$username@$hostname[\]-\(](fg:default)${custom.short_pwd}[\)](fg:default)(-[\[](fg:default)$git_branch$git_commit$git_status${custom.svn_relative_url}[\]](fg:default))
+[└> ](fg:default)'''
 [aws]
 format = '\[[$symbol($profile)(\($region\))(\[$duration\])]($style)\]'
 
@@ -121,7 +120,7 @@ format = '\[[+$added]($added_style)\]\[[-$deleted]($deleted_style)\]'
 format = '\[[$symbol$account(@$domain)(\($region\))]($style)\]'
 
 [git_branch]
-format = '[git:// ](bold bright-cyan)[$branch](bold #ffb347)'
+format = '[git://](bold bright-cyan)[$branch](bold #ffb347)'
 symbol = ''
 
 [git_commit]
@@ -149,6 +148,25 @@ staged = '+${count}'
 stashed = '*${count}'
 style = 'bold red'
 untracked = '?${count}'
+
+[custom.svn_relative_url]
+command = '''
+if git rev-parse --is-inside-work-tree >/dev/null 2>&1; then
+    exit 0
+fi
+
+svn info --show-item relative-url 2>/dev/null | sed 's#^\^/##'
+'''
+format = '[svn://](bold bright-cyan)[$output](bold #ffb347)'
+shell = ['bash', '--noprofile', '--norc']
+style = 'bold #ffb347'
+when = '''
+if git rev-parse --is-inside-work-tree >/dev/null 2>&1; then
+    exit 1
+fi
+
+svn info --show-item relative-url >/dev/null 2>&1
+'''
 
 [gleam]
 format = '\[[$symbol($version)]($style)\]'
