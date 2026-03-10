@@ -242,15 +242,19 @@ __prompt_native_svn_segment() {
 # Compose the full interactive prompt.
 #
 # The prompt is rendered on two lines:
-# - line 1 shows user, host, current directory, and optional VCS information
+# - line 1 shows user, host, current directory, optional VCS information, and
+#   the previous command's exit status when it failed
 # - line 2 shows the input marker where commands are typed
 #
 # Bash executes PROMPT_COMMAND before displaying each primary prompt, which makes
 # this function the central place for assembling dynamic prompt state.
 __prompt_native_prompt_command() {
+	local last_status=$?
 	local cwd
 	local vcs_segment=""
+	local exit_segment=""
 	local line1
+	local line2
 
 	# Shorten the current working directory and escape it for safe PS1 use.
 	__prompt_native_set_short_pwd
@@ -274,7 +278,17 @@ __prompt_native_prompt_command() {
 		line1+="${__prompt_native_default}-[${vcs_segment}${__prompt_native_default}]"
 	fi
 
-	PS1="${line1}"$'\n'"${__prompt_native_default}└> ${__prompt_native_reset}"
+	# Surface non-zero exit codes inline and make the prompt marker stand out when
+	# the previous command failed.
+	line2="${__prompt_native_default}└"
+	if ((last_status != 0)); then
+		exit_segment="${__prompt_native_default}(${__prompt_native_danger}${last_status}${__prompt_native_default})"
+		line2+="${__prompt_native_danger}>"
+	else
+		line2+="${__prompt_native_default}>"
+	fi
+
+	PS1="${line1}${exit_segment}"$'\n'"${line2} ${__prompt_native_reset}"
 }
 
 PROMPT_COMMAND=__prompt_native_prompt_command
