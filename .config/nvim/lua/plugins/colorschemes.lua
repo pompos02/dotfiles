@@ -9,6 +9,8 @@ return {
         -- "pompos02/yara.nvim",
         { dir = "/home/karavellas/projects/opensource/yara.nvim" },
         "navarasu/onedark.nvim",
+
+        "oskarnurm/koda.nvim",
         "rebelot/kanagawa.nvim",
         "scottmckendry/cyberdream.nvim",
         "bluz71/vim-moonfly-colors",
