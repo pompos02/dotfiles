@@ -32,10 +32,12 @@ custom-shader-animation = always
 # Based on provided color scheme
 
 # Background and Foreground
-background = 181818
-foreground = ffffff
+# background = 181818
+# foreground = ffffff
 
-# Cursor
+background = ffffff 
+foreground = 181818
+
 cursor-style = block
 cursor-color = cell-foreground
 

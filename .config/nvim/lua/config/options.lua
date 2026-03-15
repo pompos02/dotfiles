@@ -1,6 +1,6 @@
 local opt = vim.opt
 opt.number = true
-opt.relativenumber = true
+opt.relativenumber = false
 opt.shiftround = true -- Round indent
 vim.opt.swapfile = false
 -- only set clipboard if not in ssh, to make sure the OSC 52
