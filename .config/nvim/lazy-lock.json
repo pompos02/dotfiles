@@ -2,8 +2,10 @@
   "blink-cmp-plsql.nvim": { "branch": "master", "commit": "22fcc8414f073caad9eccb71cce2627e3cfc605e" },
   "blink.cmp": { "branch": "main", "commit": "451168851e8e2466bc97ee3e026c3dcb9141ce07" },
   "cyberdream.nvim": { "branch": "main", "commit": "a68ffa6af98bf1fc88f33a071c51a188ec85c725" },
+  "fff.nvim": { "branch": "main", "commit": "64861f8142c5ce8c34f9ec73a3d084857182e156" },
   "friendly-snippets": { "branch": "main", "commit": "6cd7280adead7f586db6fccbd15d2cac7e2188b9" },
   "fzf-lua": { "branch": "main", "commit": "6e41ba7505f35a6f054ca682b043aa0cea36c2ef" },
+  "github-monochrome.nvim": { "branch": "master", "commit": "e77321ecd5a68f020d9c543592e222d7786169bf" },
   "gitsigns.nvim": { "branch": "main", "commit": "7c4faa3540d0781a28588cafbd4dd187a28ac6e3" },
   "go-live-markdown.nvim": { "branch": "master", "commit": "19ddcebc5584b32814f8c161dc84ca9d357a7cc1" },
   "gruber-darker.nvim": { "branch": "main", "commit": "aba065c3a79b58cc3863d5c9db319255abd1258a" },
@@ -33,5 +35,6 @@
   "solarized-osaka.nvim": { "branch": "main", "commit": "f0c2f0ba0bd56108d53c9bfae4bb28ff6c67bbdb" },
   "tokyonight.nvim": { "branch": "main", "commit": "5da1b76e64daf4c5d410f06bcb6b9cb640da7dfd" },
   "vague.nvim": { "branch": "main", "commit": "8c4643f8a5106dbc492918f86ff6b5c81111ce9a" },
+  "vim": { "branch": "legacy", "commit": "99d4b7bf1a0a12f2d78f35a159384b1eb8aa9c15" },
   "vim-moonfly-colors": { "branch": "master", "commit": "d11b3d04cc1cb71a778d67a4df73283a5a6d66f4" }
 }

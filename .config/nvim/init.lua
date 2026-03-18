@@ -25,6 +25,14 @@ vim.api.nvim_create_autocmd("TextYankPost", {
     end,
 })
 
+-- Open the quickfix window automatically after commands that populate it.
+vim.api.nvim_create_autocmd("QuickFixCmdPost", {
+    desc = "Open quickfix when populated",
+    group = vim.api.nvim_create_augroup("quickfix_open", { clear = true }),
+    pattern = { "make", "grep", "vimgrep" },
+    command = "cwindow",
+})
+
 vim.filetype.add({ extension = { pc = "cpp", } })
 vim.filetype.add({
     extension = {

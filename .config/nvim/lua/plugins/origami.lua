@@ -7,7 +7,7 @@ return {
         },
     },
     foldKeymaps = {
-        setup = false, -- modifies `h`, `l`, `^`, and `$`
+        setup = true, -- modifies `h`, `l`, `^`, and `$`
         closeOnlyOnFirstColumn = false, -- `h` and `^` only fold in the 1st column
         scrollLeftOnCaret = false, -- `^` should scroll left (basically mapped to `0^`)
     },
