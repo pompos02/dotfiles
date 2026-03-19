@@ -1,14 +1,7 @@
-
-# custom-shader = shaders/cursor_smear_verygood.glsl
-# custom-shader = shaders/cursor_warp.glsl
-
-# custom-shader = shaders/cursor_sweep.glsl
-
-
 term = xterm-256color
 
 # Font Configuration
-font-family = "ComicShannsMono Nerd Font"
+font-family = "TX02"
 # font-style = Light
 font-style-bold = Bold
 # font-style-italic = "Light Oblique"
@@ -16,8 +9,10 @@ font-style-bold = Bold
 font-size = 15.0
 
 # Previous font options (commented out)
-# font-family = "TX-02"
+#MonaspiceKr Nerd Font Mono
+# font-family = "TX02"
 # font-family = "JetBrains Mono"
+# font-family = "ComicShannsMono Nerd Font"
 # font-family = "SauceCodePro Nerd Font Propo"
 # font-family = "ProFontWindows Nerd Font Propo"
 # font-family = "ProFont IIx Nerd Font Propo"
@@ -30,6 +25,7 @@ mouse-hide-while-typing = true
 window-decoration = false
 
 macos-option-as-alt = true
+custom-shader-animation = always
 
 
 # Custom Light Theme - 16 Color Palette
@@ -39,7 +35,9 @@ macos-option-as-alt = true
 background = 181818
 foreground = ffffff
 
-# Cursor
+# background = ffffff 
+# foreground = 181818
+
 cursor-style = block
 cursor-color = cell-foreground
 

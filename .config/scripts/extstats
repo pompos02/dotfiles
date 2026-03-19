@@ -2,10 +2,10 @@
 
 dir="${1:-.}"
 
-  # detect terminal for color
+# detect terminal for color
 if [ -t 1 ]; then color=1; else color=0; fi
-  find "$dir" -type f -name '*.*' -print |
-      awk '
+find "$dir" -type f -name '*.*' -print |
+	awk '
     {
         file = $0
 
@@ -39,8 +39,8 @@ if [ -t 1 ]; then color=1; else color=0; fi
         for (e in count)
             printf "%s\t%d\t%d\t%d\n", e, count[e], total_lines[e], total_bytes[e]
         }' |
-    sort -k2,2nr |
-    awk -v color="$color" '
+	sort -k2,2nr |
+	awk -v color="$color" '
     BEGIN {
         if (color) {
             CYAN="\033[36m"; GREEN="\033[32m"; YELLOW="\033[33m"

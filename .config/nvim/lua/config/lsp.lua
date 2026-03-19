@@ -2,7 +2,7 @@
 
 -- Configure diagnostics globally (once)
 vim.diagnostic.config({
-    underline = true,
+    underline = false,
     update_in_insert = false,
     virtual_text = {
         spacing = 4,

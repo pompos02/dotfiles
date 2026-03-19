@@ -9,9 +9,9 @@ vim.opt.background = "dark"
 vim.cmd.colorscheme("yara-grey")
 
 
-vim.o.winborder = "rounded"
+vim.o.winborder = "single"
 
-vim.opt.expandtab = true -- use tabs, not spaces
+vim.opt.expandtab = true
 vim.opt.tabstop = 4      -- a tab displays as 4 columns
 vim.opt.shiftwidth = 4   -- >> << and autoindent use 4
 vim.opt.softtabstop = 4  -- <Tab>/<BS> behave as 4 columns
@@ -23,6 +23,14 @@ vim.api.nvim_create_autocmd("TextYankPost", {
     callback = function()
         vim.highlight.on_yank()
     end,
+})
+
+-- Open the quickfix window automatically after commands that populate it.
+vim.api.nvim_create_autocmd("QuickFixCmdPost", {
+    desc = "Open quickfix when populated",
+    group = vim.api.nvim_create_augroup("quickfix_open", { clear = true }),
+    pattern = { "make", "grep", "vimgrep" },
+    command = "cwindow",
 })
 
 vim.filetype.add({ extension = { pc = "cpp", } })

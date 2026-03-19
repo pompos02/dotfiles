@@ -27,59 +27,7 @@ export PATH=$PATH:$ORACLE_HOME
 export TNS_ADMIN=/opt/oracle/wallet
 export PATH=/opt/oracle/instantclient_19_29/sdk:$PATH
 
-
-short_pwd() {
-    local path="$PWD"
-    local prefix=""
-
-    if [[ "$path" == "$HOME"* ]]; then
-        prefix="~"
-        path="${path#"$HOME"}"
-    fi
-
-    local IFS=/
-    local -a parts
-    read -ra parts <<< "${path#/}"
-
-    local out="$prefix"
-    local last_index=$((${#parts[@]}-1))
-
-        for i in "${!parts[@]}"; do
-            local part="${parts[$i]}"
-            if [[ -z "$part" ]]; then
-                continue
-            fi
-
-            if [[ $i -eq $last_index ]]; then
-                out+="/$part"
-            elif [[ $part == .* ]]; then
-                out+="/${part:0:2}"
-            else
-                out+="/${part:0:1}"
-            fi
-        done
-
-        [[ -z "$out" ]] && out="/"
-        echo "$out"
-}
-
-get_git_branch() {
-  local branch
-  branch=$(git branch --show-current 2>/dev/null)
-  if [ -n "$branch" ]; then
-    echo -e "\033[38;5;46m($branch)\033[0m "
-    return
-  fi
-  # Detached HEAD fallback
-  local sha
-  sha=$(git rev-parse --short HEAD 2>/dev/null) || return
-  echo -e "\033[38;5;208m($sha)\033[0m "
-}
-
-PS1='$(get_git_branch)'
-# PS1+='[\u${SSH_CONNECTION:+@\h}:'
-PS1+='$(short_pwd)'
-PS1+=' \$ '
+[ -f "$HOME/.config/bash/prompt.bash" ] && . "$HOME/.config/bash/prompt.bash"
 
 export HISTSIZE=5000
 export HISTFILESIZE=20000
@@ -93,8 +41,7 @@ alias python='python3'
 alias grep='grep --color=auto'
 alias vim='nvim'
 alias bat='batcat'
-alias lazy='NVIM_APPNAME=lazy nvim'
-
+alias good='git add . && git commit -m "good" && git push'
 
 eval "$(fzf --bash)"
 
@@ -110,7 +57,6 @@ pkillf() {
 my_ip() {
     ip address | grep -o "inet 192.*/" | awk '{ print $2 }' | tr / ' ' | xargs
 }
-
 
 man() {
     nvim -c "Man $* | only"

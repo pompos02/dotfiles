@@ -31,9 +31,6 @@ zinit light Aloxaf/fzf-tab
 zinit snippet OMZL::git.zsh
 zinit snippet OMZP::git
 zinit snippet OMZP::sudo
-zinit snippet OMZP::archlinux
-zinit snippet OMZP::kubectl
-zinit snippet OMZP::kubectx
 zinit snippet OMZP::command-not-found
 
 # Load completions
@@ -61,25 +58,16 @@ zstyle ':completion:*' list-colors "${(s.:.)LS_COLORS}"
 zstyle ':completion:*' menu no
 zstyle ':fzf-tab:complete:cd:*' fzf-preview 'ls --color $realpath'
 zstyle ':fzf-tab:complete:__zoxide_z:*' fzf-preview 'ls --color $realpath'
-zstyle ':fzf-tab:*' fzf-flags --color=bw
+zstyle ':fzf-tab:*' fzf-flags
 
 # Aliases
-alias fzf='fzf'
 alias vim='nvim'
-alias c='clear'
 alias codenohup='nohup code  >/dev/null 2>&1 &'
 alias cursornohup='nohup cursor  >/dev/null 2>&1 &'
-alias tm='tmux'
-alias tma='tmux attach'
-alias gs='git status'
-alias gc='git commit'
 alias my_ip="ip address | grep -o \"inet 192.*/\" | awk '{ print \$2 }' | tr / ' ' | xargs"
-alias ..="cd .."
-alias python="python"
 alias ls='eza -lh --group-directories-first --icons=auto'
-alias lsa='ls -a'
+alias ll='ls -l'
 alias lt='eza --tree --level=2 --long --icons --git'
-alias lta='lt -a'
 alias ff="fzf --preview 'bat --style=numbers --color=always {}'"
 
 alias cd="zd"

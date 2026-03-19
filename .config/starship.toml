@@ -1,202 +1,100 @@
 "$schema" = 'https://starship.rs/config-schema.json'
+add_newline = false
+format = '''
+[┌\[](fg:default)$username@$hostname[\]-\(](fg:default)${custom.short_pwd}[\)](fg:default)(-[\[](fg:default)$git_branch$git_commit$git_status${custom.svn_relative_url}[\]](fg:default))
+[└> ](fg:default)'''
 
-[aws]
-symbol = " "
+[custom.short_pwd]
+command = '''
+path="$PWD"
+prefix=""
 
-[buf]
-symbol = " "
+if [[ "$path" == "$HOME"* ]]; then
+    prefix="~"
+    path="${path#"$HOME"}"
+fi
 
-[bun]
-symbol = " "
+IFS=/ read -r -a parts <<< "${path#/}"
+out="$prefix"
+last_index=$((${#parts[@]} - 1))
 
-[c]
-symbol = " "
+for i in "${!parts[@]}"; do
+    part="${parts[$i]}"
+    [[ -z "$part" ]] && continue
 
-[cpp]
-symbol = " "
+    if [[ $i -eq $last_index ]]; then
+        out+="/$part"
+    elif [[ $part == .* ]]; then
+        out+="/${part:0:2}"
+    else
+        out+="/${part:0:1}"
+    fi
+done
 
-[cmake]
-symbol = " "
-
-[conda]
-symbol = " "
-
-[crystal]
-symbol = " "
-
-[dart]
-symbol = " "
-
-[deno]
-symbol = " "
-
-[directory]
-read_only = " 󰌾"
-
-[docker_context]
-symbol = " "
-
-[elixir]
-symbol = " "
-
-[elm]
-symbol = " "
-
-[fennel]
-symbol = " "
-
-[fortran]
-symbol = " "
-
-[fossil_branch]
-symbol = " "
-
-[gcloud]
-symbol = " "
+[[ -z "$out" ]] && out="/"
+printf '%s' "$out"
+'''
+format = '[$output]($style)'
+shell = ['bash', '--noprofile', '--norc']
+style = '#f3ad47'
+when = 'true'
 
 [git_branch]
-symbol = " "
+format = '[git://](fg:default)[$branch](#f3ad47)'
+symbol = ''
 
 [git_commit]
-tag_symbol = '  '
+commit_hash_length = 7
+format = '[git:// ](fg:default)[$hash](#f43841)'
+only_detached = true
+tag_disabled = true
 
-[golang]
-symbol = " "
+[git_metrics]
+format = '\[[+$added]($added_style)\]\[[-$deleted]($deleted_style)\]'
 
-[gradle]
-symbol = " "
+[git_state]
+format = '\[[$state ($progress_current/$progress_total)]($style)\]'
 
-[guix_shell]
-symbol = " "
+[git_status]
+ahead = '⇡${count}'
+behind = '⇣${count}'
+conflicted = '=${count}'
+deleted = 'x${count}'
+diverged = '⇕⇡${ahead_count}⇣${behind_count}'
+format = '([ $all_status$ahead_behind](#f43841))'
+modified = '!${count}'
+renamed = '»${count}'
+staged = '+${count}'
+stashed = '*${count}'
+style = '#f43841'
+untracked = '?${count}'
 
-[haskell]
-symbol = " "
+[custom.svn_relative_url]
+command = '''
+if git rev-parse --is-inside-work-tree >/dev/null 2>&1; then
+    exit 0
+fi
 
-[haxe]
-symbol = " "
+svn info --show-item relative-url 2>/dev/null | sed 's#^\^/##'
+'''
+format = '[svn://](fg:default)[$output](#f3ad47)'
+shell = ['bash', '--noprofile', '--norc']
+style = '#ffb347'
+when = '''
+if git rev-parse --is-inside-work-tree >/dev/null 2>&1; then
+    exit 1
+fi
 
-[hg_branch]
-symbol = " "
+svn info --show-item relative-url >/dev/null 2>&1
+'''
 
 [hostname]
-ssh_symbol = " "
+format = '[$ssh_symbol$hostname]($style)'
+ssh_only = false
+style = ''
 
-[java]
-symbol = " "
-
-[julia]
-symbol = " "
-
-[kotlin]
-symbol = " "
-
-[lua]
-symbol = " "
-
-[memory_usage]
-symbol = "󰍛 "
-
-[meson]
-symbol = "󰔷 "
-
-[nim]
-symbol = "󰆥 "
-
-[nix_shell]
-symbol = " "
-
-[nodejs]
-symbol = " "
-
-[ocaml]
-symbol = " "
-
-[os.symbols]
-Alpaquita = " "
-Alpine = " "
-AlmaLinux = " "
-Amazon = " "
-Android = " "
-AOSC = " "
-Arch = " "
-Artix = " "
-CachyOS = " "
-CentOS = " "
-Debian = " "
-DragonFly = " "
-Emscripten = " "
-EndeavourOS = " "
-Fedora = " "
-FreeBSD = " "
-Garuda = "󰛓 "
-Gentoo = " "
-HardenedBSD = "󰞌 "
-Illumos = "󰈸 "
-Kali = " "
-Linux = " "
-Mabox = " "
-Macos = " "
-Manjaro = " "
-Mariner = " "
-MidnightBSD = " "
-Mint = " "
-NetBSD = " "
-NixOS = " "
-Nobara = " "
-OpenBSD = "󰈺 "
-openSUSE = " "
-OracleLinux = "󰌷 "
-Pop = " "
-Raspbian = " "
-Redhat = " "
-RedHatEnterprise = " "
-RockyLinux = " "
-Redox = "󰀘 "
-Solus = "󰠳 "
-SUSE = " "
-Ubuntu = " "
-Unknown = " "
-Void = " "
-Windows = "󰍲 "
-
-[package]
-symbol = "󰏗 "
-
-[perl]
-symbol = " "
-
-[php]
-symbol = " "
-
-[pijul_channel]
-symbol = " "
-
-[pixi]
-symbol = "󰏗 "
-
-[python]
-symbol = " "
-
-[rlang]
-symbol = "󰟔 "
-
-[ruby]
-symbol = " "
-
-[rust]
-symbol = "󱘗 "
-
-[scala]
-symbol = " "
-
-[status]
-symbol = " "
-
-[swift]
-symbol = " "
-
-[xmake]
-symbol = " "
-
-[zig]
-symbol = " "
+[username]
+format = '[$user]($style)'
+show_always = true
+style_root = ''
+style_user = ''
