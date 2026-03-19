@@ -18,6 +18,7 @@ export PATH="$PATH:/opt/sqlcl/bin"
 export PATH="$HOME/.cargo/bin:$PATH"
 export BUN_INSTALL="$HOME/.bun"
 export PATH="$BUN_INSTALL/bin:$PATH"
+export PATH="$PATH:$HOME/.local/zig"
 export PKG_CONFIG_PATH=/usr/local/lib/pkgconfig:$PKG_CONFIG_PATH
 
 # oracle environment variables
