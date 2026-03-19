@@ -41,7 +41,7 @@ alias python='python3'
 alias grep='grep --color=auto'
 alias vim='nvim'
 alias bat='batcat'
-alias lazy='NVIM_APPNAME=lazy nvim'
+alias good='git add . && git commit -m "good" && git push'
 
 eval "$(fzf --bash)"
 
