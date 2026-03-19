@@ -7,7 +7,7 @@ return {
     -- "pompos02/yara.nvim",
     { dir = "/home/karavellas/projects/opensource/yara.nvim" },
     "navarasu/onedark.nvim",
-
+	"rose-pine/neovim",
     "mountain-theme/vim",
     "oskarnurm/koda.nvim",
     "rebelot/kanagawa.nvim",
