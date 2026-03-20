@@ -64,7 +64,6 @@ short_pwd() {
 # sequences, which keeps line editing and cursor positioning correct.
 __prompt_native_default='\[\e[39m\]'
 __prompt_native_accent='\[\e[38;2;243;173;71m\]'
-__prompt_native_cyan='\[\e[36m\]'
 __prompt_native_danger='\[\e[38;2;244;56;65m\]'
 __prompt_native_reset='\[\e[0m\]'
 
@@ -230,64 +229,14 @@ __prompt_native_git_segment() {
 # This is only used when Git metadata is unavailable. The relative URL is a
 # compact and stable way to show the current branch or tag location in SVN.
 __prompt_native_svn_segment() {
-	local info_output
-	local status_output
-	local line
 	local relative_url
-	local revision
-	local wc_root
-	local nested_path
-	local all_status=""
-	local modified=0
-	local added=0
-	local deleted=0
 
-	info_output=$(command svn info 2>/dev/null) || return 1
-	status_output=$(command svn status -q 2>/dev/null) || return 1
-
-	while IFS= read -r line; do
-		case $line in
-		'Relative URL: '*)
-			relative_url=${line#Relative URL: }
-			;;
-		'Last Changed Rev: '*)
-			revision=${line#Last Changed Rev: }
-			;;
-		'Working Copy Root Path: '*)
-			wc_root=${line#Working Copy Root Path: }
-			;;
-		esac
-	done <<<"$info_output"
-
-	[[ -n $relative_url && -n $revision && -n $wc_root ]] || return 1
-
-	if [[ $PWD == "$wc_root"/* ]]; then
-		nested_path=${PWD#"$wc_root"/}
-		if [[ -n $nested_path ]]; then
-			relative_url=${relative_url%/"$nested_path"}
-		fi
-	fi
-
-	while IFS= read -r line; do
-		case ${line:0:1} in
-		M|R) ((modified++)) ;;
-		A) ((added++)) ;;
-		D|!) ((deleted++)) ;;
-		esac
-	done <<<"$status_output"
-
-	((deleted)) && all_status+="x${deleted}"
-	((modified)) && all_status+="!${modified}"
-	((added)) && all_status+="+${added}"
-
+	relative_url=$(command svn info --show-item relative-url 2>/dev/null) || return 1
 	relative_url=${relative_url#^/}
 	__prompt_native_escape_ps1 "$relative_url"
 	relative_url=$REPLY
 
-	REPLY="${__prompt_native_default}svn://${__prompt_native_accent}${relative_url}${__prompt_native_cyan}@${__prompt_native_default}${__prompt_native_accent}${revision}${__prompt_native_default}"
-	if [[ -n $all_status ]]; then
-		REPLY+="${__prompt_native_danger} ${all_status}"
-	fi
+	REPLY="${__prompt_native_default}svn://${__prompt_native_accent}${relative_url}"
 }
 
 # Compose the full interactive prompt.
