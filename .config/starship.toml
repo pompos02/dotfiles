@@ -1,8 +1,14 @@
 "$schema" = 'https://starship.rs/config-schema.json'
 add_newline = false
 format = '''
-[┌\[](fg:default)$username@$hostname[\]-\(](fg:default)${custom.short_pwd}[\)](fg:default)(-[\[](fg:default)$git_branch$git_commit$git_status${custom.svn_relative_url}[\]](fg:default))
-[└> ](fg:default)'''
+[┌\[](fg:default)$username@$hostname[\]-\(](fg:default)${custom.short_pwd}[\)](fg:default)(-[\[](fg:default)$git_branch$git_commit$git_status${custom.svn_relative_url}[\]](fg:default))$status
+[└](fg:default)$character'''
+
+[character]
+error_symbol = '[>](#f43841)'
+format = '$symbol '
+success_symbol = '[>](fg:default)'
+vimcmd_symbol = '[>](fg:default)'
 
 [custom.short_pwd]
 command = '''
@@ -41,6 +47,13 @@ when = 'true'
 
 [git_branch]
 format = '[git://](fg:default)[$branch](#f3ad47)'
+symbol = ''
+
+[status]
+disabled = false
+format = '\([$status](#f43841)\)'
+map_symbol = false
+recognize_signal_code = false
 symbol = ''
 
 [git_commit]
