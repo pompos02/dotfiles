@@ -50,17 +50,15 @@ zstyle ':completion:*' menu no
 
 # Aliases
 alias vim='nvim'
-alias codenohup='nohup code  >/dev/null 2>&1 &'
-alias cursornohup='nohup cursor  >/dev/null 2>&1 &'
 alias ls='eza -lh --group-directories-first --icons=auto'
 alias ll='ls -l'
 alias lt='eza --tree --level=2 --long --icons --git'
 alias ff="fzf --preview 'bat --style=numbers --color=always {}'"
 
-alias cd="zd"
 alias code="code  --ozone-platform=wayland "
 alias pacl="pacman -Slq | fzf --preview 'pacman -Si {}' --layout=reverse --height=80% --border"
 alias yayl="yay -Slq | fzf --preview 'yay -Si {}' --layout=reverse --height=80% --border"
+alias good='git add . && git commit -m "good" && git push'
 
 # Functions
 zd() {
@@ -82,8 +80,6 @@ open() {
 
 # Shell integrations
 eval "$(fzf --zsh)"
-#eval "$(zoxide init --cmd cd zsh)"
-eval "$(zoxide init zsh)"
 
 # PATH
 export PATH="/usr/local/bin:$PATH"
@@ -128,7 +124,6 @@ zle -N edit-command-line
 
 bindkey '^X^E' edit-command-line
 
-export PATH="/opt/homebrew/opt/postgresql@17/bin:$PATH"
 export EDITOR=nvim
 
 # this is for macbook

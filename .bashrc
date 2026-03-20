@@ -41,7 +41,7 @@ alias ll='ls -l'
 alias python='python3'
 alias grep='grep --color=auto'
 alias vim='nvim'
-alias bat='batcat'
+alias bat='bat'
 alias good='git add . && git commit -m "good" && git push'
 
 eval "$(fzf --bash)"
