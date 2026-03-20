@@ -1,0 +1,8 @@
+[Common]
+OutlineCloseButton=true
+OutlineEnabled=false
+RoundedCorners=false
+ShadowSize=ShadowNone
+
+[Windeco]
+ButtonSize=ButtonSmall
