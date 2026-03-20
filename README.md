@@ -15,7 +15,14 @@ stow . -t ~ --ignore='hypr|waybar|kitty|dunst|ghostty|rofi|kde|minimal-install.s
 
 ```bash
 stow . -t ~ --ignore='kde' && stow kde -t ~
+
 ```
+
+### Restowing
+```bash
+stow -Rv . -t "$HOME" --ignore='kde|docs|minimal-install.sh|full-install.sh|.gitignore|README.md' && stow -Rv kde -t "$HOME"
+```
+
 
 Do not run plain `stow . -t ~` anymore. Now that the repo contains a dedicated `kde/` package, doing that would try to link the `kde` directory itself into `~` instead of stowing its contents.
 
