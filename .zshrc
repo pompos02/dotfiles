@@ -1,11 +1,3 @@
-# Prompt (matching .bashrc)
-# setopt PROMPT_SUBST
-# PROMPT='%(!.%F{red}.)%n@%m%f'  # user@host (red for root)
-# PROMPT+=':'  # separator
-# PROMPT+='%1~'  # current directory
-# PROMPT+='$(branch=$(git rev-parse --abbrev-ref HEAD 2>/dev/null); [[ -n $branch ]] && echo "(*$branch)")'  # git branch
-# PROMPT+=' %# '  # prompt character
-
 # Plugin manager
 # Set the directory we want to store zinit and plugins
 ZINIT_HOME="${XDG_DATA_HOME:-${HOME}/.local/share}/zinit/zinit.git"
@@ -26,7 +18,6 @@ zinit light zsh-users/zsh-syntax-highlighting
 ZSH_HIGHLIGHT_STYLES[unknown-token]='fg=red'
 zinit light zsh-users/zsh-completions
 zinit light zsh-users/zsh-autosuggestions
-zinit light Aloxaf/fzf-tab
 
 # Snippets
 zinit snippet OMZL::git.zsh
@@ -56,9 +47,6 @@ setopt hist_find_no_dups
 zstyle ':completion:*' matcher-list 'm:{a-z}={A-Za-z}'
 zstyle ':completion:*' list-colors "${(s.:.)LS_COLORS}"
 zstyle ':completion:*' menu no
-zstyle ':fzf-tab:complete:cd:*' fzf-preview 'ls --color $realpath'
-zstyle ':fzf-tab:complete:__zoxide_z:*' fzf-preview 'ls --color $realpath'
-zstyle ':fzf-tab:*' fzf-flags
 
 # Aliases
 alias vim='nvim'
