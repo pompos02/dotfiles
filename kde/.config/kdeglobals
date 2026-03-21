@@ -92,7 +92,7 @@ ForegroundVisited=244,56,65
 
 [General]
 ColorScheme=Yara
-ColorSchemeHash=1f8dc2b3d353fa6c4511df19ea435a69852aeceb
+ColorSchemeHash=7d5d9a683c54edf00d9d00546d0a396075b3c085
 XftHintStyle=hintslight
 XftSubPixel=none
 fixed=TX02,10,-1,5,400,0,0,0,0,0,0,0,0,0,0,1
