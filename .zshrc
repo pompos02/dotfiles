@@ -118,6 +118,7 @@ conda() {
 # Keybindings
 bindkey -e
 export KEYTIMEOUT=1
+bindkey '^U' backward-kill-line
 
 # Ctrl+Arrow word movement
 bindkey '^[[1;5C' forward-word
