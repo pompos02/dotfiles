@@ -180,6 +180,3 @@ nvm() {
   [ -s "$NVM_DIR/bash_completion" ] && . "$NVM_DIR/bash_completion"
   nvm "$@"
 }
-
-# Node version manager
-source /usr/share/nvm/init-nvm.sh
