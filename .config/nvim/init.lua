@@ -8,13 +8,12 @@ vim.g.plsql_fold = 1
 vim.opt.background = "dark"
 vim.cmd.colorscheme("yara-grey")
 
-
 vim.o.winborder = "single"
 
 vim.opt.expandtab = true
-vim.opt.tabstop = 4      -- a tab displays as 4 columns
-vim.opt.shiftwidth = 4   -- >> << and autoindent use 4
-vim.opt.softtabstop = 4  -- <Tab>/<BS> behave as 4 columns
+vim.opt.tabstop = 4 -- a tab displays as 4 columns
+vim.opt.shiftwidth = 4 -- >> << and autoindent use 4
+vim.opt.softtabstop = 4 -- <Tab>/<BS> behave as 4 columns
 
 -- Highlight on yank
 vim.api.nvim_create_autocmd("TextYankPost", {
@@ -33,7 +32,7 @@ vim.api.nvim_create_autocmd("QuickFixCmdPost", {
     command = "cwindow",
 })
 
-vim.filetype.add({ extension = { pc = "cpp", } })
+vim.filetype.add({ extension = { pc = "cpp" } })
 vim.filetype.add({
     extension = {
         pkb = "plsql",

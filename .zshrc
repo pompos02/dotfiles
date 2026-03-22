@@ -17,7 +17,7 @@ zinit light zsh-users/zsh-syntax-highlighting
 
 ZSH_HIGHLIGHT_STYLES[unknown-token]='fg=red'
 zinit light zsh-users/zsh-completions
-zinit light zsh-users/zsh-autosuggestions
+# zinit light zsh-users/zsh-autosuggestions
 
 # Snippets
 zinit snippet OMZL::git.zsh
@@ -180,3 +180,9 @@ nvm() {
   [ -s "$NVM_DIR/bash_completion" ] && . "$NVM_DIR/bash_completion"
   nvm "$@"
 }
+
+
+# Auto-start tmux on login
+if [[ -z "$TMUX" ]] && [[ -t 1 ]]; then
+    tmux attach -t karavellas || tmux new -s karavellas
+fi

@@ -1,3 +1,6 @@
 [Keyboard]
 RepeatDelay=333
 RepeatRate=60
+
+[Mouse]
+cursorTheme=Breeze_Light

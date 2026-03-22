@@ -22,7 +22,7 @@ font-size = 15.0
 background-blur-radius = 80
 background-opacity =1
 mouse-hide-while-typing = true
-window-decoration = false
+window-decoration = true
 
 macos-option-as-alt = true
 custom-shader-animation = always

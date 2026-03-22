@@ -3,6 +3,8 @@ _k_friendly_name=Activity Manager
 switch-to-activity-0988f038-715b-486d-993c-51ee99bf2c57=none,none,Switch to activity "Default"
 
 [KDE Keyboard Layout Switcher]
+Switch keyboard layout to English (US)=none,none,Switch keyboard layout to English (US)
+Switch keyboard layout to Greek=none,none,Switch keyboard layout to Greek
 Switch to Last-Used Keyboard Layout=,Meta+Alt+L,Switch to Last-Used Keyboard Layout
 Switch to Next Keyboard Layout=Meta+Space,Meta+Alt+K,Switch to Next Keyboard Layout
 _k_friendly_name=Keyboard Layout Switcher
@@ -20,7 +22,7 @@ newEmail=none,none,New Email Alarm
 stopAudio=none,none,Stop Play
 
 [kmix]
-_k_friendly_name=KMix
+_k_friendly_name=Audio Volume
 decrease_microphone_volume=Microphone Volume Down,Microphone Volume Down,Decrease Microphone Volume
 decrease_volume=Volume Down,Volume Down,Decrease Volume
 decrease_volume_small=Shift+Volume Down,Shift+Volume Down,Decrease Volume by 1%
@@ -257,6 +259,12 @@ activate task manager entry 8=Meta+8,Meta+8,Activate Task Manager Entry 8
 activate task manager entry 9=Meta+9,Meta+9,Activate Task Manager Entry 9
 activate widget 205=,none,Activate System Monitor Widget
 activate widget 206=Meta+V,none,Activate Clipboard Widget
+activate widget 209=,none,Activate System Monitor Widget
+activate widget 240=,none,Activate Clipboard Widget
+activate widget 252=,none,Activate System Monitor Widget
+activate widget 255=,none,Activate Icons-Only Task Manager Widget
+activate widget 282=,none,Activate System Monitor Widget
+activate widget 335=,none,Activate System Monitor Widget
 activate widget 61=,none,Activate Icons-Only Task Manager Widget
 clear-history=,,Clear Clipboard History
 clipboard_action=Meta+Ctrl+X,Meta+Ctrl+X,Automatic Action Popup Menu
@@ -291,10 +299,6 @@ _launch=
 
 [services][org.kde.krunner.desktop]
 _launch=Search\tAlt+F2\tAlt+Space\tMeta+S
-
-[services][org.kde.spectacle.desktop]
-CurrentMonitorScreenShot=
-OpenWithoutScreenshot=
 
 [wacomtablet]
 Map to fullscreen=Meta+Ctrl+F,Meta+Ctrl+F,Map to fullscreen
