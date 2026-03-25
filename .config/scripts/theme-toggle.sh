@@ -44,6 +44,7 @@ case "$PLATFORM" in
 esac
 NVIM_INIT="$HOME/.config/nvim/init.lua"
 TMUX_SESSIONS_PATH="$HOME/.config/scripts/tmux_sessions.sh"
+REMUX_PATH="$HOME/.config/scripts/remux.sh"
 
 if [[ "$SYSTEM_THEME" = "dark" ]]; then
 	echo "light" >"$THEME_FILE"
@@ -59,6 +60,7 @@ if [[ "$SYSTEM_THEME" = "dark" ]]; then
 	esac
 	sed -i 's/^\([[:space:]]*\)vim\.opt\.background[[:space:]]*=.*/\1vim.opt.background = "light"/' "$NVIM_INIT"
 	sed -i 's/^\([[:space:]]*\)THEME[[:space:]]*=.*/\1THEME="light"/' "$TMUX_SESSIONS_PATH"
+	sed -i 's/^\([[:space:]]*\)THEME[[:space:]]*=.*/\1THEME="light"/' "$REMUX_PATH"
 	change_nvim_theme light
 	exit 0
 fi
@@ -77,6 +79,7 @@ if [[ "$SYSTEM_THEME" = "light" ]]; then
 	esac
 	sed -i 's/^\([[:space:]]*\)vim\.opt\.background[[:space:]]*=.*/\1vim.opt.background = "dark"/' "$NVIM_INIT"
 	sed -i 's/^\([[:space:]]*\)THEME[[:space:]]*=.*/\1THEME="dark"/' "$TMUX_SESSIONS_PATH"
+	sed -i 's/^\([[:space:]]*\)THEME[[:space:]]*=.*/\1THEME="dark"/' "$REMUX_PATH"
 
 	change_nvim_theme dark
 	exit 0

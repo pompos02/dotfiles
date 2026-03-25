@@ -4,6 +4,7 @@ set -euo pipefail
 
 # Preview behavior is configurable through env vars so the picker can stay fast
 # on slower networks or larger SSH configs without requiring edits to the script.
+THEME_FILE="$HOME/.config/system-theme"
 PREVIEW_CACHE_DIR="${XDG_CACHE_HOME:-$HOME/.cache}/remux-preview"
 PREVIEW_CACHE_TTL="${REMUX_PREVIEW_CACHE_TTL:-30}"
 PREVIEW_LOCK_TTL="${REMUX_PREVIEW_LOCK_TTL:-20}"
@@ -24,7 +25,17 @@ COLOR_GRAY=$'\033[38;5;245m'
 COLOR_WHITE=$'\033[1;37m'
 COLOR_ORANGE=$'\033[38;5;208m'
 
+THEME="light"
+
 ENV_TYPE_EMPTY='__ENV_EMPTY__'
+
+
+# Check if we have a theme file
+if [[ -f "$THEME_FILE" ]]; then
+	SYSTEM_THEME=$(<"$THEME_FILE")
+fi
+SYSTEM_THEME="${SYSTEM_THEME:-dark}"
+
 
 # Host rows are colorized by the optional `# env:` metadata found near each Host
 # block in the SSH config. A dedicated sentinel lets us distinguish between
@@ -478,27 +489,64 @@ build_picker_rows() {
 	done
 }
 
+run_fzf() {
+	case "$THEME" in
+		dark)
+			fzf \
+				--ansi \
+				--style=full \
+				--height=100% \
+				--layout=reverse \
+				--preview-label=' details ' \
+				--prompt='> ' \
+				--marker='+' \
+				--info=inline-right \
+				--header-first \
+				--expect=enter,ctrl-x,ctrl-y \
+				--delimiter=$'\t' \
+				--with-nth=1 \
+				--preview "bash \"$script_path\" --preview-host {2}" \
+				--preview-window="right,${PREVIEW_WINDOW_SIZE_PERCENT}%,wrap" \
+				--border=rounded \
+				--color=hl:#A5D6FF:reverse:bold,hl+:#79C0FF:reverse:bold \
+				--color=info:white \
+				--color=fg+:#FFFFFF \
+				--color=bg+:#404040
+			;;
+		*)
+			fzf \
+				--ansi \
+				--style=full \
+				--height=100% \
+				--layout=reverse \
+				--preview-label=' details ' \
+				--prompt='> ' \
+				--marker='+' \
+				--info=inline-right \
+				--header-first \
+				--expect=enter,ctrl-x,ctrl-y \
+				--delimiter=$'\t' \
+				--with-nth=1 \
+				--preview "bash \"$script_path\" --preview-host {2}" \
+				--preview-window="right,${PREVIEW_WINDOW_SIZE_PERCENT}%,wrap"\
+				--border=rounded \
+				--color=fg:#000000,bg:#FFFFFF \
+				--color=hl:#A5D6FF:reverse:bold,hl+:#79C0FF:reverse:bold \
+				--color=info:#000000,separator:#000000,scrollbar:#000000 \
+				--color=fg+:#000000 \
+				--color=bg+:#F2F2F2
+			;;
+	esac
+
+}
+
 pick_host() {
 	local script_path="${BASH_SOURCE[0]}"
 
 	# fzf returns two lines when `--expect` is used: the pressed key and the selected
 	# row. Preview rendering shells back into this script so the preview logic stays
 	# in one place rather than being duplicated in an inline command.
-	build_picker_rows "$@" | fzf \
-		--ansi \
-		--style=full \
-		--height=100% \
-		--layout=reverse \
-		--preview-label=' details ' \
-		--prompt='> ' \
-		--marker='+' \
-		--info=inline-right \
-		--header-first \
-		--expect=enter,ctrl-x,ctrl-y \
-		--delimiter=$'\t' \
-		--with-nth=1 \
-		--preview "bash \"$script_path\" --preview-host {2}" \
-		--preview-window="right,${PREVIEW_WINDOW_SIZE_PERCENT}%,wrap"
+	build_picker_rows "$@" | run_fzf
 }
 
 preview_color_for_status() {
@@ -759,8 +807,12 @@ probe_host_details() {
 		if [[ -n "$uptime_raw" ]]; then
 			auth='key login works'
 			uptime="${uptime_raw#* up }"
-			uptime="${uptime%%, *user*}"
-			uptime="${uptime%%, load average*}"
+			if [[ "$uptime" =~ ^(.*),[[:space:]]*load\ averages?: ]]; then
+				uptime="${BASH_REMATCH[1]}"
+			fi
+			if [[ "$uptime" =~ ^(.*),[[:space:]]*([0-9]+[[:space:]]+users?),?[[:space:]]*$ ]]; then
+				uptime="${BASH_REMATCH[1]} (${BASH_REMATCH[2]})"
+			fi
 		fi
 	fi
 
