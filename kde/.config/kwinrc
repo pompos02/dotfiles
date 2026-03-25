@@ -9,7 +9,15 @@ NightTemperature=3800
 [Plugins]
 blurEnabled=true
 
+[Tiling][af202e83-7823-408a-b861-f76911204034][]
+padding=4
+tiles={"layoutDirection":"horizontal","tiles":[{"width":0.25},{"width":0.5},{"width":0.25}]}
+
 [Tiling][af202e83-7823-408a-b861-f76911204034][20c27a49-9fa2-4aac-8d7b-65e612a1f741]
+padding=4
+tiles={"layoutDirection":"horizontal","tiles":[{"width":0.25},{"width":0.5},{"width":0.25}]}
+
+[Tiling][af202e83-7823-408a-b861-f76911204034][2b6afb7a-1380-4d14-9a70-f6b756b46fee]
 padding=4
 tiles={"layoutDirection":"horizontal","tiles":[{"width":0.25},{"width":0.5},{"width":0.25}]}
 

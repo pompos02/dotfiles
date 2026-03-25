@@ -22,7 +22,7 @@ newEmail=none,none,New Email Alarm
 stopAudio=none,none,Stop Play
 
 [kmix]
-_k_friendly_name=Audio Volume
+_k_friendly_name=KMix
 decrease_microphone_volume=Microphone Volume Down,Microphone Volume Down,Decrease Microphone Volume
 decrease_volume=Volume Down,Volume Down,Decrease Volume
 decrease_volume_small=Shift+Volume Down,Shift+Volume Down,Decrease Volume by 1%
@@ -258,16 +258,16 @@ activate task manager entry 7=Meta+7,Meta+7,Activate Task Manager Entry 7
 activate task manager entry 8=Meta+8,Meta+8,Activate Task Manager Entry 8
 activate task manager entry 9=Meta+9,Meta+9,Activate Task Manager Entry 9
 activate widget 205=,none,Activate System Monitor Widget
-activate widget 206=Meta+V,none,Activate Clipboard Widget
+activate widget 206=none,none,Activate Clipboard Widget
 activate widget 209=,none,Activate System Monitor Widget
-activate widget 240=,none,Activate Clipboard Widget
+activate widget 240=none,none,Activate Clipboard Widget
 activate widget 252=,none,Activate System Monitor Widget
 activate widget 255=,none,Activate Icons-Only Task Manager Widget
 activate widget 282=,none,Activate System Monitor Widget
 activate widget 335=,none,Activate System Monitor Widget
 activate widget 61=,none,Activate Icons-Only Task Manager Widget
 clear-history=,,Clear Clipboard History
-clipboard_action=Meta+Ctrl+X,Meta+Ctrl+X,Automatic Action Popup Menu
+clipboard_action=Meta+Ctrl+X\tMeta+V,Meta+Ctrl+X,Automatic Action Popup Menu
 cycle-panels=Meta+Alt+P,Meta+Alt+P,Move keyboard focus between panels
 cycleNextAction=,,Next History Item
 cyclePrevAction=,,Previous History Item
@@ -279,7 +279,7 @@ previous activity=Meta+Shift+A,none,Walk through activities (Reverse)
 repeat_action=,,Manually Invoke Action on Current Clipboard
 show dashboard=Ctrl+F12,Ctrl+F12,Show Desktop
 show-barcode=,,Show Barcode…
-show-on-mouse-pos=none,Meta+V,Show Clipboard Items at Mouse Position
+show-on-mouse-pos=,Meta+V,Show Clipboard Items at Mouse Position
 stop current activity=none,none,Stop Current Activity
 switch to next activity=,,Switch to Next Activity
 switch to previous activity=,,Switch to Previous Activity
@@ -299,10 +299,6 @@ _launch=
 
 [services][org.kde.krunner.desktop]
 _launch=Search\tAlt+F2\tAlt+Space\tMeta+S
-
-[services][org.kde.spectacle.desktop]
-CurrentMonitorScreenShot=
-OpenWithoutScreenshot=
 
 [wacomtablet]
 Map to fullscreen=Meta+Ctrl+F,Meta+Ctrl+F,Map to fullscreen
