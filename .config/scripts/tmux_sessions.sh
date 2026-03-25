@@ -13,7 +13,7 @@ DIRS=(
 	# "/mnt/c/Users/yiann"
 )
 
-THEME="dark"
+THEME="light"
 
 main() {
 	# Collect session names.
@@ -77,6 +77,8 @@ main() {
 				--color=bg+:#404040
 			;;
 		*)
+
+
 			fzf --border=rounded --info=right \
 				--color=fg:#000000,bg:#FFFFFF \
 				--color=hl:#A5D6FF:reverse:bold,hl+:#79C0FF:reverse:bold \
