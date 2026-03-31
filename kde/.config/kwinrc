@@ -25,8 +25,12 @@ tiles={"layoutDirection":"horizontal","tiles":[{"width":0.25},{"width":0.5},{"wi
 padding=4
 tiles={"layoutDirection":"horizontal","tiles":[{"width":0.25},{"width":0.5},{"width":0.25}]}
 
+[Tiling][af202e83-7823-408a-b861-f76911204034][ad1a5b53-8f77-44fd-a6d7-0cf3bec21f9d]
+padding=4
+tiles={"layoutDirection":"horizontal","tiles":[{"width":0.25},{"width":0.5},{"width":0.25}]}
+
 [Xwayland]
-Scale=1.7
+Scale=1.25
 
 [org.kde.kdecoration2]
 library=org.kde.breeze

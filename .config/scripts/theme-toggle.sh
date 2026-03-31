@@ -56,6 +56,7 @@ if [[ "$SYSTEM_THEME" = "dark" ]]; then
 	"linux")
 		ln -sfn "${KITTY_PATH}/${KITTY_LIGHT_THEME}" "${KITTY_PATH}/${KITTY_CURRENT_THEME}"
 		kitty @ load-config
+		plasma-apply-colorscheme BreezeLight &>/dev/null
 		;;
 	esac
 	sed -i 's/^\([[:space:]]*\)vim\.opt\.background[[:space:]]*=.*/\1vim.opt.background = "light"/' "$NVIM_INIT"
@@ -75,6 +76,7 @@ if [[ "$SYSTEM_THEME" = "light" ]]; then
 	"linux")
 		ln -sfn "${KITTY_PATH}/${KITTY_DARK_THEME}" "${KITTY_PATH}/${KITTY_CURRENT_THEME}"
 		kitty @ load-config
+		plasma-apply-colorscheme Yara &>/dev/null
 		;;
 	esac
 	sed -i 's/^\([[:space:]]*\)vim\.opt\.background[[:space:]]*=.*/\1vim.opt.background = "dark"/' "$NVIM_INIT"

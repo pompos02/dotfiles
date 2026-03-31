@@ -37,6 +37,7 @@ shopt -s histappend
 bind "set completion-ignore-case on"
 
 alias ls='ls --color=auto'
+alias grep='grep --color=always'
 alias ll='ls -l'
 alias python='python3'
 alias grep='grep --color=auto'
@@ -52,15 +53,15 @@ eval "$(fzf --bash)"
 export EDITOR=nvim
 
 pkillf() {
-    ps -ef | fzf --height 40% --layout=reverse | awk '{print $2}' | xargs kill
+	ps -ef | fzf --height 40% --layout=reverse | awk '{print $2}' | xargs kill
 }
 
 my_ip() {
-    ip address | grep -o "inet 192.*/" | awk '{ print $2 }' | tr / ' ' | xargs
+	ip address | grep -o "inet 192.*/" | awk '{ print $2 }' | tr / ' ' | xargs
 }
 
 man() {
-    nvim -c "Man $* | only"
+	nvim -c "Man $* | only"
 }
 
 # Arch/Wayland specific
@@ -69,23 +70,23 @@ alias pacl="pacman -Slq | fzf --preview 'pacman -Si {}' --layout=reverse --heigh
 alias yayl="yay -Slq | fzf --preview 'yay -Si {}' --layout=reverse --height=80% --border"
 
 open() {
-    if [[ -n ${WSL_DISTRO_NAME-} ]]; then
-        explorer.exe "$@" >/dev/null 2>&1 &
-    else
-        xdg-open "$@" >/dev/null 2>&1 &
-    fi
+	if [[ -n ${WSL_DISTRO_NAME-} ]]; then
+		explorer.exe "$@" >/dev/null 2>&1 &
+	else
+		xdg-open "$@" >/dev/null 2>&1 &
+	fi
 }
 
 # Auto-start tmux on WSL login
 if [[ -z "$TMUX" ]] && [[ -t 1 ]]; then
-    tmux attach -t karavellas || tmux new -s karavellas
+	tmux attach -t karavellas || tmux new -s karavellas
 fi
 
 export NVM_DIR="$HOME/.nvm"
 
 nvm() {
-    unset -f nvm
-    [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
-    [ -s "$NVM_DIR/bash_completion" ] && . "$NVM_DIR/bash_completion"
-    nvm "$@"
+	unset -f nvm
+	[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
+	[ -s "$NVM_DIR/bash_completion" ] && . "$NVM_DIR/bash_completion"
+	nvm "$@"
 }

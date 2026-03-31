@@ -9,11 +9,10 @@ DIRS=(
 	"$HOME/projects/opensource"
 	"$HOME/repos"
 	"$HOME/projects/misc"
-	"/home"
 	# "/mnt/c/Users/yiann"
 )
 
-THEME="light"
+THEME="dark"
 
 main() {
 	# Collect session names.
@@ -77,7 +76,6 @@ main() {
 				--color=bg+:#404040
 			;;
 		*)
-
 
 			fzf --border=rounded --info=right \
 				--color=fg:#000000,bg:#FFFFFF \

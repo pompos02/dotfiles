@@ -49,8 +49,9 @@ zstyle ':completion:*' list-colors "${(s.:.)LS_COLORS}"
 zstyle ':completion:*' menu no
 
 # Aliases
+alias ls='ls --color=always'
+alias grep='grep --color=always'
 alias vim='nvim'
-alias ls='eza -lh --group-directories-first --icons=auto'
 alias ll='ls -l'
 alias lt='eza --tree --level=2 --long --icons --git'
 alias ff="fzf --preview 'bat --style=numbers --color=always {}'"
@@ -104,6 +105,7 @@ export LD_LIBRARY_PATH=$ORACLE_HOME
 export PATH=$PATH:$ORACLE_HOME
 export TNS_ADMIN=/opt/oracle/wallet
 export PATH=/opt/oracle/instantclient_19_29/sdk:$PATH
+export PATH="$HOME/.config/emacs/bin:$PATH"
 
 export NVM_DIR="$HOME/.nvm"
 
