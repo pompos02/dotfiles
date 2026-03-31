@@ -14,17 +14,11 @@ DIRS=(
 
 SCRIPT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
 THEME_HOME="$(cd -- "${SCRIPT_DIR}/../theme" && pwd)"
-THEME_LIB="${THEME_HOME}/theme.sh"
 THEME_ENV_FILE="${THEME_HOME}/current_theme.env"
+THEME_FZF_FILE="${THEME_HOME}/current_fzf.sh"
 FZF_THEME_ARGS=()
 
 load_theme_palette() {
-	if [[ -f "$THEME_LIB" ]]; then
-		# shellcheck source=/dev/null
-		source "$THEME_LIB"
-		theme_ensure_env >/dev/null 2>&1 || true
-	fi
-
 	if [[ -f "$THEME_ENV_FILE" ]]; then
 		# shellcheck source=/dev/null
 		source "$THEME_ENV_FILE"
@@ -41,13 +35,10 @@ load_theme_palette() {
 	: "${THEME_SUBTLE:=#676666}"
 	: "${THEME_BORDER:=#52494e}"
 
-	FZF_THEME_ARGS=(
-		"--color=fg:${THEME_FOREGROUND},bg:${THEME_BACKGROUND}"
-		"--color=fg+:${THEME_FOREGROUND},bg+:${THEME_SELECTION}"
-		"--color=hl:${THEME_BLUE}:reverse:bold,hl+:${THEME_CYAN}:reverse:bold"
-		"--color=info:${THEME_MUTED},separator:${THEME_BORDER},scrollbar:${THEME_BORDER},border:${THEME_BORDER}"
-		"--color=prompt:${THEME_FOREGROUND},pointer:${THEME_MAGENTA},marker:${THEME_MAGENTA},spinner:${THEME_CYAN},header:${THEME_SUBTLE}"
-	)
+	if [[ -f "$THEME_FZF_FILE" ]]; then
+		# shellcheck source=/dev/null
+		source "$THEME_FZF_FILE"
+	fi
 }
 
 main() {
