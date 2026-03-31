@@ -1,13 +1,13 @@
 return {
-    'nvim-lualine/lualine.nvim',
-    dependencies = { 'nvim-tree/nvim-web-devicons' },
+    "nvim-lualine/lualine.nvim",
+    dependencies = { "nvim-tree/nvim-web-devicons" },
     config = function()
-        require('lualine').setup {
+        require("lualine").setup({
             options = {
                 icons_enabled = false,
-                theme = 'yara',
-                component_separators = { left = '', right = '' },
-                section_separators = { left = '', right = '' },
+                -- theme = "yara_blow",
+                component_separators = { left = "", right = "" },
+                section_separators = { left = "", right = "" },
                 disabled_filetypes = {
                     statusline = {},
                     winbar = {},
@@ -22,16 +22,16 @@ return {
                     winbar = 1000,
                     refresh_time = 16, -- ~60fps
                     events = {
-                        'WinEnter',
-                        'BufEnter',
-                        'BufWritePost',
-                        'SessionLoadPost',
-                        'FileChangedShellPost',
-                        'VimResized',
-                        'Filetype',
-                        'CursorMoved',
-                        'CursorMovedI',
-                        'ModeChanged',
+                        "WinEnter",
+                        "BufEnter",
+                        "BufWritePost",
+                        "SessionLoadPost",
+                        "FileChangedShellPost",
+                        "VimResized",
+                        "Filetype",
+                        "CursorMoved",
+                        "CursorMovedI",
+                        "ModeChanged",
                     },
                 },
             },
@@ -39,31 +39,38 @@ return {
                 lualine_a = {},
                 lualine_b = {},
                 lualine_c = {
-                    { 'branch', fmt = function(str)
-                        if not str or str == "" then
-                            return ""
-                        else
-                            return "[" .. str .. "]"
-                        end
-                    end
+                    {
+                        "branch",
+                        fmt = function(str)
+                            if not str or str == "" then
+                                return ""
+                            else
+                                return "[" .. str .. "]"
+                            end
+                        end,
                     },
-                    { 'filename', path = 1 }, 'diff', 'diagnostics' },
-                lualine_x = { {
-                    'lsp_status',
-                    icon = '', -- f013
-                    symbols = {
-                        -- Standard unicode symbols to cycle through for LSP progress:
-                        spinner = { '⠋', '⠙', '⠹', '⠸', '⠼', '⠴', '⠦', '⠧', '⠇', '⠏' },
-                        -- Standard unicode symbol for when LSP is done:
-                        done = '',
-                        -- Delimiter inserted between LSP names:
-                        separator = ' ',
+                    { "filename", path = 1 },
+                    "diff",
+                    "diagnostics",
+                },
+                lualine_x = {
+                    {
+                        "lsp_status",
+                        icon = "", -- f013
+                        symbols = {
+                            -- Standard unicode symbols to cycle through for LSP progress:
+                            spinner = { "⠋", "⠙", "⠹", "⠸", "⠼", "⠴", "⠦", "⠧", "⠇", "⠏" },
+                            -- Standard unicode symbol for when LSP is done:
+                            done = "",
+                            -- Delimiter inserted between LSP names:
+                            separator = " ",
+                        },
+                        -- List of LSP names to ignore (e.g., `null-ls`):
+                        ignore_lsp = {},
+                        -- Display the LSP name
+                        show_name = true,
                     },
-                    -- List of LSP names to ignore (e.g., `null-ls`):
-                    ignore_lsp = {},
-                    -- Display the LSP name
-                    show_name = true,
-                }, 'location'
+                    "location",
                 },
                 lualine_y = {},
                 lualine_z = {},
@@ -71,8 +78,8 @@ return {
             inactive_sections = {
                 lualine_a = {},
                 lualine_b = {},
-                lualine_c = { 'filename' },
-                lualine_x = { 'location' },
+                lualine_c = { "filename" },
+                lualine_x = { "location" },
                 lualine_y = {},
                 lualine_z = {},
             },
@@ -80,6 +87,6 @@ return {
             winbar = {},
             inactive_winbar = {},
             extensions = {},
-        }
+        })
     end,
 }

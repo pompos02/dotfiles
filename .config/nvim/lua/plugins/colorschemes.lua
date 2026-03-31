@@ -6,9 +6,12 @@ return {
     "craftzdog/solarized-osaka.nvim",
     -- "pompos02/yara.nvim",
     { dir = "/home/karavellas/projects/opensource/yara.nvim" },
+    { dir = "/home/karavellas/projects/opensource/yara-blow.nvim" },
     { "zenbones-theme/zenbones.nvim", dependencies = "rktjmp/lush.nvim", lazy = false, priority = 1000 },
     "navarasu/onedark.nvim",
     "rose-pine/neovim",
+
+    "whizikxd/naysayer-colors.nvim",
     "mountain-theme/vim",
     "oskarnurm/koda.nvim",
     "catppuccin/nvim",
@@ -16,7 +19,10 @@ return {
     "scottmckendry/cyberdream.nvim",
     "metalelf0/jellybeans-nvim",
     "bluz71/vim-moonfly-colors",
+    "maxmx03/solarized.nvim",
     "slugbyte/lackluster.nvim",
     "ThunderBoltCODMYT/gruber-darker.vim",
+    "morhetz/gruvbox",
+    "EdenEast/nightfox.nvim",
     "RostislavArts/naysayer.nvim",
 }
