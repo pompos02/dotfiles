@@ -21,6 +21,10 @@ export PATH="$BUN_INSTALL/bin:$PATH"
 export PATH="$PATH:$HOME/.local/zig"
 export PKG_CONFIG_PATH=/usr/local/lib/pkgconfig:$PKG_CONFIG_PATH
 
+if [[ -f "$HOME/.config/theme/current_fzf" ]]; then
+	export FZF_DEFAULT_OPTS_FILE="$HOME/.config/theme/current_fzf"
+fi
+
 # oracle environment variables
 export ORACLE_HOME=/opt/oracle/instantclient_19_29
 export LD_LIBRARY_PATH=$ORACLE_HOME

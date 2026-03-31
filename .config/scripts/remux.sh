@@ -6,8 +6,7 @@ set -euo pipefail
 # on slower networks or larger SSH configs without requiring edits to the script.
 SCRIPT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
 THEME_HOME="$(cd -- "${SCRIPT_DIR}/../theme" && pwd)"
-THEME_ENV_FILE="${THEME_HOME}/current_theme.env"
-THEME_FZF_FILE="${THEME_HOME}/current_fzf.sh"
+THEME_FZF_FILE="${THEME_HOME}/current_fzf"
 PREVIEW_CACHE_DIR="${XDG_CACHE_HOME:-$HOME/.cache}/remux-preview"
 PREVIEW_CACHE_TTL="${REMUX_PREVIEW_CACHE_TTL:-30}"
 PREVIEW_LOCK_TTL="${REMUX_PREVIEW_LOCK_TTL:-20}"
@@ -28,32 +27,11 @@ COLOR_GRAY=$'\033[38;5;245m'
 COLOR_WHITE=$'\033[1;37m'
 COLOR_ORANGE=$'\033[38;5;208m'
 
-FZF_THEME_ARGS=()
-
 ENV_TYPE_EMPTY='__ENV_EMPTY__'
 
-load_theme_palette() {
-	if [[ -f "$THEME_ENV_FILE" ]]; then
-		# shellcheck disable=SC1090
-		source "$THEME_ENV_FILE"
-	fi
-
-	: "${THEME_BACKGROUND:=#181818}"
-	: "${THEME_SELECTION:=#282828}"
-	: "${THEME_FOREGROUND:=#e4e4ef}"
-	: "${THEME_BLUE:=#96a6c8}"
-	: "${THEME_CYAN:=#94b0a6}"
-	: "${THEME_GREEN:=#73d936}"
-	: "${THEME_MAGENTA:=#565f73}"
-	: "${THEME_MUTED:=#585858}"
-	: "${THEME_SUBTLE:=#676666}"
-	: "${THEME_BORDER:=#52494e}"
-
-	if [[ -f "$THEME_FZF_FILE" ]]; then
-		# shellcheck disable=SC1090
-		source "$THEME_FZF_FILE"
-	fi
-}
+if [[ -z "${FZF_DEFAULT_OPTS_FILE:-}" && -f "$THEME_FZF_FILE" ]]; then
+	export FZF_DEFAULT_OPTS_FILE="$THEME_FZF_FILE"
+fi
 
 # Host rows are colorized by the optional `# env:` metadata found near each Host
 # block in the SSH config. A dedicated sentinel lets us distinguish between
@@ -523,8 +501,7 @@ run_fzf() {
 		--with-nth=1 \
 		--preview "bash \"$script_path\" --preview-host {2}" \
 		--preview-window="right,${PREVIEW_WINDOW_SIZE_PERCENT}%,wrap" \
-		--border=rounded \
-		"${FZF_THEME_ARGS[@]}"
+		--border=rounded
 }
 
 pick_host() {
@@ -917,5 +894,4 @@ main() {
 	done
 }
 
-load_theme_palette
 main "$@"

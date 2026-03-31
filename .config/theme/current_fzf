@@ -1,0 +1,4 @@
+--color=fg:#d8c5a7,bg:#112e2a
+--color=fg+:#d8c5a7,bg+:#1b413b
+--color=hl:#7ad0c6:reverse:bold,hl+:#7ad0c6:reverse:bold
+--color=info:#52756e,separator:#52756e,scrollbar:#52756e,border:#52756e

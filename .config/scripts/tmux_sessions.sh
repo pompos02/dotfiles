@@ -14,32 +14,11 @@ DIRS=(
 
 SCRIPT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
 THEME_HOME="$(cd -- "${SCRIPT_DIR}/../theme" && pwd)"
-THEME_ENV_FILE="${THEME_HOME}/current_theme.env"
-THEME_FZF_FILE="${THEME_HOME}/current_fzf.sh"
-FZF_THEME_ARGS=()
+THEME_FZF_FILE="${THEME_HOME}/current_fzf"
 
-load_theme_palette() {
-	if [[ -f "$THEME_ENV_FILE" ]]; then
-		# shellcheck source=/dev/null
-		source "$THEME_ENV_FILE"
-	fi
-
-	: "${THEME_BACKGROUND:=#181818}"
-	: "${THEME_SELECTION:=#282828}"
-	: "${THEME_FOREGROUND:=#e4e4ef}"
-	: "${THEME_BLUE:=#96a6c8}"
-	: "${THEME_CYAN:=#94b0a6}"
-	: "${THEME_GREEN:=#73d936}"
-	: "${THEME_MAGENTA:=#565f73}"
-	: "${THEME_MUTED:=#585858}"
-	: "${THEME_SUBTLE:=#676666}"
-	: "${THEME_BORDER:=#52494e}"
-
-	if [[ -f "$THEME_FZF_FILE" ]]; then
-		# shellcheck source=/dev/null
-		source "$THEME_FZF_FILE"
-	fi
-}
+if [[ -z "${FZF_DEFAULT_OPTS_FILE:-}" && -f "$THEME_FZF_FILE" ]]; then
+	export FZF_DEFAULT_OPTS_FILE="$THEME_FZF_FILE"
+fi
 
 main() {
 	# Collect session names.
@@ -94,7 +73,7 @@ main() {
 
 	local selected
 	selected="$(
-		fzf --border=rounded --info=right "${FZF_THEME_ARGS[@]}" <<<"$final_list"
+		fzf --border=rounded --info=right <<<"$final_list"
 	)" || exit 0 # fzf returns nonzero on cancel
 
 	[[ -n "$selected" ]] || exit 0
@@ -115,5 +94,4 @@ main() {
 	tmux switch-client -t "=$name"
 }
 
-load_theme_palette
 main "$@"
