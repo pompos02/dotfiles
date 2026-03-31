@@ -4,7 +4,10 @@ set -euo pipefail
 
 # Preview behavior is configurable through env vars so the picker can stay fast
 # on slower networks or larger SSH configs without requiring edits to the script.
-THEME_FILE="$HOME/.config/system-theme"
+SCRIPT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
+THEME_HOME="$(cd -- "${SCRIPT_DIR}/../theme" && pwd)"
+THEME_LIB="${THEME_HOME}/theme.sh"
+THEME_ENV_FILE="${THEME_HOME}/current_theme.env"
 PREVIEW_CACHE_DIR="${XDG_CACHE_HOME:-$HOME/.cache}/remux-preview"
 PREVIEW_CACHE_TTL="${REMUX_PREVIEW_CACHE_TTL:-30}"
 PREVIEW_LOCK_TTL="${REMUX_PREVIEW_LOCK_TTL:-20}"
@@ -25,17 +28,41 @@ COLOR_GRAY=$'\033[38;5;245m'
 COLOR_WHITE=$'\033[1;37m'
 COLOR_ORANGE=$'\033[38;5;208m'
 
-THEME="dark"
+FZF_THEME_ARGS=()
 
 ENV_TYPE_EMPTY='__ENV_EMPTY__'
 
+load_theme_palette() {
+	if [[ -f "$THEME_LIB" ]]; then
+		# shellcheck disable=SC1090
+		source "$THEME_LIB"
+		theme_ensure_env >/dev/null 2>&1 || true
+	fi
 
-# Check if we have a theme file
-if [[ -f "$THEME_FILE" ]]; then
-	SYSTEM_THEME=$(<"$THEME_FILE")
-fi
-SYSTEM_THEME="${SYSTEM_THEME:-dark}"
+	if [[ -f "$THEME_ENV_FILE" ]]; then
+		# shellcheck disable=SC1090
+		source "$THEME_ENV_FILE"
+	fi
 
+	: "${THEME_BACKGROUND:=#181818}"
+	: "${THEME_SELECTION:=#282828}"
+	: "${THEME_FOREGROUND:=#e4e4ef}"
+	: "${THEME_BLUE:=#96a6c8}"
+	: "${THEME_CYAN:=#94b0a6}"
+	: "${THEME_GREEN:=#73d936}"
+	: "${THEME_MAGENTA:=#565f73}"
+	: "${THEME_MUTED:=#585858}"
+	: "${THEME_SUBTLE:=#676666}"
+	: "${THEME_BORDER:=#52494e}"
+
+	FZF_THEME_ARGS=(
+		"--color=fg:${THEME_FOREGROUND},bg:${THEME_BACKGROUND}"
+		"--color=fg+:${THEME_FOREGROUND},bg+:${THEME_SELECTION}"
+		"--color=hl:${THEME_BLUE}:reverse:bold,hl+:${THEME_CYAN}:reverse:bold"
+		"--color=info:${THEME_MUTED},separator:${THEME_BORDER},scrollbar:${THEME_BORDER},border:${THEME_BORDER}"
+		"--color=prompt:${THEME_GREEN},pointer:${THEME_MAGENTA},marker:${THEME_MAGENTA},spinner:${THEME_CYAN},header:${THEME_SUBTLE}"
+	)
+}
 
 # Host rows are colorized by the optional `# env:` metadata found near each Host
 # block in the SSH config. A dedicated sentinel lets us distinguish between
@@ -490,54 +517,23 @@ build_picker_rows() {
 }
 
 run_fzf() {
-	case "$THEME" in
-		dark)
-			fzf \
-				--ansi \
-				--style=full \
-				--height=100% \
-				--layout=reverse \
-				--preview-label=' details ' \
-				--prompt='> ' \
-				--marker='+' \
-				--info=inline-right \
-				--header-first \
-				--expect=enter,ctrl-x,ctrl-y \
-				--delimiter=$'\t' \
-				--with-nth=1 \
-				--preview "bash \"$script_path\" --preview-host {2}" \
-				--preview-window="right,${PREVIEW_WINDOW_SIZE_PERCENT}%,wrap" \
-				--border=rounded \
-				--color=hl:#A5D6FF:reverse:bold,hl+:#79C0FF:reverse:bold \
-				--color=info:white \
-				--color=fg+:#FFFFFF \
-				--color=bg+:#404040
-			;;
-		*)
-			fzf \
-				--ansi \
-				--style=full \
-				--height=100% \
-				--layout=reverse \
-				--preview-label=' details ' \
-				--prompt='> ' \
-				--marker='+' \
-				--info=inline-right \
-				--header-first \
-				--expect=enter,ctrl-x,ctrl-y \
-				--delimiter=$'\t' \
-				--with-nth=1 \
-				--preview "bash \"$script_path\" --preview-host {2}" \
-				--preview-window="right,${PREVIEW_WINDOW_SIZE_PERCENT}%,wrap"\
-				--border=rounded \
-				--color=fg:#000000,bg:#FFFFFF \
-				--color=hl:#A5D6FF:reverse:bold,hl+:#79C0FF:reverse:bold \
-				--color=info:#000000,separator:#000000,scrollbar:#000000 \
-				--color=fg+:#000000 \
-				--color=bg+:#F2F2F2
-			;;
-	esac
-
+	fzf \
+		--ansi \
+		--style=full \
+		--height=100% \
+		--layout=reverse \
+		--preview-label=' details ' \
+		--prompt='> ' \
+		--marker='+' \
+		--info=inline-right \
+		--header-first \
+		--expect=enter,ctrl-x,ctrl-y \
+		--delimiter=$'\t' \
+		--with-nth=1 \
+		--preview "bash \"$script_path\" --preview-host {2}" \
+		--preview-window="right,${PREVIEW_WINDOW_SIZE_PERCENT}%,wrap" \
+		--border=rounded \
+		"${FZF_THEME_ARGS[@]}"
 }
 
 pick_host() {
@@ -930,4 +926,5 @@ main() {
 	done
 }
 
+load_theme_palette
 main "$@"

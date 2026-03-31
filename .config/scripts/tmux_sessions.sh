@@ -12,7 +12,43 @@ DIRS=(
 	# "/mnt/c/Users/yiann"
 )
 
-THEME="dark"
+SCRIPT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
+THEME_HOME="$(cd -- "${SCRIPT_DIR}/../theme" && pwd)"
+THEME_LIB="${THEME_HOME}/theme.sh"
+THEME_ENV_FILE="${THEME_HOME}/current_theme.env"
+FZF_THEME_ARGS=()
+
+load_theme_palette() {
+	if [[ -f "$THEME_LIB" ]]; then
+		# shellcheck source=/dev/null
+		source "$THEME_LIB"
+		theme_ensure_env >/dev/null 2>&1 || true
+	fi
+
+	if [[ -f "$THEME_ENV_FILE" ]]; then
+		# shellcheck source=/dev/null
+		source "$THEME_ENV_FILE"
+	fi
+
+	: "${THEME_BACKGROUND:=#181818}"
+	: "${THEME_SELECTION:=#282828}"
+	: "${THEME_FOREGROUND:=#e4e4ef}"
+	: "${THEME_BLUE:=#96a6c8}"
+	: "${THEME_CYAN:=#94b0a6}"
+	: "${THEME_GREEN:=#73d936}"
+	: "${THEME_MAGENTA:=#565f73}"
+	: "${THEME_MUTED:=#585858}"
+	: "${THEME_SUBTLE:=#676666}"
+	: "${THEME_BORDER:=#52494e}"
+
+	FZF_THEME_ARGS=(
+		"--color=fg:${THEME_FOREGROUND},bg:${THEME_BACKGROUND}"
+		"--color=fg+:${THEME_FOREGROUND},bg+:${THEME_SELECTION}"
+		"--color=hl:${THEME_BLUE}:reverse:bold,hl+:${THEME_CYAN}:reverse:bold"
+		"--color=info:${THEME_MUTED},separator:${THEME_BORDER},scrollbar:${THEME_BORDER},border:${THEME_BORDER}"
+		"--color=prompt:${THEME_FOREGROUND},pointer:${THEME_MAGENTA},marker:${THEME_MAGENTA},spinner:${THEME_CYAN},header:${THEME_SUBTLE}"
+	)
+}
 
 main() {
 	# Collect session names.
@@ -67,24 +103,7 @@ main() {
 
 	local selected
 	selected="$(
-		case "$THEME" in
-		dark)
-			fzf --border=rounded --info=right \
-				--color=hl:#A5D6FF:reverse:bold,hl+:#79C0FF:reverse:bold \
-				--color=info:white \
-				--color=fg+:#FFFFFF \
-				--color=bg+:#404040
-			;;
-		*)
-
-			fzf --border=rounded --info=right \
-				--color=fg:#000000,bg:#FFFFFF \
-				--color=hl:#A5D6FF:reverse:bold,hl+:#79C0FF:reverse:bold \
-				--color=info:#000000,separator:#000000,scrollbar:#000000 \
-				--color=fg+:#000000 \
-				--color=bg+:#F2F2F2
-			;;
-		esac <<<"$final_list"
+		fzf --border=rounded --info=right "${FZF_THEME_ARGS[@]}" <<<"$final_list"
 	)" || exit 0 # fzf returns nonzero on cancel
 
 	[[ -n "$selected" ]] || exit 0
@@ -105,4 +124,5 @@ main() {
 	tmux switch-client -t "=$name"
 }
 
+load_theme_palette
 main "$@"
