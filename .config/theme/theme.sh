@@ -248,7 +248,7 @@ theme_write_fzf() {
 		"--color=fg:${THEME_FOREGROUND},bg:${THEME_BACKGROUND}"
 		"--color=fg+:${THEME_FOREGROUND},bg+:${THEME_SELECTION}"
 		"--color=hl:${THEME_CYAN}:reverse:bold,hl+:${THEME_CYAN}:reverse:bold"
-		"--color=info:${THEME_MUTED},separator:${THEME_BORDER},scrollbar:${THEME_BORDER},border:${THEME_BORDER}"
+		"--color=info:${THEME_MUTED},separator:${THEME_OVERLAY},scrollbar:${THEME_OVERLAY},border:${THEME_OVERLAY}"
 	)
 
 	{

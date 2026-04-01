@@ -6,7 +6,7 @@ return {
     "craftzdog/solarized-osaka.nvim",
     -- "pompos02/yara.nvim",
     { dir = "/home/karavellas/projects/opensource/yara.nvim" },
-    "pompos02/yblow.nvim",
+    { dir = "/home/karavellas/projects/opensource/yblow.nvim" },
     { "zenbones-theme/zenbones.nvim", dependencies = "rktjmp/lush.nvim", lazy = false, priority = 1000 },
     "navarasu/onedark.nvim",
     "rose-pine/neovim",
