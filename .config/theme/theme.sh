@@ -474,6 +474,14 @@ theme_apply_kde() {
 	if command -v plasma-apply-colorscheme >/dev/null 2>&1; then
 		plasma-apply-colorscheme "$THEME_KDE_NAME" >/dev/null 2>&1 || true
 	fi
+	if command -v qdbus6 >/dev/null 2>&1; then
+		qdbus6 org.kde.plasmashell /PlasmaShell org.kde.PlasmaShell.evaluateScript "
+		for (const d of desktops()) {
+			d.wallpaperPlugin = 'org.kde.color';
+			d.currentConfigGroup = ['Wallpaper', 'org.kde.color', 'General'];
+			d.writeConfig('Color', '${THEME_BACKGROUND}');
+		}"
+	fi
 }
 
 theme_apply_loaded() {
@@ -492,6 +500,7 @@ theme_apply_loaded() {
 		;;
 	linux)
 		theme_apply_kitty
+		theme_apply_kde
 		theme_apply_kde
 		;;
 	esac
