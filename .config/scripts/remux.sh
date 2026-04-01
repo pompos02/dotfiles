@@ -5,8 +5,6 @@ set -euo pipefail
 # Preview behavior is configurable through env vars so the picker can stay fast
 # on slower networks or larger SSH configs without requiring edits to the script.
 SCRIPT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
-THEME_HOME="$(cd -- "${SCRIPT_DIR}/../theme" && pwd)"
-THEME_FZF_FILE="${THEME_HOME}/current_fzf"
 PREVIEW_CACHE_DIR="${XDG_CACHE_HOME:-$HOME/.cache}/remux-preview"
 PREVIEW_CACHE_TTL="${REMUX_PREVIEW_CACHE_TTL:-30}"
 PREVIEW_LOCK_TTL="${REMUX_PREVIEW_LOCK_TTL:-20}"
@@ -28,10 +26,6 @@ COLOR_WHITE=$'\033[1;37m'
 COLOR_ORANGE=$'\033[38;5;208m'
 
 ENV_TYPE_EMPTY='__ENV_EMPTY__'
-
-if [[ -z "${FZF_DEFAULT_OPTS_FILE:-}" && -f "$THEME_FZF_FILE" ]]; then
-	export FZF_DEFAULT_OPTS_FILE="$THEME_FZF_FILE"
-fi
 
 # Host rows are colorized by the optional `# env:` metadata found near each Host
 # block in the SSH config. A dedicated sentinel lets us distinguish between

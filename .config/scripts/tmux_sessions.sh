@@ -13,12 +13,6 @@ DIRS=(
 )
 
 SCRIPT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
-THEME_HOME="$(cd -- "${SCRIPT_DIR}/../theme" && pwd)"
-THEME_FZF_FILE="${THEME_HOME}/current_fzf"
-
-if [[ -z "${FZF_DEFAULT_OPTS_FILE:-}" && -f "$THEME_FZF_FILE" ]]; then
-	export FZF_DEFAULT_OPTS_FILE="$THEME_FZF_FILE"
-fi
 
 main() {
 	# Collect session names.
