@@ -6,8 +6,6 @@ THEME_THEMES_DIR="${THEME_HOME}/themes"
 THEME_NVIM_INIT_FILE="${HOME}/.config/nvim/init.lua"
 THEME_KITTY_CURRENT_FILE="${HOME}/.config/kitty/current-theme.conf"
 THEME_WINDOWS_TERMINAL_SETTINGS_PATH="${WINDOWS_TERMINAL_SETTINGS_PATH:-/mnt/c/Users/yiann/AppData/Local/Packages/Microsoft.WindowsTerminal_8wekyb3d8bbwe/LocalState/settings.json}"
-THEME_WINDOWS_DARK_SCHEME="${THEME_WINDOWS_DARK_SCHEME:-Custom Dark}"
-THEME_WINDOWS_LIGHT_SCHEME="${THEME_WINDOWS_LIGHT_SCHEME:-Custom Light}"
 
 _theme_required_meta_keys=(name nvim_name variant)
 _theme_required_palette_keys=(
@@ -370,68 +368,17 @@ theme_apply_kitty() {
 	fi
 }
 
-_theme_windows_terminal_scheme_name() {
-	case "$THEME_VARIANT" in
-	dark)
-		printf '%s\n' "$THEME_WINDOWS_DARK_SCHEME"
-		;;
-	light)
-		printf '%s\n' "$THEME_WINDOWS_LIGHT_SCHEME"
-		;;
-	esac
-}
-
-_theme_update_windows_terminal_scheme_value() {
-	local scheme_name="$1"
-	local key="$2"
-	local value="$3"
-	local escaped_scheme escaped_key escaped_value
-
-	escaped_scheme="$(_theme_escape_ere "$scheme_name")"
-	escaped_key="$(_theme_escape_ere "$key")"
-	escaped_value="$(_theme_escape_sed_replacement "$value")"
-
-	sed -i -E "/\"name\"[[:space:]]*:[[:space:]]*\"${escaped_scheme}\"/,/}/ s|(\"${escaped_key}\"[[:space:]]*:[[:space:]]*\")[^\"]*(\".*)|\\1${escaped_value}\\2|" "$THEME_WINDOWS_TERMINAL_SETTINGS_PATH"
-}
-
 theme_apply_windows_terminal() {
-	local scheme_name escaped_scheme escaped_value
+	local escaped_scheme_name escaped_variant
 
 	[[ -f "$THEME_WINDOWS_TERMINAL_SETTINGS_PATH" ]] || return 0
 	theme_log 'applying Windows Terminal theme'
 
-	scheme_name="$(_theme_windows_terminal_scheme_name)"
-	escaped_scheme="$(_theme_escape_ere "$scheme_name")"
+	escaped_scheme_name="$(_theme_escape_sed_replacement "$THEME_NAME")"
+	escaped_variant="$(_theme_escape_sed_replacement "$THEME_VARIANT")"
 
-	if ! grep -q "\"name\"[[:space:]]*:[[:space:]]*\"${escaped_scheme}\"" "$THEME_WINDOWS_TERMINAL_SETTINGS_PATH"; then
-		printf 'Windows Terminal scheme not found: %s\n' "$scheme_name" >&2
-		return 0
-	fi
-
-	_theme_update_windows_terminal_scheme_value "$scheme_name" background "$THEME_BACKGROUND"
-	_theme_update_windows_terminal_scheme_value "$scheme_name" black "$THEME_BACKGROUND_ALT"
-	_theme_update_windows_terminal_scheme_value "$scheme_name" blue "$THEME_BLUE"
-	_theme_update_windows_terminal_scheme_value "$scheme_name" brightBlack "$THEME_MUTED"
-	_theme_update_windows_terminal_scheme_value "$scheme_name" brightBlue "$THEME_LAVENDER"
-	_theme_update_windows_terminal_scheme_value "$scheme_name" brightCyan "$THEME_CYAN"
-	_theme_update_windows_terminal_scheme_value "$scheme_name" brightGreen "$THEME_GREEN"
-	_theme_update_windows_terminal_scheme_value "$scheme_name" brightPurple "$THEME_LAVENDER"
-	_theme_update_windows_terminal_scheme_value "$scheme_name" brightRed "$THEME_RED"
-	_theme_update_windows_terminal_scheme_value "$scheme_name" brightWhite "$THEME_FOREGROUND"
-	_theme_update_windows_terminal_scheme_value "$scheme_name" brightYellow "$THEME_ORANGE"
-	_theme_update_windows_terminal_scheme_value "$scheme_name" cursorColor "$THEME_FOREGROUND"
-	_theme_update_windows_terminal_scheme_value "$scheme_name" cyan "$THEME_CYAN"
-	_theme_update_windows_terminal_scheme_value "$scheme_name" foreground "$THEME_FOREGROUND"
-	_theme_update_windows_terminal_scheme_value "$scheme_name" green "$THEME_GREEN"
-	_theme_update_windows_terminal_scheme_value "$scheme_name" purple "$THEME_MAGENTA"
-	_theme_update_windows_terminal_scheme_value "$scheme_name" red "$THEME_RED"
-	_theme_update_windows_terminal_scheme_value "$scheme_name" selectionBackground "$THEME_SELECTION"
-	_theme_update_windows_terminal_scheme_value "$scheme_name" white "$THEME_SURFACE_ALT"
-	_theme_update_windows_terminal_scheme_value "$scheme_name" yellow "$THEME_YELLOW"
-
-	escaped_value="$(_theme_escape_sed_replacement "$scheme_name")"
-	sed -i -E "s|^([[:space:]]*\"colorScheme\"[[:space:]]*:[[:space:]]*\")[^\"]*(\".*)|\\1${escaped_value}\\2|" "$THEME_WINDOWS_TERMINAL_SETTINGS_PATH"
-	sed -i -E "s|^([[:space:]]*\"theme\"[[:space:]]*:[[:space:]]*\")[^\"]*(\".*)|\\1${THEME_VARIANT}\\2|" "$THEME_WINDOWS_TERMINAL_SETTINGS_PATH"
+	sed -i -E "s|^([[:space:]]*\"colorScheme\"[[:space:]]*:[[:space:]]*).*$|\\1\"${escaped_scheme_name}\",|" "$THEME_WINDOWS_TERMINAL_SETTINGS_PATH"
+	sed -i -E "s|^([[:space:]]*\"theme\"[[:space:]]*:[[:space:]]*).*$|\\1\"${escaped_variant}\",|" "$THEME_WINDOWS_TERMINAL_SETTINGS_PATH"
 }
 
 theme_apply_kde() {
