@@ -167,15 +167,6 @@ _theme_file_value() {
 	return 1
 }
 
-theme_display_name() {
-	local name="$1"
-	local file value
-
-	file="$(theme_file "$name")" || return 1
-	value="$(_theme_file_value "$file" meta name 2>/dev/null || true)"
-	printf '%s\n' "${value:-$name}"
-}
-
 theme_reset_vars() {
 	local var_name
 
@@ -299,7 +290,6 @@ theme_write_fzf() {
 		"--color=fg+:${THEME_FOREGROUND},bg+:${THEME_SELECTION}"
 		"--color=hl:${THEME_CYAN}:reverse:bold,hl+:${THEME_CYAN}:reverse:bold"
 		"--color=info:${THEME_MUTED},separator:${THEME_BORDER},scrollbar:${THEME_BORDER},border:${THEME_BORDER}"
-		"--color=prompt:${THEME_GREEN},pointer:${THEME_MAGENTA},marker:${THEME_MAGENTA},spinner:${THEME_CYAN},header:${THEME_SUBTLE}"
 	)
 
 	{
@@ -326,6 +316,8 @@ theme_platform() {
 		printf 'unsupported\n'
 	fi
 }
+
+PLATFORM="$(theme_platform)"
 
 theme_apply_nvim_init() {
 	local variant colorscheme
@@ -485,7 +477,6 @@ theme_apply_kde() {
 }
 
 theme_apply_loaded() {
-	local platform
 
 	: "${THEME_NAME:?theme_apply_loaded requires a loaded theme}"
 	: "${THEME_NVIM_NAME:?theme_apply_loaded requires a loaded theme}"
@@ -495,8 +486,7 @@ theme_apply_loaded() {
 	theme_apply_nvim_init
 	theme_apply_running_nvim
 
-	platform="$(theme_platform)"
-	case "$platform" in
+	case "$PLATFORM" in
 	wsl)
 		theme_apply_windows_terminal
 		;;
@@ -527,34 +517,24 @@ theme_picker_entries() {
 
 	current="$(theme_current_name 2>/dev/null || true)"
 	while IFS= read -r name; do
-		display="$(theme_display_name "$name")"
 		suffix=''
 		if [[ "$name" == "$current" ]]; then
 			suffix=' (current)'
 		fi
-		printf '%s%s\t%s\n' "$display" "$suffix" "$name"
+		printf '%s%s\n' "$name" "$suffix"
 	done < <(theme_list)
 }
 
 theme_pick() {
 	local selected current header
 
-	if ! command -v fzf >/dev/null 2>&1; then
-		printf 'fzf is required for theme_pick\n' >&2
-		return 1
-	fi
-
-	current="$(theme_current_name 2>/dev/null || true)"
-	header='Pick a theme'
-	if [[ -n "$current" ]]; then
-		header="current: $(theme_display_name "$current")"
-	fi
-
 	theme_ensure_shell_files || return 1
-	selected="$(theme_picker_entries | FZF_DEFAULT_OPTS_FILE="$THEME_FZF_FILE" fzf --border=rounded --info=right --prompt='theme> ' --delimiter=$'\t' --with-nth=1 --header "$header")" || return 1
+	selected="$(theme_picker_entries | fzf)" || return 1
+
+	echo $selected
 	[[ -n "$selected" ]] || return 1
 
-	theme_apply "${selected##*$'\t'}"
+	theme_apply "${selected% (current)}"
 }
 
 theme_ensure_shell_files() {
@@ -566,70 +546,6 @@ theme_ensure_shell_files() {
 	theme_write_shell_files
 }
 
-theme_print_list() {
-	local name
-
-	while IFS= read -r name; do
-		printf '%s\t%s\n' "$name" "$(theme_display_name "$name")"
-	done < <(theme_list)
-}
-
-theme_usage() {
-	cat <<EOF
-Usage: ${BASH_SOURCE[0]} [command] [theme]
-
-Commands:
-  pick            Pick a theme with fzf (default)
-  apply [theme]   Apply a named theme or the current one
-  set <theme>     Alias for apply <theme>
-  list            List theme ids and display names
-  current         Print the current theme id
-  env             Regenerate current_theme.env and current_fzf
-EOF
-}
-
-theme_main() {
-	local command="${1:-pick}"
-
-	case "$command" in
-	pick)
-		theme_pick
-		;;
-	apply)
-		if [[ -n "${2:-}" ]]; then
-			theme_apply "$2"
-		else
-			theme_apply_current
-		fi
-		;;
-	set)
-		[[ -n "${2:-}" ]] || {
-			printf 'theme name is required for set\n' >&2
-			return 1
-		}
-		theme_apply "$2"
-		;;
-	list)
-		theme_print_list
-		;;
-	current)
-		theme_current_name
-		;;
-	env)
-		theme_load_current || return 1
-		theme_write_shell_files
-		;;
-	-h | --help | help)
-		theme_usage
-		;;
-	*)
-		printf 'Unknown command: %s\n' "$command" >&2
-		theme_usage >&2
-		return 1
-		;;
-	esac
-}
-
 if [[ "${BASH_SOURCE[0]}" == "$0" ]]; then
-	theme_main "$@"
+	theme_pick
 fi
