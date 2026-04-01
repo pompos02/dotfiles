@@ -89,6 +89,10 @@ _theme_escape_ere() {
 	printf '%s\n' "$1" | sed 's/[][(){}.^$*+?|\\/-]/\\&/g'
 }
 
+theme_log() {
+	printf '[theme] %s\n' "$*" >&2
+}
+
 theme_list() {
 	local path name
 
@@ -216,6 +220,7 @@ theme_load() {
 	local name="$1"
 	local theme_file_path section line key value
 
+	theme_log "loading theme: $name"
 	theme_file_path="$(theme_file "$name")" || return 1
 	section=''
 	theme_reset_vars
@@ -258,6 +263,7 @@ theme_load() {
 		esac
 	done <"$theme_file_path"
 
+	theme_log "validating theme: $name"
 	_theme_validate_loaded
 }
 
@@ -300,6 +306,7 @@ theme_write_fzf() {
 }
 
 theme_write_shell_files() {
+	theme_log 'writing shell files'
 	theme_write_env
 	theme_write_fzf
 }
@@ -323,6 +330,7 @@ theme_apply_nvim_init() {
 	local variant colorscheme
 
 	[[ -f "$THEME_NVIM_INIT_FILE" ]] || return 0
+	theme_log 'updating Neovim init.lua'
 
 	variant="$(_theme_escape_sed_replacement "$THEME_VARIANT")"
 	colorscheme="$(_theme_escape_sed_replacement "$THEME_NVIM_NAME")"
@@ -335,6 +343,7 @@ theme_apply_running_nvim() {
 	local server remote_cmd
 
 	[[ -n "${XDG_RUNTIME_DIR:-}" ]] || return 0
+	theme_log 'updating running Neovim instances'
 
 	remote_cmd="<Esc>:set background=${THEME_VARIANT}<CR>:colorscheme ${THEME_NVIM_NAME}<CR>"
 	shopt -s nullglob
@@ -399,6 +408,7 @@ theme_write_kitty() {
 }
 
 theme_apply_kitty() {
+	theme_log 'applying Kitty theme'
 	theme_write_kitty
 
 	if command -v kitty >/dev/null 2>&1; then
@@ -434,6 +444,7 @@ theme_apply_windows_terminal() {
 	local scheme_name escaped_scheme escaped_value
 
 	[[ -f "$THEME_WINDOWS_TERMINAL_SETTINGS_PATH" ]] || return 0
+	theme_log 'applying Windows Terminal theme'
 
 	scheme_name="$(_theme_windows_terminal_scheme_name)"
 	escaped_scheme="$(_theme_escape_ere "$scheme_name")"
@@ -471,6 +482,7 @@ theme_apply_windows_terminal() {
 
 theme_apply_kde() {
 	[[ -n "${THEME_KDE_NAME:-}" ]] || return 0
+	theme_log 'applying KDE theme'
 	if command -v plasma-apply-colorscheme >/dev/null 2>&1; then
 		plasma-apply-colorscheme "$THEME_KDE_NAME" >/dev/null 2>&1 || true
 	fi
@@ -489,6 +501,7 @@ theme_apply_loaded() {
 	: "${THEME_NAME:?theme_apply_loaded requires a loaded theme}"
 	: "${THEME_NVIM_NAME:?theme_apply_loaded requires a loaded theme}"
 	: "${THEME_VARIANT:?theme_apply_loaded requires a loaded theme}"
+	theme_log "applying loaded theme: ${THEME_NAME} (${THEME_VARIANT})"
 
 	theme_write_shell_files
 	theme_apply_nvim_init
@@ -501,7 +514,6 @@ theme_apply_loaded() {
 	linux)
 		theme_apply_kitty
 		theme_apply_kde
-		theme_apply_kde
 		;;
 	esac
 }
@@ -509,9 +521,11 @@ theme_apply_loaded() {
 theme_apply() {
 	local name="$1"
 
+	theme_log "starting theme apply: $name"
 	theme_load "$name" || return 1
 	printf '%s\n' "$name" >"$THEME_CURRENT_FILE"
 	theme_apply_loaded
+	theme_log "finished theme apply: $name"
 }
 
 theme_apply_current() {
@@ -537,9 +551,11 @@ theme_picker_entries() {
 theme_pick() {
 	local selected current header
 
+	theme_log 'opening theme picker'
 	theme_ensure_shell_files || return 1
 	selected="$(theme_picker_entries | fzf)" || return 1
 
+	theme_log "picked theme entry: $selected"
 	echo $selected
 	[[ -n "$selected" ]] || return 1
 
