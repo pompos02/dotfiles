@@ -45,5 +45,6 @@
   "vague.nvim": { "branch": "main", "commit": "8c4643f8a5106dbc492918f86ff6b5c81111ce9a" },
   "vim": { "branch": "legacy", "commit": "99d4b7bf1a0a12f2d78f35a159384b1eb8aa9c15" },
   "vim-moonfly-colors": { "branch": "master", "commit": "d11b3d04cc1cb71a778d67a4df73283a5a6d66f4" },
+  "vim-solarized8": { "branch": "master", "commit": "4433b4411de92b2446a4d32f0d8bf1b25c476bf9" },
   "zenbones.nvim": { "branch": "main", "commit": "22b7fb75593412e0dc81b4bdefae718e9e84aa82" }
 }

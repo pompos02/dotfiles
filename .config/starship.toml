@@ -42,11 +42,11 @@ printf '%s' "$out"
 '''
 format = '[$output]($style)'
 shell = ['bash', '--noprofile', '--norc']
-style = '#f3ad47'
+style = 'yellow'
 when = 'true'
 
 [git_branch]
-format = '[git://](fg:default)[$branch](#f3ad47)'
+format = '[git://](fg:default)[$branch](yellow)'
 symbol = ''
 
 [status]
@@ -90,9 +90,9 @@ fi
 
 svn info --show-item relative-url 2>/dev/null | sed 's#^\^/##'
 '''
-format = '[svn://](fg:default)[$output](#f3ad47)'
+format = '[svn://](fg:default)[$output](yellow)'
 shell = ['bash', '--noprofile', '--norc']
-style = '#ffb347'
+style = 'yellow'
 when = '''
 if git rev-parse --is-inside-work-tree >/dev/null 2>&1; then
     exit 1

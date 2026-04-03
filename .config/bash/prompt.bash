@@ -63,7 +63,7 @@ short_pwd() {
 # The \[ ... \] wrappers tell Bash that these are non-printing escape
 # sequences, which keeps line editing and cursor positioning correct.
 __prompt_native_default='\[\e[39m\]'
-__prompt_native_accent='\[\e[38;2;243;173;71m\]'
+__prompt_native_accent='\[\e[33m\]'
 __prompt_native_danger='\[\e[38;2;244;56;65m\]'
 __prompt_native_reset='\[\e[0m\]'
 
