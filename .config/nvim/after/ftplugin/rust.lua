@@ -6,7 +6,7 @@ local manifest = vim.fs.find("Cargo.toml", { path = bufdir, upward = true })[1]
 
 local function maker()
     if manifest then
-        return "cargo run --manifest-path " .. vim.fn.fnameescape(manifest)
+        return "cargo build --manifest-path " .. vim.fn.fnameescape(manifest)
     end
 
     return "cargo run"
