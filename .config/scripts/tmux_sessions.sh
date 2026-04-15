@@ -7,6 +7,7 @@ DIRS=(
 	"$HOME"
 	"$HOME/projects/personal"
 	"$HOME/projects/opensource"
+	"$HOME/training"
 	"$HOME/repos"
 	"$HOME/projects/misc"
 	# "/mnt/c/Users/yiann"

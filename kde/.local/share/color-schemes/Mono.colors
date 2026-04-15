@@ -1,11 +1,9 @@
 [ColorEffects:Disabled]
-ChangeSelectionColor=
 Color=71,71,71
 ColorAmount=0
 ColorEffect=0
 ContrastAmount=0.65
 ContrastEffect=1
-Enable=
 IntensityAmount=0.1
 IntensityEffect=0
 
@@ -91,44 +89,16 @@ ForegroundPositive=134,205,130
 ForegroundVisited=242,164,219
 
 [General]
-ColorScheme=Mono
-ColorSchemeHash=223adb778b5c180d6ba66146180d700e6f746a4f
-XftAntialias=true
-XftHintStyle=hintslight
-XftSubPixel=none
-fixed=TX02,10,-1,5,400,0,0,0,0,0,0,0,0,0,0,1
-font=TX02,12,-1,5,400,0,0,0,0,0,0,0,0,0,0,1
-menuFont=TX02,10,-1,5,400,0,0,0,0,0,0,0,0,0,0,1
-smallestReadableFont=TX02,8,-1,5,400,0,0,0,0,0,0,0,0,0,0,1
-toolBarFont=TX02,10,-1,5,400,0,0,0,0,0,0,0,0,0,0,1
+ColorScheme=KvFlat
+Name=Yara-Koda
+shadeSortColumn=true
 
 [KDE]
-AnimationDurationFactor=0.35355339059327373
-LookAndFeelPackage=org.kde.breezedark.desktop
 contrast=0
-frameContrast=0.2
-
-[KFileDialog Settings]
-Allow Expansion=false
-Automatically select filename extension=true
-Breadcrumb Navigation=true
-Decoration position=2
-Show Full Path=false
-Show Inline Previews=true
-Show Preview=false
-Show Speedbar=true
-Show hidden files=false
-Sort by=Name
-Sort directories first=true
-Sort hidden files last=false
-Sort reversed=false
-Speedbar Width=154
-View Style=DetailTree
 
 [WM]
 activeBackground=16,16,16
 activeBlend=16,16,16
-activeFont=TX02,10,-1,5,400,0,0,0,0,0,0,0,0,0,0,1
 activeForeground=176,176,176
 inactiveBackground=16,16,16
 inactiveBlend=16,16,16

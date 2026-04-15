@@ -54,8 +54,8 @@ return {
         max_threads = 4,
         lazy_sync = true, -- set to false if you want file indexing to start on open
         layout = {
-            height = 0.95,
-            width = 0.95,
+            height = 0.8,
+            width = 0.8,
             prompt_position = "bottom", -- or 'top'
             preview_position = "right", -- keep results on the left, preview on the right
             preview_size = 0.4,
