@@ -3,6 +3,9 @@ require("config.options")
 require("config.keymaps")
 require("config.lsp")
 
+-- expirimental new ui stuff
+require("vim._core.ui2").enable({ enable = true })
+
 vim.g.plsql_fold = 1
 
 vim.opt.background = "dark"
@@ -20,7 +23,7 @@ vim.api.nvim_create_autocmd("TextYankPost", {
     desc = "Highlight when yanking text",
     group = vim.api.nvim_create_augroup("highlight_yank", { clear = true }),
     callback = function()
-        vim.highlight.on_yank()
+        vim.hl.on_yank()
     end,
 })
 
