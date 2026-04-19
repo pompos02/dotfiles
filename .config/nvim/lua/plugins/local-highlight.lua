@@ -15,7 +15,7 @@ return {
         -- stronger underline for word under cursor
         vim.api.nvim_set_hl(0, "LocalCursorHighlight", {
             underline = true,
-            bold = true,
+            -- bold = true,
             default = true,
         })
 
@@ -28,7 +28,7 @@ return {
                 })
                 vim.api.nvim_set_hl(0, "LocalCursorHighlight", {
                     underline = true,
-                    bold = true,
+                    -- bold = true,
                     default = true,
                 })
             end,

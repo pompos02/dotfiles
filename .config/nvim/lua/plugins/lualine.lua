@@ -5,7 +5,7 @@ return {
         require("lualine").setup({
             options = {
                 icons_enabled = false,
-                -- theme = "yara_blow",
+                -- theme = "yblow",
                 component_separators = { left = "", right = "" },
                 section_separators = { left = "", right = "" },
                 disabled_filetypes = {

@@ -6,7 +6,7 @@ require("config.lsp")
 vim.g.plsql_fold = 1
 
 vim.opt.background = "dark"
-vim.cmd.colorscheme("koda")
+vim.cmd.colorscheme("yara")
 
 vim.o.winborder = "single"
 

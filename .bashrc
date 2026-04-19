@@ -40,6 +40,7 @@ export HISTCONTROL=ignoredups:erasedups
 shopt -s histappend
 bind "set completion-ignore-case on"
 
+alias tmuxx='tmux attach -t karavellas || tmux new -s karavellas'
 alias ls='ls --color=auto'
 alias grep='grep --color=always'
 alias ll='ls -l'
@@ -82,9 +83,9 @@ open() {
 }
 
 # Auto-start tmux on WSL login
-if [[ -z "$TMUX" ]] && [[ -t 1 ]]; then
-	tmux attach -t karavellas || tmux new -s karavellas
-fi
+# if [[ -z "$TMUX" ]] && [[ -t 1 ]]; then
+# 	tmux attach -t karavellas || tmux new -s karavellas
+# fi
 
 export NVM_DIR="$HOME/.nvm"
 

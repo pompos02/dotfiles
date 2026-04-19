@@ -60,6 +60,7 @@ alias code="code  --ozone-platform=wayland "
 alias pacl="pacman -Slq | fzf --preview 'pacman -Si {}' --layout=reverse --height=80% --border"
 alias yayl="yay -Slq | fzf --preview 'yay -Si {}' --layout=reverse --height=80% --border"
 alias good='git add . && git commit -m "good" && git push'
+alias tmuxx='tmux attach -t karavellas || tmux new -s karavellas'
 
 # Functions
 zd() {
@@ -189,6 +190,6 @@ nvm() {
 
 
 # Auto-start tmux on login
-if [[ -z "$TMUX" ]] && [[ -t 1 ]]; then
-    tmux attach -t karavellas || tmux new -s karavellas
-fi
+# if [[ -z "$TMUX" ]] && [[ -t 1 ]]; then
+#     tmux attach -t karavellas || tmux new -s karavellas
+# fi
