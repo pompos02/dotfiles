@@ -35,7 +35,7 @@ local function git_segment(bufnr)
     local removed = status.removed or 0
 
     local diff = string.format(
-        "[%%#SignAdd#%d %%#SignChange#%d %%#SignDelete#%d%%*]",
+        "[%%#GitSignsAdd#%d %%#GitSignsChange#%d %%#GitSignsDelete#%d%%*]",
         added,
         changed,
         removed
