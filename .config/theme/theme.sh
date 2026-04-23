@@ -439,7 +439,7 @@ theme_pick() {
 	local selected
 
 	theme_log 'opening theme picker'
-	selected="$(theme_picker_entries | fzf)" || return 1
+	selected="$(theme_picker_entries | fzf --border=rounded)" || return 1
 
 	theme_log "picked theme entry: $selected"
 	echo $selected
