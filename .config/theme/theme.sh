@@ -247,7 +247,7 @@ theme_write_fzf() {
 	local -a fzf_args=(
 		"--color=fg:${THEME_FOREGROUND},bg:${THEME_BACKGROUND}"
 		"--color=fg+:${THEME_FOREGROUND},bg+:${THEME_SELECTION}"
-		"--color=hl:${THEME_CYAN}:reverse:bold,hl+:${THEME_CYAN}:reverse:bold"
+		"--color=hl:${THEME_BLUE}:reverse:bold,hl+:${THEME_BLUE}:reverse:bold"
 		"--color=info:${THEME_MUTED},separator:${THEME_OVERLAY},scrollbar:${THEME_OVERLAY},border:${THEME_OVERLAY}"
 	)
 

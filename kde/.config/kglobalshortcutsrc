@@ -22,7 +22,7 @@ newEmail=none,none,New Email Alarm
 stopAudio=none,none,Stop Play
 
 [kmix]
-_k_friendly_name=KMix
+_k_friendly_name=Audio Volume
 decrease_microphone_volume=Microphone Volume Down,Microphone Volume Down,Decrease Microphone Volume
 decrease_volume=Volume Down,Volume Down,Decrease Volume
 decrease_volume_small=Shift+Volume Down,Shift+Volume Down,Decrease Volume by 1%
@@ -299,10 +299,6 @@ _launch=
 
 [services][org.kde.krunner.desktop]
 _launch=Search\tAlt+F2\tAlt+Space\tMeta+S
-
-[services][org.kde.spectacle.desktop]
-CurrentMonitorScreenShot=
-OpenWithoutScreenshot=
 
 [wacomtablet]
 Map to fullscreen=Meta+Ctrl+F,Meta+Ctrl+F,Map to fullscreen

@@ -10,7 +10,7 @@ require("vim._core.ui2").enable({ enable = true })
 vim.g.plsql_fold = 1
 
 vim.opt.background = "dark"
-vim.cmd.colorscheme("yblow-dark")
+vim.cmd.colorscheme("yblow")
 
 vim.o.winborder = "single"
 
@@ -35,6 +35,7 @@ vim.api.nvim_create_autocmd("QuickFixCmdPost", {
     pattern = { "make", "grep", "vimgrep" },
     command = "cwindow",
 })
+
 
 vim.filetype.add({ extension = { pc = "cpp" } })
 vim.filetype.add({

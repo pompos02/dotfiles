@@ -89,6 +89,30 @@ end
 
 vim.opt.foldtext = "v:lua.custom_fold_text()"
 
+-- function to format the whole buffer
+vim.api.nvim_create_user_command("Format", function()
+    vim.lsp.buf.format({})
+end, {})
+
+-- clean the ui
+local focus_mode = false
+vim.api.nvim_create_user_command("ToggleFocus", function()
+    focus_mode = not focus_mode
+    if focus_mode then
+        vim.opt.number = false
+        vim.opt.relativenumber = false
+        vim.opt.signcolumn = "no"
+        vim.opt.showtabline = 0
+        print("Focus Mode: ON")
+    else
+        vim.opt.number = true
+        vim.opt.relativenumber = true
+        vim.opt.signcolumn = "yes"
+        vim.opt.showtabline = 2 -- Or 1 for default behavior
+        print("Focus Mode: OFF")
+    end
+end, {})
+
 -- force syntax native syntax hilighting in markdown
 vim.g.markdown_fenced_languages = {
     "bash=sh",

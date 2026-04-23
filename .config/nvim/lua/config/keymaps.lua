@@ -53,9 +53,8 @@ map("i", ";", ";<c-g>u")
 map("v", "<", "<gv")
 map("v", ">", ">gv")
 
--- foramatting
-map("n", "<leader>bf", vim.lsp.buf.format, { desc = "Format the current buffer" })
-
+-- formatting
+map({ "x" }, "<leader>f", vim.lsp.buf.format, { desc = "Format buffer or selection" })
 
 map("n", "<leader>dd", function()
     local cfg = vim.diagnostic.config()
@@ -97,7 +96,6 @@ end, { desc = "Next quickfix item" })
 -- map("n", "<leader>fh", function() require("custom.picker").help_tags() end, { desc = "Help tags" })
 -- map("n", "<leader>fk", function() require("custom.picker").keymaps() end, { desc = "Find keymaps" })
 
-
 -- -- File explorer (native netrw)
 -- map("n", "<leader>e", ":Explore<CR>", { desc = "Explorer (netrw)" })
 -- map("n", "<leader>E", ":Explore " .. vim.fn.getcwd() .. "<CR>", { desc = "Explorer - Project Root" })
@@ -105,12 +103,12 @@ end, { desc = "Next quickfix item" })
 -- Grep visual selection (populate command, don't execute)
 map("v", "gs", function()
     vim.cmd('noau normal! "vy"')
-    local text = vim.fn.getreg('v')
-    vim.fn.feedkeys(":grep " .. vim.fn.shellescape(text) .. " .", 'n')
+    local text = vim.fn.getreg("v")
+    vim.fn.feedkeys(":grep " .. vim.fn.shellescape(text) .. " .", "n")
 end, { desc = "Grep selection in codebase" })
 
 -- Grep word under cursor (normal mode)
 map("n", "gw", function()
     local word = vim.fn.expand("<cword>")
-    vim.fn.feedkeys(":grep " .. vim.fn.shellescape(word) .. " .", 'n')
+    vim.fn.feedkeys(":grep " .. vim.fn.shellescape(word) .. " .", "n")
 end, { desc = "Grep word under cursor" })
