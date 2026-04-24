@@ -1,6 +1,5 @@
 return {
     "vague2k/vague.nvim",
-    "pompos02/misirlou.nvim",
     "pompos02/modus-themes.nvim",
     "folke/tokyonight.nvim",
     -- "pompos02/yara.nvim",
@@ -8,9 +7,10 @@ return {
     { dir = "/home/karavellas/projects/opensource/yblow.nvim" },
     { dir = "/home/karavellas/projects/opensource/misirloun" },
     { dir = "/home/karavellas/projects/opensource/ysolarized.nvim" },
-    { "zenbones-theme/zenbones.nvim", dependencies = "rktjmp/lush.nvim", lazy = false, priority = 1000 },
     "navarasu/onedark.nvim",
     "rose-pine/neovim",
+    "kepano/flexoki-neovim",
+    "f4z3r/gruvbox-material.nvim",
     "whizikxd/naysayer-colors.nvim",
     "mountain-theme/vim",
     "oskarnurm/koda.nvim",
