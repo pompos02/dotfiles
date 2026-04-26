@@ -54,7 +54,10 @@ map("v", "<", "<gv")
 map("v", ">", ">gv")
 
 -- formatting
-map({ "x" }, "<leader>f", vim.lsp.buf.format, { desc = "Format buffer or selection" })
+vim.keymap.set({ "n", "x" }, "<C-f>", function()
+    vim.lsp.buf.format()
+    vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("<Esc>", true, false, true), "n", true)
+end, { desc = "Format and return to Normal mode" })
 
 map("n", "<leader>dd", function()
     local cfg = vim.diagnostic.config()
