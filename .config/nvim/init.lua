@@ -3,6 +3,7 @@ require("config.options")
 require("config.statusline")
 require("config.keymaps")
 require("config.lsp")
+require("config.svn").setup()
 
 -- expirimental new ui stuff
 require("vim._core.ui2").enable({ enable = true })
