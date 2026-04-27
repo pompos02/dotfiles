@@ -107,6 +107,17 @@ function M.setup()
         end
 
         ---@param bufnr integer
+        ---@param status_dict? { added: integer, changed: integer, removed: integer }
+        local function set_status_dict(bufnr, status_dict)
+            if vim.deep_equal(vim.b[bufnr].svn_status_dict, status_dict) then
+                return
+            end
+
+            vim.b[bufnr].svn_status_dict = status_dict
+            vim.api.nvim_exec_autocmds("User", { pattern = "SvnSignsUpdate", modeline = false })
+        end
+
+        ---@param bufnr integer
         ---@param id integer
         ---@param name string
         ---@param lnum integer
@@ -215,6 +226,25 @@ function M.setup()
             return placements
         end
 
+        ---@param placements SvnSignPlacement[]
+        ---@return { added: integer, changed: integer, removed: integer }
+        local function summarize_signs(placements)
+            local status_dict = { added = 0, changed = 0, removed = 0 }
+            for _, placement in ipairs(placements) do
+                if placement.name == "SvnSignAdd" then
+                    status_dict.added = status_dict.added + 1
+                elseif placement.name == "SvnSignChange" then
+                    status_dict.changed = status_dict.changed + 1
+                elseif placement.name == "SvnSignDelete" then
+                    status_dict.removed = status_dict.removed + 1
+                elseif placement.name == "SvnSignChangeDelete" then
+                    status_dict.changed = status_dict.changed + 1
+                    status_dict.removed = status_dict.removed + 1
+                end
+            end
+            return status_dict
+        end
+
         ---@param bufnr integer
         ---@param file string
         ---@param tick integer
@@ -258,6 +288,7 @@ function M.setup()
 
             if status == "?" or status == "I" then
                 set_signs(bufnr, buf_state, {})
+                set_status_dict(bufnr, nil)
                 return
             end
 
@@ -269,13 +300,16 @@ function M.setup()
                     placements[#placements + 1] = { name = "SvnSignAdd", lnum = i }
                 end
                 set_signs(bufnr, buf_state, placements)
+                set_status_dict(bufnr, summarize_signs(placements))
                 return
             end
 
             local hunks = vim.text.diff(buf_state.base_text or "", get_buffer_text(bufnr), {
                 result_type = "indices",
             })
-            set_signs(bufnr, buf_state, build_signs(hunks))
+            local placements = build_signs(hunks)
+            set_signs(bufnr, buf_state, placements)
+            set_status_dict(bufnr, summarize_signs(placements))
         end
 
         -- Refresh one buffer by asking SVN for status/base content and diffing it
@@ -313,6 +347,7 @@ function M.setup()
 
             if buf_state.root == false then
                 set_signs(bufnr, buf_state, {})
+                set_status_dict(bufnr, nil)
                 finish(bufnr)
                 return
             end
@@ -333,6 +368,7 @@ function M.setup()
                 if status_code ~= 0 then
                     reset_meta(buf_state)
                     set_signs(bufnr, buf_state, {})
+                    set_status_dict(bufnr, nil)
                     finish(bufnr)
                     return
                 end
@@ -342,6 +378,7 @@ function M.setup()
                     buf_state.base_text = nil
                     buf_state.meta_ready = true
                     set_signs(bufnr, buf_state, {})
+                    set_status_dict(bufnr, nil)
                     finish(bufnr)
                     return
                 end
@@ -364,6 +401,7 @@ function M.setup()
                     if cat_code ~= 0 then
                         reset_meta(buf_state)
                         set_signs(bufnr, buf_state, {})
+                        set_status_dict(bufnr, nil)
                         finish(bufnr)
                         return
                     end
@@ -431,6 +469,7 @@ function M.setup()
         vim.api.nvim_create_autocmd("BufWipeout", {
             group = group,
             callback = function(args)
+                vim.b[args.buf].svn_status_dict = nil
                 state[args.buf] = nil
             end,
         })

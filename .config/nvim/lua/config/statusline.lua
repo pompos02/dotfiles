@@ -23,7 +23,7 @@ local function format_filepath(bufnr)
 end
 
 local function git_segment(bufnr)
-    local status = vim.b[bufnr].gitsigns_status_dict
+    local status = vim.b[bufnr].gitsigns_status_dict or vim.b[bufnr].svn_status_dict
     if not status then
         return "", ""
     end
@@ -122,7 +122,7 @@ function M.setup()
     })
     vim.api.nvim_create_autocmd("User", {
         group = group,
-        pattern = { "GitSignsUpdate", "GitSignsChanged" },
+        pattern = { "GitSignsUpdate", "GitSignsChanged", "SvnSignsUpdate" },
         callback = function()
             vim.cmd.redrawstatus()
         end,
