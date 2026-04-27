@@ -31,8 +31,10 @@ function M.setup()
         ---@field root string|false|nil
         ---@field status string|nil
         ---@field base_text string|nil
+        ---@field hunks integer[][]|nil
         ---@field meta_ready boolean
         ---@field last_sign_key string|nil
+        ---@field nav_keymaps_set boolean|nil
         ---@type table<integer, SvnBufferState>
         local state = {}
 
@@ -54,8 +56,10 @@ function M.setup()
                 root = nil,
                 status = nil,
                 base_text = nil,
+                hunks = nil,
                 meta_ready = false,
                 last_sign_key = nil,
+                nav_keymaps_set = false,
             }
             state[bufnr] = buf_state
             return buf_state
@@ -129,6 +133,7 @@ function M.setup()
         local function reset_meta(buf_state)
             buf_state.status = nil
             buf_state.base_text = nil
+            buf_state.hunks = nil
             buf_state.meta_ready = false
         end
 
@@ -257,6 +262,126 @@ function M.setup()
 
         local schedule
 
+        ---@param direction "first"|"last"|"next"|"prev"
+        local function nav_hunk(direction)
+            local bufnr = vim.api.nvim_get_current_buf()
+            local buf_state = state[bufnr]
+            local hunks = buf_state and buf_state.hunks or {}
+            if #hunks == 0 then
+                vim.api.nvim_echo({ { "No hunks", "WarningMsg" } }, false, {})
+                return
+            end
+
+            local wrap = vim.o.wrapscan
+            local line = vim.api.nvim_win_get_cursor(0)[1]
+            local line_count = vim.api.nvim_buf_line_count(bufnr)
+
+            ---@param hunk integer[]
+            ---@return integer
+            local function start_lnum(hunk)
+                local new_line = hunk[3]
+                local new_count = hunk[4]
+                local lnum = new_count == 0 and (new_line == 0 and 1 or new_line) or new_line
+                return math.max(math.min(lnum, line_count), 1)
+            end
+
+            ---@param hunk integer[]
+            ---@return integer
+            local function end_lnum(hunk)
+                local new_line = hunk[3]
+                local new_count = hunk[4]
+                local lnum = new_count == 0 and (new_line == 0 and 1 or new_line) or (new_line + new_count - 1)
+                return math.max(math.min(lnum, line_count), 1)
+            end
+
+            local index
+            if direction == "first" then
+                index = 1
+            elseif direction == "last" then
+                index = #hunks
+            elseif direction == "next" then
+                if start_lnum(hunks[1]) > line then
+                    index = 1
+                else
+                    for i = #hunks, 1, -1 do
+                        if start_lnum(hunks[i]) <= line then
+                            if i < #hunks and start_lnum(hunks[i + 1]) > line then
+                                index = i + 1
+                            elseif wrap then
+                                index = 1
+                            end
+                            break
+                        end
+                    end
+                end
+            elseif direction == "prev" then
+                if end_lnum(hunks[#hunks]) < line then
+                    index = #hunks
+                else
+                    for i = 1, #hunks do
+                        if line <= end_lnum(hunks[i]) then
+                            if i > 1 and end_lnum(hunks[i - 1]) < line then
+                                index = i - 1
+                            elseif wrap then
+                                index = #hunks
+                            end
+                            break
+                        end
+                    end
+                end
+            end
+
+            if not index then
+                vim.api.nvim_echo({ { "No more hunks", "WarningMsg" } }, false, {})
+                local _, col = vim.fn.getline(line):find("^%s*")
+                vim.api.nvim_win_set_cursor(0, { line, col or 0 })
+                return
+            end
+
+            local target = direction == "prev" and end_lnum(hunks[index]) or start_lnum(hunks[index])
+            local _, col = vim.fn.getline(target):find("^%s*")
+
+            vim.cmd([[normal! m']])
+            vim.api.nvim_win_set_cursor(0, { target, col or 0 })
+
+            if vim.o.foldopen:find("search", 1, true) then
+                vim.cmd("silent! foldopen!")
+            end
+
+            vim.api.nvim_echo({ { ("Hunk %d of %d"):format(index, #hunks), "None" } }, false, {})
+        end
+
+        ---@param bufnr integer
+        ---@param buf_state SvnBufferState
+        local function ensure_nav_keymaps(bufnr, buf_state)
+            if buf_state.nav_keymaps_set then
+                return
+            end
+
+            local function map(lhs, rhs, desc)
+                vim.keymap.set("n", lhs, rhs, { buffer = bufnr, desc = desc })
+            end
+
+            map("]h", function()
+                if vim.wo.diff then
+                    vim.cmd.normal({ "]c", bang = true })
+                else
+                    nav_hunk("next")
+                end
+            end, "Next Hunk")
+            map("[h", function()
+                if vim.wo.diff then
+                    vim.cmd.normal({ "[c", bang = true })
+                else
+                    nav_hunk("prev")
+                end
+            end, "Prev Hunk")
+            map("]H", function() nav_hunk("last") end, "Last Hunk")
+            map("[H", function() nav_hunk("first") end, "First Hunk")
+
+            buf_state.nav_keymaps_set = true
+        end
+
         ---@param bufnr integer
         local function finish(bufnr)
             local buf_state = state[bufnr]
@@ -287,6 +412,7 @@ function M.setup()
             local status = buf_state.status or ""
 
             if status == "?" or status == "I" then
+                buf_state.hunks = {}
                 set_signs(bufnr, buf_state, {})
                 set_status_dict(bufnr, nil)
                 return
@@ -299,6 +425,7 @@ function M.setup()
                 for i = 1, line_count do
                     placements[#placements + 1] = { name = "SvnSignAdd", lnum = i }
                 end
+                buf_state.hunks = line_count > 0 and { { 0, 0, 1, line_count } } or {}
                 set_signs(bufnr, buf_state, placements)
                 set_status_dict(bufnr, summarize_signs(placements))
                 return
@@ -307,6 +434,7 @@ function M.setup()
             local hunks = vim.text.diff(buf_state.base_text or "", get_buffer_text(bufnr), {
                 result_type = "indices",
             })
+            buf_state.hunks = hunks or {}
             local placements = build_signs(hunks)
             set_signs(bufnr, buf_state, placements)
             set_status_dict(bufnr, summarize_signs(placements))
@@ -346,11 +474,14 @@ function M.setup()
             end
 
             if buf_state.root == false then
+                buf_state.hunks = {}
                 set_signs(bufnr, buf_state, {})
                 set_status_dict(bufnr, nil)
                 finish(bufnr)
                 return
             end
+
+            ensure_nav_keymaps(bufnr, buf_state)
 
             if buf_state.meta_ready then
                 apply_cached_diff(bufnr, buf_state)
