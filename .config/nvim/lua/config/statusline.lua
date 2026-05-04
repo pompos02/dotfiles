@@ -88,6 +88,11 @@ local function lsp_segment(bufnr)
     return content
 end
 
+local function line_ending_segment(bufnr)
+    local ffs = { unix = "LF", dos = "CRLF", mac = "CR" }
+    return string.format("[%s]", ffs[vim.bo.fileformat] or vim.bo.fileformat)
+end
+
 function M.render()
     local winid = vim.g.statusline_winid or vim.api.nvim_get_current_win()
     local bufnr = vim.api.nvim_win_get_buf(winid)
@@ -103,6 +108,7 @@ function M.render()
         diagnostics_segment(bufnr),
     })
     local right = join({
+        line_ending_segment(bufnr),
         escape(lsp_segment(bufnr)),
         string.format("%d:%d", line, col),
     })

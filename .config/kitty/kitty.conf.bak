@@ -1,11 +1,41 @@
 # vim:fileencoding=utf-8:foldmethod=marker
 #
-# font_family      family='Monaspace Neon' features='+ss09 +ss06'
+
+cursor_trail 1
+cursor_trail_decay 0.1 0.4
+
+allow_remote_control yes
+listen_on unix:/tmp/kitty
+
+# BEGIN_KITTY_THEME
+include current-theme.conf
+# END_KITTY_THEME
+
+# Custom theme switching keybinding
+# map f12 launch --type=overlay sh -c "~/.config/scripts/toggle_theme.sh"
+map f11 toggle_fullscreen
+
+font_family      family="BlexMono Nerd Font Mono"
+bold_font        auto
+italic_font      auto
+bold_italic_font auto
+
+# font_family      family='Monaspace Xenon' features=-calt
+# bold_font        features=-calt
+# italic_font      features=-calt
+# bold_italic_font features=-calt
+
+# font_family      family='Monaspace Neon' features=-calt
+# bold_font        features=-calt
+# italic_font      features=-calt
+# bold_italic_font features=-calt
+
+# font_family      family="Source Code Pro"
 # bold_font        auto
 # italic_font      auto
 # bold_italic_font auto
 
-# font_family      family="Source Code Pro"
+# font_family      family="Spline Sans Mono"
 # bold_font        auto
 # italic_font      auto
 # bold_italic_font auto
@@ -36,7 +66,7 @@ font_size 21
 # bold_font        auto
 # italic_font      auto
 # bold_italic_font auto
-#
+
 # font_family      family="MonaspiceNe Nerd Font Mono"
 # bold_font        auto
 # italic_font      auto
@@ -53,25 +83,16 @@ font_size 21
 # italic_font      auto
 # bold_italic_font auto
 
+# font_family      family='Cascadia Mono' style=Regular variable_name=CascadiaMonoRoman
+# bold_font        family='Cascadia Mono' style=Bold variable_name=CascadiaMonoRoman
+# italic_font      family='Cascadia Mono' style=Regular variable_name=
+# bold_italic_font family='Cascadia Mono' style=Bold variable_name=
+
 # font_family      family="JetBrainsMonoNL Nerd Font Mono"
 # bold_font        family='JetBrainsMonoNL Nerd Font Mono' style=Bold
 # italic_font      auto
 # bold_italic_font family='JetBrainsMonoNL Nerd Font Mono' style='Bold Italic'
 
-cursor_trail 1
-cursor_trail_decay 0.1 0.4
-
-allow_remote_control yes
-listen_on unix:/tmp/kitty
-
-# BEGIN_KITTY_THEME
-# Modus Vivendi
-include current-theme.conf
-# END_KITTY_THEME
-
-# Custom theme switching keybinding
-# map f12 launch --type=overlay sh -c "~/.config/scripts/toggle_theme.sh"
-map f11 toggle_fullscreen
 
 # hide_window_decorations yes
 
@@ -2863,14 +2884,5 @@ map ctrl+minus change_font_size all -2.0
 #: }}}
 
 
-# cursor_trail 8
-# cursor_trail_decay 0.08 0.18
-# cursor_trail_start_threshold 2
 
 
-# BEGIN_KITTY_FONTS
-font_family      family="Monaspace Xenon"
-bold_font        auto
-italic_font      auto
-bold_italic_font auto
-# END_KITTY_FONTS
