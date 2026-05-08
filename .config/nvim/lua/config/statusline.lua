@@ -88,9 +88,8 @@ local function lsp_segment(bufnr)
     return content
 end
 
-local function line_ending_segment(bufnr)
-    local ffs = { unix = "LF", dos = "CRLF", mac = "CR" }
-    return string.format("[%s]", ffs[vim.bo.fileformat] or vim.bo.fileformat)
+local function line_ending_segment()
+    return string.format("[%s]", vim.bo.fileformat)
 end
 
 function M.render()
@@ -108,7 +107,7 @@ function M.render()
         diagnostics_segment(bufnr),
     })
     local right = join({
-        line_ending_segment(bufnr),
+        line_ending_segment(),
         escape(lsp_segment(bufnr)),
         string.format("%d:%d", line, col),
     })

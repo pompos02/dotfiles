@@ -15,7 +15,7 @@ include current-theme.conf
 # map f12 launch --type=overlay sh -c "~/.config/scripts/toggle_theme.sh"
 map f11 toggle_fullscreen
 
-font_family      family="BlexMono Nerd Font Mono"
+font_family      family='Cascadia Code'
 bold_font        auto
 italic_font      auto
 bold_italic_font auto
@@ -2882,6 +2882,8 @@ map ctrl+minus change_font_size all -2.0
 #: }}}
 
 #: }}}
+
+
 
 
 
