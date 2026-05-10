@@ -89,8 +89,8 @@ ForegroundPositive=94,255,108
 ForegroundVisited=189,94,255
 
 [General]
-ColorScheme=Cyberdream
-Name=Cyberdream
+ColorScheme=CyberdreamDark
+Name=CyberdreamDark
 shadeSortColumn=true
 
 [KDE]

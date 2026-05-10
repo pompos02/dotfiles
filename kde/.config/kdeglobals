@@ -91,8 +91,8 @@ ForegroundPositive=94,255,108
 ForegroundVisited=189,94,255
 
 [General]
-ColorScheme=Cyberdream
-ColorSchemeHash=7fc26ded986294aa9d6996858cae903546282e7a
+ColorScheme=CyberdreamDark
+ColorSchemeHash=553d08c0e5a33577adf32aaf1abfeb5b48dab784
 XftAntialias=true
 XftHintStyle=hintslight
 XftSubPixel=none
