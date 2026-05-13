@@ -32,30 +32,3 @@ custom-shader-animation = always
 cursor-color = cell-foreground
 shell-integration-features = no-cursor
 
-foreground = #d8c5a7
-background = #112e2a
-
-selection-foreground = #d8c5a7
-selection-background = #1b413b
-
-cursor-color = #d8c5a7
-cursor-text = #112e2a
-
-# ANSI colors
-palette = 0=#0b211d
-palette = 1=#F43841
-palette = 2=#21d813
-palette = 3=#ffffff
-palette = 4=#c1d1e3
-palette = 5=#1b413b
-palette = 6=#7ad0c6
-palette = 7=#1b413b
-
-palette = 8=#52756e
-palette = 9=#F43841
-palette = 10=#21d813
-palette = 11=#3b655d
-palette = 12=#748a92
-palette = 13=#748a92
-palette = 14=#7ad0c6
-palette = 15=#d8c5a7

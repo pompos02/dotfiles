@@ -103,12 +103,21 @@ vim.api.nvim_create_user_command("ToggleFocus", function()
         vim.opt.relativenumber = false
         vim.opt.signcolumn = "no"
         vim.opt.showtabline = 0
+        vim.opt.listchars = 0
+        vim.opt.list = false
+        vim.opt.colorcolumn = ""
+        opt.cursorline = false
+
         print("Focus Mode: ON")
     else
         vim.opt.number = true
         vim.opt.relativenumber = true
         vim.opt.signcolumn = "yes"
         vim.opt.showtabline = 2 -- Or 1 for default behavior
+        vim.cmd("set list")
+        vim.opt.list = true
+        vim.opt.colorcolumn = "80"
+        opt.cursorline = true
         print("Focus Mode: OFF")
     end
 end, {})
