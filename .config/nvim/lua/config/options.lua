@@ -103,7 +103,6 @@ vim.api.nvim_create_user_command("ToggleFocus", function()
         vim.opt.relativenumber = false
         vim.opt.signcolumn = "no"
         vim.opt.showtabline = 0
-        vim.opt.listchars = 0
         vim.opt.list = false
         vim.opt.colorcolumn = ""
         opt.cursorline = false

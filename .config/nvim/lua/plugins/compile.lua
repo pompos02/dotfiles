@@ -1,9 +1,28 @@
 return {
     "ej-shafran/compile-mode.nvim",
     version = "^5.0.0",
+    cmd = {
+        "Compile",
+        "Recompile",
+        "NextError",
+        "PrevError",
+        "CurrentError",
+        "FirstError",
+        "QuickfixErrors",
+        "NextErrorFollow",
+    },
     dependencies = {
         "nvim-lua/plenary.nvim",
     },
+    init = function()
+        vim.g.compile_mode = {
+            -- default_command = "",
+            -- input_word_completion = true,
+            -- use_diagnostics = false,
+            -- error_locus_highlight = 500, -- or true for persistent
+            -- baleia_setup = false,
+        }
+    end,
     config = function()
         vim.api.nvim_create_autocmd("FileType", {
             pattern = "compilation",
@@ -11,13 +30,6 @@ return {
                 vim.api.nvim_set_option_value("list", false, { scope = "local", win = 0 })
             end,
         })
-        vim.g.compile_mode = {
-            default_command = "",
-            input_word_completion = true,
-            use_diagnostics = false,
-            error_locus_highlight = 500, -- or true for persistent
-            baleia_setup = false,
-        }
         local compile_mode = require("compile-mode")
         local errors = require("compile-mode.errors")
         local utils = require("compile-mode.utils")

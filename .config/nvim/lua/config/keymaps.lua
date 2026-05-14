@@ -59,6 +59,14 @@ vim.keymap.set({ "n", "x" }, "<C-f>", function()
     vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("<Esc>", true, false, true), "n", true)
 end, { desc = "Format and return to Normal mode" })
 
+map("n", "<C-b>", function()
+    if type(vim.g.compile_command) == "string" and vim.g.compile_command ~= "" then
+        vim.cmd.Recompile()
+    else
+        vim.cmd.Compile()
+    end
+end, { desc = "Compile project" })
+
 map("n", "<leader>dd", function()
     local cfg = vim.diagnostic.config()
     vim.diagnostic.config({ virtual_text = not cfg.virtual_text })

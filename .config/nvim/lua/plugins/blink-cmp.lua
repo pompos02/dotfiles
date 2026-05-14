@@ -17,7 +17,6 @@ return {
         opts = {
             -- Keymap presets and customizations
             keymap = {
-                preset = "enter",
                 ["<C-l>"] = { "snippet_forward", "fallback" },
                 ["<C-h>"] = { "snippet_backward", "fallback" },
                 ["<C-e>"] = { "cancel", "fallback" },
