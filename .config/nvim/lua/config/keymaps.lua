@@ -59,7 +59,7 @@ vim.keymap.set({ "n", "x" }, "<C-f>", function()
     vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("<Esc>", true, false, true), "n", true)
 end, { desc = "Format and return to Normal mode" })
 
-map("n", "<C-b>", function()
+map("n", "<C-m>", function()
     if type(vim.g.compile_command) == "string" and vim.g.compile_command ~= "" then
         vim.cmd.Recompile()
     else

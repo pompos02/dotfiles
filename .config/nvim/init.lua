@@ -11,6 +11,7 @@ require("vim._core.ui2").enable({ enable = true })
 vim.g.plsql_fold = 1
 
 vim.opt.background = "dark"
+
 vim.cmd.colorscheme("dolores-thes")
 
 vim.o.winborder = "single"

@@ -20,6 +20,8 @@ return {
                 ["<C-l>"] = { "snippet_forward", "fallback" },
                 ["<C-h>"] = { "snippet_backward", "fallback" },
                 ["<C-e>"] = { "cancel", "fallback" },
+                ["<CR>"] = { "accept", "fallback" },
+                ["<C-y>"] = { "select_and_accept", "fallback" },
                 ["<C-q>"] = { "show", "show_documentation", "hide_documentation" },
                 ["<C-u>"] = { "scroll_documentation_up", "fallback" },
                 ["<C-d>"] = { "scroll_documentation_down", "fallback" },
