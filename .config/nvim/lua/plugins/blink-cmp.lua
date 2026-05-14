@@ -42,6 +42,7 @@ return {
                     auto_brackets = {
                         enabled = true,
                     },
+                    resolve_timeout_ms = 0,
                 },
 
                 menu = {
@@ -168,7 +169,6 @@ return {
 
         -- remove duplicates from the sources
         config = function(_, opts)
-
             require("blink.cmp").setup(opts)
 
             local list = require("blink.cmp.completion.list")

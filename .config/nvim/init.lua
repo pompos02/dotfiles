@@ -7,7 +7,6 @@ require("config.svn").setup()
 
 -- expirimental new ui stuff
 require("vim._core.ui2").enable({ enable = true })
-
 vim.g.plsql_fold = 1
 
 vim.opt.background = "dark"
