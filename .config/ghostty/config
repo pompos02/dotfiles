@@ -29,6 +29,6 @@ macos-option-as-alt = true
 custom-shader-animation = always
 
 
-cursor-color = cell-foreground
+# cursor-color = cell-foreground
 shell-integration-features = no-cursor
 
