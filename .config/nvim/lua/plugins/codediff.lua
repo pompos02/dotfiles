@@ -1,7 +1,7 @@
 -- Packer
 return {
     -- "esmuellert/codediff.nvim",
-    dir = "/home/karavellas/projects/opensource/codediff.nvim",
+    dir = "/Users/yianniscaravellas/projects/opensource/codediff.nvim",
     cmd = "CodeDiff",
     opts = {
         highlights = {

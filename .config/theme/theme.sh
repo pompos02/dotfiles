@@ -85,6 +85,17 @@ _theme_escape_ere() {
 	printf '%s\n' "$1" | sed 's/[][(){}.^$*+?|\\/-]/\\&/g'
 }
 
+_theme_sed_in_place() {
+	local expression="$1"
+	local file="$2"
+
+	if [[ "$(uname -s)" == "Darwin" ]]; then
+		sed -i '' -E "$expression" "$file"
+	else
+		sed -i -E "$expression" "$file"
+	fi
+}
+
 theme_log() {
 	printf '[theme] %s\n' "$*" >&2
 }
@@ -271,6 +282,8 @@ theme_platform() {
 		printf 'wsl\n'
 	elif [[ "$os" == "Linux" ]]; then
 		printf 'linux\n'
+	elif [[ "$os" == "Darwin" ]]; then
+		printf 'macos\n'
 	else
 		printf 'unsupported\n'
 	fi
@@ -287,8 +300,8 @@ theme_apply_nvim_init() {
 	variant="$(_theme_escape_sed_replacement "$THEME_VARIANT")"
 	colorscheme="$(_theme_escape_sed_replacement "$THEME_NVIM_NAME")"
 
-	sed -i -E "s|^([[:space:]]*vim\\.opt\\.background[[:space:]]*=[[:space:]]*).*$|\\1\"${variant}\"|" "$THEME_NVIM_INIT_FILE"
-	sed -i -E "s|^([[:space:]]*vim\\.cmd\\.colorscheme\\()[^)]*(\\).*)$|\\1\"${colorscheme}\"\\2|" "$THEME_NVIM_INIT_FILE"
+	_theme_sed_in_place "s|^([[:space:]]*vim\\.opt\\.background[[:space:]]*=[[:space:]]*).*$|\\1\"${variant}\"|" "$THEME_NVIM_INIT_FILE"
+	_theme_sed_in_place "s|^([[:space:]]*vim\\.cmd\\.colorscheme\\()[^)]*(\\).*)$|\\1\"${colorscheme}\"\\2|" "$THEME_NVIM_INIT_FILE"
 }
 
 theme_apply_running_nvim() {
@@ -360,11 +373,42 @@ theme_write_kitty() {
 }
 
 theme_apply_kitty() {
+	local socket socket_path loaded
+	local -a sockets=()
+
+	: "${THEME_NAME:?theme_apply_kitty requires a loaded theme}"
+	: "${THEME_VARIANT:?theme_apply_kitty requires a loaded theme}"
+	: "${THEME_FOREGROUND:?theme_apply_kitty requires a loaded theme}"
+	: "${THEME_BACKGROUND:?theme_apply_kitty requires a loaded theme}"
+
 	theme_log 'applying Kitty theme'
 	theme_write_kitty
 
-	if command -v kitty >/dev/null 2>&1; then
-		kitty @ load-config >/dev/null 2>&1 || true
+	command -v kitty >/dev/null 2>&1 || return 0
+
+	# tmux can keep stale KITTY_LISTEN_ON values after Kitty restarts, so try
+	# the environment socket, configured socket, and Kitty's per-process sockets.
+	[[ -n "${KITTY_LISTEN_ON:-}" ]] && sockets+=("$KITTY_LISTEN_ON")
+	sockets+=("unix:/tmp/kitty")
+	shopt -s nullglob
+	for socket_path in /tmp/kitty-*; do
+		[[ -S "$socket_path" ]] && sockets+=("unix:${socket_path}")
+	done
+	shopt -u nullglob
+
+	loaded=0
+	for socket in "${sockets[@]}"; do
+		if [[ "$socket" == unix:* && ! -S "${socket#unix:}" ]]; then
+			continue
+		fi
+
+		if kitty @ --to "$socket" load-config >/dev/null 2>&1; then
+			loaded=1
+		fi
+	done
+
+	if [[ "$loaded" != 1 ]]; then
+		theme_log 'Kitty theme file was written, but no running Kitty socket could be reloaded'
 	fi
 }
 
@@ -377,8 +421,8 @@ theme_apply_windows_terminal() {
 	escaped_scheme_name="$(_theme_escape_sed_replacement "$THEME_NAME")"
 	escaped_variant="$(_theme_escape_sed_replacement "$THEME_VARIANT")"
 
-	sed -i -E "s|^([[:space:]]*\"colorScheme\"[[:space:]]*:[[:space:]]*).*$|\\1\"${escaped_scheme_name}\",|" "$THEME_WINDOWS_TERMINAL_SETTINGS_PATH"
-	sed -i -E "s|^([[:space:]]*\"theme\"[[:space:]]*:[[:space:]]*).*$|\\1\"${escaped_variant}\",|" "$THEME_WINDOWS_TERMINAL_SETTINGS_PATH"
+	_theme_sed_in_place "s|^([[:space:]]*\"colorScheme\"[[:space:]]*:[[:space:]]*).*$|\\1\"${escaped_scheme_name}\",|" "$THEME_WINDOWS_TERMINAL_SETTINGS_PATH"
+	_theme_sed_in_place "s|^([[:space:]]*\"theme\"[[:space:]]*:[[:space:]]*).*$|\\1\"${escaped_variant}\",|" "$THEME_WINDOWS_TERMINAL_SETTINGS_PATH"
 }
 
 theme_apply_kde() {
@@ -415,6 +459,9 @@ theme_apply_loaded() {
 	linux)
 		theme_apply_kitty
 		theme_apply_kde
+		;;
+	macos)
+		theme_apply_kitty
 		;;
 	esac
 }

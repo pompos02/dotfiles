@@ -1,5 +1,5 @@
 return {
-    -- dir = "/home/karavellas/projects/opensource/oravim.nvim",
+    -- dir = "/Users/yianniscaravellas/projects/opensource/oravim.nvim",
     "pompos02/oravim.nvim",
     config = function()
         require("oravim").setup({
