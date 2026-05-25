@@ -73,13 +73,13 @@ return {
 	},
 	opts = {
 		fzf_colors = {
-			["pointer"] = { "fg", "markdownH1" },
-			["hl"] = { "bg", "CurSearch", "bold" },
-			["hl+"] = { "bg", "CurSearch", "bold" },
-			["fg"] = { "fg", "Normal" },
-			["bg"] = { "bg", "Normal" },
-			["fg+"] = { "fg", "Normal", "bold" },
-			["bg+"] = { "bg", "CursorLine" },
+			-- ["pointer"] = { "fg", "markdownH1" },
+			-- ["hl"] = { "bg", "CurSearch", "bold" },
+			-- ["hl+"] = { "bg", "CurSearch", "bold" },
+			-- ["fg"] = { "fg", "Normal" },
+			-- ["bg"] = { "bg", "Normal" },
+			-- ["fg+"] = { "fg", "Normal", "bold" },
+			-- ["bg+"] = { "bg", "CursorLine" },
 		},
 		winopts = {
 			-- height = 0.5,
@@ -138,7 +138,7 @@ return {
 		files = {
 			prompt = "Files❯ ",
 			multiprocess = true,
-			formatter = "path.filename_first",
+			-- formatter = "path.filename_first",
 			git_icons = false,
 			file_icons = true,
 			color_icons = true,

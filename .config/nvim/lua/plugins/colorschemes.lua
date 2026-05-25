@@ -8,6 +8,7 @@ return {
     { dir = "/home/karavellas/projects/opensource/misirloun" },
     { dir = "/home/karavellas/projects/opensource/ysolarized.nvim" },
     "neanias/everforest-nvim",
+	"datsfilipe/vesper.nvim",
     "sainnhe/sonokai",
     "navarasu/onedark.nvim",
     "rose-pine/neovim",

@@ -9,6 +9,21 @@ map("n", "<Esc>", function()
     end
 end, { desc = "Clear search hl", silent = true, expr = true })
 
+-- Search word under cursor without jumping to the next/previous match.
+local function search_cword_without_jump(key)
+    local view = vim.fn.winsaveview()
+    pcall(vim.cmd, "keepjumps normal! " .. key)
+    vim.fn.winrestview(view)
+end
+
+map("n", "*", function()
+    search_cword_without_jump("*")
+end, { desc = "Search word under cursor" })
+
+map("n", "#", function()
+    search_cword_without_jump("#")
+end, { desc = "Search word under cursor backward" })
+
 -- moving lines up and down
 map("v", "K", ":m '<-2<CR>gv=gv")
 map("v", "J", ":m '>+1<CR>gv=gv")
