@@ -112,7 +112,7 @@ vim.api.nvim_create_user_command("ToggleFocus", function()
         vim.opt.number = true
         vim.opt.relativenumber = true
         vim.opt.signcolumn = "yes"
-        vim.opt.showtabline = 2 -- Or 1 for default behavior
+        vim.opt.showtabline = 1
         vim.cmd("set list")
         vim.opt.list = true
         vim.opt.colorcolumn = "80"

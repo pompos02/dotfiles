@@ -85,7 +85,7 @@ if [[ -f "$HOME/.config/theme/current_fzf" ]]; then
   export FZF_DEFAULT_OPTS_FILE="$HOME/.config/theme/current_fzf"
 fi
 
-eval "$(fzf --zsh)"
+# eval "$(fzf --zsh)"
 
 # PATH
 export PATH="/usr/local/bin:$PATH"

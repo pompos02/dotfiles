@@ -4,11 +4,22 @@ return {
     "folke/tokyonight.nvim",
     -- "pompos02/yara.nvim",
     { dir = "/home/karavellas/projects/opensource/yara.nvim" },
-    { dir = "/home/karavellas/projects/opensource/dolores.nvim" },
+
+    {
+        dir = "/home/karavellas/projects/opensource/dolores.nvim",
+        opts = {
+            styles = {
+                bold = false,
+                italic = true,
+                transparency = true,
+            }
+        },
+    },
+
     { dir = "/home/karavellas/projects/opensource/misirloun" },
     { dir = "/home/karavellas/projects/opensource/ysolarized.nvim" },
     "neanias/everforest-nvim",
-	"datsfilipe/vesper.nvim",
+    "datsfilipe/vesper.nvim",
     "sainnhe/sonokai",
     "navarasu/onedark.nvim",
     "rose-pine/neovim",

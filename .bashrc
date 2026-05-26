@@ -50,7 +50,7 @@ alias vim='nvim'
 alias bat='bat'
 alias good='git add . && git commit -m "good" && git push'
 
-eval "$(fzf --bash)"
+# eval "$(fzf --bash)"
 
 # this is the node version manager
 # source /usr/share/nvm/init-nvm.sh
