@@ -10,8 +10,6 @@ return {
         opts = {
             styles = {
                 bold = false,
-                italic = true,
-                transparency = true,
             }
         },
     },
