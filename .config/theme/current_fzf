@@ -1,4 +1,4 @@
---color=fg:#ebdbb2,bg:#282828
---color=fg+:#ebdbb2,bg+:#3c3836
---color=hl:#8ec07c:reverse:bold,hl+:#8ec07c:reverse:bold
---color=info:#7c6f64,separator:#504945,scrollbar:#504945,border:#504945
+--color=fg:#ffffff,bg:#16181a
+--color=fg+:#ffffff,bg+:#3c4048
+--color=hl:#5ef1ff:reverse:bold,hl+:#5ef1ff:reverse:bold
+--color=info:#7b8496,separator:#3c4048,scrollbar:#3c4048,border:#3c4048

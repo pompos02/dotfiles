@@ -1,6 +1,6 @@
 [ColorEffects:Disabled]
 ChangeSelectionColor=
-Color=124,111,100
+Color=123,132,150
 ColorAmount=0
 ColorEffect=0
 ContrastAmount=0.65
@@ -11,7 +11,7 @@ IntensityEffect=0
 
 [ColorEffects:Inactive]
 ChangeSelectionColor=false
-Color=124,111,100
+Color=123,132,150
 ColorAmount=0.025
 ColorEffect=2
 ContrastAmount=0.1
@@ -21,86 +21,85 @@ IntensityAmount=0
 IntensityEffect=0
 
 [Colors:Button]
-BackgroundAlternate=60,56,54
-BackgroundNormal=50,48,47
-DecorationFocus=131,165,152
-DecorationHover=142,192,124
-ForegroundActive=131,165,152
-ForegroundInactive=124,111,100
-ForegroundLink=131,165,152
-ForegroundNegative=251,73,52
-ForegroundNeutral=250,189,47
-ForegroundNormal=235,219,178
-ForegroundPositive=184,187,38
-ForegroundVisited=211,134,155
+BackgroundAlternate=60,64,72
+BackgroundNormal=30,33,36
+DecorationFocus=94,161,255
+DecorationHover=94,241,255
+ForegroundActive=94,161,255
+ForegroundInactive=123,132,150
+ForegroundLink=94,161,255
+ForegroundNegative=255,110,94
+ForegroundNeutral=241,255,94
+ForegroundNormal=255,255,255
+ForegroundPositive=94,255,108
+ForegroundVisited=189,94,255
 
 [Colors:Selection]
-BackgroundAlternate=60,56,54
-BackgroundNormal=60,56,54
-DecorationFocus=131,165,152
-DecorationHover=142,192,124
-ForegroundActive=235,219,178
-ForegroundInactive=168,153,132
-ForegroundLink=131,165,152
-ForegroundNegative=251,73,52
-ForegroundNeutral=250,189,47
-ForegroundNormal=235,219,178
-ForegroundPositive=184,187,38
-ForegroundVisited=211,134,155
+BackgroundAlternate=60,64,72
+BackgroundNormal=60,64,72
+DecorationFocus=94,161,255
+DecorationHover=94,241,255
+ForegroundActive=255,255,255
+ForegroundInactive=123,132,150
+ForegroundLink=94,161,255
+ForegroundNegative=255,110,94
+ForegroundNeutral=241,255,94
+ForegroundNormal=255,255,255
+ForegroundPositive=94,255,108
+ForegroundVisited=189,94,255
 
 [Colors:Tooltip]
-BackgroundAlternate=50,48,47
-BackgroundNormal=29,32,33
-DecorationFocus=131,165,152
-DecorationHover=142,192,124
-ForegroundActive=131,165,152
-ForegroundInactive=124,111,100
-ForegroundLink=131,165,152
-ForegroundNegative=251,73,52
-ForegroundNeutral=250,189,47
-ForegroundNormal=235,219,178
-ForegroundPositive=184,187,38
-ForegroundVisited=211,134,155
+BackgroundAlternate=30,33,36
+BackgroundNormal=22,24,26
+DecorationFocus=94,161,255
+DecorationHover=94,241,255
+ForegroundActive=94,161,255
+ForegroundInactive=123,132,150
+ForegroundLink=94,161,255
+ForegroundNegative=255,110,94
+ForegroundNeutral=241,255,94
+ForegroundNormal=255,255,255
+ForegroundPositive=94,255,108
+ForegroundVisited=189,94,255
 
 [Colors:View]
-BackgroundAlternate=50,48,47
-BackgroundNormal=40,40,40
-DecorationFocus=131,165,152
-DecorationHover=142,192,124
-ForegroundActive=131,165,152
-ForegroundInactive=124,111,100
-ForegroundLink=131,165,152
-ForegroundNegative=251,73,52
-ForegroundNeutral=250,189,47
-ForegroundNormal=235,219,178
-ForegroundPositive=184,187,38
-ForegroundVisited=211,134,155
+BackgroundAlternate=30,33,36
+BackgroundNormal=22,24,26
+DecorationFocus=94,161,255
+DecorationHover=94,241,255
+ForegroundActive=94,161,255
+ForegroundInactive=123,132,150
+ForegroundLink=94,161,255
+ForegroundNegative=255,110,94
+ForegroundNeutral=241,255,94
+ForegroundNormal=255,255,255
+ForegroundPositive=94,255,108
+ForegroundVisited=189,94,255
 
 [Colors:Window]
-BackgroundAlternate=50,48,47
-BackgroundNormal=40,40,40
-DecorationFocus=131,165,152
-DecorationHover=142,192,124
-ForegroundActive=131,165,152
-ForegroundInactive=124,111,100
-ForegroundLink=131,165,152
-ForegroundNegative=251,73,52
-ForegroundNeutral=250,189,47
-ForegroundNormal=235,219,178
-ForegroundPositive=184,187,38
-ForegroundVisited=211,134,155
+BackgroundAlternate=30,33,36
+BackgroundNormal=22,24,26
+DecorationFocus=94,161,255
+DecorationHover=94,241,255
+ForegroundActive=94,161,255
+ForegroundInactive=123,132,150
+ForegroundLink=94,161,255
+ForegroundNegative=255,110,94
+ForegroundNeutral=241,255,94
+ForegroundNormal=255,255,255
+ForegroundPositive=94,255,108
+ForegroundVisited=189,94,255
 
 [General]
-ColorScheme=RealGruvbox
-ColorSchemeHash=fa520fb76a7255756897a6fbbf639ac49a9ed28e
+ColorSchemeHash=7a8e04914e8ddc3ef4e9636e6aef1e1b78bf6735
 XftAntialias=true
 XftHintStyle=hintslight
 XftSubPixel=none
-fixed=TX02,10,-1,5,400,0,0,0,0,0,0,0,0,0,0,1
-font=TX02,12,-1,5,400,0,0,0,0,0,0,0,0,0,0,1
-menuFont=TX02,10,-1,5,400,0,0,0,0,0,0,0,0,0,0,1
-smallestReadableFont=TX02,8,-1,5,400,0,0,0,0,0,0,0,0,0,0,1
-toolBarFont=TX02,10,-1,5,400,0,0,0,0,0,0,0,0,0,0,1
+fixed=TX-02,10,-1,5,500,0,0,0,0,0,0,0,0,0,0,1,Medium SemiCondensed,0,0
+font=TX-02,12,-1,5,500,0,0,0,0,0,0,0,0,0,0,1,Medium SemiCondensed,0,0
+menuFont=TX-02,10,-1,5,500,0,0,0,0,0,0,0,0,0,0,1,Medium SemiCondensed,0,0
+smallestReadableFont=TX-02,8,-1,5,500,0,0,0,0,0,0,0,0,0,0,1,Medium SemiCondensed,0,0
+toolBarFont=TX-02,10,-1,5,500,0,0,0,0,0,0,0,0,0,0,1,Medium SemiCondensed,0,0
 
 [KDE]
 AnimationDurationFactor=0.35355339059327373
@@ -126,10 +125,10 @@ Speedbar Width=154
 View Style=DetailTree
 
 [WM]
-activeBackground=40,40,40
-activeBlend=50,48,47
-activeFont=TX02,10,-1,5,400,0,0,0,0,0,0,0,0,0,0,1
-activeForeground=235,219,178
-inactiveBackground=40,40,40
-inactiveBlend=50,48,47
-inactiveForeground=124,111,100
+activeBackground=22,24,26
+activeBlend=30,33,36
+activeFont=TX-02,10,-1,5,500,0,0,0,0,0,0,0,0,0,0,1,Medium SemiCondensed,0,0
+activeForeground=255,255,255
+inactiveBackground=22,24,26
+inactiveBlend=30,33,36
+inactiveForeground=123,132,150

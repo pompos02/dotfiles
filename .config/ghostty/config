@@ -10,7 +10,8 @@ font-size = 15.0
 
 # Previous font options
 # font-family = "MonaspiceKr Nerd Font Mono"
-font-family = "TX02"
+font-family = "TX-02"
+# font-family = "BerkeleyMonoPatched"
 # font-family = "JetBrains Mono"
 # font-family = "ComicShannsMono Nerd Font"
 # font-family = "SauceCodePro Nerd Font Propo"
