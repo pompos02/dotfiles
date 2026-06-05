@@ -9,8 +9,8 @@ return {
         dir = "/home/karavellas/projects/opensource/dolores.nvim",
         opts = {
             styles = {
-                bold = true,
-                transparent = false,
+                bold = false,
+                -- transparent = false,
             }
         },
     },
