@@ -4,13 +4,14 @@ return {
         indent = {
             indent = {
                 enabled = true,
-                char = "┊",
+                char = "▏",
                 only_scope = false,
                 only_current = false,
                 hl = "SnacksIndent",
             },
             animate = {
-                enabled = vim.fn.has("nvim-0.10") == 1,
+                -- enabled = vim.fn.has("nvim-0.10") == 1,
+                enabled = false,
                 style = "out",
                 easing = "linear",
                 duration = {
@@ -22,7 +23,7 @@ return {
             scope = {
                 enabled = true,
                 priority = 200,
-                char = "│",
+                char = "▏",
                 underline = false,
                 only_current = false,
                 hl = "SnacksIndentScope",

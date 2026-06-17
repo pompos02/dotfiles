@@ -4,6 +4,7 @@
   "compile-mode.nvim": { "branch": "main", "commit": "ce34ad9e69cb6a2d9f71017f4cb090195fb9fc09" },
   "cyberdream.nvim": { "branch": "main", "commit": "4da5ba201fbfcd886fa9ab34daae9472f564c0d9" },
   "everforest-nvim": { "branch": "main", "commit": "d235ca0aa6a29546e661a020e2618612acbbffbe" },
+  "fff.nvim": { "branch": "main", "commit": "3b5e78c6b0304f468cceeeaa91bb60933647a4b9" },
   "flexoki-neovim": { "branch": "main", "commit": "c3e2251e813d29d885a7cbbe9808a7af234d845d" },
   "friendly-snippets": { "branch": "main", "commit": "6cd7280adead7f586db6fccbd15d2cac7e2188b9" },
   "fzf-lua": { "branch": "main", "commit": "988416cc782dfe28bff3f0da9b8c943b236cd86a" },

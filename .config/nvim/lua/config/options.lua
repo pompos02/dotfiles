@@ -107,6 +107,7 @@ vim.api.nvim_create_user_command("ToggleFocus", function()
         vim.opt.list = false
         vim.opt.colorcolumn = ""
         opt.cursorline = false
+        vim.g.snacks_indent = false
 
         print("Focus Mode: ON")
     else
@@ -116,8 +117,8 @@ vim.api.nvim_create_user_command("ToggleFocus", function()
         vim.opt.showtabline = 1
         vim.cmd("set list")
         vim.opt.list = true
-        vim.opt.colorcolumn = "80"
         opt.cursorline = true
+        vim.g.snacks_indent = true
         print("Focus Mode: OFF")
     end
 end, {})
