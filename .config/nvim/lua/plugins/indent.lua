@@ -16,6 +16,10 @@ return {
                     ["*"] = {
                         "return_statement",
                         "function_call",
+                        "for_statement",
+                        "if_statement",
+                        "variable_assignment",
+                        "declaration",
                     },
                     lua = {
                         "field",

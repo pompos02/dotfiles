@@ -1,38 +1,15 @@
 #!/usr/bin/env bash
 
 THEME_HOME="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
-THEME_FZF_FILE="${THEME_HOME}/current_fzf"
-THEME_THEMES_DIR="${THEME_HOME}/themes"
-THEME_NVIM_INIT_FILE="${HOME}/.config/nvim/init.lua"
-THEME_KITTY_CURRENT_FILE="${HOME}/.config/kitty/current-theme.conf"
+THEME_THEMES_DIR="$THEME_HOME/themes"
+THEME_FZF_FILE="$THEME_HOME/current_fzf"
+THEME_NVIM_INIT_FILE="$HOME/.config/nvim/init.lua"
+THEME_KITTY_CURRENT_FILE="$HOME/.config/kitty/current-theme.conf"
 THEME_WINDOWS_TERMINAL_SETTINGS_PATH="${WINDOWS_TERMINAL_SETTINGS_PATH:-/mnt/c/Users/yiann/AppData/Local/Packages/Microsoft.WindowsTerminal_8wekyb3d8bbwe/LocalState/settings.json}"
 
-_theme_required_meta_keys=(name nvim_name variant)
-_theme_required_palette_keys=(
-	background
-	background_alt
-	surface
-	surface_alt
-	overlay
-	muted
-	subtle
-	foreground
-	red
-	yellow
-	orange
-	blue
-	cyan
-	lavender
-	magenta
-	green
-	highlight
-	selection
-	border
-)
-_theme_export_vars=(
+required_theme_vars=(
 	THEME_NAME
 	THEME_NVIM_NAME
-	THEME_KDE_NAME
 	THEME_VARIANT
 	THEME_BACKGROUND
 	THEME_BACKGROUND_ALT
@@ -55,43 +32,28 @@ _theme_export_vars=(
 	THEME_BORDER
 )
 
-_theme_trim() {
+trim() {
 	local value="$1"
-
 	value="${value#"${value%%[![:space:]]*}"}"
 	value="${value%"${value##*[![:space:]]}"}"
 	printf '%s\n' "$value"
 }
 
-_theme_strip_quotes() {
+strip_quotes() {
 	local value="$1"
-
-	if [[ "$value" == \"*\" && "$value" == *\" ]]; then
-		value="${value:1:${#value}-2}"
-	fi
-
+	[[ "$value" == \"*\" && "$value" == *\" ]] && value="${value:1:${#value}-2}"
 	printf '%s\n' "$value"
 }
 
-_theme_escape_sed_replacement() {
+escape_sed_replacement() {
 	local value="$1"
-
 	value="${value//\\/\\\\}"
 	value="${value//&/\\&}"
 	printf '%s\n' "$value"
 }
 
-_theme_escape_ere() {
-	printf '%s\n' "$1" | sed 's/[][(){}.^$*+?|\\/-]/\\&/g'
-}
-
-theme_log() {
-	printf '[theme] %s\n' "$*" >&2
-}
-
-theme_list() {
+theme_names() {
 	local path name
-
 	shopt -s nullglob
 	for path in "$THEME_THEMES_DIR"/*.ini; do
 		name="${path##*/}"
@@ -100,203 +62,82 @@ theme_list() {
 	shopt -u nullglob
 }
 
-theme_file() {
-	local name="$1"
-	local file="$THEME_THEMES_DIR/$name.ini"
-
-	if [[ ! -f "$file" ]]; then
-		printf 'Theme file not found: %s\n' "$file" >&2
-		return 1
-	fi
-
-	printf '%s\n' "$file"
-}
-
-_theme_file_value() {
-	local file="$1"
-	local wanted_section="$2"
-	local wanted_key="$3"
-	local section line key value
-
-	section=''
-	while IFS= read -r line || [[ -n "$line" ]]; do
-		line="$(_theme_trim "$line")"
-
-		[[ -z "$line" ]] && continue
-		[[ "$line" == ';'* ]] && continue
-		[[ "$line" == '#'* ]] && continue
-
-		if [[ "$line" =~ ^\[([a-z_]+)\]$ ]]; then
-			section="${BASH_REMATCH[1]}"
-			continue
-		fi
-
-		[[ "$section" == "$wanted_section" ]] || continue
-
-		if [[ "$line" =~ ^([a-z_]+)[[:space:]]*=[[:space:]]*(.+)$ ]]; then
-			key="${BASH_REMATCH[1]}"
-			value="$(_theme_strip_quotes "$(_theme_trim "${BASH_REMATCH[2]}")")"
-			if [[ "$key" == "$wanted_key" ]]; then
-				printf '%s\n' "$value"
-				return 0
-			fi
-		fi
-	done <"$file"
-
-	return 1
-}
-
-theme_reset_vars() {
-	local var_name
-
-	for var_name in "${_theme_export_vars[@]}"; do
-		unset "$var_name"
-	done
-}
-
-_theme_set_var() {
-	local key="$1"
-	local value="$2"
-	local var_name="THEME_${key^^}"
-
+theme_set_var() {
+	local key="$1" value="$2" var_name
+	var_name="THEME_${key^^}"
 	printf -v "$var_name" '%s' "$value"
-	export "$var_name"
-}
-
-_theme_validate_loaded() {
-	local key var_name
-
-	for key in "${_theme_required_meta_keys[@]}"; do
-		var_name="THEME_${key^^}"
-		if [[ -z "${!var_name:-}" ]]; then
-			printf 'Theme is missing required meta key: %s\n' "$key" >&2
-			return 1
-		fi
-	done
-
-	for key in "${_theme_required_palette_keys[@]}"; do
-		var_name="THEME_${key^^}"
-		if [[ -z "${!var_name:-}" ]]; then
-			printf 'Theme is missing required palette key: %s\n' "$key" >&2
-			return 1
-		fi
-	done
-
-	case "$THEME_VARIANT" in
-	dark | light) ;;
-	*)
-		printf 'Theme variant must be dark or light: %s\n' "$THEME_VARIANT" >&2
-		return 1
-		;;
-	esac
 }
 
 theme_load() {
-	local name="$1"
-	local theme_file_path section line key value
-
-	theme_log "loading theme: $name"
-	theme_file_path="$(theme_file "$name")" || return 1
+	local name="$1" file section line key value var_name
+	file="$THEME_THEMES_DIR/$name.ini"
 	section=''
-	theme_reset_vars
+	unset THEME_KDE_NAME
+	for var_name in "${required_theme_vars[@]}"; do
+		unset "$var_name"
+	done
+
+	[[ -f "$file" ]] || {
+		printf 'Theme file not found: %s\n' "$file" >&2
+		return 1
+	}
 
 	while IFS= read -r line || [[ -n "$line" ]]; do
-		line="$(_theme_trim "$line")"
-
-		[[ -z "$line" ]] && continue
-		[[ "$line" == ';'* ]] && continue
-		[[ "$line" == '#'* ]] && continue
+		line="$(trim "$line")"
+		[[ -z "$line" || "$line" == '#'* || "$line" == ';'* ]] && continue
 
 		if [[ "$line" =~ ^\[([a-z_]+)\]$ ]]; then
 			section="${BASH_REMATCH[1]}"
-			case "$section" in
-			meta | palette) ;;
-			*)
-				printf 'Unsupported theme section [%s] in %s\n' "$section" "$theme_file_path" >&2
+			[[ "$section" == meta || "$section" == palette ]] || {
+				printf 'Unsupported theme section [%s] in %s\n' "$section" "$file" >&2
 				return 1
-				;;
-			esac
+			}
 			continue
 		fi
 
-		if [[ ! "$line" =~ ^([a-z_]+)[[:space:]]*=[[:space:]]*(.+)$ ]]; then
-			printf 'Invalid theme line in %s: %s\n' "$theme_file_path" "$line" >&2
+		[[ "$section" =~ ^(meta|palette)$ && "$line" =~ ^([a-z_]+)[[:space:]]*=[[:space:]]*(.+)$ ]] || {
+			printf 'Invalid theme line in %s: %s\n' "$file" "$line" >&2
 			return 1
-		fi
+		}
 
 		key="${BASH_REMATCH[1]}"
-		value="$(_theme_strip_quotes "$(_theme_trim "${BASH_REMATCH[2]}")")"
+		value="$(strip_quotes "$(trim "${BASH_REMATCH[2]}")")"
+		theme_set_var "$key" "$value"
+	done <"$file"
 
-		case "$section" in
-		meta | palette)
-			_theme_set_var "$key" "$value"
-			;;
-		*)
-			printf 'Theme key defined outside a supported section in %s: %s\n' "$theme_file_path" "$line" >&2
+	for var_name in "${required_theme_vars[@]}"; do
+		[[ -n "${!var_name:-}" ]] || {
+			printf 'Theme %s is missing %s\n' "$name" "$var_name" >&2
 			return 1
-			;;
-		esac
-	done <"$theme_file_path"
+		}
+	done
 
-	theme_log "validating theme: $name"
-	_theme_validate_loaded
+	[[ "$THEME_VARIANT" == dark || "$THEME_VARIANT" == light ]] || {
+		printf 'Theme variant must be dark or light: %s\n' "$THEME_VARIANT" >&2
+		return 1
+	}
 }
 
 theme_write_fzf() {
-	local arg
-	local -a fzf_args=(
-		"--color=fg:${THEME_FOREGROUND},bg:${THEME_BACKGROUND}"
-		"--color=fg+:${THEME_FOREGROUND},bg+:${THEME_SELECTION}"
-		"--color=hl:${THEME_HIGHLIGHT}:reverse:bold,hl+:${THEME_HIGHLIGHT}:reverse:bold"
-		"--color=info:${THEME_MUTED},separator:${THEME_OVERLAY},scrollbar:${THEME_OVERLAY},border:${THEME_OVERLAY}"
-	)
-
 	{
-		for arg in "${fzf_args[@]}"; do
-			printf '%s\n' "$arg"
-		done
+		printf '%s\n' "--color=fg:${THEME_FOREGROUND},bg:${THEME_BACKGROUND}"
+		printf '%s\n' "--color=fg+:${THEME_FOREGROUND},bg+:${THEME_SELECTION}"
+		printf '%s\n' "--color=hl:${THEME_HIGHLIGHT}:reverse:bold,hl+:${THEME_HIGHLIGHT}:reverse:bold"
+		printf '%s\n' "--color=info:${THEME_MUTED},separator:${THEME_OVERLAY},scrollbar:${THEME_OVERLAY},border:${THEME_OVERLAY}"
 	} >"$THEME_FZF_FILE"
 }
 
-theme_write_shell_files() {
-	theme_log 'writing shell files'
-	theme_write_fzf
-}
+theme_apply_nvim() {
+	local variant colorscheme server remote_cmd
 
-theme_platform() {
-	local os
-
-	os="$(uname -s)"
-	if [[ "$os" == "Linux" && -d /mnt/c/Windows ]]; then
-		printf 'wsl\n'
-	elif [[ "$os" == "Linux" ]]; then
-		printf 'linux\n'
-	else
-		printf 'unsupported\n'
+	if [[ -f "$THEME_NVIM_INIT_FILE" ]]; then
+		variant="$(escape_sed_replacement "$THEME_VARIANT")"
+		colorscheme="$(escape_sed_replacement "$THEME_NVIM_NAME")"
+		sed -i -E "s|^([[:space:]]*vim\.opt\.background[[:space:]]*=[[:space:]]*).*$|\\1\"${variant}\"|" "$THEME_NVIM_INIT_FILE"
+		sed -i -E "s|^([[:space:]]*vim\.cmd\.colorscheme\()[^)]*(\).*)$|\\1\"${colorscheme}\"\\2|" "$THEME_NVIM_INIT_FILE"
 	fi
-}
-
-PLATFORM="$(theme_platform)"
-
-theme_apply_nvim_init() {
-	local variant colorscheme
-
-	[[ -f "$THEME_NVIM_INIT_FILE" ]] || return 0
-	theme_log 'updating Neovim init.lua'
-
-	variant="$(_theme_escape_sed_replacement "$THEME_VARIANT")"
-	colorscheme="$(_theme_escape_sed_replacement "$THEME_NVIM_NAME")"
-
-	sed -i -E "s|^([[:space:]]*vim\\.opt\\.background[[:space:]]*=[[:space:]]*).*$|\\1\"${variant}\"|" "$THEME_NVIM_INIT_FILE"
-	sed -i -E "s|^([[:space:]]*vim\\.cmd\\.colorscheme\\()[^)]*(\\).*)$|\\1\"${colorscheme}\"\\2|" "$THEME_NVIM_INIT_FILE"
-}
-
-theme_apply_running_nvim() {
-	local server remote_cmd
 
 	[[ -n "${XDG_RUNTIME_DIR:-}" ]] || return 0
-	theme_log 'updating running Neovim instances'
-
 	remote_cmd="<Esc>:set background=${THEME_VARIANT}<CR>:colorscheme ${THEME_NVIM_NAME}<CR>"
 	shopt -s nullglob
 	for server in "$XDG_RUNTIME_DIR"/nvim.*; do
@@ -305,149 +146,134 @@ theme_apply_running_nvim() {
 	shopt -u nullglob
 }
 
-_theme_kitty_line() {
+kitty_line() {
 	printf '%-24s %s\n' "$1" "$2"
 }
 
-theme_write_kitty() {
+theme_apply_kitty() {
 	{
 		printf '# vim:ft=kitty\n\n'
 		printf '## Generated by %s\n' "${BASH_SOURCE[0]}"
 		printf '## name: %s\n' "$THEME_NAME"
 		printf '## variant: %s\n\n' "$THEME_VARIANT"
 		printf '# The basic colors\n'
-		_theme_kitty_line foreground "$THEME_FOREGROUND"
-		_theme_kitty_line background "$THEME_BACKGROUND"
-		_theme_kitty_line selection_foreground "$THEME_FOREGROUND"
-		_theme_kitty_line selection_background "$THEME_SELECTION"
+		kitty_line foreground "$THEME_FOREGROUND"
+		kitty_line background "$THEME_BACKGROUND"
+		kitty_line selection_foreground "$THEME_FOREGROUND"
+		kitty_line selection_background "$THEME_SELECTION"
 		printf '\n# Cursor colors\n'
-		_theme_kitty_line cursor "$THEME_FOREGROUND"
-		_theme_kitty_line cursor_text_color "$THEME_BACKGROUND"
+		kitty_line cursor "$THEME_FOREGROUND"
+		kitty_line cursor_text_color "$THEME_BACKGROUND"
 		printf '\n# kitty window border colors\n'
-		_theme_kitty_line active_border_color "$THEME_BLUE"
-		_theme_kitty_line inactive_border_color "$THEME_BORDER"
+		kitty_line active_border_color "$THEME_BLUE"
+		kitty_line inactive_border_color "$THEME_BORDER"
 		printf '\n# Tab bar colors\n'
-		_theme_kitty_line active_tab_foreground "$THEME_FOREGROUND"
-		_theme_kitty_line active_tab_background "$THEME_SURFACE"
-		_theme_kitty_line inactive_tab_foreground "$THEME_MUTED"
-		_theme_kitty_line inactive_tab_background "$THEME_BACKGROUND_ALT"
+		kitty_line active_tab_foreground "$THEME_FOREGROUND"
+		kitty_line active_tab_background "$THEME_SURFACE"
+		kitty_line inactive_tab_foreground "$THEME_MUTED"
+		kitty_line inactive_tab_background "$THEME_BACKGROUND_ALT"
 		printf '\n# The basic 16 colors\n\n'
 		printf '# black\n'
-		_theme_kitty_line color0 "$THEME_BACKGROUND_ALT"
-		_theme_kitty_line color8 "$THEME_MUTED"
+		kitty_line color0 "$THEME_BACKGROUND_ALT"
+		kitty_line color8 "$THEME_MUTED"
 		printf '\n# red\n'
-		_theme_kitty_line color1 "$THEME_RED"
-		_theme_kitty_line color9 "$THEME_RED"
+		kitty_line color1 "$THEME_RED"
+		kitty_line color9 "$THEME_RED"
 		printf '\n# green\n'
-		_theme_kitty_line color2 "$THEME_GREEN"
-		_theme_kitty_line color10 "$THEME_GREEN"
+		kitty_line color2 "$THEME_GREEN"
+		kitty_line color10 "$THEME_GREEN"
 		printf '\n# yellow\n'
-		_theme_kitty_line color3 "$THEME_YELLOW"
-		_theme_kitty_line color11 "$THEME_ORANGE"
+		kitty_line color3 "$THEME_YELLOW"
+		kitty_line color11 "$THEME_ORANGE"
 		printf '\n# blue\n'
-		_theme_kitty_line color4 "$THEME_BLUE"
-		_theme_kitty_line color12 "$THEME_LAVENDER"
+		kitty_line color4 "$THEME_BLUE"
+		kitty_line color12 "$THEME_LAVENDER"
 		printf '\n# magenta\n'
-		_theme_kitty_line color5 "$THEME_MAGENTA"
-		_theme_kitty_line color13 "$THEME_LAVENDER"
+		kitty_line color5 "$THEME_MAGENTA"
+		kitty_line color13 "$THEME_LAVENDER"
 		printf '\n# cyan\n'
-		_theme_kitty_line color6 "$THEME_CYAN"
-		_theme_kitty_line color14 "$THEME_CYAN"
+		kitty_line color6 "$THEME_CYAN"
+		kitty_line color14 "$THEME_CYAN"
 		printf '\n# white\n'
-		_theme_kitty_line color7 "$THEME_SURFACE_ALT"
-		_theme_kitty_line color15 "$THEME_FOREGROUND"
+		kitty_line color7 "$THEME_SURFACE_ALT"
+		kitty_line color15 "$THEME_FOREGROUND"
 	} >"$THEME_KITTY_CURRENT_FILE"
-}
 
-theme_apply_kitty() {
-	theme_log 'applying Kitty theme'
-	theme_write_kitty
-
-	if command -v kitty >/dev/null 2>&1; then
-		kitty @ load-config >/dev/null 2>&1 || true
-	fi
+	command -v kitty >/dev/null 2>&1 && kitty @ load-config >/dev/null 2>&1 || true
 }
 
 theme_apply_windows_terminal() {
-	local escaped_scheme_name escaped_variant
-
+	local scheme variant
 	[[ -f "$THEME_WINDOWS_TERMINAL_SETTINGS_PATH" ]] || return 0
-	theme_log 'applying Windows Terminal theme'
 
-	escaped_scheme_name="$(_theme_escape_sed_replacement "$THEME_NAME")"
-	escaped_variant="$(_theme_escape_sed_replacement "$THEME_VARIANT")"
-
-	sed -i -E "s|^([[:space:]]*\"colorScheme\"[[:space:]]*:[[:space:]]*).*$|\\1\"${escaped_scheme_name}\",|" "$THEME_WINDOWS_TERMINAL_SETTINGS_PATH"
-	sed -i -E "s|^([[:space:]]*\"theme\"[[:space:]]*:[[:space:]]*).*$|\\1\"${escaped_variant}\",|" "$THEME_WINDOWS_TERMINAL_SETTINGS_PATH"
+	scheme="$(escape_sed_replacement "$THEME_NAME")"
+	variant="$(escape_sed_replacement "$THEME_VARIANT")"
+	sed -i -E "s|^([[:space:]]*\"colorScheme\"[[:space:]]*:[[:space:]]*).*$|\\1\"${scheme}\",|" "$THEME_WINDOWS_TERMINAL_SETTINGS_PATH"
+	sed -i -E "s|^([[:space:]]*\"theme\"[[:space:]]*:[[:space:]]*).*$|\\1\"${variant}\",|" "$THEME_WINDOWS_TERMINAL_SETTINGS_PATH"
 }
 
 theme_apply_kde() {
 	[[ -n "${THEME_KDE_NAME:-}" ]] || return 0
-	theme_log 'applying KDE theme'
-	if command -v plasma-apply-colorscheme >/dev/null 2>&1; then
-		plasma-apply-colorscheme "$THEME_KDE_NAME" >/dev/null 2>&1 || true
-	fi
-	if command -v qdbus6 >/dev/null 2>&1; then
-		qdbus6 org.kde.plasmashell /PlasmaShell org.kde.PlasmaShell.evaluateScript "
-		for (const d of desktops()) {
-			d.wallpaperPlugin = 'org.kde.color';
-			d.currentConfigGroup = ['Wallpaper', 'org.kde.color', 'General'];
-			d.writeConfig('Color', '${THEME_BACKGROUND}');
-		}"
-	fi
-}
+	command -v plasma-apply-colorscheme >/dev/null 2>&1 && plasma-apply-colorscheme "$THEME_KDE_NAME" >/dev/null 2>&1 || true
+	command -v qdbus6 >/dev/null 2>&1 || return 0
 
-theme_apply_loaded() {
-
-	: "${THEME_NAME:?theme_apply_loaded requires a loaded theme}"
-	: "${THEME_NVIM_NAME:?theme_apply_loaded requires a loaded theme}"
-	: "${THEME_VARIANT:?theme_apply_loaded requires a loaded theme}"
-	theme_log "applying loaded theme: ${THEME_NAME} (${THEME_VARIANT})"
-
-	theme_write_shell_files
-	theme_apply_nvim_init
-	theme_apply_running_nvim
-
-	case "$PLATFORM" in
-	wsl)
-		theme_apply_windows_terminal
-		;;
-	linux)
-		theme_apply_kitty
-		theme_apply_kde
-		;;
-	esac
+	qdbus6 org.kde.plasmashell /PlasmaShell org.kde.PlasmaShell.evaluateScript "
+	for (const d of desktops()) {
+		d.wallpaperPlugin = 'org.kde.color';
+		d.currentConfigGroup = ['Wallpaper', 'org.kde.color', 'General'];
+		d.writeConfig('Color', '${THEME_BACKGROUND}');
+	}"
 }
 
 theme_apply() {
-	local name="$1"
+	theme_load "$1" || return 1
+	theme_write_fzf
+	theme_apply_nvim
 
-	theme_log "starting theme apply: $name"
-	theme_load "$name" || return 1
-	theme_apply_loaded
-	theme_log "finished theme apply: $name"
-}
-
-theme_picker_entries() {
-	local name
-	while IFS= read -r name; do
-		printf '%s\n' "$name"
-	done < <(theme_list)
+	if [[ "$(uname -s)" == Linux && -d /mnt/c/Windows ]]; then
+		theme_apply_windows_terminal
+	elif [[ "$(uname -s)" == Linux ]]; then
+		theme_apply_kitty
+		theme_apply_kde
+	fi
 }
 
 theme_pick() {
 	local selected
-
-	theme_log 'opening theme picker'
-	selected="$(theme_picker_entries | fzf --border=rounded)" || return 1
-
-	theme_log "picked theme entry: $selected"
-	echo $selected
+	selected="$(theme_names | fzf --border=rounded)" || return 1
 	[[ -n "$selected" ]] || return 1
+
+	if [[ "${THEME_PICKER_BACKGROUND:-0}" == 1 && -n "${TMUX:-}" ]]; then
+		case "$selected" in
+		*[!A-Za-z0-9._-]*)
+			printf 'Invalid theme name: %s\n' "$selected" >&2
+			return 1
+			;;
+		esac
+
+		tmux run-shell -b "~/.config/theme/theme.sh apply '$selected' >/dev/null 2>&1"
+		return 0
+	fi
 
 	theme_apply "$selected"
 }
 
 if [[ "${BASH_SOURCE[0]}" == "$0" ]]; then
-	theme_pick
+	case "${1:-pick}" in
+	pick)
+		theme_pick
+		;;
+	apply)
+		shift
+		[[ -n "${1:-}" ]] || {
+			printf 'Usage: %s apply <theme>\n' "$0" >&2
+			exit 2
+		}
+		theme_apply "$1"
+		;;
+	*)
+		printf 'Usage: %s [pick|apply <theme>]\n' "$0" >&2
+		exit 2
+		;;
+	esac
 fi
