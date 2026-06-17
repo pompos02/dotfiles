@@ -22,7 +22,7 @@ newEmail=none,none,New Email Alarm
 stopAudio=none,none,Stop Play
 
 [kmix]
-_k_friendly_name=Audio Volume
+_k_friendly_name=KMix
 decrease_microphone_volume=Microphone Volume Down,Microphone Volume Down,Decrease Microphone Volume
 decrease_volume=Volume Down,Volume Down,Decrease Volume
 decrease_volume_small=Shift+Volume Down,Shift+Volume Down,Decrease Volume by 1%

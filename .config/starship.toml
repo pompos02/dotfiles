@@ -1,7 +1,7 @@
 "$schema" = 'https://starship.rs/config-schema.json'
 add_newline = false
 format = '''
-[┌\[](fg:default)$username@$hostname[\]-\(](fg:default)${custom.short_pwd}[\)](fg:default)(-[\[](fg:default)$git_branch$git_commit$git_status${custom.svn_relative_url}[\]](fg:default))$status
+[┌\[](fg:default)$username${custom.ssh_at}${custom.local_at}$hostname[\]-\(](fg:default)${custom.short_pwd}[\)](fg:default)(-[\[](fg:default)$git_branch$git_commit$git_status${custom.svn_relative_url}[\]](fg:default))$status
 [└](fg:default)$character'''
 
 [character]
@@ -44,6 +44,20 @@ format = '[$output]($style)'
 shell = ['bash', '--noprofile', '--norc']
 style = 'yellow'
 when = 'true'
+
+[custom.ssh_at]
+command = 'printf @'
+format = '[$output]($style)'
+shell = ['bash', '--noprofile', '--norc']
+style = 'blue'
+when = '[[ -n "$SSH_CONNECTION$SSH_CLIENT$SSH_TTY" ]]'
+
+[custom.local_at]
+command = 'printf @'
+format = '[$output]($style)'
+shell = ['bash', '--noprofile', '--norc']
+style = 'fg:default'
+when = '[[ -z "$SSH_CONNECTION$SSH_CLIENT$SSH_TTY" ]]'
 
 [git_branch]
 format = '[git://](fg:default)[$branch](yellow)'
@@ -103,6 +117,7 @@ svn info --show-item relative-url >/dev/null 2>&1
 
 [hostname]
 format = '[$ssh_symbol$hostname]($style)'
+ssh_symbol = ''
 ssh_only = false
 style = ''
 

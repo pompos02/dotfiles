@@ -37,4 +37,6 @@ return {
     "morhetz/gruvbox",
     "EdenEast/nightfox.nvim",
     "RostislavArts/naysayer.nvim",
+    "AlexvZyl/nordic.nvim",
+    "ramojus/mellifluous.nvim",
 }
