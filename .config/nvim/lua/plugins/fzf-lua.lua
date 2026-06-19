@@ -226,5 +226,6 @@ return {
 				syntax_limit_b = 1024 * 1024,
 			},
 		},
+
 	},
 }

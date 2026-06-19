@@ -1,0 +1,64 @@
+[general]
+live_config_reload = true
+
+[font]
+size = 21.0
+
+[font.normal]
+family = "Berkeley Mono SC NF Semi Condensed"
+style = "Regular"
+
+[font.bold]
+family = "Berkeley Mono SC NF Semi Condensed"
+style = "Bold"
+
+[font.italic]
+family = "Berkeley Mono SC NF Semi Condensed"
+style = "Oblique"
+
+[font.bold_italic]
+family = "Berkeley Mono SC NF Semi Condensed"
+style = "Bold Oblique"
+
+[bell]
+duration = 0
+
+# [colors.primary]
+# foreground = "#ffffff"
+# background = "#16181a"
+# 
+# [colors.cursor]
+# text = "#16181a"
+# cursor = "#ffffff"
+# 
+# [colors.selection]
+# text = "#ffffff"
+# background = "#3c4048"
+# 
+# [colors.normal]
+# black = "#1e2124"
+# red = "#ff6e5e"
+# green = "#5eff6c"
+# yellow = "#f1ff5e"
+# blue = "#5ea1ff"
+# magenta = "#ff5ef1"
+# cyan = "#5ef1ff"
+# white = "#3c4048"
+# 
+# [colors.bright]
+# black = "#7b8496"
+# red = "#ff6e5e"
+# green = "#5eff6c"
+# yellow = "#ffbd5e"
+# blue = "#bd5eff"
+# magenta = "#bd5eff"
+# cyan = "#5ef1ff"
+# white = "#ffffff"
+
+[keyboard]
+bindings = [
+  { key = "F11", action = "ToggleFullscreen" },
+  { key = "Plus", mods = "Control", action = "IncreaseFontSize" },
+  { key = "Equals", mods = "Control", action = "IncreaseFontSize" },
+  { key = "Minus", mods = "Control", action = "DecreaseFontSize" },
+]
