@@ -24,4 +24,9 @@ return {
         })
     end,
 
+    vim.keymap.set("n", "<C-CR>", function()
+        require("oravim").run()
+    end, { desc = "Oravim: run" })
+
+
 }
