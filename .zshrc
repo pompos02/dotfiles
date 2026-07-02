@@ -113,6 +113,8 @@ export PATH=/opt/oracle/instantclient_19_29/sdk:$PATH
 export PATH="$HOME/.config/emacs/bin:$PATH"
 
 export NVM_DIR="$HOME/.nvm"
+export PATH="$HOME/.config/emacs/bin:$PATH"
+
 
 # Better lazy-loaded conda that also enables completions
 # Lazy load conda to speed up shell

@@ -3,3 +3,8 @@ IndentWidth: 4
 TabWidth: 4
 UseTab: Never
 PointerAlignment: Left
+
+BreakBeforeBraces: Allman
+AllowShortIfStatementsOnASingleLine: WithoutElse
+AllowShortLoopsOnASingleLine: true
+AccessModifierOffset: -4

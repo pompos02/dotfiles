@@ -3,6 +3,7 @@ require("config.options")
 require("config.statusline")
 require("config.keymaps")
 require("config.lsp")
+require("config.misc")
 require("config.svn").setup()
 
 -- expirimental new ui stuff
@@ -11,7 +12,7 @@ vim.g.plsql_fold = 1
 
 vim.opt.background = "dark"
 
-vim.cmd.colorscheme("rose-pine")
+vim.cmd.colorscheme("catppuccin-mocha")
 
 vim.o.winborder = "single"
 

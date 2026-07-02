@@ -12,23 +12,104 @@ include current-theme.conf
 # END_KITTY_THEME
 
 # Custom theme switching keybinding
-# map f12 launch --type=overlay sh -c "~/.config/scripts/toggle_theme.sh"
 map f11 toggle_fullscreen
+font_size 21
 
-font_family      family='Cascadia Code'
-bold_font        auto
-italic_font      auto
-bold_italic_font auto
+map ctrl+enter send_text all \x1b[13;5u
+
+# modify_font underline_position +2
+# modify_font underline_thickness 7%
+
+
+font_family      family='Cascadia Mono NF' style=Regular variable_name=CascadiaMonoNFRoman
+bold_font        family='Cascadia Mono NF' style=Bold variable_name=CascadiaMonoNFRoman
+italic_font      family='Cascadia Mono NF' style=Italic variable_name=
+bold_italic_font family='Cascadia Mono NF' style=Bold variable_name=
+
+# font_family      family="NotoSansM Nerd Font Mono"
+# bold_font        auto
+# italic_font      auto
+# bold_italic_font auto
+
+# font_family      family="Berkeley Mono SC NF Semi Condensed"
+# bold_font        family='Berkeley Mono SC NF Semi Condensed' style=ExtraBold
+# italic_font      auto
+# bold_italic_font family='Berkeley Mono SC NF Semi Condensed' style='ExtraBold Oblique'
+
+# font_family      family="Berkeley Mono SC NF Semi Condensed"
+# bold_font        auto
+# italic_font      auto
+# bold_italic_font auto
+
+
+# font_family      family='Berkeley Mono SC NF Semi Condensed'
+# bold_font        family='Berkeley Mono SC NF Semi Condensed' style=Bold
+# italic_font      auto
+# bold_italic_font family='Berkeley Mono SC NF Semi Condensed' style='Bold Oblique'
+
+# font_family      family="Berkeley Mono Extra Condensed"
+# bold_font        auto
+# italic_font      auto
+# bold_italic_font auto
+
+# font_family      family="Berkeley Mono Ultra Condensed"
+# bold_font        auto
+# italic_font      auto
+# bold_italic_font auto
+
+
+# font_family      family='TX-02' style=Regular
+# bold_font        family='TX-02' style=Bold
+# italic_font      family='TX-02' style=Oblique
+# bold_italic_font family='TX-02' style='Bold Oblique'
+
+# font_family      family="Iosevka Term" features=-calt
+# bold_font        auto
+# italic_font      auto
+# bold_italic_font auto
+
+# font_family      family='Red Hat Mono' style=Medium variable_name=RedHatMono
+# bold_font        auto
+# italic_font      auto
+# bold_italic_font auto
+
+# font_family      family="0xProto Nerd Font"
+# bold_font        auto
+# italic_font      auto
+# bold_italic_font auto
+
+
+# font_family      family="GoMono Nerd Font"
+# bold_font        auto
+# italic_font      auto
+# bold_italic_font auto
+
+# font_family      family="Monaspace Krypton"
+# bold_font        auto
+# italic_font      auto
+# bold_italic_font auto
 
 # font_family      family='Monaspace Xenon' features=-calt
-# bold_font        features=-calt
-# italic_font      features=-calt
-# bold_italic_font features=-calt
+# bold_font        features=-calt style='ExtraBold Italic'
+# italic_font      features=-calt style='ExtraBold Italic'
+# bold_italic_font features=-calt style='ExtraBold Italic'
 
 # font_family      family='Monaspace Neon' features=-calt
-# bold_font        features=-calt
-# italic_font      features=-calt
-# bold_italic_font features=-calt
+# bold_font        auto
+# italic_font      auto
+# bold_italic_font auto
+# # features=-calt
+
+# font_family      family="Monaspace Argon" features=-calt
+# bold_font        family='Monaspace Argon' style=ExtraBold features=-calt
+# italic_font      auto features=-calt
+# bold_italic_font family='Monaspace Argon' style='ExtraBold Italic' features=-calt
+
+# font_family      family="ProFont IIx Nerd Font Mono"
+# bold_font        auto
+# italic_font      auto
+# bold_italic_font auto
+
 
 # font_family      family="Source Code Pro"
 # bold_font        auto
@@ -50,43 +131,15 @@ bold_italic_font auto
 # italic_font      auto
 # bold_italic_font auto
 
-font_size 21
-
-# font_family      family="TX02"
-# bold_font        family="TX02" style="Bold"
-# italic_font      family="TX02" style="Italic"
-# bold_italic_font family="TX02" style="Bold Italic"
-
-# font_family      family="0xProto Nerd Font Mono"
-# bold_font        auto
-# italic_font      auto
-# bold_italic_font auto
-
 # font_family      family="BigBlueTerm437 Nerd Font"
 # bold_font        auto
 # italic_font      auto
 # bold_italic_font auto
 
-# font_family      family="MonaspiceNe Nerd Font Mono"
-# bold_font        auto
-# italic_font      auto
-# bold_italic_font auto
-
-
 # font_family      family="ComicShannsMono Nerd Font Mono"
 # bold_font        auto
 # italic_font      auto
 # bold_italic_font auto
-
-# font_family      family="Cascadia Mono NF"
-# bold_font        auto
-# italic_font      auto
-# bold_italic_font auto
-
-# font_family      family='Cascadia Mono' style=Regular variable_name=CascadiaMonoRoman
-# bold_font        family='Cascadia Mono' style=Bold variable_name=CascadiaMonoRoman
-# italic_font      family='Cascadia Mono' style=Regular variable_name=
-# bold_italic_font family='Cascadia Mono' style=Bold variable_name=
 
 # font_family      family="JetBrainsMonoNL Nerd Font Mono"
 # bold_font        family='JetBrainsMonoNL Nerd Font Mono' style=Bold
@@ -2882,9 +2935,3 @@ map ctrl+minus change_font_size all -2.0
 #: }}}
 
 #: }}}
-
-
-
-
-
-

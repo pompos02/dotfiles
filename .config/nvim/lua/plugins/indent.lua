@@ -4,7 +4,7 @@ return {
         indent = {
             indent = {
                 enabled = true,
-                char = "▏",
+                char = "│",
                 only_scope = false,
                 only_current = false,
                 hl = "SnacksIndent",
@@ -23,7 +23,7 @@ return {
             scope = {
                 enabled = true,
                 priority = 200,
-                char = "▏",
+                char = "│",
                 underline = false,
                 only_current = false,
                 hl = "SnacksIndentScope",
