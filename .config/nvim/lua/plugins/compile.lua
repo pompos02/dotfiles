@@ -1,182 +1,128 @@
 return {
     "ej-shafran/compile-mode.nvim",
     version = "^5.0.0",
-    cmd = {
-        "Compile",
-        "Recompile",
-        "NextError",
-        "PrevError",
-        "CurrentError",
-        "FirstError",
-        "QuickfixErrors",
-        "NextErrorFollow",
-    },
+    -- you can just use the latest version:
+    -- branch = "latest",
+    -- or the most up-to-date updates:
+    -- branch = "nightly",
     dependencies = {
         "nvim-lua/plenary.nvim",
+        -- if you want to enable coloring of ANSI escape codes in
+        -- compilation output, add:
+        -- { "m00qek/baleia.nvim", tag = "v1.3.0" },
     },
-    init = function()
-        vim.g.compile_mode = {
-            -- default_command = "",
-            -- input_word_completion = true,
-            -- use_diagnostics = false,
-            -- error_locus_highlight = 500, -- or true for persistent
-            -- baleia_setup = false,
-        }
-    end,
     config = function()
-        vim.api.nvim_create_autocmd("FileType", {
-            pattern = "compilation",
-            callback = function()
-                vim.api.nvim_set_option_value("list", false, { scope = "local", win = 0 })
-            end,
-        })
-        local compile_mode = require("compile-mode")
-        local errors = require("compile-mode.errors")
-        local utils = require("compile-mode.utils")
-        local original_parse_errors = compile_mode._parse_errors
-        local function value_and_range(line, range)
-            return {
-                value = line:sub(range.start, range.end_),
-                range = range,
-            }
-        end
-        local function number_and_range(line, range)
-            local value = tonumber(line:sub(range.start, range.end_))
-            if not value then
-                return nil
-            end
-            return {
-                value = value,
-                range = range,
-            }
-        end
-        local function rust_header(line)
-            local code, msg = line:match("^error(%b[]):%s*(.+)$")
-            if code then
-                return {
-                    level = compile_mode.level.ERROR,
-                    text = ("error%s: %s"):format(code, msg),
-                }
-            end
-            msg = line:match("^error:%s*(.+)$")
-            if msg then
-                return {
-                    level = compile_mode.level.ERROR,
-                    text = "error: " .. msg,
-                }
-            end
-            msg = line:match("^warning:%s*(.+)$")
-            if msg then
-                return {
-                    level = compile_mode.level.WARNING,
-                    text = "warning: " .. msg,
-                }
-            end
-            msg = line:match("^note:%s*(.+)$") or line:match("^[ \t]*= note:%s*(.+)$")
-            if msg then
-                return {
-                    level = compile_mode.level.INFO,
-                    text = "note: " .. msg,
-                }
-            end
-            msg = line:match("^help:%s*(.+)$") or line:match("^[ \t]*= help:%s*(.+)$")
-            if msg then
-                return {
-                    level = compile_mode.level.INFO,
-                    text = "help: " .. msg,
-                }
-            end
-        end
-        local function rust_location(line, secondary)
-            local pattern
-            if secondary then
-                pattern = "^[ \t]*::: \\(.\\+\\):\\([0-9]\\+\\):\\([0-9]\\+\\)$"
-            else
-                pattern = "^[ \t]*--> \\(.\\+\\):\\([0-9]\\+\\):\\([0-9]\\+\\)$"
-            end
-            local match = utils.matchlistpos(line, pattern)
-            if not match[1] or not match[2] or not match[3] or not match[4] then
-                return nil
-            end
-            return {
-                full = match[1],
-                filename = value_and_range(line, match[2]),
-                row = number_and_range(line, match[3]),
-                col = number_and_range(line, match[4]),
-            }
-        end
-        local function rehighlight(bufnr, lines)
-            local output_highlights = {}
-            utils.clear_highlights(bufnr)
-            for _, error in pairs(errors.error_list) do
-                error.highlighted = false
-            end
-            for linenum, line in ipairs(lines) do
-                if not (linenum == 1 and vim.startswith(line, "vim:")) then
-                    local highlights = utils.match_command_ouput(line, linenum)
-                    for _, highlight in ipairs(highlights) do
-                        table.insert(output_highlights, highlight)
-                    end
-                end
-            end
-            errors.highlight(bufnr)
-            utils.highlight_command_outputs(bufnr, output_highlights)
-            vim.cmd.redrawstatus()
-        end
-        compile_mode._parse_errors = function(bufnr)
-            original_parse_errors(bufnr)
-            local lines = vim.api.nvim_buf_get_lines(bufnr, 0, -1, false)
-            local current = nil
-            local changed = false
-            for linenum, line in ipairs(lines) do
-                local header = rust_header(line)
-                if header then
-                    current = header
-                else
-                    local primary = rust_location(line, false)
-                    if primary then
-                        errors.error_list[linenum] = {
-                            highlighted = false,
-                            level = current and current.level or compile_mode.level.ERROR,
-                            priority = 100,
-                            full = primary.full,
-                            full_text = current and current.text or line,
-                            filename = primary.filename,
-                            row = primary.row,
-                            col = primary.col,
-                            end_row = nil,
-                            end_col = nil,
-                            group = "rust",
-                            linenum = linenum,
-                        }
-                        changed = true
-                    else
-                        local secondary = rust_location(line, true)
-                        if secondary and current then
-                            errors.error_list[linenum] = {
-                                highlighted = false,
-                                level = compile_mode.level.INFO,
-                                priority = 90,
-                                full = secondary.full,
-                                full_text = current.text,
-                                filename = secondary.filename,
-                                row = secondary.row,
-                                col = secondary.col,
-                                end_row = nil,
-                                end_col = nil,
-                                group = "rust_secondary",
-                                linenum = linenum,
-                            }
-                            changed = true
-                        end
-                    end
-                end
-            end
-            if changed then
-                rehighlight(bufnr, lines)
-            end
-        end
-        -- Uncomment if you want note/help locations included in :NextError.
-        vim.g.compile_mode.error_threshold = compile_mode.level.INFO
-    end,
+        ---@type CompileModeOpts
+        ---@module "compile-mode"
+        ---@type CompileModeOpts
+        vim.g.compile_mode = {
+            -- The string to show in the compile prompt as a default.
+            -- For an empty prompt, you can use:
+            -- default_command = "",
+            -- To use different defaults based on filetype, you can use a table:
+            -- default_command = {
+            --   python = "python %",
+            --   lua = "lua %",
+            --   javascript = "bun %",
+            --   typescript = "bun %",
+            --   c = "cc -o %:r % && ./%:r",
+            --   cpp = "cc -std=c++23 -o %:r % && ./%:r",
+            --   java = "javac % && java %:r",
+            --   go = "go run %",
+            -- },
+            -- A function which returns the default command string is also supported:
+            -- default_command = function()
+            --   local filetype = vim.bo.filetype
+            --   if filetype == "python" then
+            --     return "python %"
+            --   else
+            --     return "make -k "
+            --   end
+            -- end,
+            -- :h compile_mode.default_command
+            default_command = "make -k ",
+            -- Use `baleia` for parsing ANSI escape codes in the output.
+            -- :h compile_mode.baleia_setup
+            baleia_setup = false,
+            -- Expand commands, like `:!` (e.g. `:Compile echo %`)
+            -- :h compile_mode.bang_expansion
+            bang_expansion = false,
+            -- Configure additional entering/leaving directory regexes.
+            -- :h compile-mode.directory_change_matchers
+            directory_change_matchers = {},
+            -- Configure additional error regexes.
+            -- :h compile-mode-errors
+            error_regexp_table = {
+                rustc = {
+                    regex = [[^\s*-->\s*\([^:]\+\):\(\d\+\):\(\d\+\)]],
+                    filename = 1,
+                    row = 2,
+                    col = 3,
+                },
+            },
+            -- List of filename regexes to ignore errors from.
+            -- :h compile-mode.error_ignore_file_list
+            error_ignore_file_list = {},
+            -- The minimum error level to jump to.
+            -- :h compile-mode.error_threshold
+            error_threshold = require("compile-mode").level.WARNING,
+            -- Automatically jump to the first error.
+            -- :h compile-mode.auto_jump_to_first_error
+            auto_jump_to_first_error = false,
+            -- How long to highlight an error's location when jumping to it.
+            -- :h compile-mode.error_locus_highlight
+            error_locus_highlight = 500,
+            -- Use Neovim diagnostics instead of opening the compilation buffer.
+            -- :h compile-mode.use_diagnostics
+            use_diagnostics = false,
+            -- Default to calling `:Compile` for `:Recompile`
+            -- when there's no previous command.
+            -- :h compile-mode.recompile_no_fail
+            recompile_no_fail = false,
+            -- Ask to save unsaved buffers before compiling.
+            -- :h compile-mode.ask_about_save
+            ask_about_save = true,
+            -- Ask to interrupt already running commands.
+            -- :h compile-mode.ask_to_interrupt
+            ask_to_interrupt = true,
+            -- The name for the compilation buffer.
+            -- :h compile-mode.buffer_name
+            buffer_name = "*compilation*",
+            -- The format for the time information
+            -- at the top of the compilation buffer
+            -- :h compile-mode.time_format
+            time_format = "%a %b %e %H:%M:%S",
+            -- List of regexes to hide from the output.
+            -- :h compile-mode.hidden_output
+            hidden_output = {},
+            -- A table of environment variables to pass to commands.
+            -- :h compile-mode.environment
+            environment = nil,
+            -- Clear all environment variables for each command.
+            -- :h compile-mode.clear_environment
+            clear_environment = false,
+            -- Fix compilation for plugins like `nvim-cmp`.
+            -- :h compile-mode.input_word_completion
+            input_word_completion = false,
+            -- Hide the compliation buffer.
+            -- :h compile-mode.hidden_buffer
+            hidden_buffer = false,
+            -- Automatically focus the compilation buffer.
+            -- :h compile-mode.focus_compilation_buffer
+            focus_compilation_buffer = false,
+            -- Automatically move the cursor to the end of the compilation buffer.
+            -- :h compile-mode.auto_scroll
+            auto_scroll = true,
+            -- Jump back past the end/beginning of the errors
+            -- with `:NextError`/`:PrevError`
+            -- :h compile-mode.use_circular_error_navigation
+            use_circular_error_navigation = false,
+            -- Print debug information.
+            -- :h compile-mode.debug
+            debug = false,
+            -- Use a pseudo terminal for command execution.
+            -- :h compile-mode.use_pseudo_terminal
+            use_pseudo_terminal = false,
+        }
+    end
 }
