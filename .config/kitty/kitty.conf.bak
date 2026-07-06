@@ -13,18 +13,35 @@ include current-theme.conf
 
 # Custom theme switching keybinding
 map f11 toggle_fullscreen
-font_size 21
+font_size 16
+
+# modify_font cell_height -px
+
 
 map ctrl+enter send_text all \x1b[13;5u
 
 # modify_font underline_position +2
 # modify_font underline_thickness 7%
 
+# font_family      family='Cascadia Mono NF' style=Regular variable_name=CascadiaMonoNFRoman
+# bold_font        family='Cascadia Mono NF' style=Bold variable_name=CascadiaMonoNFRoman
+# italic_font      family='Cascadia Mono NF' style=Italic variable_name=
+# bold_italic_font family='Cascadia Mono NF' style=Bold variable_name=
 
-font_family      family='Cascadia Mono NF' style=Regular variable_name=CascadiaMonoNFRoman
-bold_font        family='Cascadia Mono NF' style=Bold variable_name=CascadiaMonoNFRoman
-italic_font      family='Cascadia Mono NF' style=Italic variable_name=
-bold_italic_font family='Cascadia Mono NF' style=Bold variable_name=
+# font_family      family="JetBrainsMonoNL Nerd Font Mono"
+# bold_font        family='JetBrainsMonoNL Nerd Font Mono' style=Bold
+# italic_font      auto
+# bold_italic_font family='JetBrainsMonoNL Nerd Font Mono' style='Bold Italic'
+
+# font_family      family='JetBrainsMonoNL Nerd Font' style=SemiBold
+# bold_font        family='JetBrainsMonoNL Nerd Font' style=ExtraBold
+# italic_font      family='JetBrainsMonoNL Nerd Font' style='SemiBold Italic'
+# bold_italic_font family='JetBrainsMonoNL Nerd Font' style='ExtraBold Italic'
+
+# font_family      family='MartianMono Nerd Font Mono' features=+ss03
+# bold_font        auto
+# italic_font      auto
+# bold_italic_font auto
 
 # font_family      family="NotoSansM Nerd Font Mono"
 # bold_font        auto
@@ -62,7 +79,6 @@ bold_italic_font family='Cascadia Mono NF' style=Bold variable_name=
 # bold_font        family='TX-02' style=Bold
 # italic_font      family='TX-02' style=Oblique
 # bold_italic_font family='TX-02' style='Bold Oblique'
-
 # font_family      family="Iosevka Term" features=-calt
 # bold_font        auto
 # italic_font      auto
@@ -140,11 +156,6 @@ bold_italic_font family='Cascadia Mono NF' style=Bold variable_name=
 # bold_font        auto
 # italic_font      auto
 # bold_italic_font auto
-
-# font_family      family="JetBrainsMonoNL Nerd Font Mono"
-# bold_font        family='JetBrainsMonoNL Nerd Font Mono' style=Bold
-# italic_font      auto
-# bold_italic_font family='JetBrainsMonoNL Nerd Font Mono' style='Bold Italic'
 
 
 # hide_window_decorations yes
@@ -2935,3 +2946,13 @@ map ctrl+minus change_font_size all -2.0
 #: }}}
 
 #: }}}
+
+
+
+
+# BEGIN_KITTY_FONTS
+font_family      family="TX-02"
+bold_font        auto
+italic_font      auto
+bold_italic_font auto
+# END_KITTY_FONTS

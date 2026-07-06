@@ -10,8 +10,8 @@ return {
         layout = {
             height = 1,
             width = 1,
-            prompt_position = "bottom", -- or 'top'
-            preview_position = "right", -- keep results on the left, preview on the right
+            -- prompt_position = "bottom", -- or 'top'
+            -- preview_position = "right", -- keep results on the left, preview on the right
             preview_size = 0.4,
             flex = false,
             show_scrollbar = true, -- Show scrollbar for pagination

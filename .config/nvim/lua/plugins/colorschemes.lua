@@ -34,7 +34,7 @@ return {
     "bluz71/vim-moonfly-colors",
     "slugbyte/lackluster.nvim",
     "ThunderBoltCODMYT/gruber-darker.vim",
-    "morhetz/gruvbox",
+    "ellisonleao/gruvbox.nvim",
     "EdenEast/nightfox.nvim",
     "RostislavArts/naysayer.nvim",
     "AlexvZyl/nordic.nvim",
