@@ -131,7 +131,7 @@ return {
             ["--ansi"] = true,
             ["--info"] = "inline-right",
             ["--height"] = "100%",
-            ["--layout"] = "default",
+            -- ["--layout"] = "default",
             ["--border"] = "none",
             ["--history"] = vim.fn.stdpath("data") .. "/fzf-lua-history",
         },
