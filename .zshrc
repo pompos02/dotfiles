@@ -81,8 +81,9 @@ open() {
 }
 
 # Shell integrations
-if [[ -f "$HOME/.config/theme/current_fzf" ]]; then
-  export FZF_DEFAULT_OPTS_FILE="$HOME/.config/theme/current_fzf"
+FZF_THEME_FILE="${XDG_CACHE_HOME:-$HOME/.cache}/theme/current_fzf"
+if [[ -f "$FZF_THEME_FILE" ]]; then
+  export FZF_DEFAULT_OPTS_FILE="$FZF_THEME_FILE"
 fi
 
 # eval "$(fzf --zsh)"

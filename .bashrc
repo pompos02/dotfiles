@@ -21,8 +21,9 @@ export PATH="$BUN_INSTALL/bin:$PATH"
 export PATH="$PATH:$HOME/.local/zig"
 export PKG_CONFIG_PATH=/usr/local/lib/pkgconfig:$PKG_CONFIG_PATH
 
-if [[ -f "$HOME/.config/theme/current_fzf" ]]; then
-	export FZF_DEFAULT_OPTS_FILE="$HOME/.config/theme/current_fzf"
+FZF_THEME_FILE="${XDG_CACHE_HOME:-$HOME/.cache}/theme/current_fzf"
+if [[ -f "$FZF_THEME_FILE" ]]; then
+	export FZF_DEFAULT_OPTS_FILE="$FZF_THEME_FILE"
 fi
 
 # oracle environment variables

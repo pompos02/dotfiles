@@ -13,3 +13,18 @@ misirlou.lua
 yara.lua
 [0-9]
 
+# Machine-local KDE state/config. Keep portable color schemes tracked under kde/.local/share/color-schemes/.
+kde/.config/
+
+# Generated theme state/cache files.
+.config/theme/current
+.config/theme/current_fzf
+.config/theme/current_fzf.sh
+.config/theme/current_theme.env
+.config/system-theme
+.config/kitty/current-theme.conf
+.config/alacritty/theme.toml
+
+# Local backup artifacts.
+*.bak
+*.backup

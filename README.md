@@ -21,27 +21,30 @@ stow . -t ~ --ignore='kde' && stow kde -t ~
 ### Restowing
 ```bash
 stow -Rv . -t "$HOME" --ignore='kde|docs|minimal-install.sh|full-install.sh|.gitignore|README.md' && stow -Rv kde -t "$HOME"
+./generate-state-files.sh
 ```
 
 
 Do not run plain `stow . -t ~` anymore. Now that the repo contains a dedicated `kde/` package, doing that would try to link the `kde` directory itself into `~` instead of stowing its contents.
 
-### KDE only
+### KDE color schemes only
 
 ```bash
 stow kde -t ~
 ```
 
-If KDE config files already exist in `$HOME`, move them aside first and preview the link plan:
+Generate machine-local theme state after stowing:
 
 ```bash
-mkdir -p ~/kde-dotfiles-backup/.config ~/kde-dotfiles-backup/.local/share/color-schemes
-mv ~/.config/kglobalshortcutsrc ~/kde-dotfiles-backup/.config/
-mv ~/.config/kwinrc ~/kde-dotfiles-backup/.config/
-mv ~/.config/kdeglobals ~/kde-dotfiles-backup/.config/
-mv ~/.config/kwinrulesrc ~/kde-dotfiles-backup/.config/
-mv ~/.config/kcminputrc ~/kde-dotfiles-backup/.config/
-mv ~/.config/breezerc ~/kde-dotfiles-backup/.config/
+./generate-state-files.sh
+```
+
+The KDE package only tracks portable color schemes under `.local/share/color-schemes`. KDE runtime config files under `.config` are intentionally machine-local.
+
+If KDE color schemes already exist in `$HOME`, move them aside first and preview the link plan:
+
+```bash
+mkdir -p ~/kde-dotfiles-backup/.local/share/color-schemes
 mv ~/.local/share/color-schemes/Yara.colors ~/kde-dotfiles-backup/.local/share/color-schemes/
 stow -nvv kde -t ~
 stow kde -t ~
