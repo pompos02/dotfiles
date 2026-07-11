@@ -10,7 +10,7 @@ return {
         layout = {
             height = 1,
             width = 1,
-            -- prompt_position = "bottom", -- or 'top'
+            prompt_position = "top", -- or 'top'
             -- preview_position = "right", -- keep results on the left, preview on the right
             preview_size = 0.4,
             flex = false,
@@ -30,8 +30,8 @@ return {
     },
     lazy = false, -- the plugin lazy-initialises itself
     keys = {
-        { "ff", function() require('fff').find_files() end, desc = 'FFFind files' },
-        { "fg", function() require('fff').live_grep() end,  desc = 'LiFFFe grep' },
+        { "<leader><leader>", function() require('fff').find_files() end, desc = 'FFFind files' },
+        { "<leader>pg", function() require('fff').live_grep() end,  desc = 'LiFFFe grep' },
         {
             "fz",
             function() require('fff').live_grep({ grep = { modes = { 'fuzzy', 'plain' } } }) end,
