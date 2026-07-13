@@ -19,7 +19,7 @@ import = ["~/.config/alacritty/theme.toml"]
 # style = "ExtraBold Oblique"
 
 [font.normal]    
-family = "TX-02M"
+family = "Monaspace Neon"
 # style = "Medium" 
 
 [font]

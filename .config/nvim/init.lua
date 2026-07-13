@@ -12,7 +12,7 @@ vim.g.plsql_fold = 1
 
 vim.opt.background = "dark"
 
-vim.cmd.colorscheme("dolores-kif")
+vim.cmd.colorscheme("everforest")
 
 vim.o.winborder = "single"
 
