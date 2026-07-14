@@ -9,7 +9,7 @@ return {
         dir = "/home/karavellas/projects/opensource/dolores.nvim",
         opts = {
             styles = {
-                bold = true,
+                bold = false,
                 -- transparent = false,
             }
         },
@@ -40,6 +40,7 @@ return {
     "AlexvZyl/nordic.nvim",
     "ramojus/mellifluous.nvim",
     "deparr/tairiki.nvim",
+    "Mofiqul/dracula.nvim",
     {
         "zenbones-theme/zenbones.nvim",
         dependencies = "rktjmp/lush.nvim",

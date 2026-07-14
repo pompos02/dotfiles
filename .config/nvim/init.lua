@@ -10,9 +10,9 @@ require("config.svn").setup()
 require("vim._core.ui2").enable({ enable = true })
 vim.g.plsql_fold = 1
 
-vim.opt.background = "dark"
+vim.opt.background = "light"
 
-vim.cmd.colorscheme("everforest")
+vim.cmd.colorscheme("dolores-kif")
 
 vim.o.winborder = "single"
 

@@ -7,6 +7,7 @@
   "cyberdream.nvim": { "branch": "main", "commit": "b9cc88378b776f33d3ea77164716f37c3f13ef72" },
   "diffchar.vim": { "branch": "master", "commit": "14fc3fc79356d6b80462df8dbc8934f293145b9a" },
   "diffview-plus.nvim": { "branch": "main", "commit": "bff9d65b6e60b4cdcfc739cbd7f4eec57aac5315" },
+  "dracula.nvim": { "branch": "main", "commit": "ae752c13e95fb7c5f58da4b5123cb804ea7568ee" },
   "everforest-nvim": { "branch": "main", "commit": "d235ca0aa6a29546e661a020e2618612acbbffbe" },
   "fff.nvim": { "branch": "main", "commit": "5858d893b5885eea6a87ff271aaf526110fc79d0" },
   "flexoki-neovim": { "branch": "main", "commit": "c3e2251e813d29d885a7cbbe9808a7af234d845d" },

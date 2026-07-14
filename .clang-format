@@ -8,3 +8,4 @@ BreakBeforeBraces: Allman
 AllowShortIfStatementsOnASingleLine: WithoutElse
 AllowShortLoopsOnASingleLine: true
 AccessModifierOffset: -4
+BreakAfterReturnType: TopLevel
