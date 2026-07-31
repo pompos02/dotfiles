@@ -35,10 +35,16 @@ export PATH=/opt/oracle/instantclient_19_29/sdk:$PATH
 
 [ -f "$HOME/.config/bash/prompt.bash" ] && . "$HOME/.config/bash/prompt.bash"
 
-export HISTSIZE=5000
-export HISTFILESIZE=20000
+export HISTSIZE=99999
+export HISTFILESIZE=999999
 export HISTCONTROL=ignoredups:erasedups
 shopt -s histappend
+# Save each command immediatly, then import commands from other sessions
+PROMPT_COMMAND+=('history -a')
+PROMPT_COMMAND+=('history -n')
+
+HISTTIMEFORMAT='%F %T  '
+
 bind "set completion-ignore-case on"
 
 alias tmuxx='tmux attach -t karavellas || tmux new -s karavellas'

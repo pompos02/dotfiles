@@ -41,6 +41,7 @@ return {
     "ramojus/mellifluous.nvim",
     "deparr/tairiki.nvim",
     "Mofiqul/dracula.nvim",
+    "mhartington/oceanic-next",
     {
         "zenbones-theme/zenbones.nvim",
         dependencies = "rktjmp/lush.nvim",
