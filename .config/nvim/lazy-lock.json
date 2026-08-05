@@ -23,6 +23,7 @@
   "lazy.nvim": { "branch": "main", "commit": "306a05526ada86a7b30af95c5cc81ffba93fef97" },
   "leetcode.nvim": { "branch": "master", "commit": "4e8b3683940a8377379ce9398e7f329e3560b42c" },
   "lush.nvim": { "branch": "main", "commit": "9c60ec2279d62487d942ce095e49006af28eed6e" },
+  "marks.nvim": { "branch": "master", "commit": "f353e8c08c50f39e99a9ed474172df7eddd89b72" },
   "mellifluous.nvim": { "branch": "main", "commit": "ec0575bdb63594c5e7fba6eb9607b009aa1fb74e" },
   "modus-themes.nvim": { "branch": "master", "commit": "6331c004be4ce584e94c37fd763196f0b9011546" },
   "naysayer-colors.nvim": { "branch": "master", "commit": "728c62c7680817365dd45b1e0c5f27ebd56ee686" },
