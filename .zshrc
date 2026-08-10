@@ -31,8 +31,9 @@ autoload -Uz compinit && compinit
 zinit cdreplay -q
 
 # History
-HISTSIZE=1000000000
-SAVEHIST=1000000000
+HISTFILE="${ZDOTDIR:-$HOME}/.zsh_history"
+HISTSIZE=100000
+SAVEHIST=100000
 
 # Append and share history across active sessions
 setopt APPEND_HISTORY
