@@ -1,7 +1,8 @@
 return {
   "stevearc/oil.nvim",
   keys = {
-    { "<leader>e", "<cmd>Oil --float<CR>", desc = "Explorer" },
+    { "<leader>e", "<cmd>Oil<CR>", desc = "Explorer" },
+    -- { "<leader>e", "<cmd>Oil --float<CR>", desc = "Explorer" },
     {
       "<leader>E",
       function()

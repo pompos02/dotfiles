@@ -65,6 +65,7 @@ alias pacl="pacman -Slq | fzf --preview 'pacman -Si {}' --layout=reverse --heigh
 alias yayl="yay -Slq | fzf --preview 'yay -Si {}' --layout=reverse --height=80% --border"
 alias good='git add . && git commit -m "good" && git push'
 alias tmuxx='tmux attach -t karavellas || tmux new -s karavellas'
+alias cursor='cursor --classic'
 
 # Functions
 zd() {
