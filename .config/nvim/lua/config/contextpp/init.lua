@@ -111,63 +111,142 @@ local function context_body(node)
     end
 end
 
-local function collect_contexts(bufnr, root)
-    local contexts = {}
-
-    local function visit(node, depth)
-        local body = context_body(node)
-        if body then
-            local close = closing_brace(body)
-            if close then
-                local start_row = node:range()
-                local body_start_row = body:range()
-                local close_row = close:range()
-                local label = context_label(bufnr, node, body)
-
-                if close_row > body_start_row and label ~= "" then
-                    contexts[#contexts + 1] = {
-                        close_row = close_row,
-                        depth = depth,
-                        label = label,
-                        start_row = start_row,
-                    }
-                end
-            end
-        end
-
-        for child in node:iter_children() do
-            if child:named() then
-                visit(child, depth + 1)
-            end
-        end
+local function get_context(bufnr, node, cache)
+    local id = node:id()
+    local cached = cache[id]
+    if cached ~= nil then
+        return cached or nil
     end
 
-    visit(root, 0)
-    return contexts
+    local body = context_body(node)
+    local close = body and closing_brace(body) or nil
+    if not close then
+        cache[id] = false
+        return
+    end
+
+    local start_row = node:range()
+    local body_start_row = body:range()
+    local close_row, close_col = close:range()
+    local label = context_label(bufnr, node, body)
+    if close_row <= body_start_row or label == "" then
+        cache[id] = false
+        return
+    end
+
+    local context = {
+        close_col = close_col,
+        close_row = close_row,
+        id = id,
+        label = label,
+        start_row = start_row,
+    }
+    cache[id] = context
+    return context
 end
 
-local function render(bufnr, contexts, cursor_row)
-    api.nvim_buf_clear_namespace(bufnr, namespace, 0, -1)
+local function active_contexts(bufnr, state, cursor_row, cursor_col)
+    local active = {}
+    local seen = {}
+    local line = api.nvim_buf_get_lines(bufnr, cursor_row, cursor_row + 1, false)[1] or ""
+    local first_nonblank = line:find("%S")
+    local first_col = first_nonblank and first_nonblank - 1 or 0
+    local columns = { cursor_col }
+    if first_col ~= cursor_col then
+        columns[#columns + 1] = first_col
+    end
+    if #line ~= cursor_col and #line ~= first_col then
+        columns[#columns + 1] = #line
+    end
 
-    local closest
-    for _, context in ipairs(contexts) do
-        if context.start_row <= cursor_row and cursor_row <= context.close_row then
-            if not closest or context.depth > closest.depth then
-                closest = context
+    for _, column in ipairs(columns) do
+        local node = state.root:named_descendant_for_range(cursor_row, column, cursor_row, column)
+
+        while node do
+            local context = get_context(bufnr, node, state.context_cache)
+            if
+                context
+                and not seen[context.id]
+                and context.start_row <= cursor_row
+                and cursor_row <= context.close_row
+            then
+                seen[context.id] = true
+                active[#active + 1] = context
             end
+            node = node:parent()
         end
     end
 
-    if closest then
-        api.nvim_buf_set_extmark(bufnr, namespace, closest.close_row, 0, {
-            virt_text = { { options.prefix .. closest.label, options.highlight } },
+    table.sort(active, function(left, right)
+        if left.start_row ~= right.start_row then
+            return left.start_row < right.start_row
+        end
+        if left.close_row ~= right.close_row then
+            return left.close_row > right.close_row
+        end
+        return left.close_col > right.close_col
+    end)
+
+    return active
+end
+
+local function same_contexts(state, contexts)
+    if state.rendered_tick ~= state.changedtick or #state.rendered_contexts ~= #contexts then
+        return false
+    end
+
+    for index, context in ipairs(contexts) do
+        if state.rendered_contexts[index] ~= context.id then
+            return false
+        end
+    end
+
+    return true
+end
+
+local function render(bufnr, state, contexts)
+    if same_contexts(state, contexts) then
+        return
+    end
+
+    api.nvim_buf_clear_namespace(bufnr, namespace, 0, -1)
+
+    local contexts_by_row = {}
+    for _, context in ipairs(contexts) do
+        contexts_by_row[context.close_row] = contexts_by_row[context.close_row] or {}
+        contexts_by_row[context.close_row][#contexts_by_row[context.close_row] + 1] = context
+    end
+
+    for row, row_contexts in pairs(contexts_by_row) do
+        table.sort(row_contexts, function(left, right)
+            return left.close_col < right.close_col
+        end)
+
+        local labels = {}
+        for _, context in ipairs(row_contexts) do
+            labels[#labels + 1] = context.label
+        end
+
+        api.nvim_buf_set_extmark(bufnr, namespace, row, 0, {
+            virt_text = { { options.prefix .. table.concat(labels, " "), options.highlight } },
             virt_text_pos = "eol",
             hl_mode = "combine",
         })
     end
+
+    state.rendered_contexts = vim.tbl_map(function(context)
+        return context.id
+    end, contexts)
+    state.rendered_tick = state.changedtick
 end
 
 local function hide(bufnr)
+    local state = states[bufnr]
+    if state then
+        state.rendered_contexts = {}
+        state.rendered_tick = nil
+    end
+
     if api.nvim_buf_is_valid(bufnr) then
         api.nvim_buf_clear_namespace(bufnr, namespace, 0, -1)
     end
@@ -206,25 +285,43 @@ function M.refresh(bufnr)
     local changedtick = api.nvim_buf_get_changedtick(bufnr)
     if state.changedtick ~= changedtick then
         local language = vim.bo[bufnr].filetype
-        local ok, parser = pcall(vim.treesitter.get_parser, bufnr, language)
-        if not ok or not parser then
+        if state.language ~= language then
+            state.language = language
+            state.parser = nil
+        end
+
+        if not state.parser then
+            local ok, parser = pcall(vim.treesitter.get_parser, bufnr, language)
+            if ok then
+                state.parser = parser
+            end
+        end
+
+        if not state.parser then
             hide(bufnr)
             return
         end
 
-        local trees = parser:parse()
+        local trees = state.parser:parse()
         local tree = trees and trees[1]
         if not tree then
             hide(bufnr)
             return
         end
 
-        state.contexts = collect_contexts(bufnr, tree:root())
+        state.context_cache = {}
+        state.root = tree:root()
+        state.tree = tree
         state.changedtick = changedtick
     end
 
-    local cursor_row = api.nvim_win_get_cursor(winid)[1] - 1
-    render(bufnr, state.contexts or {}, cursor_row)
+    if not state.root then
+        hide(bufnr)
+        return
+    end
+
+    local cursor = api.nvim_win_get_cursor(winid)
+    render(bufnr, state, active_contexts(bufnr, state, cursor[1] - 1, cursor[2]))
 end
 
 local function schedule_refresh(bufnr)
@@ -253,11 +350,13 @@ function M.attach(bufnr)
         return
     end
 
-    states[bufnr] = states[bufnr] or {
-        changedtick = -1,
-        contexts = {},
-        scheduled = false,
-    }
+    states[bufnr] = states[bufnr]
+        or {
+            changedtick = -1,
+            context_cache = {},
+            rendered_contexts = {},
+            scheduled = false,
+        }
     schedule_refresh(bufnr)
 end
 
@@ -272,6 +371,10 @@ end
 function M.setup(opts)
     options = vim.tbl_deep_extend("force", vim.deepcopy(defaults), opts or {})
     setup_highlight()
+
+    for _, state in pairs(states) do
+        state.rendered_tick = nil
+    end
 
     local group = api.nvim_create_augroup("Contextpp", { clear = true })
     api.nvim_create_autocmd("FileType", {
@@ -320,6 +423,8 @@ function M.setup(opts)
         callback = function()
             for bufnr, state in pairs(states) do
                 state.changedtick = -1
+                state.parser = nil
+                state.rendered_tick = nil
                 schedule_refresh(bufnr)
             end
         end,
