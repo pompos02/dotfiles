@@ -21,6 +21,7 @@ return {
             "bash",
             "sql",
             "c",
+            "cpp",
             "diff",
             "gitcommit",
             "go",

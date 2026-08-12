@@ -4,6 +4,7 @@ require("config.statusline")
 require("config.keymaps")
 require("config.lsp")
 require("config.misc")
+require("config.contextpp").setup()
 require("config.svn").setup()
 
 -- expirimental new ui stuff
@@ -12,7 +13,7 @@ vim.g.plsql_fold = 1
 
 vim.opt.background = "dark"
 
-vim.cmd.colorscheme("dolores-mitropanos")
+vim.cmd.colorscheme("dolores-kif")
 
 vim.o.winborder = "single"
 
@@ -37,7 +38,6 @@ vim.api.nvim_create_autocmd("QuickFixCmdPost", {
     pattern = { "make", "grep", "vimgrep" },
     command = "cwindow",
 })
-
 
 vim.filetype.add({ extension = { pc = "cpp" } })
 vim.filetype.add({
