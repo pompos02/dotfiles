@@ -4,7 +4,9 @@ require("config.statusline")
 require("config.keymaps")
 require("config.lsp")
 require("config.misc")
-require("config.contextpp").setup()
+require("config.contextpp").setup({
+    enabled = false,
+})
 require("config.svn").setup()
 
 -- expirimental new ui stuff
@@ -13,13 +15,13 @@ vim.g.plsql_fold = 1
 
 vim.opt.background = "dark"
 
-vim.cmd.colorscheme("dolores-thalasses")
+vim.cmd.colorscheme("dolores-glykeria")
 
 vim.o.winborder = "single"
 
 vim.opt.expandtab = true
-vim.opt.tabstop = 4 -- a tab displays as 4 columns
-vim.opt.shiftwidth = 4 -- >> << and autoindent use 4
+vim.opt.tabstop = 4     -- a tab displays as 4 columns
+vim.opt.shiftwidth = 4  -- >> << and autoindent use 4
 vim.opt.softtabstop = 4 -- <Tab>/<BS> behave as 4 columns
 
 -- Highlight on yank

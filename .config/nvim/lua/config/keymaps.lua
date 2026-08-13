@@ -98,6 +98,10 @@ map("n", "<leader>ct", function()
     vim.notify("blink.cmp auto-show: " .. (config.completion.menu.auto_show and "on" or "off"))
 end, { desc = "Toggle blink.cmp auto-show" })
 
+map("n", "<leader>cs", function()
+    require("config.contextpp").toggle()
+end, { desc = "Toggle Contextpp" })
+
 -- Quickfix navigation
 map("n", "[q", function()
     local ok, err = pcall(vim.cmd.cprev)

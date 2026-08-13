@@ -4,144 +4,40 @@ local M = {}
 
 local namespace = api.nvim_create_namespace("contextpp")
 local states = {}
+local enabled = false
+
+local c_family = require("config.contextpp.languages.c_family")
 
 local defaults = {
-    filetypes = { "c", "cpp" },
+    enabled = true,
     highlight = "Contextpp",
+    languages = {
+        c = c_family,
+        cpp = c_family,
+        lua = require("config.contextpp.languages.lua"),
+        rust = require("config.contextpp.languages.rust"),
+    },
     prefix = "",
 }
 
 local options = vim.deepcopy(defaults)
 
-local body_fields = {
-    function_definition = "body",
-    if_statement = "consequence",
-    switch_statement = "body",
-    while_statement = "body",
-    do_statement = "body",
-    for_statement = "body",
-    for_range_loop = "body",
-    try_statement = "body",
-    catch_clause = "body",
-    lambda_expression = "body",
-    namespace_definition = "body",
-    linkage_specification = "body",
-    class_specifier = "body",
-    struct_specifier = "body",
-    union_specifier = "body",
-    enum_specifier = "body",
-}
-
-local body_types = {
-    compound_statement = true,
-    declaration_list = true,
-    field_declaration_list = true,
-    enumerator_list = true,
-}
-
-local function is_target(bufnr)
-    return vim.list_contains(options.filetypes, vim.bo[bufnr].filetype)
+local function adapter_for(bufnr)
+    return options.languages[vim.bo[bufnr].filetype]
 end
 
-local function compact(text)
-    return (text:gsub("%s+", " "):gsub("^%s+", ""):gsub("%s+$", ""))
-end
-
-local function get_text(bufnr, start_row, start_col, end_row, end_col)
-    local ok, lines = pcall(api.nvim_buf_get_text, bufnr, start_row, start_col, end_row, end_col, {})
-    if not ok then
-        return ""
-    end
-
-    return compact(table.concat(lines, " "))
-end
-
-local function field(node, name)
-    local nodes = node:field(name)
-    return nodes and nodes[1] or nil
-end
-
-local function direct_body(node)
-    for child in node:iter_children() do
-        if child:named() and body_types[child:type()] then
-            return child
-        end
-    end
-end
-
-local function closing_brace(body)
-    for index = body:child_count() - 1, 0, -1 do
-        local child = body:child(index)
-        if child and child:type() == "}" then
-            return child
-        end
-    end
-end
-
-local function context_label(bufnr, node, body)
-    if node:type() == "do_statement" then
-        local condition = field(node, "condition")
-        if condition then
-            return "do while " .. compact(vim.treesitter.get_node_text(condition, bufnr))
-        end
-    elseif node:type() == "compound_statement" then
-        return "block"
-    end
-
-    local start_row, start_col = node:range()
-    local body_row, body_col = body:range()
-    return get_text(bufnr, start_row, start_col, body_row, body_col)
-end
-
-local function context_body(node)
-    local field_name = body_fields[node:type()]
-    if field_name then
-        return field(node, field_name)
-    end
-
-    if node:type() == "else_clause" or node:type() == "case_statement" then
-        return direct_body(node)
-    end
-
-    if node:type() == "compound_statement" then
-        local parent = node:parent()
-        if parent and parent:type() == "compound_statement" then
-            return node
-        end
-    end
-end
-
-local function get_context(bufnr, node, cache)
+local function get_context(bufnr, node, state)
     local id = node:id()
-    local cached = cache[id]
+    local cached = state.context_cache[id]
     if cached ~= nil then
         return cached or nil
     end
 
-    local body = context_body(node)
-    local close = body and closing_brace(body) or nil
-    if not close then
-        cache[id] = false
-        return
+    local context = state.adapter.resolve(bufnr, node)
+    if context then
+        context.id = id
     end
-
-    local start_row = node:range()
-    local body_start_row = body:range()
-    local close_row, close_col = close:range()
-    local label = context_label(bufnr, node, body)
-    if close_row <= body_start_row or label == "" then
-        cache[id] = false
-        return
-    end
-
-    local context = {
-        close_col = close_col,
-        close_row = close_row,
-        id = id,
-        label = label,
-        start_row = start_row,
-    }
-    cache[id] = context
+    state.context_cache[id] = context or false
     return context
 end
 
@@ -163,12 +59,12 @@ local function active_contexts(bufnr, state, cursor_row, cursor_col)
         local node = state.root:named_descendant_for_range(cursor_row, column, cursor_row, column)
 
         while node do
-            local context = get_context(bufnr, node, state.context_cache)
+            local context = get_context(bufnr, node, state)
             if
                 context
                 and not seen[context.id]
                 and context.start_row <= cursor_row
-                and cursor_row <= context.close_row
+                and cursor_row <= context.end_row
             then
                 seen[context.id] = true
                 active[#active + 1] = context
@@ -219,7 +115,10 @@ local function render(bufnr, state, contexts)
 
     for row, row_contexts in pairs(contexts_by_row) do
         table.sort(row_contexts, function(left, right)
-            return left.close_col < right.close_col
+            if left.close_col ~= right.close_col then
+                return left.close_col < right.close_col
+            end
+            return left.start_row < right.start_row
         end)
 
         local labels = {}
@@ -258,6 +157,10 @@ local function setup_highlight()
 end
 
 function M.refresh(bufnr)
+    if not enabled then
+        return
+    end
+
     if not bufnr or bufnr == 0 then
         bufnr = api.nvim_get_current_buf()
     end
@@ -266,9 +169,23 @@ function M.refresh(bufnr)
         return
     end
 
-    if not is_target(bufnr) then
+    local adapter = adapter_for(bufnr)
+    if not adapter then
         M.detach(bufnr)
         return
+    end
+
+    if state.adapter ~= adapter then
+        state.adapter = adapter
+        state.changedtick = -1
+        state.parser = nil
+    end
+
+    local language = state.adapter.parser or vim.bo[bufnr].filetype
+    if state.language ~= language then
+        state.language = language
+        state.changedtick = -1
+        state.parser = nil
     end
 
     if vim.fn.mode(1):match("^[iR]") then
@@ -284,12 +201,6 @@ function M.refresh(bufnr)
 
     local changedtick = api.nvim_buf_get_changedtick(bufnr)
     if state.changedtick ~= changedtick then
-        local language = vim.bo[bufnr].filetype
-        if state.language ~= language then
-            state.language = language
-            state.parser = nil
-        end
-
         if not state.parser then
             local ok, parser = pcall(vim.treesitter.get_parser, bufnr, language)
             if ok then
@@ -325,6 +236,10 @@ function M.refresh(bufnr)
 end
 
 local function schedule_refresh(bufnr)
+    if not enabled then
+        return
+    end
+
     local state = states[bufnr]
     if not state or state.scheduled then
         return
@@ -343,10 +258,14 @@ local function schedule_refresh(bufnr)
 end
 
 function M.attach(bufnr)
+    if not enabled then
+        return
+    end
+
     if not bufnr or bufnr == 0 then
         bufnr = api.nvim_get_current_buf()
     end
-    if not api.nvim_buf_is_valid(bufnr) or not is_target(bufnr) then
+    if not api.nvim_buf_is_valid(bufnr) or not adapter_for(bufnr) then
         return
     end
 
@@ -368,20 +287,13 @@ function M.detach(bufnr)
     hide(bufnr)
 end
 
-function M.setup(opts)
-    options = vim.tbl_deep_extend("force", vim.deepcopy(defaults), opts or {})
-    setup_highlight()
-
-    for _, state in pairs(states) do
-        state.rendered_tick = nil
-    end
-
+local function create_runtime_autocmds()
     local group = api.nvim_create_augroup("Contextpp", { clear = true })
     api.nvim_create_autocmd("FileType", {
-        desc = "Attach C/C++ closing-brace context",
+        desc = "Attach semantic closing context",
         group = group,
         callback = function(args)
-            if is_target(args.buf) then
+            if adapter_for(args.buf) then
                 M.attach(args.buf)
             else
                 M.detach(args.buf)
@@ -389,14 +301,14 @@ function M.setup(opts)
         end,
     })
     api.nvim_create_autocmd({ "CursorMoved", "InsertLeave", "TextChanged", "BufEnter" }, {
-        desc = "Update C/C++ closing-brace context",
+        desc = "Update semantic closing context",
         group = group,
         callback = function(args)
             schedule_refresh(args.buf)
         end,
     })
     api.nvim_create_autocmd("InsertEnter", {
-        desc = "Hide C/C++ closing-brace context while inserting",
+        desc = "Hide semantic closing context while inserting",
         group = group,
         callback = function(args)
             if states[args.buf] then
@@ -405,7 +317,7 @@ function M.setup(opts)
         end,
     })
     api.nvim_create_autocmd("BufWipeout", {
-        desc = "Detach C/C++ closing-brace context",
+        desc = "Detach semantic closing context",
         group = group,
         callback = function(args)
             M.detach(args.buf)
@@ -429,11 +341,71 @@ function M.setup(opts)
             end
         end,
     })
+end
+
+function M.enable()
+    if enabled then
+        return
+    end
+
+    enabled = true
+    setup_highlight()
+    create_runtime_autocmds()
 
     for _, bufnr in ipairs(api.nvim_list_bufs()) do
-        if api.nvim_buf_is_loaded(bufnr) and is_target(bufnr) then
+        if api.nvim_buf_is_loaded(bufnr) and adapter_for(bufnr) then
             M.attach(bufnr)
         end
+    end
+end
+
+function M.disable()
+    if not enabled then
+        return
+    end
+
+    enabled = false
+    pcall(api.nvim_del_augroup_by_name, "Contextpp")
+
+    local buffers = vim.tbl_keys(states)
+    for _, bufnr in ipairs(buffers) do
+        M.detach(bufnr)
+    end
+end
+
+function M.toggle()
+    if enabled then
+        M.disable()
+    else
+        M.enable()
+    end
+end
+
+function M.enabled()
+    return enabled
+end
+
+function M.setup(opts)
+    M.disable()
+    options = vim.tbl_deep_extend("force", vim.deepcopy(defaults), opts or {})
+
+    api.nvim_create_user_command("ContextppEnable", M.enable, {
+        desc = "Enable contextpp",
+        force = true,
+    })
+    api.nvim_create_user_command("ContextppDisable", M.disable, {
+        desc = "Disable contextpp",
+        force = true,
+    })
+    api.nvim_create_user_command("ContextppToggle", M.toggle, {
+        desc = "Toggle contextpp",
+        force = true,
+    })
+
+    if options.enabled then
+        M.enable()
+    else
+        setup_highlight()
     end
 end
 
