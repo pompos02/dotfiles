@@ -52,5 +52,10 @@ return {
         --     vim.g.zenbones_darken_comments = 45
         --     vim.cmd.colorscheme('zenbones')
         -- end
-    }
+    },
+    "yorik1984/newpaper.nvim",
+    "kvrohit/rasmus.nvim",
+    "nickkadutskyi/jb.nvim",
+    "RRethy/base16-nvim"
+
 }

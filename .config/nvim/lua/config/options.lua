@@ -16,7 +16,6 @@ opt.jumpoptions = "view"
 opt.laststatus = 2 -- global statusline
 opt.linebreak = true -- Wrap lines at convenient points
 opt.list = true -- Show some invisible characters (tabs...
-vim.opt.listchars = "tab:> ,trail:·,space:·"
 opt.mouse = "a" -- Enable mouse mode
 opt.pumblend = 0 -- Popup blend
 opt.pumheight = 10 -- Maximum number of entries in a popup
@@ -35,7 +34,8 @@ opt.equalalways = true
 opt.splitkeep = "screen"
 opt.splitright = true -- Put new windows right of current
 opt.tabstop = 2 -- Number of spaces tabs count for
--- opt.listchars = { trail = "." }
+opt.listchars = { trail = "." }
+-- vim.opt.listchars = "tab:> ,trail:·,space:·"
 opt.termguicolors = true -- True color support
 opt.undofile = true
 opt.undolevels = 10000

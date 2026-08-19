@@ -2,23 +2,7 @@
 live_config_reload = true
 import = ["~/.config/alacritty/theme.toml"]
 
-# [font.normal]
-# family = "TX-02"
-# style = "Medium"
-#
-# [font.bold]
-# family = "TX-02"
-# style = "ExtraBold"
-#
-# [font.italic]
-# family = "TX-02"
-# style = "Oblique"
-#
-# [font.bold_italic]
-# family = "TX-02"
-# style = "ExtraBold Oblique"
-
-[font.normal]    
+[font.normal]
 family = "Monaspace Neon"
 # style = "Medium" 
 

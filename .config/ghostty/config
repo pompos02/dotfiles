@@ -10,7 +10,7 @@ font-size = 15.0
 
 # Previous font options
 # font-family = "MonaspiceKr Nerd Font Mono"
-font-family = "Courier Prime Code"
+# font-family = "Courier Prime Code"
 
 # font-family = "Berkeley Mono ExtraCondensed"
 
@@ -19,6 +19,7 @@ font-family = "Courier Prime Code"
 # font-family = "ComicShannsMono Nerd Font"
 # font-family = "SauceCodePro Nerd Font Propo"
 # font-family = "ProFontWindows Nerd Font Propo"
+font-family = "Cascadia Mono NF"
 # font-family = "ProFont IIx Nerd Font Propo"
 # font-family = "IosevkaTermSlab Nerd Font Propo"
 # font-family = "GoMono Nerd Font Propo"
@@ -35,4 +36,6 @@ font-family = "Courier Prime Code"
 
 #cursor-color = "#ffffff"
 shell-integration-features = no-cursor
+
+theme = Gruvbox Dark Hard
 keybind = f11=toggle_fullscreen
