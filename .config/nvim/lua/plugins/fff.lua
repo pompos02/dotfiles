@@ -7,10 +7,19 @@ return {
     -- name = "fff.nvim",
     build = "cargo +stable build --release",
     opts = {
+
+        prompt = vim.fn.fnamemodify(vim.fn.getcwd(), ':~') .. '/',
         enable_content_indexing = false,
         watch = false,
         file_picker = {
             fuzzy_query_highlighting = true, -- true to highlight fuzzy query matches in file picker results
+            display_relative_path = true,    -- show paths as `path/to/file` instead of `file path/to`
+        },
+        hl = {
+            directory_path = 'Text',
+            winhl = {
+                prompt = 'Special:MyFFFPrompt',
+            },
         },
         layout = {
             height = 1,
