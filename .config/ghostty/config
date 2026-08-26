@@ -16,10 +16,10 @@ font-size = 15.0
 
 # font-family = "BerkeleyMonoPatched"
 # font-family = "JetBrains Mono"
-# font-family = "ComicShannsMono Nerd Font"
+font-family = "ComicShannsMono Nerd Font"
 # font-family = "SauceCodePro Nerd Font Propo"
 # font-family = "ProFontWindows Nerd Font Propo"
-font-family = "Cascadia Mono NF"
+# font-family = "Cascadia Mono NF"
 # font-family = "ProFont IIx Nerd Font Propo"
 # font-family = "IosevkaTermSlab Nerd Font Propo"
 # font-family = "GoMono Nerd Font Propo"

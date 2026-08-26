@@ -10,6 +10,7 @@ return {
         opts = {
             styles = {
                 bold = false,
+                italic = true,
                 -- transparent = false,
             }
         },
@@ -34,7 +35,6 @@ return {
     "bluz71/vim-moonfly-colors",
     "slugbyte/lackluster.nvim",
     "ThunderBoltCODMYT/gruber-darker.vim",
-    "ellisonleao/gruvbox.nvim",
     "EdenEast/nightfox.nvim",
     "RostislavArts/naysayer.nvim",
     "AlexvZyl/nordic.nvim",
