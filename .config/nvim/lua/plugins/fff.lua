@@ -34,7 +34,7 @@ return {
             --                            and numbers for 4+ (a/.4./b, a/.5./b)
             -- 'middle': always uses dots (a/./b, a/../b, a/.../b)
             -- 'end': truncates from the end (home/user/projects)
-            path_shorten_strategy = "middle_number",
+            -- path_shorten_strategy = "middle_number",
         },
 
         debug = {
@@ -47,6 +47,7 @@ return {
             cycle_forward_query = '<C-n>',
             move_up = '<Up>',
             move_down = '<Down>',
+            clear_query = '<C-u>',
         },
     },
     lazy = false, -- the plugin lazy-initialises itself

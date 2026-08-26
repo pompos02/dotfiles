@@ -15,7 +15,7 @@ opt.inccommand = "nosplit" -- preview incremental substitute
 opt.jumpoptions = "view"
 opt.laststatus = 2 -- global statusline
 opt.linebreak = true -- Wrap lines at convenient points
-opt.list = true -- Show some invisible characters (tabs...
+-- opt.list = true -- Show some invisible characters (tabs...
 opt.mouse = "a" -- Enable mouse mode
 opt.pumblend = 0 -- Popup blend
 opt.pumheight = 10 -- Maximum number of entries in a popup
@@ -34,7 +34,7 @@ opt.equalalways = true
 opt.splitkeep = "screen"
 opt.splitright = true -- Put new windows right of current
 opt.tabstop = 2 -- Number of spaces tabs count for
-opt.listchars = { trail = "." }
+opt.listchars = { trail = "·" }
 -- vim.opt.listchars = "tab:> ,trail:·,space:·"
 opt.termguicolors = true -- True color support
 opt.undofile = true
@@ -49,7 +49,8 @@ opt.cursorline = true -- Highlight the line where the cursor is located
 vim.opt.cursorlineopt = "number"
 -- opt.fillchars:append({ eob = " " })                                                             -- Remove ~ from empty lines
 opt.showtabline = 1 -- Never show tabline
--- opt.guicursor = "n-v-c-sm:block,i-ci-ve:block-blinkwait500-blinkoff200-blinkon200,r-cr-o:hor20"                 -- Use blinking block cursor in insert mode
+-- opt.guicursor = "n-v-c-sm:block,i-ci-ve:block-blinkwait500-blinkoff200-blinkon200,r-cr-o:hor20" -- Use blinking block cursor in insert mode
+opt.guicursor = ""
 -- opt.colorcolumn = "80"
 opt.grepprg = "rg --vimgrep -uu --glob '!.git/**' --glob '!**/.git/**'"
 opt.showbreak = "↳ "
