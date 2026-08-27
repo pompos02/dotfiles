@@ -8,10 +8,15 @@ return {
     {
         dir = "/home/karavellas/projects/opensource/dolores.nvim",
         opts = {
+            before_highlight = function(_, highlight)
+                if vim.g.colors_name == "dolores-edelvais" then
+                    highlight.bold = false
+                end
+            end,
             styles = {
                 bold = true,
                 italic = true,
-                -- transparent = false,
+                transparent = true,
             }
         },
     },
