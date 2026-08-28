@@ -34,8 +34,8 @@ opt.equalalways = true
 opt.splitkeep = "screen"
 opt.splitright = true -- Put new windows right of current
 opt.tabstop = 2 -- Number of spaces tabs count for
-opt.listchars = { trail = "·" }
--- vim.opt.listchars = "tab:> ,trail:·,space:·"
+-- opt.listchars = { trail = "·" }
+vim.opt.listchars = "tab:> ,trail:·,space:·"
 opt.termguicolors = true -- True color support
 opt.undofile = true
 opt.undolevels = 10000

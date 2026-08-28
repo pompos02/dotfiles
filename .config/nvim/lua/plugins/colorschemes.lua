@@ -61,6 +61,6 @@ return {
     "yorik1984/newpaper.nvim",
     "kvrohit/rasmus.nvim",
     "nickkadutskyi/jb.nvim",
-    "RRethy/base16-nvim"
-
+    "RRethy/base16-nvim",
+    "wtfox/luna.nvim",
 }
