@@ -1,0 +1,55 @@
+# shellcheck shell=bash
+
+zd() {
+	if (($# == 0)); then
+		builtin cd "$HOME" || return
+	elif [[ -d "$1" ]]; then
+		builtin cd "$1" || return
+	else
+		z "$@"
+	fi
+}
+
+open() {
+	if [[ -n ${WSL_DISTRO_NAME:-} ]]; then
+		explorer.exe "$@" >/dev/null 2>&1 &
+	else
+		xdg-open "$@" >/dev/null 2>&1 &
+	fi
+}
+
+pkillf() {
+	local pid
+	pid="$(ps -ef | fzf --height 40% --layout=reverse | awk '{print $2}')" || return
+	[[ -n "$pid" ]] && kill "$pid"
+}
+
+my_ip() {
+	ip -brief address show scope global
+}
+
+man() {
+	if command -v nvim >/dev/null 2>&1; then
+		nvim -c "Man $* | only"
+	else
+		command man "$@"
+	fi
+}
+
+nvm() {
+	unset -f nvm
+	[[ -s "$NVM_DIR/nvm.sh" ]] && source "$NVM_DIR/nvm.sh"
+	[[ -s "$NVM_DIR/bash_completion" ]] && source "$NVM_DIR/bash_completion"
+	command -v nvm >/dev/null 2>&1 && nvm "$@"
+}
+
+conda() {
+	unset -f conda
+	if [[ -r /opt/miniconda3/etc/profile.d/conda.sh ]]; then
+		source /opt/miniconda3/etc/profile.d/conda.sh
+		conda "$@"
+	else
+		printf 'conda is not installed\n' >&2
+		return 127
+	fi
+}

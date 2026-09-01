@@ -1,63 +1,75 @@
 # Dotfiles
 
-Personal Arch Linux configuration files.
+Personal Arch Linux configuration aligned with the example repository layout.
 
-## Stow Configuration
+## Install
 
-### CLI only (minimal)
-
-```bash
-stow . -t ~ --ignore='hypr|waybar|kitty|dunst|ghostty|rofi|kde|minimal-install.sh|full-install.sh|.gitignore|README.md' \
-  && stow kde -t ~
-```
-
-### Full desktop
+Install packages first, then stow dotfiles:
 
 ```bash
-stow . -t ~ --ignore='kde' && stow kde -t ~
+cd ~/devel/environment/packages
+./install
 
+cd ~/devel/environment
+./install
 ```
 
-### Restowing
-```bash
-stow -Rv . -t "$HOME" --ignore='kde|docs|minimal-install.sh|full-install.sh|.gitignore|README.md' && stow -Rv kde -t "$HOME"
-./generate-state-files.sh
-```
+The package installer uses `hostname`:
 
+- `zeno`: installs `packages/group/base`
+- `plato`: installs `packages/group/base` and `packages/group/gui`
 
-Do not run plain `stow . -t ~` anymore. Now that the repo contains a dedicated `kde/` package, doing that would try to link the `kde` directory itself into `~` instead of stowing its contents.
-
-### KDE color schemes only
-
-```bash
-stow kde -t ~
-```
-
-Generate machine-local theme state after stowing:
+Dotfiles are not split by profile. `install` stows everything under `home/`:
 
 ```bash
-./generate-state-files.sh
+stow --no-folding -R -v -t ~ -d ~/devel/environment/home .
 ```
 
-The KDE package only tracks portable color schemes under `.local/share/color-schemes`. KDE runtime config files under `.config` are intentionally machine-local.
+## Packages
 
-If KDE color schemes already exist in `$HOME`, move them aside first and preview the link plan:
+Package manifests are one package per line:
 
-```bash
-mkdir -p ~/kde-dotfiles-backup/.local/share/color-schemes
-mv ~/.local/share/color-schemes/Yara.colors ~/kde-dotfiles-backup/.local/share/color-schemes/
-stow -nvv kde -t ~
-stow kde -t ~
+```text
+packages/group/base
+packages/group/gui
 ```
 
-## Symlink Selected Files Only
+Host groups compose those manifests with symlinks:
 
-If you just want a handful of files and directories, you can create symlinks directly:
-
-```bash
-REPO="$HOME/dotfiles"
-for p in .vimrc .config/nvim .config/tmux .config/scripts .bashrc .inputrc; do
-  mkdir -p "$HOME/$(dirname "$p")"
-  ln -sfn "$REPO/$p" "$HOME/$p"
-done
+```text
+packages/group/plato/base -> ../base
+packages/group/plato/gui  -> ../gui
+packages/group/zeno/base  -> ../base
 ```
+
+`packages/install` bootstraps `paru` if needed and then installs every manifest
+under `packages/group/$(hostname)/`.
+
+## Bash
+
+Shell configuration is split into ordered fragments under `home/.config/bash`:
+
+- `environment`: login environment and PATH.
+- `aliases`: command aliases.
+- `functions`: interactive shell helpers.
+- `history`: Bash history behavior.
+- `prompt.bash`: native Bash prompt.
+
+Zsh and Starship are not used.
+
+## State
+
+`init-state-files` creates empty local files required by the theme integrations:
+
+```text
+~/.local/state/theme/current
+~/.cache/theme/current_fzf
+~/.config/kitty/current-theme.conf
+~/.config/alacritty/theme.toml
+```
+
+These files are not tracked or stowed. Applying a theme populates them.
+
+Executables under `home/.local/bin` and scripts under `home/.config/scripts` are
+both added to `PATH`. The `allmux` binary is vendored under `.local/bin` and used
+by the tmux `f` binding.

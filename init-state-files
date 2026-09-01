@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+config_home="${XDG_CONFIG_HOME:-$HOME/.config}"
+state_home="${XDG_STATE_HOME:-$HOME/.local/state}"
+cache_home="${XDG_CACHE_HOME:-$HOME/.cache}"
+
+mkdir -p \
+	"$config_home/kitty" \
+	"$config_home/alacritty" \
+	"$state_home/theme" \
+	"$cache_home/theme"
+
+touch \
+	"$config_home/kitty/current-theme.conf" \
+	"$config_home/alacritty/theme.toml" \
+	"$state_home/theme/current" \
+	"$cache_home/theme/current_fzf"

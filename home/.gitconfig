@@ -1,0 +1,11 @@
+[user]
+	name = pompos02
+	email = yiannis.caravellas@gmail.com
+[diff]
+	tool = nvimdiff
+[difftool]
+	prompt = false
+[difftool "nvimdiff"]
+	cmd = nvim -d "$LOCAL" "$REMOTE"
+[init]
+	defaultBranch = master

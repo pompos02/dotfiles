@@ -1,0 +1,5 @@
+#!/bin/bash
+set -e
+
+~/devel/environment/init-state-files
+stow --no-folding -R -v -t ~ -d ~/devel/environment/home .

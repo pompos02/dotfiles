@@ -1,0 +1,14 @@
+# shellcheck shell=bash
+
+alias ls='ls --color=auto'
+alias grep='grep --color=auto'
+alias ll='ls -l'
+alias lt='eza --tree --level=2 --long --icons --git'
+alias ff="fzf --preview 'bat --style=numbers --color=always {}'"
+alias python='python3'
+alias vim='nvim'
+alias tmuxx='tmux attach -t karavellas || tmux new -s karavellas'
+alias code='code --ozone-platform=wayland'
+
+alias pacl="pacman -Slq | fzf --preview 'pacman -Si {}' --layout=reverse --height=80% --border"
+alias parul="paru -Slq | fzf --preview 'paru -Si {}' --layout=reverse --height=80% --border"

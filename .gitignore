@@ -3,28 +3,12 @@ squibg.jpg
 oracle_clinet_wsl.md
 **.png
 **.dockerfile
+dotfiles_example/
 
-.config/nvim/pack/vendor/start/mellifluous.nvim/
-.config/nvim/pack/vendor/start/rose-pine.nvim/
-.config/nvim/pack/vendor/start/solarized-osaka.nvim/
-.config/nvim/pack/vendor/start/vim-dadbod-ui/
-.config/nvim/pack/vendor/start/vim-dadbod/
+home/.config/nvim/pack/vendor/start/
 misirlou.lua
 yara.lua
 [0-9]
 
-# Machine-local KDE state/config. Keep portable color schemes tracked under kde/.local/share/color-schemes/.
-kde/.config/
-
-# Generated theme state/cache files.
-.config/theme/current
-.config/theme/current_fzf
-.config/theme/current_fzf.sh
-.config/theme/current_theme.env
-.config/system-theme
-.config/kitty/current-theme.conf
-.config/alacritty/theme.toml
-
-# Local backup artifacts.
 *.bak
 *.backup
