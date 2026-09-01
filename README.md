@@ -42,7 +42,7 @@ packages/group/plato/gui  -> ../gui
 packages/group/zeno/base  -> ../base
 ```
 
-`packages/install` bootstraps `paru-bin` if needed and then installs every manifest
+`packages/install` bootstraps `paru` if needed and then installs every manifest
 under `packages/group/$(hostname)/`.
 
 ## Bash
