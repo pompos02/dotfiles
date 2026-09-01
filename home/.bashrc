@@ -11,8 +11,7 @@ done
 
 [[ -r /usr/share/bash-completion/bash_completion ]] && source /usr/share/bash-completion/bash_completion
 command -v dircolors >/dev/null 2>&1 && eval "$(dircolors "$HOME/.dircolors")"
-command -v fzf >/dev/null 2>&1 && eval "$(fzf --bash)"
-command -v zoxide >/dev/null 2>&1 && eval "$(zoxide init bash)"
+# command -v fzf >/dev/null 2>&1 && eval "$(fzf --bash)"
 
 [[ -r "$config_home/bash/prompt.bash" ]] && source "$config_home/bash/prompt.bash"
 PROMPT_COMMAND=(__prompt_native_prompt_command 'history -a' 'history -n')
