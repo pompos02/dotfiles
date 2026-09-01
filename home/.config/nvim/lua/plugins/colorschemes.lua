@@ -2,11 +2,8 @@ return {
     "vague2k/vague.nvim",
     "pompos02/modus-themes.nvim",
     "folke/tokyonight.nvim",
-    -- "pompos02/yara.nvim",
-    { dir = "/home/karavellas/projects/opensource/yara.nvim" },
-
     {
-        dir = "/home/karavellas/projects/opensource/dolores.nvim",
+        dir = "/home/karavellas/devel/dolores.nvim",
         opts = {
             before_highlight = function(_, highlight)
                 if vim.g.colors_name == "dolores-edelvais" then
@@ -20,9 +17,6 @@ return {
             }
         },
     },
-
-    { dir = "/home/karavellas/projects/opensource/misirloun" },
-    { dir = "/home/karavellas/projects/opensource/ysolarized.nvim" },
     "neanias/everforest-nvim",
     "datsfilipe/vesper.nvim",
     "sainnhe/sonokai",

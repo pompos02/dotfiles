@@ -1,10 +1,11 @@
 return {
     -- dir = "/home/karavellas/repos/fff",
-    -- "dmtrKovalenko/fff.nvim",
+    "dmtrKovalenko/fff.nvim",
     -- "pompos02/fff",
     -- branch = "feat/query-match-highlights",
-    dir = "/home/karavellas/projects/opensource/fff-fork",
-    -- name = "fff.nvim",
+    -- dir = "/home/karavellas/projects/opensource/fff-fork",
+    branch = "main",
+    name = "fff.nvim",
     build = "cargo +stable build --release",
     opts = {
 

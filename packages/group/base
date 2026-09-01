@@ -21,8 +21,15 @@ make
 mysql-clients
 neofetch
 neovim
+tree-sitter-cli
+cmake
 ngrok
 nmap
+
+lua-language-server
+clagd
+rustup
+
 
 openssh
 paru
@@ -54,7 +61,6 @@ linux-firmware
 lsof
 stow
 nfs-utils
-rustup
 docker-buildx
 glimpse
 claude-code
@@ -63,4 +69,3 @@ opencode-bin
 fd
 tree
 nano
-zig
