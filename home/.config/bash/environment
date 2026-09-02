@@ -28,14 +28,8 @@ path_prepend "$HOME/.config/scripts"
 path_prepend "$HOME/.config/bin"
 path_prepend "$HOME/.opencode/bin"
 path_prepend "$HOME/.cargo/bin"
-path_prepend "$HOME/.config/emacs/bin"
 path_append "$HOME/go/bin"
 path_append "$HOME/.local/zig"
-path_append /opt/nvim-linux-x86_64/bin
-path_append /opt/sqlcl/bin
-
-export BUN_INSTALL="$HOME/.bun"
-path_prepend "$BUN_INSTALL/bin"
 
 if [ -d /opt/oracle/instantclient_19_29 ]; then
 	export ORACLE_HOME=/opt/oracle/instantclient_19_29

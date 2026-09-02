@@ -1,15 +1,5 @@
 # shellcheck shell=bash
 
-zd() {
-	if (($# == 0)); then
-		builtin cd "$HOME" || return
-	elif [[ -d "$1" ]]; then
-		builtin cd "$1" || return
-	else
-		z "$@"
-	fi
-}
-
 open() {
 	if [[ -n ${WSL_DISTRO_NAME:-} ]]; then
 		explorer.exe "$@" >/dev/null 2>&1 &
@@ -41,15 +31,4 @@ nvm() {
 	[[ -s "$NVM_DIR/nvm.sh" ]] && source "$NVM_DIR/nvm.sh"
 	[[ -s "$NVM_DIR/bash_completion" ]] && source "$NVM_DIR/bash_completion"
 	command -v nvm >/dev/null 2>&1 && nvm "$@"
-}
-
-conda() {
-	unset -f conda
-	if [[ -r /opt/miniconda3/etc/profile.d/conda.sh ]]; then
-		source /opt/miniconda3/etc/profile.d/conda.sh
-		conda "$@"
-	else
-		printf 'conda is not installed\n' >&2
-		return 127
-	fi
 }

@@ -44,9 +44,7 @@ set wildmode=longest:full,full
 set wildmenu
 set winminwidth=5
 set nowrap
-set cursorline
 set showtabline=1
-let &colorcolumn = '80'
 set shiftwidth=4
 set laststatus=2
 if empty($SSH_TTY)
