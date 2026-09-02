@@ -14,7 +14,6 @@ return {
         watch = false,
         file_picker = {
             fuzzy_query_highlighting = true, -- true to highlight fuzzy query matches in file picker results
-            display_relative_path = true,    -- show paths as `path/to/file` instead of `file path/to`
         },
         hl = {
             directory_path = 'Text',
@@ -26,6 +25,7 @@ return {
             height = 1,
             width = 1,
             prompt_position = "top", -- or 'top'
+            show_path_first = true, -- true renders results as `path/to/file` instead of `file path/to`
             -- preview_position = "right", -- keep results on the left, preview on the right
             preview_size = 0.4,
             flex = false,
