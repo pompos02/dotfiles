@@ -143,8 +143,8 @@ theme_apply_nvim() {
 	if [[ -f "$THEME_NVIM_INIT_FILE" ]]; then
 		variant="$(escape_sed_replacement "$THEME_VARIANT")"
 		colorscheme="$(escape_sed_replacement "$THEME_NVIM_NAME")"
-		sed -i -E "s|^([[:space:]]*vim\.opt\.background[[:space:]]*=[[:space:]]*).*$|\\1\"${variant}\"|" "$THEME_NVIM_INIT_FILE"
-		sed -i -E "s|^([[:space:]]*vim\.cmd\.colorscheme\()[^)]*(\).*)$|\\1\"${colorscheme}\"\\2|" "$THEME_NVIM_INIT_FILE"
+		sed -i --follow-symlinks -E "s|^([[:space:]]*vim\.opt\.background[[:space:]]*=[[:space:]]*).*$|\\1\"${variant}\"|" "$THEME_NVIM_INIT_FILE"
+		sed -i --follow-symlinks -E "s|^([[:space:]]*vim\.cmd\.colorscheme\()[^)]*(\).*)$|\\1\"${colorscheme}\"\\2|" "$THEME_NVIM_INIT_FILE"
 	fi
 
 	[[ -n "${XDG_RUNTIME_DIR:-}" ]] || return 0
