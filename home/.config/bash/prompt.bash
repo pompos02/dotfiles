@@ -113,11 +113,32 @@ __prompt_native_git_segment() {
 	local stash_count=0
 	local ahead=0
 	local behind=0
+	local git_status
+	local git_timeout=${PROMPT_GIT_TIMEOUT:-0.2}
 
 	# Prefer the built-in stash count from modern Git. If the installed Git does
-	# not support `--show-stash`, fall back to a second command later.
-	if ! status_output=$(command git status --porcelain=2 --branch --show-stash 2>/dev/null); then
-		status_output=$(command git status --porcelain=2 --branch 2>/dev/null) || return 1
+	# not support `--show-stash`, fall back to a second command later. Keep each
+	# attempt bounded so a slow repository cannot block the interactive prompt.
+	status_output=$(command timeout --foreground --signal=KILL "$git_timeout" \
+		git status --porcelain=2 --branch --show-stash 2>/dev/null)
+	git_status=$?
+
+	if ((git_status == 124 || git_status == 137)); then
+		REPLY="${__prompt_native_default}git://${__prompt_native_danger}slow"
+		return 0
+	fi
+
+	if ((git_status != 0)); then
+		status_output=$(command timeout --foreground --signal=KILL "$git_timeout" \
+			git status --porcelain=2 --branch 2>/dev/null)
+		git_status=$?
+
+		if ((git_status == 124 || git_status == 137)); then
+			REPLY="${__prompt_native_default}git://${__prompt_native_danger}slow"
+			return 0
+		fi
+
+		((git_status == 0)) || return 1
 		show_stash_supported=0
 	fi
 
@@ -168,7 +189,16 @@ __prompt_native_git_segment() {
 	# Older Git versions do not report stash information in porcelain output, so
 	# query the stash reflog directly when necessary.
 	if ((!show_stash_supported)); then
-		stash_count=$(command git rev-list --walk-reflogs --count refs/stash 2>/dev/null || printf '0')
+		stash_count=$(command timeout --foreground --signal=KILL "$git_timeout" \
+			git rev-list --walk-reflogs --count refs/stash 2>/dev/null)
+		git_status=$?
+
+		if ((git_status == 124 || git_status == 137)); then
+			REPLY="${__prompt_native_default}git://${__prompt_native_danger}slow"
+			return 0
+		fi
+
+		((git_status == 0)) || stash_count=0
 	fi
 
 	# If Git did not report a branch head, treat the directory as non-repository

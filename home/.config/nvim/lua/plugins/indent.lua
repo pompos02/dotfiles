@@ -11,7 +11,7 @@ return {
             },
             animate = {
                 -- enabled = vim.fn.has("nvim-0.10") == 1,
-                enabled = false,
+                enabled = true,
                 style = "out",
                 easing = "linear",
                 duration = {

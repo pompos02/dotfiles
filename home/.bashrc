@@ -13,7 +13,6 @@ done
 command -v dircolors >/dev/null 2>&1 && eval "$(dircolors "$HOME/.dircolors")"
 # command -v fzf >/dev/null 2>&1 && eval "$(fzf --bash)"
 
-[[ -r "$config_home/bash/prompt.bash" ]] && source "$config_home/bash/prompt.bash"
-PROMPT_COMMAND=(__prompt_native_prompt_command 'history -a' 'history -n')
-
 bind 'set completion-ignore-case on'
+
+PROMPT_COMMAND='PS1="$("$HOME/.local/bin/bashline" "$?")"'

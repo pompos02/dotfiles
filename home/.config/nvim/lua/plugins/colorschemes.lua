@@ -5,23 +5,33 @@ return {
     {
         dir = "/home/karavellas/devel/dolores.nvim",
         opts = {
-            before_highlight = function(_, highlight)
-                if vim.g.colors_name == "dolores-edelvais" then
-                    highlight.bold = false
-                end
-            end,
             styles = {
-                bold = true,
-                italic = true,
+                bold = false,
+                italic = false,
                 transparent = true,
             }
         },
     },
-    "neanias/everforest-nvim",
+    {
+        "neanias/everforest-nvim",
+        lazy = false,
+        priority = 1000,
+        config = function()
+            require("everforest").setup({ background = "hard" })
+        end,
+    },
     "datsfilipe/vesper.nvim",
     "sainnhe/sonokai",
     "navarasu/onedark.nvim",
-    "rose-pine/neovim",
+    {
+        "rose-pine/neovim",
+        name = "rose-pine",
+        opts = {
+            styles = {
+                transparency = true,
+            },
+        },
+    },
     "kepano/flexoki-neovim",
     "f4z3r/gruvbox-material.nvim",
     "whizikxd/naysayer-colors.nvim",
@@ -57,4 +67,7 @@ return {
     "nickkadutskyi/jb.nvim",
     "RRethy/base16-nvim",
     "wtfox/luna.nvim",
+    { "marko-cerovac/material.nvim", opts = { plugins = { "blink", "neogit", }, disable = { colored_cursor = true, } } },
+    { "ellisonleao/gruvbox.nvim",    opts = {} },
+
 }

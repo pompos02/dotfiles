@@ -7,6 +7,7 @@ alias ff="fzf --preview 'bat --style=numbers --color=always {}'"
 alias python='python3'
 alias vim='nvim'
 alias tmuxx='tmux attach -t "$USER" || tmux new -s "$USER"'
+alias good='git add . && git commit -m "good" && git push'
 
 alias pacl="pacman -Slq | fzf --preview 'pacman -Si {}' --layout=reverse --height=80% --border"
 alias parul="paru -Slq | fzf --preview 'paru -Si {}' --layout=reverse --height=80% --border"

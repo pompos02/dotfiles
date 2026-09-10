@@ -17,9 +17,9 @@ return {
         },
         hl = {
             directory_path = 'Text',
-            winhl = {
-                prompt = 'Special:MyFFFPrompt',
-            },
+            matched = 'CurSearch',
+            -- selected = 'CursorColumn',
+            -- cursor = 'CursorColumn',
         },
         layout = {
             height = 1,

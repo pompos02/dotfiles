@@ -8,7 +8,7 @@ vim.opt.swapfile = false
 opt.clipboard = vim.env.SSH_TTY and "" or "unnamedplus" -- Sync with system clipboard
 opt.completeopt = "menu,longest"
 opt.path:append("**") -- Enable recursive file search with :find
-opt.conceallevel = 2 -- Hide * markup for bold and italic, but not markers with substitutions
+opt.conceallevel = 0 -- Hide * markup for bold and italic, but not markers with substitutions
 opt.confirm = true -- Confirm to save changes before exiting modified buffer
 opt.expandtab = true -- Use spaces instead of tabs
 opt.inccommand = "nosplit" -- preview incremental substitute

@@ -92,6 +92,10 @@ local function line_ending_segment()
     return string.format("[%s]", vim.bo.fileformat)
 end
 
+local function dap_segment()
+    return vim.g.dap_session_active and "%#DiagnosticWarn#[DEBUG]%*" or ""
+end
+
 function M.render()
     local winid = vim.g.statusline_winid or vim.api.nvim_get_current_win()
     local bufnr = vim.api.nvim_win_get_buf(winid)
@@ -105,6 +109,7 @@ function M.render()
         escape(format_filepath(bufnr)),
         diff,
         diagnostics_segment(bufnr),
+        dap_segment(),
     })
     local right = join({
         line_ending_segment(),
