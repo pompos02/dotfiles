@@ -69,5 +69,6 @@ return {
     "wtfox/luna.nvim",
     { "marko-cerovac/material.nvim", opts = { plugins = { "blink", "neogit", }, disable = { colored_cursor = true, } } },
     { "ellisonleao/gruvbox.nvim",    opts = {} },
+{'alljokecake/naysayer-theme.nvim', as = 'naysayer'}
 
 }
