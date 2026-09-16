@@ -124,6 +124,7 @@ return {
                         name = "LSP",
                         module = "blink.cmp.sources.lsp",
                         score_offset = 100,
+                        async = true,
                     },
 
                     path = {
