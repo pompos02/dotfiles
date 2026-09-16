@@ -3,6 +3,7 @@ import type { Plugin } from '@opencode-ai/plugin'
 export const Aimux: Plugin = async ({ $ }) => {
   // one status per pane; aggregate session IDs if subagents cause false idle states.
   let queue = Promise.resolve()
+  let previousStatus: string | undefined
 
   const report = (status?: string) => {
     queue = queue.then(async () => {
@@ -10,6 +11,10 @@ export const Aimux: Plugin = async ({ $ }) => {
         if (status) await $`aimux set opencode ${status}`.quiet()
         else await $`aimux set opencode`.quiet()
       } catch {}
+      if (status === previousStatus) return
+      previousStatus = status
+      if (status === 'waiting') void $`powershell.exe -NoProfile -NonInteractive -Command '[System.Media.SystemSounds]::Hand.Play(); Start-Sleep -Seconds 1'`.quiet().catch(() => {})
+      if (status === 'done') void $`powershell.exe -NoProfile -NonInteractive -Command '[System.Media.SystemSounds]::Asterisk.Play(); Start-Sleep -Seconds 1'`.quiet().catch(() => {})
     })
     return queue
   }

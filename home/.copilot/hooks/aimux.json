@@ -14,13 +14,26 @@
         "exec": "aimux",
         "args": ["set", "copilot", "waiting"],
         "timeoutSec": 2
+      },
+      {
+        "type": "command",
+        "matcher": "permission_prompt|elicitation_dialog",
+        "exec": "bash",
+        "args": ["-c", "powershell.exe -NoProfile -NonInteractive -Command '[System.Media.SystemSounds]::Hand.Play(); Start-Sleep -Seconds 1' </dev/null >/dev/null 2>&1 &"],
+        "timeoutSec": 2
       }
     ],
     "preToolUse": [
       { "type": "command", "exec": "aimux", "args": ["set", "copilot", "working"], "timeoutSec": 2 }
     ],
     "agentStop": [
-      { "type": "command", "exec": "aimux", "args": ["set", "copilot", "done"], "timeoutSec": 2 }
+      { "type": "command", "exec": "aimux", "args": ["set", "copilot", "done"], "timeoutSec": 2 },
+      {
+        "type": "command",
+        "exec": "bash",
+        "args": ["-c", "powershell.exe -NoProfile -NonInteractive -Command '[System.Media.SystemSounds]::Asterisk.Play(); Start-Sleep -Seconds 1' </dev/null >/dev/null 2>&1 &"],
+        "timeoutSec": 2
+      }
     ],
     "sessionEnd": [
       { "type": "command", "exec": "aimux", "args": ["clear"], "timeoutSec": 2 }
