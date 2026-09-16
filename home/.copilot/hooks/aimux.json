@@ -1,0 +1,29 @@
+{
+  "version": 1,
+  "hooks": {
+    "sessionStart": [
+      { "type": "command", "exec": "aimux", "args": ["set", "copilot"], "timeoutSec": 2 }
+    ],
+    "userPromptSubmitted": [
+      { "type": "command", "exec": "aimux", "args": ["set", "copilot", "working"], "timeoutSec": 2 }
+    ],
+    "notification": [
+      {
+        "type": "command",
+        "matcher": "permission_prompt|elicitation_dialog",
+        "exec": "aimux",
+        "args": ["set", "copilot", "waiting"],
+        "timeoutSec": 2
+      }
+    ],
+    "preToolUse": [
+      { "type": "command", "exec": "aimux", "args": ["set", "copilot", "working"], "timeoutSec": 2 }
+    ],
+    "agentStop": [
+      { "type": "command", "exec": "aimux", "args": ["set", "copilot", "done"], "timeoutSec": 2 }
+    ],
+    "sessionEnd": [
+      { "type": "command", "exec": "aimux", "args": ["clear"], "timeoutSec": 2 }
+    ]
+  }
+}
