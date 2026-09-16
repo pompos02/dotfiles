@@ -49,6 +49,7 @@ return {
             move_up = '<Up>',
             move_down = '<Down>',
             clear_query = '<C-u>',
+            send_to_quickfix = '<M-q>',
         },
     },
     lazy = false, -- the plugin lazy-initialises itself
