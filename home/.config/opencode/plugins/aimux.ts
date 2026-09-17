@@ -1,47 +1,80 @@
 import type { Plugin } from '@opencode-ai/plugin'
 
 export const Aimux: Plugin = async ({ $ }) => {
-  // one status per pane; aggregate session IDs if subagents cause false idle states.
-  let queue = Promise.resolve()
-  let previousStatus: string | undefined
+  type Status = 'working' | 'blocked' | 'idle' | 'done'
 
-  const report = (status?: string) => {
+  let queue = Promise.resolve()
+  let previousStatus: Status | undefined
+  const sessions = new Map<string, string>()
+  const pending = new Map<string, string>()
+
+  const report = (status: Status) => {
     queue = queue.then(async () => {
-      try {
-        if (status) await $`aimux set opencode ${status}`.quiet()
-        else await $`aimux set opencode`.quiet()
-      } catch {}
       if (status === previousStatus) return
+      try {
+        await $`aimux set ${status}`.quiet()
+      } catch {
+        return
+      }
       previousStatus = status
-      if (status === 'waiting') void $`powershell.exe -NoProfile -NonInteractive -Command '[System.Media.SystemSounds]::Hand.Play(); Start-Sleep -Seconds 1'`.quiet().catch(() => {})
+      if (status === 'blocked') void $`powershell.exe -NoProfile -NonInteractive -Command '[System.Media.SystemSounds]::Hand.Play(); Start-Sleep -Seconds 1'`.quiet().catch(() => {})
       if (status === 'done') void $`powershell.exe -NoProfile -NonInteractive -Command '[System.Media.SystemSounds]::Asterisk.Play(); Start-Sleep -Seconds 1'`.quiet().catch(() => {})
     })
     return queue
   }
 
-  await report()
+  const refresh = () => {
+    if (pending.size) return report('blocked')
+    if ([...sessions.values()].some((status) => status === 'busy' || status === 'retry')) return report('working')
+    return report(sessions.size ? 'done' : 'idle')
+  }
+
+  await report('idle')
 
   return {
     event: async ({ event }) => {
       switch (event.type) {
-        case 'session.status':
-          if (event.properties.status.type === 'busy') await report('working')
-          if (event.properties.status.type === 'idle') await report('done')
+        case 'session.status': {
+          sessions.set(event.properties.sessionID, event.properties.status.type)
+          await refresh()
           break
-        case 'permission.asked':
-        case 'question.asked':
-          await report('waiting')
+        }
+        case 'permission.asked': {
+          if (!sessions.has(event.properties.sessionID)) sessions.set(event.properties.sessionID, 'busy')
+          pending.set(`permission:${event.properties.id}`, event.properties.sessionID)
+          await refresh()
           break
-        case 'permission.replied':
+        }
+        case 'permission.replied': {
+          pending.delete(`permission:${event.properties.requestID}`)
+          await refresh()
+          break
+        }
+        case 'question.asked': {
+          if (!sessions.has(event.properties.sessionID)) sessions.set(event.properties.sessionID, 'busy')
+          pending.set(`question:${event.properties.id}`, event.properties.sessionID)
+          await refresh()
+          break
+        }
         case 'question.replied':
-          await report('working')
+        case 'question.rejected': {
+          pending.delete(`question:${event.properties.requestID}`)
+          await refresh()
           break
-        case 'session.idle':
-          await report('done')
+        }
+        case 'session.deleted': {
+          const sessionID = 'sessionID' in event.properties ? event.properties.sessionID : event.properties.info.id
+          sessions.delete(sessionID)
+          for (const [requestID, owner] of pending) {
+            if (owner === sessionID) pending.delete(requestID)
+          }
+          await refresh()
           break
+        }
       }
     },
     dispose: async () => {
+      await queue
       try {
         await $`aimux clear`.quiet()
       } catch {}
