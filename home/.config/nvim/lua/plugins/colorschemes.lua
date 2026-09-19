@@ -8,8 +8,18 @@ return {
             styles = {
                 bold = false,
                 italic = false,
-                transparent = true,
-            }
+                transparency = true,
+            },
+
+            before_highlight = function(group, highlight, palette)
+                if vim.g.colors_name == "dolores-stratos" then
+                    if group == "Visual" then
+                        highlight.blend = nil
+                    elseif group == "CursorLine" then
+                        highlight.bg = palette.visual
+                    end
+                end
+            end
         },
     },
     {
@@ -69,6 +79,4 @@ return {
     "wtfox/luna.nvim",
     { "marko-cerovac/material.nvim", opts = { plugins = { "blink", "neogit", }, disable = { colored_cursor = true, } } },
     { "ellisonleao/gruvbox.nvim",    opts = {} },
-{'alljokecake/naysayer-theme.nvim', as = 'naysayer'}
-
 }

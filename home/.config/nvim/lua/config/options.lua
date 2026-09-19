@@ -97,6 +97,19 @@ vim.api.nvim_create_user_command("Format", function()
     vim.lsp.buf.format({})
 end, {})
 
+vim.api.nvim_create_user_command("IndentToggle", function()
+    local enabled = vim.g.snacks_indent ~= false
+    vim.g.snacks_indent = not enabled
+
+    if vim.g.snacks_indent then
+        Snacks.indent.enable()
+    else
+        Snacks.indent.disable()
+    end
+
+    vim.notify("Indent guides: " .. (vim.g.snacks_indent and "ON" or "OFF"))
+end, { desc = "Toggle Snacks indent guides" })
+
 -- clean the ui
 local focus_mode = false
 vim.api.nvim_create_user_command("ToggleFocus", function()
